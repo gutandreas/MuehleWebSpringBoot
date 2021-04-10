@@ -1,0 +1,147 @@
+body{
+    background-color: #383838;
+    line-height: 200%;
+}
+
+input[type='button']{
+    background-color: #c2eafc;
+    border-radius: 7px;
+    box-shadow: 3px 3px 5px #555555;
+    margin: 0 1% 0 0;
+}
+
+input[type='text']{
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 3px 3px 5px #555555;
+    margin: 0 1% 0 0;
+    width: 20%;
+}
+
+input[type='submit']{
+    background-color: darkred;
+    -webkit-text-fill-color: white;
+    border-radius: 10px;
+    box-shadow: 3px 3px 10px #555555;
+    width: 30%;
+}
+
+
+h1{
+    -webkit-text-fill-color: aliceblue;
+    font-family: "Arial Black";
+    margin: 1% 1% 2% 0;
+}
+
+h2{
+    -webkit-text-fill-color: aliceblue;
+    font-family: "Arial Black";
+}
+
+h3{
+    -webkit-text-fill-color: aliceblue;
+    font-family: "Arial Black";
+    margin: 3% 0 2% 0;
+}
+
+h4{
+    -webkit-text-fill-color: aliceblue;
+    font-family: "Arial";
+    margin: 1% 0 1% 0;
+}
+
+label{
+    -webkit-text-fill-color: aliceblue;
+    font-family: Arial;
+    margin: 0 1% 0 0;
+    font-optical-sizing: auto;
+}
+
+.labelPut{
+    -webkit-text-fill-color: #90ccee;
+}
+
+.labelKilled{
+    -webkit-text-fill-color: #90ee90;;
+}
+
+.labelLost{
+    -webkit-text-fill-color: #ee6060;
+}
+
+#startImage1{
+    float: left;
+}
+
+#startImage2{
+    float: right;
+}
+
+
+#StartMainBox{
+    padding: 2%;
+    width: 50%;
+    height: 70%;
+    overflow: auto;
+}
+
+#OptionBox{
+    padding: 2%;
+    width: 50%;
+    height: 70%;
+    overflow: auto;
+}
+
+#musicButton{
+    background-color: #aaffaa;
+}
+
+#gridpane{
+    position: relative;
+}
+
+#board{
+    position: relative;
+}
+
+#player1Dropdown, #player2Dropdown{
+    display: none;
+    margin: 0 1% 0 0;
+    box-shadow: 3px 3px 5px #555555;
+    width: 21%;
+
+}
+
+#computerCode1, #computerCode2{
+    display: none;
+    resize: none;
+
+}
+
+#computerCode1TextArea, #computerCode2TextArea{
+    overflow-y: scroll;
+    overflow-x: scroll;
+}
+
+
+
+#score{
+    float: left;
+    width: 28%;
+    padding: 1%;
+}
+
+#log{
+    float: right;
+    width: 28%;
+    padding: 1%;
+}
+
+
+
+@media screen and (max-width: 900px) {
+
+    #startImage1, #startImage2 {
+        display: none;
+    }
+}

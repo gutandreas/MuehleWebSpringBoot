@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mühle – Onlinespiel</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="css/w3schools/toggleSwitch.css">
+    <script src="scripts/indexScripts.js"></script>
+</head>
+<body>
+<img id="startImage1" src="images/StartImage1.png" width="20%">
+<img id="startImage2" src="images/StartImage2.png" width="20%">
+<div id="StartMainBox">
+    <h1 id="headline">Neues Spiel starten</h1>
+
+        <h2>Spielmodus:</h2>
+        <div id="Spielmodus">
+            <input class="radio" type="radio" name="Spielerzahl" value="1" onclick="showComputerMenus(1)" required checked>
+            <label> Mensch vs. Mensch </label>
+            <br>
+            <input type="radio" class="radio" name="Spielerzahl" value="2" onclick="showComputerMenus(2)">
+            <label> Mensch vs. Computer </label>
+            <br>
+            <input type="radio" class="radio" name="Spielerzahl" value="3" onclick="showComputerMenus(3)">
+            <label> Computer vs. Computer</label>
+        </div>
+        <h2>Spielerangaben:</h2>
+
+        <h3> Spieler 1: </h3>
+        <div id="player1Settings">
+            <input id="player1Textfield" type="text" name="namePlayer2" maxlength="25" autocomplete="off" placeholder="Name Player 1">
+            <select id="player1Dropdown" onchange="checkChangeInDropdownMenu(this)">
+                <div>
+                    <option value="1">Standardcomputer</option>
+                    <option value="0">Computer hinzufügen </option>
+                </div>
+            </select>
+            <div id="computerCode1">
+                <input type="text" maxlength="20" placeholder="Computername" id="computerCodeName1" required>
+                <textarea id="computerCode1TextArea" rows="10" cols=80% placeholder="Geben Sie hier den Codes des Computers ein..."></textarea>
+                <br>
+                <input type="button" value="Computer hinzufügen" onclick="saveComputer(1)">
+                <br>
+            </div>
+            <label>Schwarz</label>
+            <label class="switch" id="colorPlayer1">
+                <input type="checkbox" onclick=clickOnElement("colorPlayer2")>
+                <span class="slider round"></span>
+            </label>
+            <label>Weiss</label>
+        </div>
+
+        <h3> Spieler 2: </h3>
+        <div id="player2Settings">
+            <input id="player2Textfield" type="text" name="namePlayer2" maxlength="25" autocomplete="off" placeholder="Name Player 2">
+            <select id="player2Dropdown" onchange="checkChangeInDropdownMenu(this)">
+                <div>
+                    <option value="1">Standardcomputer</option>
+                    <option value="0">Computer hinzufügen</option>
+                </div>
+            </select>
+            <div id="computerCode2">
+                <input type="text" maxlength="20" placeholder="Computername" id="computerCodeName2" required>
+                <textarea id="computerCode2TextArea" rows="10" cols=80% placeholder="Geben Sie hier den Codes des Computers ein..."></textarea>
+                <br>
+                <input type="button" value="Computer hinzufügen" onclick="saveComputer(2)">
+                <br>
+            </div>
+            <label>Schwarz</label>
+            <label class="switch" id="colorPlayer2">
+                <input type="checkbox" onclick=clickOnElement("colorPlayer1") checked>
+                <span class="slider round"></span>
+            </label>
+            <label>Weiss</label>
+        </div>
+        <input type="button" value="Spiel starten" onclick="submit()">
+        <br>
+
+</div>
+
+<div id="OptionBox" >
+    <input id="musicButton" type="button" value="Musik an">
+</div>
+
+<audio>
+    <source src="resources/public/sound/MENU_SOUND.mp3" type="audio/mpeg">
+</audio>
+
+</body>
+</html>
