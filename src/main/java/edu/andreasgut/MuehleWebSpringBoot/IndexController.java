@@ -15,11 +15,4 @@ public class IndexController {
         modelAndView.setViewName("index.html");
         return modelAndView;}
 
-    @PostMapping
-    public ModelAndView postLoadHTML(){
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("game.html");
-        return modelAndView;
-    }
-
 }
