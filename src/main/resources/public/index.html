@@ -29,11 +29,11 @@
 
         <div id="gamecode">
             <h3>Gamecode:</h3>
-            <input class="radio" type="radio" name="Spielcode" value="1" onclick="showGamecodeTextfield(1)" required checked>
+            <input id="startGameRadio" class="radio" type="radio" name="Spielcode" value="1" onclick="showGamecodeTextfield(1), showPlayer1Setting(true), showPlayer2Setting(false)" required checked>
             <label>Ein neues Spiel starten</label>
             <input id="gamecodeStart" type="text" maxlength="25" autocomplete="off" placeholder="Neuen Gamecode wählen...">
             <br>
-            <input type="radio" class="radio" name="Spielcode" value="2" onclick="showGamecodeTextfield(2)" >
+            <input id="joinGameRadio"type="radio" class="radio" name="Spielcode" value="2" onclick="showGamecodeTextfield(2), showPlayer1Setting(false), showPlayer2Setting(true)" >
             <label>Einem Spiel beitreten</label>
             <input id="gamecodeJoin" type="text" maxlength="25" autocomplete="off" placeholder=" Gamecode eingeben..." style="display:none">
             <br>
@@ -41,8 +41,9 @@
         </div>
         <h2>Spielerangaben:</h2>
 
-        <h3> Spieler 1: </h3>
+
         <div id="player1Settings">
+            <h3> Spieler 1: </h3>
             <input id="player1Textfield" type="text" name="namePlayer2" maxlength="25" autocomplete="off" placeholder="Name Player 1">
             <select id="player1Dropdown" onchange="checkChangeInDropdownMenu(this)">
                 <div>
@@ -65,8 +66,9 @@
             <label>Weiss</label>
         </div>
 
-        <h3> Spieler 2: </h3>
+
         <div id="player2Settings">
+            <h3> Spieler 2: </h3>
             <input id="player2Textfield" type="text" name="namePlayer2" maxlength="25" autocomplete="off" placeholder="Name Player 2">
             <select id="player2Dropdown" onchange="checkChangeInDropdownMenu(this)">
                 <div>
