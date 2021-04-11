@@ -76,6 +76,15 @@ function showGamecodeTextfield(number){
     }
 }
 
+function showGamecode(show){
+    if (show){
+        document.getElementById("gamecode").style="display:show"
+    }
+    else {
+        document.getElementById("gamecode").style="display:none"
+    }
+}
+
 function saveComputer(player){
     switch (player){
         case 1:{
@@ -132,21 +141,24 @@ function showComputerMenus(modus){
             document.getElementById("player1Textfield").style="display:inline-block";
             document.getElementById("player2Dropdown").style="display:none";
             document.getElementById("player2Textfield").style="display:inline-block";
-            resetDropdownAndHideTextArea()
+            resetDropdownAndHideTextArea();
+            showGamecode(true);
             break;}
         case 2: {
             document.getElementById("player1Dropdown").style="display:none";
             document.getElementById("player1Textfield").style="display:inline-block";
             document.getElementById("player2Dropdown").style="display:inline-block";
             document.getElementById("player2Textfield").style="display:none";
-            resetDropdownAndHideTextArea()
+            resetDropdownAndHideTextArea();
+            showGamecode(false);
             break;}
         case 3: {
             document.getElementById("player1Dropdown").style="display:inline-block";
             document.getElementById("player1Textfield").style="display:none";
             document.getElementById("player2Dropdown").style="display:inline-block";
             document.getElementById("player2Textfield").style="display:none";
-            resetDropdownAndHideTextArea()
+            resetDropdownAndHideTextArea();
+            showGamecode(false);
             break;}
 }
 
