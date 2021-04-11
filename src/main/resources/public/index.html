@@ -31,16 +31,16 @@
             <h3>Gamecode:</h3>
             <input id="startGameRadio" class="radio" type="radio" name="Spielcode" value="1" onclick="showGamecodeTextfield(1), showPlayer1Setting(true), showPlayer2Setting(false)" required checked>
             <label>Ein neues Spiel starten</label>
-            <input id="gamecodeStart" type="text" maxlength="25" autocomplete="off" placeholder="Neuen Gamecode wählen...">
+            <input id="gamecodeStart" type="text" maxlength="25" autocomplete="off" placeholder="Neuen Gamecode wählen">
             <br>
-            <input id="joinGameRadio"type="radio" class="radio" name="Spielcode" value="2" onclick="showGamecodeTextfield(2), showPlayer1Setting(false), showPlayer2Setting(true)" >
+            <input id="joinGameRadio"type="radio" class="radio" name="Spielcode" value="2" onclick="showGamecodeTextfield(2), showPlayer1Setting(false), showPlayer2Setting(true), setVisibilityofPlayer2ColorSwitch(false)" >
             <label>Einem Spiel beitreten</label>
-            <input id="gamecodeJoin" type="text" maxlength="25" autocomplete="off" placeholder=" Gamecode eingeben..." style="display:none">
+            <input id="gamecodeJoin" type="text" maxlength="25" autocomplete="off" placeholder="Erhaltener Gamecode" style="display:none">
             <br>
-
         </div>
-        <h2>Spielerangaben:</h2>
 
+
+        <h2>Spielerangaben:</h2>
 
         <div id="player1Settings">
             <h3> Spieler 1: </h3>
@@ -66,8 +66,7 @@
             <label>Weiss</label>
         </div>
 
-
-        <div id="player2Settings">
+        <div id="player2Settings" style="display: none">
             <h3> Spieler 2: </h3>
             <input id="player2Textfield" type="text" name="namePlayer2" maxlength="25" autocomplete="off" placeholder="Name Player 2">
             <select id="player2Dropdown" onchange="checkChangeInDropdownMenu(this)">
@@ -83,12 +82,12 @@
                 <input type="button" value="Computer hinzufügen" onclick="saveComputer(2)">
                 <br>
             </div>
-            <label>Schwarz</label>
-            <label class="switch" id="colorPlayer2">
-                <input type="checkbox" onclick=clickOnElement("colorPlayer1") checked>
-                <span class="slider round"></span>
-            </label>
-            <label>Weiss</label>
+                <label id="labelSchwarzPlayer2">Schwarz</label>
+                <label class="switch" id="colorPlayer2">
+                    <input type="checkbox" onclick=clickOnElement("colorPlayer1") checked>
+                    <span class="slider round"></span>
+                </label>
+                <label id="labelWeissPlayer2">Weiss</label>
         </div>
         <input type="button" value="Spiel starten" onclick="sendData()">
         <br>
@@ -99,7 +98,7 @@
     <input id="musicButton" type="button" value="Musik an">
 </div>
 
-<audio>
+<audio autoplay="autoplay">
     <source src="/sound/MENU_SOUND.mp3" type="audio/mpeg">
 </audio>
 

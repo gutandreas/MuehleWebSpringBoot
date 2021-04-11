@@ -94,6 +94,18 @@ function showPlayer2Setting(show){
     }
 }
 
+function setVisibilityofPlayer2ColorSwitch(visible){
+    if (visible){
+        document.getElementById("labelSchwarzPlayer2").style="visible:true";
+        document.getElementById("labelWeissPlayer2").style="visible:true";
+        document.getElementById("colorPlayer2").style="visible:true";
+    }
+    else {
+        document.getElementById("labelSchwarzPlayer2").style="display:none";
+        document.getElementById("labelWeissPlayer2").style="display:none";
+        document.getElementById("colorPlayer2").style="display:none";}
+}
+
 function showGamecode(show){
     if (show){
         document.getElementById("gamecode").style="display:show"
@@ -163,6 +175,7 @@ function showComputerMenus(modus){
             showGamecode(true);
             showPlayer1Setting(true);
             showPlayer2Setting(false);
+            setVisibilityofPlayer2ColorSwitch(true);
             document.getElementById("startGameRadio").click();
             break;}
         case 2: {
@@ -174,6 +187,7 @@ function showComputerMenus(modus){
             showGamecode(false);
             showPlayer1Setting(true);
             showPlayer2Setting(true);
+            setVisibilityofPlayer2ColorSwitch(true);
             break;}
         case 3: {
             document.getElementById("player1Dropdown").style="display:inline-block";
@@ -184,6 +198,7 @@ function showComputerMenus(modus){
             showGamecode(false);
             showPlayer1Setting(true);
             showPlayer2Setting(true);
+            setVisibilityofPlayer2ColorSwitch(true);
             break;}
 }
 
