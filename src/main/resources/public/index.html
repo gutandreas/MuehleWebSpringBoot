@@ -12,7 +12,7 @@
 <img id="startImage2" src="images/StartImage2.png" width="20%">
 <div id="StartMainBox">
     <h1 id="headline">Neues Spiel starten</h1>
-
+        <form action="game.html">
         <h2>Spielmodus:</h2>
         <div id="Spielmodus">
             <input class="radio" type="radio" name="Spielerzahl" value="1" onclick="showComputerMenus(1)" required checked>
@@ -73,9 +73,9 @@
             </label>
             <label>Weiss</label>
         </div>
-        <input type="button" value="Spiel starten" onclick="submit()">
+        <input type="button" value="Spiel starten" onclick="sendData()">
         <br>
-
+        </form>
 </div>
 
 <div id="OptionBox" >
@@ -83,7 +83,7 @@
 </div>
 
 <audio>
-    <source src="resources/public/sound/MENU_SOUND.mp3" type="audio/mpeg">
+    <source src="/sound/MENU_SOUND.mp3" type="audio/mpeg">
 </audio>
 
 </body>

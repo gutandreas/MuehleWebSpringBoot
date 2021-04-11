@@ -3,22 +3,15 @@ function test(){
     audio.play();
 }
 
-function submit(){
+function sendData(){
 
     var player1Name = document.getElementById("player1Textfield").value;
     var player2Name = document.getElementById("player2Textfield").value;
 
-    fetch("/game.html", {
-        method: 'GET',
-        headers: {
-            "Content-type": "application/json"
-        }
-    })
-        .then(res => res.json())
-        .then(data => console.log(data))
-        .catch(error => console.log(error));
+    fetch('/game/controller', {method: 'GET'})
+        .then(res => {return res}); // WIE KANN ICH DIE ADRESSE IN DER ANTWORT LADEN?
 
-    fetch("/game.html", {
+    fetch("/game/controller", {
         method: 'POST',
         body: JSON.stringify({
             title: 'this is title',
@@ -32,9 +25,11 @@ function submit(){
             "Content-type": "application/json"
         }
     })
-        .then(res => res.json())
+        //.then(res => res.json())
         .then(data => console.log(data))
-        .catch(error => console.log(error));}
+        .catch(error => console.log(error));
+        }
+
 
 
 
