@@ -13,16 +13,31 @@
 <div id="StartMainBox">
     <h1 id="headline">Neues Spiel starten</h1>
         <form>
-        <h2>Spielmodus:</h2>
-        <div id="Spielmodus">
+        <h2>Spielangaben:</h2>
+
+        <div id="gamemode">
+            <h3>Spielmodus:</h3>
             <input class="radio" type="radio" name="Spielerzahl" value="1" onclick="showComputerMenus(1)" required checked>
             <label> Mensch vs. Mensch </label>
             <br>
             <input type="radio" class="radio" name="Spielerzahl" value="2" onclick="showComputerMenus(2)">
-            <label> Mensch vs. Computer </label>
+            <label> Mensch vs. Computer</label>
             <br>
             <input type="radio" class="radio" name="Spielerzahl" value="3" onclick="showComputerMenus(3)">
             <label> Computer vs. Computer</label>
+        </div>
+
+        <div id="gamecode">
+            <h3>Gamecode:</h3>
+            <input class="radio" type="radio" name="Spielcode" value="1" onclick="showGamecodeTextfield(1)" required checked>
+            <label>Ein neues Spiel starten</label>
+            <input id="gamecodeStart" type="text" maxlength="25" autocomplete="off" placeholder="Neuen Gamecode wählen...">
+            <br>
+            <input type="radio" class="radio" name="Spielcode" value="2" onclick="showGamecodeTextfield(2)" >
+            <label>Einem Spiel beitreten</label>
+            <input id="gamecodeJoin" type="text" maxlength="25" autocomplete="off" placeholder=" Gamecode eingeben..." style="display:none">
+            <br>
+
         </div>
         <h2>Spielerangaben:</h2>
 

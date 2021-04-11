@@ -65,6 +65,17 @@ function showComputerCodeTextArea(player, display){
     }
 }
 
+function showGamecodeTextfield(number){
+    if (number == 1){
+        document.getElementById("gamecodeStart").style="display:inline-block";
+        document.getElementById("gamecodeJoin").style="display:none";
+    }
+    if (number == 2){
+        document.getElementById("gamecodeStart").style="display:none";
+        document.getElementById("gamecodeJoin").style="display:inline-block";
+    }
+}
+
 function saveComputer(player){
     switch (player){
         case 1:{
