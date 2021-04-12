@@ -38,8 +38,8 @@ function sendDataMenschVsMensch(){
         let gameCodeStart = document.getElementById("gamecodeStart").value;
         let player1Color;
         if (document.getElementById("colorPlayer1").checked){
-        player1Color = "BLACK";}
-        else {player1Color = "WHITE";}
+        player1Color = "WHITE";}
+        else {player1Color = "BLACK";}
 
         fetch("/game/controller", {
             method: 'POST',
@@ -90,8 +90,8 @@ function sendDataMenschVsComputer(){
     let player1Name = document.getElementById("player1Textfield").value;
     let player1Color;
     if (document.getElementById("colorPlayer1").checked){
-        player1Color = "BLACK";}
-    else {player1Color = "WHITE";}
+        player1Color = "WHITE";}
+    else {player1Color = "BLACK";}
 
     let dropdown = document.getElementById("player2Dropdown");
     let computerName = dropdown.options[dropdown.selectedIndex].text;
@@ -125,8 +125,8 @@ function sendDataComputerVsComputer(){
     let computerCode1 = dropdown1.options[dropdown1.selectedIndex].value;
     let player1Color;
     if (document.getElementById("colorPlayer1").checked){
-        player1Color = "BLACK";}
-    else {player1Color = "WHITE";}
+        player1Color = "WHITE";}
+    else {player1Color = "BLACK";}
 
     let dropdown2 = document.getElementById("player2Dropdown");
     let computerName2 = dropdown2.options[dropdown2.selectedIndex].text;
