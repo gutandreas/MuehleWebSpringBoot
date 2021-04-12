@@ -12,28 +12,28 @@
 <img id="startImage2" src="images/StartImage2.png" width="20%">
 <div id="StartMainBox">
     <h1 id="headline">Neues Spiel starten</h1>
-        <form>
+        <form action="game.html">
         <h2>Spielangaben:</h2>
 
         <div id="gamemode">
             <h3>Spielmodus:</h3>
-            <input class="radio" type="radio" name="Spielerzahl" value="1" onclick="showComputerMenus(1)" required checked>
+            <input class="radio" type="radio" name="Spielerzahl" value="1" onclick="showComputerMenus(1), setModus(1)" required checked>
             <label> Mensch vs. Mensch </label>
             <br>
-            <input type="radio" class="radio" name="Spielerzahl" value="2" onclick="showComputerMenus(2)">
+            <input type="radio" class="radio" name="Spielerzahl" value="2" onclick="showComputerMenus(2), setModus(2)">
             <label> Mensch vs. Computer</label>
             <br>
-            <input type="radio" class="radio" name="Spielerzahl" value="3" onclick="showComputerMenus(3)">
+            <input type="radio" class="radio" name="Spielerzahl" value="3" onclick="showComputerMenus(3), setModus(3)">
             <label> Computer vs. Computer</label>
         </div>
 
         <div id="gamecode">
             <h3>Gamecode:</h3>
-            <input id="startGameRadio" class="radio" type="radio" name="Spielcode" value="1" onclick="showGamecodeTextfield(1), showPlayer1Setting(true), showPlayer2Setting(false)" required checked>
+            <input id="startGameRadio" class="radio" type="radio" name="Spielcode" value="1" onclick="showGamecodeTextfield(1), showPlayer1Setting(true), showPlayer2Setting(false), setGamecodeModus(1)" required checked>
             <label>Ein neues Spiel starten</label>
             <input id="gamecodeStart" type="text" maxlength="25" autocomplete="off" placeholder="Neuen Gamecode wählen">
             <br>
-            <input id="joinGameRadio"type="radio" class="radio" name="Spielcode" value="2" onclick="showGamecodeTextfield(2), showPlayer1Setting(false), showPlayer2Setting(true), setVisibilityofPlayer2ColorSwitch(false)" >
+            <input id="joinGameRadio"type="radio" class="radio" name="Spielcode" value="2" onclick="showGamecodeTextfield(2), showPlayer1Setting(false), showPlayer2Setting(true), setGamecodeModus(2), setVisibilityofPlayer2ColorSwitch(false)" >
             <label>Einem Spiel beitreten</label>
             <input id="gamecodeJoin" type="text" maxlength="25" autocomplete="off" placeholder="Erhaltener Gamecode" style="display:none">
             <br>
@@ -52,7 +52,7 @@
                 </div>
             </select>
             <div id="computerCode1">
-                <input type="text" maxlength="20" placeholder="Computername" id="computerCodeName1" required>
+                <input type="text" maxlength="20" placeholder="Computername" id="computerCodeName1">
                 <textarea id="computerCode1TextArea" rows="10" cols=80% placeholder="Geben Sie hier den Codes des Computers ein..."></textarea>
                 <br>
                 <input type="button" value="Computer hinzufügen" onclick="saveComputer(1)">
@@ -76,7 +76,7 @@
                 </div>
             </select>
             <div id="computerCode2">
-                <input type="text" maxlength="20" placeholder="Computername" id="computerCodeName2" required>
+                <input type="text" maxlength="20" placeholder="Computername" id="computerCodeName2">
                 <textarea id="computerCode2TextArea" rows="10" cols=80% placeholder="Geben Sie hier den Codes des Computers ein..."></textarea>
                 <br>
                 <input type="button" value="Computer hinzufügen" onclick="saveComputer(2)">

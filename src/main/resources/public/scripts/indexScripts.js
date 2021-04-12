@@ -1,23 +1,112 @@
+var modus = 1;
+var gamecodemodus = 1;
+
 function test(){
     var audio = new Audio('sound/bell.wav');
     audio.play();
 }
 
-function sendData(){
+function sendData() {
 
-    var player1Name = document.getElementById("player1Textfield").value;
-    var player2Name = document.getElementById("player2Textfield").value;
+    switch (modus){
+        case 1: {
+            sendDataMenschVsMensch();
+            break;
+        }
+        case 2: {
+            sendDataMenschVsComputer();
+            break;
+        }
+        case 3: {
+            sendDataComputerVsComputer();
+            break;
+        }
+    }
+
 
     fetch('/game/controller', {method: 'GET'})
-        .then(res => {return res}); // WIE KANN ICH DIE ADRESSE IN DER ANTWORT LADEN?
+        .then(res => {
+            return res
+        }); // WIE KANN ICH DIE ADRESSE IN DER ANTWORT LADEN?
+
+}
+
+function sendDataMenschVsMensch(){
+
+    if (gamecodemodus == 1){
+        let player1Name = document.getElementById("player1Textfield").value;
+        let gameCodeStart = document.getElementById("gamecodeStart").value;
+        let player1Color;
+        if (document.getElementById("colorPlayer1").checked){
+        player1Color = "BLACK";}
+        else {player1Color = "WHITE";}
+
+        fetch("/game/controller", {
+            method: 'POST',
+            body: JSON.stringify({
+                title: 'Modus Mensch vs. Mensch – Start Game',
+                body: {
+                    "player1Name" : player1Name,
+                    "gameCode" : gameCodeStart,
+                    "player1Color" : player1Color
+                },
+                userId: 1
+            }),
+            headers: {
+                "Content-type": "application/json"
+            }
+        })
+            .then(res => res.json())
+            .then(data => console.log(data))
+            .catch(error => console.log(error));
+    }
+
+    if (gamecodemodus == 2){
+        let player2Name = document.getElementById("player2Textfield").value;
+        let gameCodeJoin = document.getElementById("gamecodeStart").value;
+
+        fetch("/game/controller", {
+            method: 'POST',
+            body: JSON.stringify({
+                title: 'Modus Mensch vs. Mensch – Join Game',
+                body: {
+                    "player2Name" : player2Name,
+                    "gameCode" : gameCodeJoin
+                },
+                userId: 1
+            }),
+            headers: {
+                "Content-type": "application/json"
+            }
+        })
+            .then(res => res.json())
+            .then(data => console.log(data))
+            .catch(error => console.log(error));
+    }
+}
+
+function sendDataMenschVsComputer(){
+
+    let player1Name = document.getElementById("player1Textfield").value;
+    let player1Color;
+    if (document.getElementById("colorPlayer1").checked){
+        player1Color = "BLACK";}
+    else {player1Color = "WHITE";}
+
+    let dropdown = document.getElementById("player2Dropdown");
+    let computerName = dropdown.options[dropdown.selectedIndex].text;
+    let computerCode = dropdown.options[dropdown.selectedIndex].value;
+
 
     fetch("/game/controller", {
         method: 'POST',
         body: JSON.stringify({
-            title: 'this is title',
+            title: 'Modus Mensch vs. Computer',
             body: {
                 "player1Name" : player1Name,
-                "player2Name" : player2Name
+                "player1Color" : player1Color,
+                "computerName" : computerName,
+                "computerCode" : computerCode
             },
             userId: 1
         }),
@@ -25,10 +114,44 @@ function sendData(){
             "Content-type": "application/json"
         }
     })
-        //.then(res => res.json())
+        .then(res => res.json())
         .then(data => console.log(data))
-        .catch(error => console.log(error));
+        .catch(error => console.log(error));}
+
+function sendDataComputerVsComputer(){
+
+    let dropdown1 = document.getElementById("player1Dropdown");
+    let computerName1 = dropdown1.options[dropdown1.selectedIndex].text;
+    let computerCode1 = dropdown1.options[dropdown1.selectedIndex].value;
+    let player1Color;
+    if (document.getElementById("colorPlayer1").checked){
+        player1Color = "BLACK";}
+    else {player1Color = "WHITE";}
+
+    let dropdown2 = document.getElementById("player2Dropdown");
+    let computerName2 = dropdown2.options[dropdown2.selectedIndex].text;
+    let computerCode2 = dropdown2.options[dropdown2.selectedIndex].value;
+
+    fetch("/game/controller", {
+        method: 'POST',
+        body: JSON.stringify({
+            title: 'Modus Computer vs. Computer',
+            body: {
+                "computerName1" : computerName1,
+                "computerCode1" : computerCode1,
+                "player1Color" : player1Color,
+                "computerName2" : computerName2,
+                "computerCode2" : computerCode2
+            },
+            userId: 1
+        }),
+        headers: {
+            "Content-type": "application/json"
         }
+    })
+        .then(res => res.json())
+        .then(data => console.log(data))
+        .catch(error => console.log(error));}
 
 
 
@@ -123,7 +246,7 @@ function saveComputer(player){
                 document.getElementById("computerCode1").value;
                 var addedOption = document.createElement("option");
                 addedOption.text = document.getElementById("computerCodeName1").value;
-                addedOption.value = document.getElementById("computerCode1").value;
+                addedOption.value = document.getElementById("computerCode1TextArea").value;
                 var dropdown = document.getElementById("player1Dropdown");
                 var index = document.getElementById("player1Dropdown").options.length-1;
                 dropdown.add(addedOption, dropdown[index]);
@@ -136,11 +259,11 @@ function saveComputer(player){
         }
         case 2:{
             if(document.getElementById("computerCodeName2").value != ""
-            && document.getElementById("computerCode2TextArea").value != ""){
+                && document.getElementById("computerCode2TextArea").value != ""){
                 document.getElementById("computerCode2").value;
                 var addedOption = document.createElement("option");
                 addedOption.text = document.getElementById("computerCodeName2").value;
-                addedOption.value = document.getElementById("computerCode2").value;
+                addedOption.value = document.getElementById("computerCode2TextArea").value;
                 var dropdown = document.getElementById("player2Dropdown");
                 var index = document.getElementById("player2Dropdown").options.length-1;
                 dropdown.add(addedOption, dropdown[index]);
@@ -161,6 +284,14 @@ function setDropdownIndex(player, index){
 
 function clickOnElement(element){
     document.getElementById(element).click();
+}
+
+function setModus(modus){
+    window.modus = modus;
+}
+
+function setGamecodeModus(gamecodeModus){
+    window.gamecodemodus = gamecodeModus;
 }
 
 function showComputerMenus(modus){
