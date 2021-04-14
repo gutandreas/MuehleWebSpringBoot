@@ -9,11 +9,11 @@ public class GameController {
     @GetMapping(
             path = "/game/controller")
     public ModelAndView loadGameHTML() {
-        System.out.println("get");
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("/game.html");
-        return modelAndView;
-    }
+        return modelAndView;}
+
+
 
 
     @PostMapping(

@@ -24,10 +24,14 @@ function sendData() {
     }
 
 
+
     fetch('/game/controller', {method: 'GET'})
-        .then(res => {
-            return res
-        }); // WIE KANN ICH DIE ADRESSE IN DER ANTWORT LADEN?
+        .then((response) => {
+            return response.text();
+        })
+        .then((html) => {
+            document.body.innerHTML = html
+        });
 
 }
 
@@ -44,7 +48,7 @@ function sendDataMenschVsMensch(){
         fetch("/game/controller", {
             method: 'POST',
             body: JSON.stringify({
-                title: 'Modus Mensch vs. Mensch – Start Game',
+                title: 'Modus Mensch vs. Mensch – Join Game',
                 body: {
                     "player1Name" : player1Name,
                     "gameCode" : gameCodeStart,
