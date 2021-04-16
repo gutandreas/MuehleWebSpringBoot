@@ -1,14 +1,11 @@
 package edu.andreasgut.MuehleWebSpringBoot;
+
 import org.json.JSONObject;
-import org.json.JSONString;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+
 
 
 @RestController
@@ -33,18 +30,16 @@ public class GameController {
         return modelAndView;}
 
     @PostMapping(
-            path = "/game/controller/menschVsMensch/checkPlayerSetComplete",
+            path = "/game/controller/menschVsMensch/checkIfSetComplete",
             produces = MediaType.APPLICATION_JSON_VALUE )
     public @ResponseBody String checkIfSetComplete(@RequestBody String body){
         JSONObject jsonObject = new JSONObject(body);
         String gameCode = jsonObject.getString("gameCode");
 
         if(playerSetMap.get(gameCode).getPlayer2() != null){
-            System.out.println("Spiel komplett");
             return "Spiel komplett";
         }
-        System.out.println("Spiel noch nicht komplett");
-        return "Spiel noch nicht kompett";
+        return "Spiel noch nicht komplett";
     }
 
     @PostMapping(
@@ -68,7 +63,7 @@ public class GameController {
         }
 
         if (playerSetMap.containsKey(gameCode)){
-            System.out.println("Bereits vorhandener Gamcode: Dieser Gamecode wird bereits für ein anderes Spiel verwendet");
+            System.out.println("Bereits vorhandener Gamecode: Dieser Gamecode wird bereits für ein anderes Spiel verwendet");
             return null;
         }
         else {
