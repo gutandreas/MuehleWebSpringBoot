@@ -1,43 +1,60 @@
 var modus = 1;
 var gamecodemodus = 1;
 
-function test(){
-    var audio = new Audio('sound/bell.wav');
-    audio.play();
-}
-
 function sendData() {
 
     switch (modus){
         case 1: {
-            sendDataMenschVsMensch();
+            if (gamecodemodus == 1){
+                sendDataMenschVsMenschStart();
+                sendGetRequestWaitingRoomHTML();
+
+            }
+            if (gamecodemodus == 2) {
+                sendDataMenschVsMenschJoin();
+            }
+
             break;
         }
         case 2: {
             sendDataMenschVsComputer();
+            sendGetRequestGameHTML();
             break;
         }
         case 3: {
             sendDataComputerVsComputer();
+            sendGetRequestGameHTML();
             break;
         }
     }
 
 
+}
 
-    fetch('/game/controller', {method: 'GET'})
+function sendGetRequestGameHTML(){
+    fetch('/game/controller/gameHTML', {method: 'GET'})
+        .then((response) => {
+            return response.text();
+        })
+        .then((html) => {
+            document.head.innerHTML = html
+            document.body.innerHTML = html
+        });
+}
+
+function sendGetRequestWaitingRoomHTML(){
+    fetch('/game/controller/waitingRoomHTML', {method: 'GET'})
         .then((response) => {
             return response.text();
         })
         .then((html) => {
             document.body.innerHTML = html
         });
-
 }
 
-function sendDataMenschVsMensch(){
+function sendDataMenschVsMenschStart(){
 
-    if (gamecodemodus == 1){
+
         let player1Name = document.getElementById("player1Textfield").value;
         let gameCodeStart = document.getElementById("gamecodeStart").value;
         let player1Color;
@@ -45,39 +62,43 @@ function sendDataMenschVsMensch(){
         player1Color = "WHITE";}
         else {player1Color = "BLACK";}
 
-        fetch("/game/controller", {
+        fetch("/game/controller/menschVsMensch/start", {
             method: 'POST',
             body: JSON.stringify({
-                title: 'Modus Mensch vs. Mensch – Join Game',
-                body: {
+                    "modus": 'Mensch vs. Mensch',
+                    "startGame" : true,
                     "player1Name" : player1Name,
                     "gameCode" : gameCodeStart,
                     "player1Color" : player1Color
-                },
-                userId: 1
             }),
             headers: {
                 "Content-type": "application/json"
             }
         })
-            .then(res => res.json())
+            .then((resp) => resp.json())
             .then(data => console.log(data))
-            .catch(error => console.log(error));
+            .then(data => {
+                let gamecodeField = document.getElementById('gamecode');
+                let gamecode = "neuer Code" + data.name; // TODO: Hier weiter arbeiten --> gamcode wird nicht geladen
+                gamecodeField.innerText += gamecode;
+            })
+            .catch(function(error) {
+                console.log(error);
+            });
     }
 
-    if (gamecodemodus == 2){
-        let player2Name = document.getElementById("player2Textfield").value;
-        let gameCodeJoin = document.getElementById("gamecodeStart").value;
+function sendDataMenschVsMenschJoin(){
 
-        fetch("/game/controller", {
+        let player2Name = document.getElementById("player2Textfield").value;
+        let gameCodeJoin = document.getElementById("gamecodeJoin").value;
+
+        fetch("/game/controller/menschVsMensch/join", {
             method: 'POST',
             body: JSON.stringify({
-                title: 'Modus Mensch vs. Mensch – Join Game',
-                body: {
+                    "modus": 'Mensch vs. Mensch',
+                    "startGame" : false,
                     "player2Name" : player2Name,
                     "gameCode" : gameCodeJoin
-                },
-                userId: 1
             }),
             headers: {
                 "Content-type": "application/json"
@@ -86,7 +107,6 @@ function sendDataMenschVsMensch(){
             .then(res => res.json())
             .then(data => console.log(data))
             .catch(error => console.log(error));
-    }
 }
 
 function sendDataMenschVsComputer(){
@@ -105,14 +125,11 @@ function sendDataMenschVsComputer(){
     fetch("/game/controller", {
         method: 'POST',
         body: JSON.stringify({
-            title: 'Modus Mensch vs. Computer',
-            body: {
+                "modus": 'Mensch vs. Computer',
                 "player1Name" : player1Name,
                 "player1Color" : player1Color,
                 "computerName" : computerName,
                 "computerCode" : computerCode
-            },
-            userId: 1
         }),
         headers: {
             "Content-type": "application/json"
@@ -121,6 +138,7 @@ function sendDataMenschVsComputer(){
         .then(res => res.json())
         .then(data => console.log(data))
         .catch(error => console.log(error));}
+
 
 function sendDataComputerVsComputer(){
 
@@ -139,15 +157,12 @@ function sendDataComputerVsComputer(){
     fetch("/game/controller", {
         method: 'POST',
         body: JSON.stringify({
-            title: 'Modus Computer vs. Computer',
-            body: {
+                "title": 'Modus Computer vs. Computer',
                 "computerName1" : computerName1,
                 "computerCode1" : computerCode1,
                 "player1Color" : player1Color,
                 "computerName2" : computerName2,
                 "computerCode2" : computerCode2
-            },
-            userId: 1
         }),
         headers: {
             "Content-type": "application/json"
