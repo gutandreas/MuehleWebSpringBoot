@@ -75,12 +75,12 @@ function sendDataMenschVsMenschStart(){
                 "Content-type": "application/json"
             }
         })
-            .then((resp) => resp.json())
-            .then(data => console.log(data))
-            .then(data => {
+            .then(resp => resp.json())
+            .then(responseData => {
+                console.log(responseData);
+                let gameCode = responseData.gameCode;
                 let gamecodeField = document.getElementById('gamecode');
-                let gamecode = "neuer Code" + data.name; // TODO: Hier weiter arbeiten --> gamcode wird nicht geladen
-                gamecodeField.innerText += gamecode;
+                gamecodeField.innerText += (" " + gameCode);
             })
             .catch(function(error) {
                 console.log(error);
