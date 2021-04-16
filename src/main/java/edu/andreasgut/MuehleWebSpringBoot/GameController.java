@@ -32,6 +32,20 @@ public class GameController {
         modelAndView.setViewName("/waitingRoom.html");
         return modelAndView;}
 
+    @PostMapping(
+            path = "/game/controller/menschVsMensch/checkPlayerSetComplete",
+            produces = MediaType.APPLICATION_JSON_VALUE )
+    public @ResponseBody String checkIfSetComplete(@RequestBody String body){
+        JSONObject jsonObject = new JSONObject(body);
+        String gameCode = jsonObject.getString("gameCode");
+
+        if(playerSetMap.get(gameCode).getPlayer2() != null){
+            System.out.println("Spiel komplett");
+            return "Spiel komplett";
+        }
+        System.out.println("Spiel noch nicht komplett");
+        return "Spiel noch nicht kompett";
+    }
 
     @PostMapping(
             path = "/game/controller/menschVsMensch/start",
@@ -61,12 +75,6 @@ public class GameController {
             Player player1 = new HumanPlayer(player1Name);
             PlayerSet playerSet = new PlayerSet(player1, gameCode);
             playerSetMap.put(gameCode, playerSet);
-
-            /*JSONObject jsonObjectAnswer = new JSONObject();
-            jsonObjectAnswer.put("gameCode", gameCode);
-            jsonObjectAnswer.put("playerSet", playerSet);
-            jsonObjectAnswer.put("player", player1);
-            return jsonObjectAnswer;*/
 
             return playerSet;
         }

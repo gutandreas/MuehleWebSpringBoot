@@ -79,7 +79,7 @@ function sendDataMenschVsMenschStart(){
             .then(responseData => {
                 console.log(responseData);
                 let gameCode = responseData.gameCode;
-                let gamecodeField = document.getElementById('gamecode');
+                let gamecodeField = document.getElementById('gameCode');
                 gamecodeField.innerText += (" " + gameCode);
             })
             .catch(function(error) {
