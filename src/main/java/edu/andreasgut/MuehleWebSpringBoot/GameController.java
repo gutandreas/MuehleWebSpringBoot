@@ -49,11 +49,9 @@ public class GameController {
 
         if(playerSetMap.get(gameCode).getPlayer2() != null){
             String player2Name = playerSetMap.get(gameCode).getPlayer2().getName();
-            System.out.println("Player 2: " + player2Name);
             JSONObject jsonResponseObject = new JSONObject();
             jsonResponseObject.put("gameCode", gameCode);
             jsonResponseObject.put("player2Name", player2Name);
-            System.out.println(jsonResponseObject);
 
 
             return ResponseEntity.status(HttpStatus.OK).body(jsonResponseObject.toString());
@@ -64,7 +62,7 @@ public class GameController {
     @PostMapping(
             path = "/game/controller/menschVsMensch/start",
             produces = MediaType.APPLICATION_JSON_VALUE )
-    public @ResponseBody PlayerSet loadMenschVsMensch(@RequestBody String body){
+    public ResponseEntity<String> loadMenschVsMensch(@RequestBody String body){
         System.out.println(body);
         JSONObject jsonObject = new JSONObject(body);
         String modus = jsonObject.getString("modus");
@@ -83,14 +81,19 @@ public class GameController {
 
         if (playerSetMap.containsKey(gameCode)){
             System.out.println("Bereits vorhandener Gamecode: Dieser Gamecode wird bereits für ein anderes Spiel verwendet");
-            return null;
+            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("-");
         }
         else {
             Player player1 = new HumanPlayer(player1Name);
             PlayerSet playerSet = new PlayerSet(player1, gameCode);
             playerSetMap.put(gameCode, playerSet);
 
-            return playerSet;
+            JSONObject jsonResponseObject = new JSONObject();
+            jsonResponseObject.put("gameCode", gameCode);
+            jsonResponseObject.put("player1Name", player1Name);
+            jsonResponseObject.put("player1Color", player1Color);
+
+            return ResponseEntity.status(HttpStatus.OK).body(jsonResponseObject.toString());
         }
 
 
@@ -111,7 +114,7 @@ public class GameController {
         if (playerSetMap.containsKey(gameCode)){
             PlayerSet playerSet = playerSetMap.get(gameCode);
             playerSet.setPlayer2(new HumanPlayer(player2Name));
-            System.out.println(playerSet.getPlayer1().getName() + " und " + playerSet.getPlayer2().getName() + " bilden ein Playerset");
+            System.out.println("Gamecontroller: " + playerSet.getPlayer1().getName() + " und " + playerSet.getPlayer2().getName() + " bilden ein Playerset mit dem Gamecode " + gameCode);
         }
         else {
             System.out.println("GameCode falsch: Ein Spieler versuchte einem nicht existierenden Game beizutreten");

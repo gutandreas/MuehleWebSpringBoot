@@ -1,6 +1,6 @@
 function askIfSetComplete(){
 
-    let gameCode = document.getElementById("gameCode").innerHTML;
+    let gameCode = document.getElementById("gameCodeH2").innerHTML;
     gameCode = gameCode.substr(10);
 
     fetch("/game/controller/menschVsMensch/checkIfSetComplete", {
@@ -18,15 +18,5 @@ function askIfSetComplete(){
             document.getElementById("startGameButton").disabled = false;
         })
         .catch(failure => document.getElementById("ceckIfCompleteText").innerText = "KEIN SPIELER WURDE GEFUNDEN")
-
-    function sendGetRequestGameHTML(){
-        fetch('/game/controller/gameHTML', {method: 'GET'})
-            .then((response) => {
-                return response.json();
-            })
-            .then((html) => {
-                document.head.innerHTML = html
-                document.body.innerHTML = html
-            });
-    }
 }
+
