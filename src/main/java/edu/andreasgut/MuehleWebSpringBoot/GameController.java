@@ -1,7 +1,9 @@
 package edu.andreasgut.MuehleWebSpringBoot;
 
 import org.json.JSONObject;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import java.util.HashMap;
@@ -29,17 +31,34 @@ public class GameController {
         modelAndView.setViewName("/waitingRoom.html");
         return modelAndView;}
 
+        // Hier wird die gameID herausgelesen... Macht noch nicht wirklich Sinn so...
+    @PostMapping(
+            path = "/game/controller/waitingRoomHTML/{gameCode}")
+    public @ResponseBody JSONObject loadWaitingRoomHTMLid(@PathVariable String gameCode) {
+        Game game = new Game(gameCode);
+        JSONObject jsonObject = new JSONObject(game);
+        System.out.println("Gamecontroller: Das Game mit dem Code '" + gameCode + "' wurde erstellt");
+        return jsonObject;}
+
     @PostMapping(
             path = "/game/controller/menschVsMensch/checkIfSetComplete",
             produces = MediaType.APPLICATION_JSON_VALUE )
-    public @ResponseBody String checkIfSetComplete(@RequestBody String body){
-        JSONObject jsonObject = new JSONObject(body);
-        String gameCode = jsonObject.getString("gameCode");
+    public ResponseEntity<String> checkIfSetComplete(@RequestBody String body){
+        JSONObject jsonRequestObject = new JSONObject(body);
+        String gameCode = jsonRequestObject.getString("gameCode");
 
         if(playerSetMap.get(gameCode).getPlayer2() != null){
-            return "Spiel komplett";
+            String player2Name = playerSetMap.get(gameCode).getPlayer2().getName();
+            System.out.println("Player 2: " + player2Name);
+            JSONObject jsonResponseObject = new JSONObject();
+            jsonResponseObject.put("gameCode", gameCode);
+            jsonResponseObject.put("player2Name", player2Name);
+            System.out.println(jsonResponseObject);
+
+
+            return ResponseEntity.status(HttpStatus.OK).body(jsonResponseObject.toString());
         }
-        return "Spiel noch nicht komplett";
+        return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("-");
     }
 
     @PostMapping(
@@ -102,12 +121,16 @@ public class GameController {
 
     @PostMapping(
             path = "/game/controller/menschVsComputer")
-    public void loadMenschVsComputer(@RequestBody String body){
+    public JSONObject loadMenschVsComputer(@RequestBody String body){
         System.out.println(body);
         JSONObject jsonObject = new JSONObject(body);
         String modus = jsonObject.getString("modus");
         String player1Name = jsonObject.getString("player1Name");
 
+        jsonObject.put("modus", modus);
+        jsonObject.put("player1Name", player1Name);
+
+        return jsonObject;
     }
 
 

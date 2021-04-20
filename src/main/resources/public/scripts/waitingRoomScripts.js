@@ -11,10 +11,22 @@ function askIfSetComplete(){
         headers: {
             "Content-type": "application/json"
         }
-    })
-        .then(resp => resp.text())
+    })  .then(response => response.json())
         .then(data => {
+            document.getElementById("ceckIfCompleteText").innerText = data.player2Name.concat(" ist beigetreten");
             console.log(data)
-            document.getElementById("notCompleteText").innerText = data;
+            document.getElementById("startGameButton").disabled = false;
         })
+        .catch(failure => document.getElementById("ceckIfCompleteText").innerText = "KEIN SPIELER WURDE GEFUNDEN")
+
+    function sendGetRequestGameHTML(){
+        fetch('/game/controller/gameHTML', {method: 'GET'})
+            .then((response) => {
+                return response.json();
+            })
+            .then((html) => {
+                document.head.innerHTML = html
+                document.body.innerHTML = html
+            });
+    }
 }

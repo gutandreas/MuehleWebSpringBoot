@@ -17,13 +17,13 @@ function sendData() {
             break;
         }
         case 2: {
-            sendDataMenschVsComputer();
             sendGetRequestGameHTML();
+            sendDataMenschVsComputer();
             break;
         }
         case 3: {
-            sendDataComputerVsComputer();
             sendGetRequestGameHTML();
+            sendDataComputerVsComputer();
             break;
         }
     }
@@ -85,6 +85,22 @@ function sendDataMenschVsMenschStart(){
             .catch(function(error) {
                 console.log(error);
             });
+
+        fetch("/game/controller/waitingRoomHTML/" + gameCodeStart, {
+        method: 'POST',
+            body: JSON.stringify({
+            "modus": 'Mensch vs. Mensch',
+            "startGame" : true,
+            "player1Name" : player1Name,
+            "gameCode" : gameCodeStart,
+            "player1Color" : player1Color
+        }),
+            headers: {
+            "Content-type": "application/json"
+        }
+    })
+
+
     }
 
 function sendDataMenschVsMenschJoin(){
@@ -122,7 +138,7 @@ function sendDataMenschVsComputer(){
     let computerCode = dropdown.options[dropdown.selectedIndex].value;
 
 
-    fetch("/game/controller", {
+    fetch("/game/controller/menschVsComputer", {
         method: 'POST',
         body: JSON.stringify({
                 "modus": 'Mensch vs. Computer',
@@ -135,9 +151,9 @@ function sendDataMenschVsComputer(){
             "Content-type": "application/json"
         }
     })
-        .then(res => res.json())
-        .then(data => console.log(data))
-        .catch(error => console.log(error));}
+        .then(resp => resp.text())
+        .then(data => {
+            console.log(data)})}
 
 
 function sendDataComputerVsComputer(){
