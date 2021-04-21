@@ -3,7 +3,7 @@ function askIfSetComplete(){
     let gameCode = document.getElementById("gameCodeH2").innerHTML;
     gameCode = gameCode.substr(10);
 
-    fetch("/game/controller/menschVsMensch/checkIfSetComplete", {
+    fetch("/index/controller/menschVsMensch/checkIfSetComplete", {
         method: 'POST',
         body: JSON.stringify({
             "gameCode": gameCode

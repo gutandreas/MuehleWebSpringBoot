@@ -32,7 +32,7 @@ function sendData() {
 }
 
 function sendGetRequestGameHTML(){
-    fetch('/game/controller/gameHTML', {method: 'GET'})
+    fetch('/index/controller/gameHTML', {method: 'GET'})
         .then((response) => {
             return response.text();
         })
@@ -43,7 +43,7 @@ function sendGetRequestGameHTML(){
 }
 
 function sendGetRequestWaitingRoomHTML(){
-    fetch('/game/controller/waitingRoomHTML', {method: 'GET'})
+    fetch('/index/controller/waitingRoomHTML', {method: 'GET'})
         .then((response) => {
             return response.text();
         })
@@ -62,7 +62,7 @@ function sendDataMenschVsMenschStart(){
         player1Color = "WHITE";}
         else {player1Color = "BLACK";}
 
-        fetch("/game/controller/menschVsMensch/start", {
+        fetch("/index/controller/menschVsMensch/start", {
             method: 'POST',
             body: JSON.stringify({
                     "modus": 'Mensch vs. Mensch',
@@ -90,7 +90,7 @@ function sendDataMenschVsMenschStart(){
                 console.log(error);
             });
 
-        fetch("/game/controller/waitingRoomHTML/" + gameCodeStart, {
+        fetch("/index/controller/waitingRoomHTML/" + gameCodeStart, {
         method: 'POST',
             body: JSON.stringify({
             "modus": 'Mensch vs. Mensch',
@@ -112,7 +112,7 @@ function sendDataMenschVsMenschJoin(){
         let player2Name = document.getElementById("player2Textfield").value;
         let gameCodeJoin = document.getElementById("gamecodeJoin").value;
 
-        fetch("/game/controller/menschVsMensch/join", {
+        fetch("/index/controller/menschVsMensch/join", {
             method: 'POST',
             body: JSON.stringify({
                     "modus": 'Mensch vs. Mensch',
@@ -142,7 +142,7 @@ function sendDataMenschVsComputer(){
     let computerCode = dropdown.options[dropdown.selectedIndex].value;
 
 
-    fetch("/game/controller/menschVsComputer", {
+    fetch("/index/controller/menschVsComputer", {
         method: 'POST',
         body: JSON.stringify({
                 "modus": 'Mensch vs. Computer',
@@ -174,7 +174,7 @@ function sendDataComputerVsComputer(){
     let computerName2 = dropdown2.options[dropdown2.selectedIndex].text;
     let computerCode2 = dropdown2.options[dropdown2.selectedIndex].value;
 
-    fetch("/game/controller", {
+    fetch("/index/controller", {
         method: 'POST',
         body: JSON.stringify({
                 "title": 'Modus Computer vs. Computer',
