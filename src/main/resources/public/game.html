@@ -27,8 +27,16 @@
 <div id="log">
     <h2>Spielverlauf</h2>
 </div>
-<img id="board" src="Images/Spielfeld.png" width="40%" >
-<table id="gridPane"><tr>Test</tr></table>
+
+<div style="z-index: 0">
+    <img id="board" src="Images/Spielfeld.png" width="40%">
+</div>
+
+<div style="z-index: 1; position: absolute; left: 30%; top: 10% ; background-color: #00bcd4">
+    <table id="gridPane"><tr>Test</tr></table>
+</div>
+
+
 
 <div id="OptionBox">
     <input id="musicButton" type="button" value="Musik an">

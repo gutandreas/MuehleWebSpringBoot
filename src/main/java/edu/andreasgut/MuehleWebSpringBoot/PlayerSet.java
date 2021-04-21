@@ -5,10 +5,13 @@ public class PlayerSet {
 private Player player1;
 private Player player2;
 private String gameCode;
+private STONECOLOR player1Color;
 
-    public PlayerSet(Player player1, String gameCode) {
+
+    public PlayerSet(Player player1, String gameCode, STONECOLOR player1Color) {
         this.player1 = player1;
         this.gameCode = gameCode;
+        this.player1Color = player1Color;
     }
 
     public void setPlayer2(Player player2) {

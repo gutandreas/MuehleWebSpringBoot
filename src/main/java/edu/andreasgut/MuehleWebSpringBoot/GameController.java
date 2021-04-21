@@ -69,14 +69,11 @@ public class GameController {
         boolean start = jsonObject.getBoolean("startGame");
         String player1Name = jsonObject.getString("player1Name");
         String gameCode = jsonObject.getString("gameCode");
-        String player1Color = jsonObject.getString("player1Color");
-        String player2Color;
-
-        if (player1Color.equals("BLACK")){
-            player2Color = "WHITE";
-        }
+        STONECOLOR player1Color;
+        if(jsonObject.getString("player1Color").equals("BLACK")){
+            player1Color = STONECOLOR.BLACK;}
         else {
-            player2Color = "BLACK";
+            player1Color = STONECOLOR.WHITE;
         }
 
         if (playerSetMap.containsKey(gameCode)){
@@ -85,13 +82,13 @@ public class GameController {
         }
         else {
             Player player1 = new HumanPlayer(player1Name);
-            PlayerSet playerSet = new PlayerSet(player1, gameCode);
+            PlayerSet playerSet = new PlayerSet(player1, gameCode, player1Color);
             playerSetMap.put(gameCode, playerSet);
 
             JSONObject jsonResponseObject = new JSONObject();
             jsonResponseObject.put("gameCode", gameCode);
             jsonResponseObject.put("player1Name", player1Name);
-            jsonResponseObject.put("player1Color", player1Color);
+            jsonResponseObject.put("player1Color", player1Color.name());
 
             return ResponseEntity.status(HttpStatus.OK).body(jsonResponseObject.toString());
         }
