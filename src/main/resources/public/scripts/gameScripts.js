@@ -9,6 +9,7 @@ function clickOnField(row, field){
     console.log("Angeklicktes Feld: Reihe ".concat(row).concat(" , Feld: ").concat(field));
 
     switch (phase) {
+
         case 1: {
 
             if (isFieldFree(row, field)) {

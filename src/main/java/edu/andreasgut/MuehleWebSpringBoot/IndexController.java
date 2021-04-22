@@ -120,17 +120,21 @@ public class IndexController {
     }
 
     @PostMapping(
-            path = "/index/controller/menschVsComputer")
-    public JSONObject loadMenschVsComputer(@RequestBody String body){
+            path = "/index/controller/menschVsComputer",
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> loadMenschVsComputer(@RequestBody String body){
         System.out.println(body);
         JSONObject jsonObject = new JSONObject(body);
         String modus = jsonObject.getString("modus");
         String player1Name = jsonObject.getString("player1Name");
+        String computerName = jsonObject.getString("computerName");
 
-        jsonObject.put("modus", modus);
-        jsonObject.put("player1Name", player1Name);
+        JSONObject jsonResponseObject = new JSONObject();
+        jsonResponseObject.put("modus", modus);
+        jsonResponseObject.put("player1Name", player1Name);
+        jsonResponseObject.put("computerName", computerName);
 
-        return jsonObject;
+        return ResponseEntity.status(HttpStatus.OK).body(jsonResponseObject.toString());
     }
 
 

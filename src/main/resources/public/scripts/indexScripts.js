@@ -17,13 +17,13 @@ function sendData() {
             break;
         }
         case 2: {
-            sendGetRequestGameHTML();
             sendDataMenschVsComputer();
+            sendGetRequestGameHTML();
             break;
         }
         case 3: {
-            sendGetRequestGameHTML();
             sendDataComputerVsComputer();
+            sendGetRequestGameHTML();
             break;
         }
     }
@@ -37,7 +37,7 @@ function sendGetRequestGameHTML(){
             return response.text();
         })
         .then((html) => {
-            document.head.innerHTML = html
+            //document.head.innerHTML = html
             document.body.innerHTML = html
         });
 }
@@ -48,6 +48,7 @@ function sendGetRequestWaitingRoomHTML(){
             return response.text();
         })
         .then((html) => {
+            document.head.innerHTML = html
             document.body.innerHTML = html
         });
 }
@@ -155,9 +156,12 @@ function sendDataMenschVsComputer(){
             "Content-type": "application/json"
         }
     })
-        .then(resp => resp.text())
-        .then(data => {
-            console.log(data)})}
+        .then(resp => resp.json())
+        .then(responseData => {
+            console.log(responseData);
+            document.getElementById('player1NameGameText').innerText += (" " + responseData.player1Name);
+            document.getElementById('player2NameGameText').innerText += (" " + responseData.computerName);
+        })}
 
 
 function sendDataComputerVsComputer(){
@@ -370,11 +374,11 @@ function showComputerMenus(modus){
             showPlayer2Setting(true);
             setVisibilityofPlayer2ColorSwitch(true);
             break;}
-}
+}}
 
 function resetDropdownAndHideTextArea(){
     showComputerCodeTextArea(1, "display:none")
     showComputerCodeTextArea(2, "display:none")
     setDropdownIndex(1, 0);
     setDropdownIndex(2, 0)
-}}
+}
