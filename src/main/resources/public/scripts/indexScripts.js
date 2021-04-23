@@ -161,6 +161,13 @@ function sendDataMenschVsComputer(){
             document.getElementById('player1NameGameText').innerText += (" " + responseData.player1Name);
             document.getElementById('player2NameGameText').innerText += (" " + responseData.computerName);
             document.getElementById('gameCodeGameH1').innerText = ("Mühle online – Spielmodus: " + responseData.modus + " / Gamecode: " + responseData.gameCode.substring(13));
+            if (responseData.player1Color == "BLACK"){
+                document.getElementById('player1StoneImage').src = "images/StoneBlack.png"
+                document.getElementById('player2StoneImage').src = "images/StoneWhite.png";}
+            else {
+                document.getElementById('player1StoneImage').src = "images/StoneWhite.png";
+                document.getElementById('player2StoneImage').src = "images/StoneBlack.png";
+            }
         })
         .catch(function(error) {
             console.log(error);
@@ -204,6 +211,12 @@ function sendDataComputerVsComputer(){
             document.getElementById('player1NameGameText').innerText += (" " + responseData.computerName1);
             document.getElementById('player2NameGameText').innerText += (" " + responseData.computerName2);
             document.getElementById('gameCodeGameH1').innerText = ("Mühle online – Spielmodus: " + responseData.modus + " / Gamecode: " + responseData.gameCode.substring(13));
+            if (responseData.player1Color == "BLACK"){
+                document.getElementById('player1StoneImage').src = "images/StoneBlack.png"
+                document.getElementById('player2StoneImage').src = "images/StoneWhite.png";}
+            else {
+                document.getElementById('player1StoneImage').src = "images/StoneWhite.png";
+                document.getElementById('player2StoneImage').src = "images/StoneBlack.png";}
         })
         .catch(function(error) {
             console.log(error);
