@@ -140,11 +140,19 @@ public class IndexController {
 
     @PostMapping(
             path = "/index/controller/computerVsComputer")
-    public void loadComputerVsComputer(@RequestBody String body){
+    public ResponseEntity<String> loadComputerVsComputer(@RequestBody String body){
         System.out.println(body);
         JSONObject jsonObject = new JSONObject(body);
         String modus = jsonObject.getString("modus");
-        String player1Name = jsonObject.getString("player1Name");
+        String computerName1 = jsonObject.getString("computerName1");
+        String computerName2 = jsonObject.getString("computerName2");
+
+        JSONObject jsonResponseObject = new JSONObject();
+        jsonResponseObject.put("modus", modus);
+        jsonResponseObject.put("computerName1", computerName1);
+        jsonResponseObject.put("computerName2", computerName2);
+
+        return ResponseEntity.status(HttpStatus.OK).body(jsonResponseObject.toString());
 
     }
 }

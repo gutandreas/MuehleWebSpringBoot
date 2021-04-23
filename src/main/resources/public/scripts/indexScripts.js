@@ -169,6 +169,7 @@ function sendDataComputerVsComputer(){
     let dropdown1 = document.getElementById("player1Dropdown");
     let computerName1 = dropdown1.options[dropdown1.selectedIndex].text;
     let computerCode1 = dropdown1.options[dropdown1.selectedIndex].value;
+
     let player1Color;
     if (document.getElementById("colorPlayer1").checked){
         player1Color = "WHITE";}
@@ -178,10 +179,10 @@ function sendDataComputerVsComputer(){
     let computerName2 = dropdown2.options[dropdown2.selectedIndex].text;
     let computerCode2 = dropdown2.options[dropdown2.selectedIndex].value;
 
-    fetch("/index/controller", {
+    fetch("/index/controller/computerVsComputer", {
         method: 'POST',
         body: JSON.stringify({
-                "title": 'Modus Computer vs. Computer',
+                "modus": 'Modus Computer vs. Computer',
                 "computerName1" : computerName1,
                 "computerCode1" : computerCode1,
                 "player1Color" : player1Color,
@@ -192,9 +193,12 @@ function sendDataComputerVsComputer(){
             "Content-type": "application/json"
         }
     })
-        .then(res => res.json())
-        .then(data => console.log(data))
-        .catch(error => console.log(error));}
+        .then(resp => resp.json())
+        .then(responseData => {
+            console.log(responseData);
+            document.getElementById('player1NameGameText').innerText += (" " + responseData.computerName1);
+            document.getElementById('player2NameGameText').innerText += (" " + responseData.computerName2);
+        })}
 
 
 
