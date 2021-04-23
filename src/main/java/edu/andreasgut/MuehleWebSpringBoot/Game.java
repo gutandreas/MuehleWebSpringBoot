@@ -12,7 +12,7 @@ public class Game {
         this.player1 = player1;
         this.player2 = player2;
         gameComplete = true;
-        System.out.println(LocalTime.now() + " – " + this.getClass().getSimpleName() + ": Game mit 2 Spieler wurde erstellt");
+        System.out.println(LocalTime.now() + " – " + this.getClass().getSimpleName() + ": Game mit 2 Spielern ("+ player1.getName() + "/" + player2.getName() + ") wurde erstellt");
     }
 
     public Game(Player player1) {

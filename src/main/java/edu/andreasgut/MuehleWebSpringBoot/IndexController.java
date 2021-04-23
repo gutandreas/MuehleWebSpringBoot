@@ -50,7 +50,7 @@ public class IndexController {
             path = "/index/controller/menschVsMensch/start",
             produces = MediaType.APPLICATION_JSON_VALUE )
     public ResponseEntity<String> loadMenschVsMensch(@RequestBody String body){
-        System.out.println(body);
+        colorPrint(body, PRINTCOLOR.YELLOW);
         JSONObject jsonObject = new JSONObject(body);
         String modus = jsonObject.getString("modus");
         String player1Name = jsonObject.getString("player1Name");
@@ -83,7 +83,7 @@ public class IndexController {
     @PostMapping(
             path = "/index/controller/menschVsMensch/join")
     public void loadMenschVsMenschJoin(@RequestBody String body){
-        System.out.println(body);
+        colorPrint(body, PRINTCOLOR.YELLOW);
         JSONObject jsonObject = new JSONObject(body);
         String modus = jsonObject.getString("modus");
         String player2Name = jsonObject.getString("player2Name");
@@ -112,7 +112,7 @@ public class IndexController {
             path = "/index/controller/menschVsComputer",
             produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> loadMenschVsComputer(@RequestBody String body){
-        System.out.println(body);
+        colorPrint(body, PRINTCOLOR.YELLOW);
         JSONObject jsonObject = new JSONObject(body);
         String modus = jsonObject.getString("modus");
 
@@ -144,6 +144,7 @@ public class IndexController {
             path = "/index/controller/menschVsMensch/checkIfGameComplete",
             produces = MediaType.APPLICATION_JSON_VALUE )
     public ResponseEntity<String> checkIfSetComplete(@RequestBody String body){
+        colorPrint(body, PRINTCOLOR.YELLOW);
         JSONObject jsonRequestObject = new JSONObject(body);
         String gameCode = jsonRequestObject.getString("gameCode");
 
@@ -163,7 +164,7 @@ public class IndexController {
     @PostMapping(
             path = "/index/controller/computerVsComputer")
     public ResponseEntity<String> loadComputerVsComputer(@RequestBody String body){
-        System.out.println(body);
+        colorPrint(body, PRINTCOLOR.YELLOW);
         JSONObject jsonObject = new JSONObject(body);
         String modus = jsonObject.getString("modus");
         String computerName1 = jsonObject.getString("computerName1");
@@ -181,4 +182,13 @@ public class IndexController {
         return ResponseEntity.status(HttpStatus.OK).body(jsonResponseObject.toString());
 
     }
+
+    private void colorPrint(String text, PRINTCOLOR color){
+        System.out.print(color);
+        System.out.println(text);
+        System.out.print(PRINTCOLOR.RESET);
+
+    }
+
+
 }
