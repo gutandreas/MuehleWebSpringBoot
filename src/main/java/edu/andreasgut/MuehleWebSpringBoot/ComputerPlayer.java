@@ -5,8 +5,8 @@ package edu.andreasgut.MuehleWebSpringBoot;
 public class ComputerPlayer extends Player {
 
 
-    public ComputerPlayer(String name) {
-        super(name);
+    public ComputerPlayer(String name, STONECOLOR stonecolor) {
+        super(name, stonecolor);
     }
 
     /*

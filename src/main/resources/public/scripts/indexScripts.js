@@ -6,9 +6,8 @@ function sendData() {
     switch (modus){
         case 1: {
             if (gamecodemodus == 1){
-                sendDataMenschVsMenschStart();
                 sendGetRequestWaitingRoomHTML();
-
+                sendDataMenschVsMenschStart();
             }
             if (gamecodemodus == 2) {
                 sendDataMenschVsMenschJoin();
@@ -17,13 +16,13 @@ function sendData() {
             break;
         }
         case 2: {
-            sendDataMenschVsComputer();
             sendGetRequestGameHTML();
+            sendDataMenschVsComputer();
             break;
         }
         case 3: {
-            sendDataComputerVsComputer();
             sendGetRequestGameHTML();
+            sendDataComputerVsComputer();
             break;
         }
     }
@@ -48,7 +47,7 @@ function sendGetRequestWaitingRoomHTML(){
             return response.text();
         })
         .then((html) => {
-            document.head.innerHTML = html
+            //document.head.innerHTML = html
             document.body.innerHTML = html
         });
 }
@@ -91,7 +90,7 @@ function sendDataMenschVsMenschStart(){
                 console.log(error);
             });
 
-        fetch("/index/controller/waitingRoomHTML/" + gameCodeStart, {
+        /*fetch("/index/controller/waitingRoomHTML/" + gameCodeStart, {
         method: 'POST',
             body: JSON.stringify({
             "modus": 'Mensch vs. Mensch',
@@ -103,7 +102,7 @@ function sendDataMenschVsMenschStart(){
             headers: {
             "Content-type": "application/json"
         }
-    })
+    })*/
 
 
     }
@@ -161,7 +160,13 @@ function sendDataMenschVsComputer(){
             console.log(responseData);
             document.getElementById('player1NameGameText').innerText += (" " + responseData.player1Name);
             document.getElementById('player2NameGameText').innerText += (" " + responseData.computerName);
-        })}
+            document.getElementById('gameCodeGameH1').innerText = ("Mühle online – Spielmodus: " + responseData.modus + " / Gamecode: " + responseData.gameCode.substring(13));
+        })
+        .catch(function(error) {
+            console.log(error);
+        });
+}
+
 
 
 function sendDataComputerVsComputer(){
@@ -198,7 +203,12 @@ function sendDataComputerVsComputer(){
             console.log(responseData);
             document.getElementById('player1NameGameText').innerText += (" " + responseData.computerName1);
             document.getElementById('player2NameGameText').innerText += (" " + responseData.computerName2);
-        })}
+            document.getElementById('gameCodeGameH1').innerText = ("Mühle online – Spielmodus: " + responseData.modus + " / Gamecode: " + responseData.gameCode.substring(13));
+        })
+        .catch(function(error) {
+            console.log(error);
+        });
+}
 
 
 

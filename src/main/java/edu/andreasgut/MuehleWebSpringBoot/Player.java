@@ -4,15 +4,20 @@ package edu.andreasgut.MuehleWebSpringBoot;
 public abstract class Player {
 
     private final String name;
+    private final STONECOLOR stonecolor;
 
-    public Player( String name) {
+    public Player(String name, STONECOLOR stonecolor) {
         this.name = name;
+        this.stonecolor = stonecolor;
     }
 
     public String getName() {
         return name;
     }
 
+    public STONECOLOR getStonecolor() {
+        return stonecolor;
+    }
     /*
     abstract Position[] move(Board board, int playerIndex, boolean allowedToJump);
     abstract Position put(Board board, int playerIndex);

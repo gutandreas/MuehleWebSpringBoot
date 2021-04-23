@@ -4,8 +4,8 @@ package edu.andreasgut.MuehleWebSpringBoot;
 
 public class HumanPlayer extends edu.andreasgut.MuehleWebSpringBoot.Player {
 
-    public HumanPlayer(String name) {
-        super(name);
+    public HumanPlayer(String name, STONECOLOR stonecolor) {
+        super(name, stonecolor);
     }
 
     /*
