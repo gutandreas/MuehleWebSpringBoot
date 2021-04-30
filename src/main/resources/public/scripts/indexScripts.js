@@ -291,12 +291,12 @@ function setVisibilityofPlayer2ColorSwitch(visible){
     if (visible){
         document.getElementById("labelSchwarzPlayer2").style="visible:true";
         document.getElementById("labelWeissPlayer2").style="visible:true";
-        document.getElementById("colorPlayer2").style="visible:true";
+        document.getElementById("colorPlayer2Switch").style="visible:true";
     }
     else {
         document.getElementById("labelSchwarzPlayer2").style="display:none";
         document.getElementById("labelWeissPlayer2").style="display:none";
-        document.getElementById("colorPlayer2").style="display:none";}
+        document.getElementById("colorPlayer2Switch").style="display:none";}
 }
 
 function showGamecode(show){
