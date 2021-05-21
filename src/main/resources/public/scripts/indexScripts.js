@@ -80,6 +80,7 @@ function sendDataMenschVsMenschStart(){
                 console.log(responseData);
                 document.getElementById('gameCodeH2').innerText += (" " + responseData.gameCode);
                 document.getElementById('player1NameH2').innerText += (" " + responseData.player1Name);
+                document.getElementById("player1Uuid").innerText += (" " + responseData.player1Uuid);
                 if (responseData.player1Color == "BLACK"){
                     document.getElementById('player1ColorH2').innerText += (" " + "Schwarz");}
                 else {

@@ -8,8 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.time.LocalTime;
-import java.util.HashMap;
-
+import java.util.UUID;
 
 
 @RestController
@@ -39,7 +38,7 @@ public class IndexController {
     @PostMapping(
             path = "/index/controller/waitingRoomHTML/{gameCode}")
     public @ResponseBody JSONObject loadWaitingRoomHTMLid(@PathVariable String gameCode) {
-        Game game = new Game(new HumanPlayer("player1", STONECOLOR.BLACK), (new HumanPlayer("player2", STONECOLOR.WHITE)));
+        Game game = new Game(new HumanPlayer("player1", generateRandomUUID(), STONECOLOR.BLACK), (new HumanPlayer("player2", generateRandomUUID(), STONECOLOR.WHITE)));
         JSONObject jsonObject = new JSONObject(game);
         System.out.println(this.getClass().getSimpleName() + ": Das Game mit dem Code '" + gameCode + "' wurde erstellt");
         return jsonObject;}
@@ -67,12 +66,13 @@ public class IndexController {
             return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("-");
         }
         else {
-            Game game = new Game(new HumanPlayer(player1Name, player1Color));
+            Game game = new Game(new HumanPlayer(player1Name, generateRandomUUID(), player1Color));
             gameManager.addGame(gameCode, game);
 
             JSONObject jsonResponseObject = new JSONObject();
             jsonResponseObject.put("gameCode", gameCode);
             jsonResponseObject.put("player1Name", player1Name);
+            jsonResponseObject.put("player1Uuid", game.getPlayer1().getUuid());
             jsonResponseObject.put("player1Color", player1Color.name());
 
             return ResponseEntity.status(HttpStatus.OK).body(jsonResponseObject.toString());
@@ -100,7 +100,7 @@ public class IndexController {
                 player2StoneColor = STONECOLOR.BLACK;
             }
 
-            gameManager.getGame(gameCode).setPlayer2(new HumanPlayer(player2Name, player2StoneColor));
+            gameManager.getGame(gameCode).setPlayer2(new HumanPlayer(player2Name, generateRandomUUID(), player2StoneColor));
         }
         else {
             System.out.println(LocalTime.now() + " – " + this.getClass().getSimpleName() + ": GameCode falsch – Ein Spieler versuchte einem nicht existierenden Game beizutreten");
@@ -128,7 +128,7 @@ public class IndexController {
             computerColor = STONECOLOR.BLACK;
         }
 
-        Game game = new Game(new HumanPlayer(player1Name, player1Color), new ComputerPlayer(computerName, computerColor));
+        Game game = new Game(new HumanPlayer(player1Name, generateRandomUUID(), player1Color), new ComputerPlayer(computerName, generateRandomUUID(), computerColor));
         String gameCode = gameManager.addGameAndGetGameCode(game);
 
         JSONObject jsonResponseObject = new JSONObject();
@@ -173,7 +173,7 @@ public class IndexController {
         String computerName2 = jsonObject.getString("computerName2");
         String player1Color = jsonObject.getString("player1Color");
 
-        Game game = new Game(new ComputerPlayer(computerName1, STONECOLOR.BLACK), new ComputerPlayer(computerName2, STONECOLOR.WHITE));
+        Game game = new Game(new ComputerPlayer(computerName1, generateRandomUUID(), STONECOLOR.BLACK), new ComputerPlayer(computerName2, generateRandomUUID(), STONECOLOR.WHITE));
         String gameCode = gameManager.addGameAndGetGameCode(game);
 
         JSONObject jsonResponseObject = new JSONObject();
@@ -192,6 +192,11 @@ public class IndexController {
         System.out.println(text);
         System.out.print(PRINTCOLOR.RESET);
 
+    }
+
+    private String generateRandomUUID(){
+        UUID uuid = UUID.randomUUID();
+        return uuid.toString();
     }
 
 
