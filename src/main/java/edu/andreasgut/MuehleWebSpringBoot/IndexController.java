@@ -14,11 +14,7 @@ import java.util.UUID;
 @RestController
 public class IndexController {
 
-    GameManager gameManager = new GameManager();
 
-    public GameManager getGameManager() {
-        return gameManager;
-    }
 
     @GetMapping(
             path = "/index/controller/gameHTML")
@@ -61,13 +57,13 @@ public class IndexController {
             player1Color = STONECOLOR.WHITE;
         }
 
-        if (gameManager.checkIfGameExists(gameCode)){
+        if (GameManager.checkIfGameExists(gameCode)){
             System.out.println("Bereits vorhandener Gamecode: Dieser Gamecode wird bereits für ein anderes Spiel verwendet");
             return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("-");
         }
         else {
             Game game = new Game(new HumanPlayer(player1Name, generateRandomUUID(), player1Color));
-            gameManager.addGame(gameCode, game);
+            GameManager.addGame(gameCode, game);
 
             JSONObject jsonResponseObject = new JSONObject();
             jsonResponseObject.put("gameCode", gameCode);
@@ -89,8 +85,8 @@ public class IndexController {
         String player2Name = jsonObject.getString("player2Name");
         String gameCode = jsonObject.getString("gameCode");
 
-        if (gameManager.checkIfGameExists(gameCode)){
-            STONECOLOR player1StoneColor = gameManager.getGame(gameCode).getPlayer1().getStonecolor();
+        if (GameManager.checkIfGameExists(gameCode)){
+            STONECOLOR player1StoneColor = GameManager.getGame(gameCode).getPlayer1().getStonecolor();
 
             STONECOLOR player2StoneColor;
             if (player1StoneColor==STONECOLOR.BLACK){
@@ -100,7 +96,7 @@ public class IndexController {
                 player2StoneColor = STONECOLOR.BLACK;
             }
 
-            gameManager.getGame(gameCode).setPlayer2(new HumanPlayer(player2Name, generateRandomUUID(), player2StoneColor));
+            GameManager.getGame(gameCode).setPlayer2(new HumanPlayer(player2Name, generateRandomUUID(), player2StoneColor));
         }
         else {
             System.out.println(LocalTime.now() + " – " + this.getClass().getSimpleName() + ": GameCode falsch – Ein Spieler versuchte einem nicht existierenden Game beizutreten");
@@ -129,7 +125,7 @@ public class IndexController {
         }
 
         Game game = new Game(new HumanPlayer(player1Name, generateRandomUUID(), player1Color), new ComputerPlayer(computerName, generateRandomUUID(), computerColor));
-        String gameCode = gameManager.addGameAndGetGameCode(game);
+        String gameCode = GameManager.addGameAndGetGameCode(game);
 
         JSONObject jsonResponseObject = new JSONObject();
         jsonResponseObject.put("modus", modus);
@@ -150,8 +146,8 @@ public class IndexController {
         JSONObject jsonRequestObject = new JSONObject(body);
         String gameCode = jsonRequestObject.getString("gameCode");
 
-        if(gameManager.getGame(gameCode).isGameComplete()){
-            String player2Name = gameManager.getGame(gameCode).getPlayer2().getName();
+        if(GameManager.getGame(gameCode).isGameComplete()){
+            String player2Name = GameManager.getGame(gameCode).getPlayer2().getName();
             JSONObject jsonResponseObject = new JSONObject();
             jsonResponseObject.put("gameCode", gameCode);
             jsonResponseObject.put("player2Name", player2Name);
@@ -174,7 +170,7 @@ public class IndexController {
         String player1Color = jsonObject.getString("player1Color");
 
         Game game = new Game(new ComputerPlayer(computerName1, generateRandomUUID(), STONECOLOR.BLACK), new ComputerPlayer(computerName2, generateRandomUUID(), STONECOLOR.WHITE));
-        String gameCode = gameManager.addGameAndGetGameCode(game);
+        String gameCode = GameManager.addGameAndGetGameCode(game);
 
         JSONObject jsonResponseObject = new JSONObject();
         jsonResponseObject.put("modus", modus);

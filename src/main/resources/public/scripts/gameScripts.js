@@ -14,14 +14,14 @@ function clickOnField(row, field){
 
             if (isFieldFree(row, field)) {
                 array[row][field] = playerId;
-                fetch("/game/controller/{gameId}/put", {
+                fetch("/game/controller/put", {
                     method: 'POST',
                     body: JSON.stringify({
-                        "modus": 'Mensch vs. Mensch',
-                        "startGame" : true,
-                        "player1Name" : player1Name,
-                        "gameCode" : gameCodeStart,
-                        "player1Color" : player1Color
+
+                        "gameCode" : document.getElementById("gameCodeH2").innerText,
+                        //"playerUuid" : document.getElementById("player1Uuid").innerText,
+                        "putRing" : row,
+                        "putField" : field
                     }),
                     headers: {
                         "Content-type": "application/json"

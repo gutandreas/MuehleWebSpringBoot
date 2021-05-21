@@ -161,7 +161,8 @@ function sendDataMenschVsComputer(){
             console.log(responseData);
             document.getElementById('player1NameGameText').innerText += (" " + responseData.player1Name);
             document.getElementById('player2NameGameText').innerText += (" " + responseData.computerName);
-            document.getElementById('gameCodeGameH1').innerText = ("Mühle online – Spielmodus: " + responseData.modus + " / Gamecode: " + responseData.gameCode.substring(13));
+            document.getElementById('modusH1').innerText = ("Mühle online – Spielmodus: " + responseData.modus);
+            document.getElementById('gameCodeH2').innerText = responseData.gameCode;
             if (responseData.player1Color == "BLACK"){
                 document.getElementById('player1StoneImage').src = "images/StoneBlack.png"
                 document.getElementById('player2StoneImage').src = "images/StoneWhite.png";}
