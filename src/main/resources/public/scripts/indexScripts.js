@@ -171,6 +171,15 @@ function sendDataMenschVsComputer(){
                 document.getElementById('player1StoneImage').src = "images/StoneWhite.png";
                 document.getElementById('player2StoneImage').src = "images/StoneBlack.png";
             }
+
+            if (responseData.start == "true"){
+                setMyTurn(true);
+                setCursor("images/StoneBlack.png");
+            }
+            else {
+                window.myTurn = false;
+            }
+
         })
         .catch(function(error) {
             console.log(error);

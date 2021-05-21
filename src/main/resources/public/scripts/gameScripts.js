@@ -1,26 +1,35 @@
 array = Array(3).fill(9).map(x => Array(8).fill(9));
 var phase = 1;
 var kill = false;
+var myTurn = true;
 var playerId = 0;
 var gameId;
 
+function setCursor(cursorURL){
+    document.getElementById("boardImage").style.cursor = "url('images/StoneBlackCursor.png'), auto";
+}
 
-function clickOnField(row, field){
-    console.log("Angeklicktes Feld: Reihe ".concat(row).concat(" , Feld: ").concat(field));
+
+function setMyTurn(myTurn){
+    window.myTurn = myTurn;
+}
+
+function clickOnField(ring, field){
+    console.log("Angeklicktes Feld: Reihe ".concat(ring).concat(" , Feld: ").concat(field));
 
     switch (phase) {
 
         case 1: {
 
-            if (isFieldFree(row, field)) {
-                array[row][field] = playerId;
+            if (myTurn && isFieldFree(ring, field)) {
+                myTurn = false;
+                array[ring][field] = playerId;
                 fetch("/game/controller/put", {
                     method: 'POST',
                     body: JSON.stringify({
-
                         "gameCode" : document.getElementById("gameCodeH2").innerText,
                         "playerUuid" : document.getElementById("playerUuidH2").innerText,
-                        "putRing" : row,
+                        "putRing" : ring,
                         "putField" : field
                     }),
                     headers: {
@@ -29,10 +38,11 @@ function clickOnField(row, field){
                 })
 
             } else {
-                alert("Das Feld ist nicht frei.")
+                alert("Du bist nicht an der Reihe oder das Feld ist nicht frei.")
             }
             break;}
         case 2: {
+
 
         }
     }
@@ -40,7 +50,10 @@ function clickOnField(row, field){
 
 }
 
-function isFieldFree(row, field){
-    if (array[row][field] == 9){
-        return true;}
+function isFieldFree(ring, field){
+    return array[ring][field] == 9;
+}
+
+function isThisMyStone(ring, field){
+    return array[ring][field] == playerId;
 }

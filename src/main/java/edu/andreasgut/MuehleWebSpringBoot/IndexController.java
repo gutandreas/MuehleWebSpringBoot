@@ -131,6 +131,7 @@ public class IndexController {
         jsonResponseObject.put("modus", modus);
         jsonResponseObject.put("player1Uuid", game.getPlayer0().getUuid());
         jsonResponseObject.put("gameCode", gameCode);
+        jsonResponseObject.put("start", "true");
 
 
         return ResponseEntity.status(HttpStatus.OK).body(jsonResponseObject.toString());

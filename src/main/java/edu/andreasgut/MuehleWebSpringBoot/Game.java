@@ -16,7 +16,7 @@ public class Game {
     boolean putPhase = true;
     boolean movePhase = false;
 
-    ArrayList<Player> playerArrayList = new ArrayList<>();
+    private ArrayList<Player> playerArrayList = new ArrayList<>();
 
     public Game(Player player0, Player player1) {
         this.player0 = player0;
@@ -53,6 +53,10 @@ public class Game {
 
     public Board getBoard() {
         return board;
+    }
+
+    public ArrayList<Player> getPlayerArrayList() {
+        return playerArrayList;
     }
 
     public boolean isGameComplete() {

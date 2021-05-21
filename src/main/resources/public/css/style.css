@@ -3,6 +3,8 @@ body{
     line-height: 200%;
 }
 
+
+
 input[type='button']{
     background-color: #c2eafc;
     border-radius: 7px;
@@ -68,6 +70,7 @@ label{
 .labelLost{
     -webkit-text-fill-color: #ee6060;
 }
+
 
 #startImage1{
     float: left;

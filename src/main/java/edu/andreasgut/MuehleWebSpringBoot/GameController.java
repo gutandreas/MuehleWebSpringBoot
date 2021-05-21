@@ -13,8 +13,6 @@ public class GameController {
             path = "/game/controller/put")
     public void put(@RequestBody String body) {
 
-
-
         JSONObject jsonObject = new JSONObject(body);
         String gameCode = jsonObject.getString("gameCode");
         String playerUuid = jsonObject.getString("playerUuid");
@@ -25,14 +23,12 @@ public class GameController {
         Position putPosition = new Position(putRing, putField);
         int playerIndex;
 
-        if (game.playerArrayList.get(0).getUuid().equals(playerUuid)){
+        if (game.getPlayerArrayList().get(0).getUuid().equals(playerUuid)){
             playerIndex = 0;
         }
         else {
             playerIndex = 1;
         }
-
-
 
         if (game.getBoard().checkPut(putPosition)){
             game.getBoard().putStone(putPosition, playerIndex);
