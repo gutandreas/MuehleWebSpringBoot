@@ -68,7 +68,7 @@ public class IndexController {
             JSONObject jsonResponseObject = new JSONObject();
             jsonResponseObject.put("gameCode", gameCode);
             jsonResponseObject.put("player1Name", player1Name);
-            jsonResponseObject.put("player1Uuid", game.getPlayer1().getUuid());
+            jsonResponseObject.put("player1Uuid", game.getPlayer0().getUuid());
             jsonResponseObject.put("player1Color", player1Color.name());
 
             return ResponseEntity.status(HttpStatus.OK).body(jsonResponseObject.toString());
@@ -86,7 +86,7 @@ public class IndexController {
         String gameCode = jsonObject.getString("gameCode");
 
         if (GameManager.checkIfGameExists(gameCode)){
-            STONECOLOR player1StoneColor = GameManager.getGame(gameCode).getPlayer1().getStonecolor();
+            STONECOLOR player1StoneColor = GameManager.getGame(gameCode).getPlayer0().getStonecolor();
 
             STONECOLOR player2StoneColor;
             if (player1StoneColor==STONECOLOR.BLACK){
@@ -96,7 +96,7 @@ public class IndexController {
                 player2StoneColor = STONECOLOR.BLACK;
             }
 
-            GameManager.getGame(gameCode).setPlayer2(new HumanPlayer(player2Name, generateRandomUUID(), player2StoneColor));
+            GameManager.getGame(gameCode).setPlayer1(new HumanPlayer(player2Name, generateRandomUUID(), player2StoneColor));
         }
         else {
             System.out.println(LocalTime.now() + " – " + this.getClass().getSimpleName() + ": GameCode falsch – Ein Spieler versuchte einem nicht existierenden Game beizutreten");
@@ -129,9 +129,7 @@ public class IndexController {
 
         JSONObject jsonResponseObject = new JSONObject();
         jsonResponseObject.put("modus", modus);
-        jsonResponseObject.put("player1Name", player1Name);
-        jsonResponseObject.put("player1Color", player1Color.name());
-        jsonResponseObject.put("computerName", computerName);
+        jsonResponseObject.put("player1Uuid", game.getPlayer0().getUuid());
         jsonResponseObject.put("gameCode", gameCode);
 
 
@@ -147,7 +145,7 @@ public class IndexController {
         String gameCode = jsonRequestObject.getString("gameCode");
 
         if(GameManager.getGame(gameCode).isGameComplete()){
-            String player2Name = GameManager.getGame(gameCode).getPlayer2().getName();
+            String player2Name = GameManager.getGame(gameCode).getPlayer1().getName();
             JSONObject jsonResponseObject = new JSONObject();
             jsonResponseObject.put("gameCode", gameCode);
             jsonResponseObject.put("player2Name", player2Name);

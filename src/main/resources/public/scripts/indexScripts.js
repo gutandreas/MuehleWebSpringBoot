@@ -78,9 +78,8 @@ function sendDataMenschVsMenschStart(){
             .then(resp => resp.json())
             .then(responseData => {
                 console.log(responseData);
-                document.getElementById('gameCodeH2').innerText += (" " + responseData.gameCode);
+                document.getElementById('gameCodeH2').innerText = (responseData.gameCode);
                 document.getElementById('player1NameH2').innerText += (" " + responseData.player1Name);
-                document.getElementById("player1Uuid").innerText += (" " + responseData.player1Uuid);
                 if (responseData.player1Color == "BLACK"){
                     document.getElementById('player1ColorH2').innerText += (" " + "Schwarz");}
                 else {
@@ -159,10 +158,12 @@ function sendDataMenschVsComputer(){
         .then(resp => resp.json())
         .then(responseData => {
             console.log(responseData);
-            document.getElementById('player1NameGameText').innerText += (" " + responseData.player1Name);
-            document.getElementById('player2NameGameText').innerText += (" " + responseData.computerName);
-            document.getElementById('modusH1').innerText = ("Mühle online – Spielmodus: " + responseData.modus);
+            document.getElementById('player1NameGameText').innerText += (" " + player1Name);
+            document.getElementById('player2NameGameText').innerText += (" " + computerName);
+            document.getElementById('modusH1').innerText = ("Mühle online – Spielmodus: Mensch vs. Computer");
             document.getElementById('gameCodeH2').innerText = responseData.gameCode;
+            document.getElementById('playerUuidH2').innerText = responseData.player1Uuid;
+
             if (responseData.player1Color == "BLACK"){
                 document.getElementById('player1StoneImage').src = "images/StoneBlack.png"
                 document.getElementById('player2StoneImage').src = "images/StoneWhite.png";}

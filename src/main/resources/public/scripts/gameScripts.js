@@ -19,7 +19,7 @@ function clickOnField(row, field){
                     body: JSON.stringify({
 
                         "gameCode" : document.getElementById("gameCodeH2").innerText,
-                        //"playerUuid" : document.getElementById("player1Uuid").innerText,
+                        "playerUuid" : document.getElementById("playerUuidH2").innerText,
                         "putRing" : row,
                         "putField" : field
                     }),
