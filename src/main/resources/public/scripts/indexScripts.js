@@ -175,7 +175,7 @@ function sendDataMenschVsComputer(){
                 document.getElementById('player2StoneImage').src = "images/StoneBlack.png";
             }
 
-            new Game(new Player(player1Name, responseData.player1Uuid), responseData.gameCode);
+            new Game(new Player(player1Name, responseData.player1Uuid, 0), responseData.gameCode);
 
 
         })

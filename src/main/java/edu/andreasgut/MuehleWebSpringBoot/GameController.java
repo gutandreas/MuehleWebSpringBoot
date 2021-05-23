@@ -33,6 +33,33 @@ public class GameController {
     }
 
     @PostMapping(
+            path = "/game/controller/getBoard"
+    )
+    public ResponseEntity<String> getBoard(@RequestBody String body){
+        JSONObject jsonRequestObject = new JSONObject(body);
+
+        Game game = GameManager.getGame(jsonRequestObject.getString("gameCode"));
+
+        String boardAsString = "";
+
+        for (int i = 0; i < 3; i++){
+            for (int j = 0; j < 8; j++){
+                boardAsString += game.getBoard().getArray()[i][j];
+            }
+        }
+
+        JSONObject jsonResponseObject = new JSONObject();
+        jsonResponseObject.put("board", boardAsString);
+
+        System.out.println(LocalTime.now() + " – " + getClass().getSimpleName()
+                + "Board aus dem Game" + jsonRequestObject.getString("gameCode") + " wurde abgefragt");
+
+
+        return ResponseEntity.status(HttpStatus.OK).body(jsonResponseObject.toString());
+    }
+
+
+    @PostMapping(
             path = "/game/controller/put")
     public void put(@RequestBody String body) {
 

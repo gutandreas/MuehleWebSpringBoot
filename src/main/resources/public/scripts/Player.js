@@ -1,11 +1,16 @@
 class Player{
 
-    constructor(name, uuid) {
+    constructor(name, uuid, index) {
         this.name = name;
         this.uuid = uuid;
+        this.index = index;
     }
 
     getUuid(){
         return this.uuid;
+    }
+
+    getIndex(){
+        return this.index;
     }
 }
