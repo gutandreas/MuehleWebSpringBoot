@@ -65,7 +65,7 @@ class Game {
     }
 
 
-
+    // Als Archiv zum Rauskopieren. Wird nicht mehr gebraucht...
     oldplay() {
 
         if (!this.myTurn) {

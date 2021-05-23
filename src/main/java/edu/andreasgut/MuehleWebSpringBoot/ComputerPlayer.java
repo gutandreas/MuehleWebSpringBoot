@@ -9,7 +9,7 @@ public class ComputerPlayer extends Player {
         super(name, uuid, stonecolor);
     }
 
-    /*
+
     @Override
     Position put(Board board, int playerIndex) {
         Position position = new Position();
@@ -79,6 +79,6 @@ public class ComputerPlayer extends Player {
         return position;
     }
 
-     */
+
 
 }

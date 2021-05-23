@@ -30,6 +30,7 @@ public class Game {
         gameComplete = true;
         this.board = new Board(this);
         System.out.println(LocalTime.now() + " – " + this.getClass().getSimpleName() + ": Game mit 2 Spielern ("+ player0.getName() + "/" + player1.getName() + ") wurde erstellt");
+        play();
     }
 
     public Game(Player player0) {
@@ -75,5 +76,28 @@ public class Game {
 
     public Player getCurrentPlayer() {
         return currentPlayer;
+    }
+
+    public void play(){
+
+        if (round>18){
+            putPhase = false;
+            movePhase = true;
+        }
+
+
+        if (putPhase){
+            if (currentPlayer instanceof ComputerPlayer){
+                board.putStone(currentPlayer.put(board, getCurrentPlayerIndex()),currentPlayerIndex);
+            }
+
+            if (currentPlayer instanceof HumanPlayer){
+
+            }
+        }
+
+        round++;
+
+
     }
 }

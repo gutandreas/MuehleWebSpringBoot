@@ -79,9 +79,9 @@ class Board {
                     changedPositions[1] = new Position(i,j);
                 }
 
-
-                this.array[i][j] = boardAsString.charAt(0);
+                this.array[i][j] = tempBoardAsString.charAt(0);
                 tempBoardAsString = tempBoardAsString.substr(1);
+
 
             }
         }

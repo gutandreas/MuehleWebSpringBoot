@@ -8,7 +8,7 @@ public class HumanPlayer extends edu.andreasgut.MuehleWebSpringBoot.Player {
         super(name, uuid, stonecolor);
     }
 
-    /*
+
     @Override
     Position put(Board board, int playerIndex) {
 
@@ -28,5 +28,5 @@ public class HumanPlayer extends edu.andreasgut.MuehleWebSpringBoot.Player {
         return null;
     }
 
-     */
+
 }
