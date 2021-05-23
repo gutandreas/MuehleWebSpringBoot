@@ -2,7 +2,7 @@ class Game {
 
     player;
 
-    constructor(player, gameCode) {
+    constructor(player, gameCode, start) {
 
         this.player = player;
         this.board = new Board(this);
@@ -63,6 +63,8 @@ class Game {
 
         }
     }
+
+
 
     oldplay() {
 

@@ -1,7 +1,5 @@
 class Board {
 
-    changedPositions = new Array(2);
-
     constructor(game) {
         this.game = game;
         this.array = new Array(3);
@@ -63,23 +61,23 @@ class Board {
     updateBoardAndGetChanges(boardAsString){
 
         let tempBoardAsString = boardAsString;
+        let changedPositions = new Array(2);
+        let enemysIndex = 1-this.game.getPlayer().getIndex();
 
-        this.changedPositions[0] = null;
-        this.changedPositions[1] = null;
 
         for (let i = 0; i < 3; i++) {
             for (let j = 0; j < 8; j++) {
-                /*//veränderter gegnerischer Stein
+                //veränderter gegnerischer Stein
                 if (this.array[i][j] == 9
-                    && 1-this.game.getPlayer.getIndex() == boardAsString.charAt(0)){
-                    this.changedPositions[0] = new Position(i,j);
+                    && enemysIndex == boardAsString.charAt(0)){
+                    changedPositions[0] = new Position(i,j);
                 }
 
                 //geschlagener eigener Stein
                 if (this.array[i][j] == this.game.getPlayer().getIndex()
                     && boardAsString.charAt(0) == 9){
-                    this.changedPositions[1] = new Position(i,j);
-                }*/
+                    changedPositions[1] = new Position(i,j);
+                }
 
 
                 this.array[i][j] = boardAsString.charAt(0);
@@ -89,7 +87,7 @@ class Board {
         }
 
         console.log(this.toString());
-        return this.changedPositions;
+        return changedPositions;
     }
 
     toString(){
