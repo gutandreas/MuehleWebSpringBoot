@@ -13,18 +13,20 @@ public class Game {
     private final int NUMBEROFSTONES = 9;
     private Player currentPlayer;
     private final Board board;
-    boolean putPhase = true;
-    boolean movePhase = false;
+    private boolean putPhase = true;
+    private boolean movePhase = false;
+    private int currentPlayerIndex;
 
     private ArrayList<Player> playerArrayList = new ArrayList<>();
 
-    public Game(Player player0, Player player1) {
+    public Game(Player player0, Player player1, int startPlayerIndex) {
         this.player0 = player0;
         this.player1 = player1;
         playerArrayList.add(0, player0);
         playerArrayList.add(1, player1);
         round = 0;
         currentPlayer=playerArrayList.get(0);
+        startPlayerIndex = startPlayerIndex;
         gameComplete = true;
         this.board = new Board(this);
         System.out.println(LocalTime.now() + " – " + this.getClass().getSimpleName() + ": Game mit 2 Spielern ("+ player0.getName() + "/" + player1.getName() + ") wurde erstellt");
@@ -61,5 +63,17 @@ public class Game {
 
     public boolean isGameComplete() {
         return gameComplete;
+    }
+
+    public int getCurrentPlayerIndex() {
+        return currentPlayerIndex;
+    }
+
+    public void setCurrentPlayerIndex(int currentPlayerIndex) {
+        this.currentPlayerIndex = currentPlayerIndex;
+    }
+
+    public Player getCurrentPlayer() {
+        return currentPlayer;
     }
 }

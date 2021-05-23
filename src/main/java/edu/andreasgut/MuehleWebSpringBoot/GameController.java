@@ -1,13 +1,36 @@
 package edu.andreasgut.MuehleWebSpringBoot;
 
 import org.json.JSONObject;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalTime;
-import java.util.UUID;
 
 @RestController
 public class GameController {
+
+
+    @PostMapping(
+            path = "/game/controller/myTurn"
+    )
+    public ResponseEntity<String> getCurrentPlayer(@RequestBody String body){
+
+        JSONObject jsonRequestObject = new JSONObject(body);
+
+        Game game = GameManager.getGame(jsonRequestObject.getString("gameCode"));
+        String playerUuid = jsonRequestObject.getString("playerUuid");
+
+        boolean myTurn = playerUuid.equals(game.getCurrentPlayer().getUuid());
+
+        JSONObject jsonResponseObject = new JSONObject();
+        jsonResponseObject.put("myTurn", myTurn);
+
+        System.out.println(LocalTime.now() + " – " + getClass().getSimpleName() + "Spieler mit UUID " + playerUuid + " wartet");
+
+
+        return ResponseEntity.status(HttpStatus.OK).body(jsonResponseObject.toString());
+    }
 
     @PostMapping(
             path = "/game/controller/put")
@@ -35,6 +58,13 @@ public class GameController {
             System.out.println(LocalTime.now() + " – " + this.getClass().getSimpleName() + ": Put in Spiel " + gameCode);
             System.out.println(GameManager.getGame(gameCode).getBoard());
         }
+
+    }
+
+    private void colorPrint(String text, PRINTCOLOR color){
+        System.out.print(color);
+        System.out.println(text);
+        System.out.print(PRINTCOLOR.RESET);
 
     }
 

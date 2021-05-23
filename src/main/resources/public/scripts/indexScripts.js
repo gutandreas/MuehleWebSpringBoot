@@ -30,6 +30,8 @@ function sendData() {
 
 }
 
+
+
 function sendGetRequestGameHTML(){
     fetch('/index/controller/gameHTML', {method: 'GET'})
         .then((response) => {
@@ -51,6 +53,7 @@ function sendGetRequestWaitingRoomHTML(){
             document.body.innerHTML = html
         });
 }
+
 
 function sendDataMenschVsMenschStart(){
 
@@ -164,7 +167,7 @@ function sendDataMenschVsComputer(){
             document.getElementById('gameCodeH2').innerText = responseData.gameCode;
             document.getElementById('playerUuidH2').innerText = responseData.player1Uuid;
 
-            if (responseData.player1Color == "BLACK"){
+            if (player1Color == "BLACK"){
                 document.getElementById('player1StoneImage').src = "images/StoneBlack.png"
                 document.getElementById('player2StoneImage').src = "images/StoneWhite.png";}
             else {
@@ -172,13 +175,8 @@ function sendDataMenschVsComputer(){
                 document.getElementById('player2StoneImage').src = "images/StoneBlack.png";
             }
 
-            if (responseData.start == "true"){
-                setMyTurn(true);
-                setCursor("images/StoneBlack.png");
-            }
-            else {
-                window.myTurn = false;
-            }
+            new Game(new Player(player1Name, responseData.player1Uuid), responseData.gameCode);
+
 
         })
         .catch(function(error) {

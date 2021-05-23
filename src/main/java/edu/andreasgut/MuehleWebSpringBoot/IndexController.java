@@ -34,7 +34,7 @@ public class IndexController {
     @PostMapping(
             path = "/index/controller/waitingRoomHTML/{gameCode}")
     public @ResponseBody JSONObject loadWaitingRoomHTMLid(@PathVariable String gameCode) {
-        Game game = new Game(new HumanPlayer("player1", generateRandomUUID(), STONECOLOR.BLACK), (new HumanPlayer("player2", generateRandomUUID(), STONECOLOR.WHITE)));
+        Game game = new Game(new HumanPlayer("player1", generateRandomUUID(), STONECOLOR.BLACK), (new HumanPlayer("player2", generateRandomUUID(), STONECOLOR.WHITE)), 0);
         JSONObject jsonObject = new JSONObject(game);
         System.out.println(this.getClass().getSimpleName() + ": Das Game mit dem Code '" + gameCode + "' wurde erstellt");
         return jsonObject;}
@@ -124,7 +124,7 @@ public class IndexController {
             computerColor = STONECOLOR.BLACK;
         }
 
-        Game game = new Game(new HumanPlayer(player1Name, generateRandomUUID(), player1Color), new ComputerPlayer(computerName, generateRandomUUID(), computerColor));
+        Game game = new Game(new HumanPlayer(player1Name, generateRandomUUID(), player1Color), new ComputerPlayer(computerName, generateRandomUUID(), computerColor), 0);
         String gameCode = GameManager.addGameAndGetGameCode(game);
 
         JSONObject jsonResponseObject = new JSONObject();
@@ -168,7 +168,7 @@ public class IndexController {
         String computerName2 = jsonObject.getString("computerName2");
         String player1Color = jsonObject.getString("player1Color");
 
-        Game game = new Game(new ComputerPlayer(computerName1, generateRandomUUID(), STONECOLOR.BLACK), new ComputerPlayer(computerName2, generateRandomUUID(), STONECOLOR.WHITE));
+        Game game = new Game(new ComputerPlayer(computerName1, generateRandomUUID(), STONECOLOR.BLACK), new ComputerPlayer(computerName2, generateRandomUUID(), STONECOLOR.WHITE), 0);
         String gameCode = GameManager.addGameAndGetGameCode(game);
 
         JSONObject jsonResponseObject = new JSONObject();
