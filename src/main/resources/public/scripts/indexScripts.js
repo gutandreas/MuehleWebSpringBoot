@@ -166,6 +166,7 @@ function sendDataMenschVsComputer(){
             document.getElementById('modusH1').innerText = ("Mühle online – Spielmodus: Mensch vs. Computer");
             document.getElementById('gameCodeH2').innerText = responseData.gameCode;
             document.getElementById('playerUuidH2').innerText = responseData.player1Uuid;
+            document.getElementById('playerIndexH2').innerText = responseData.playerIndex;
 
             if (player1Color == "BLACK"){
                 document.getElementById('player1StoneImage').src = "images/StoneBlack.png"
@@ -175,7 +176,7 @@ function sendDataMenschVsComputer(){
                 document.getElementById('player2StoneImage').src = "images/StoneBlack.png";
             }
 
-            new Game(new Player(player1Name, responseData.player1Uuid, 0), responseData.gameCode, true);
+            new Game(new Player(player1Name, responseData.player1Uuid, responseData.playerIndex), responseData.gameCode, true);
 
 
         })

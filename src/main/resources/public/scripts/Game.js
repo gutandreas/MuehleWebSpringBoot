@@ -6,7 +6,7 @@ class Game {
 
         this.player = player;
         this.board = new Board(this);
-        this.myTurn = false;
+        this.myTurn = start;
         this.action = "put";
         this.gamecode = gameCode;
         this.play();

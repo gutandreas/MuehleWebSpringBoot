@@ -67,15 +67,16 @@ class Board {
 
         for (let i = 0; i < 3; i++) {
             for (let j = 0; j < 8; j++) {
+
                 //veränderter gegnerischer Stein
                 if (this.array[i][j] == 9
-                    && enemysIndex == boardAsString.charAt(0)){
+                    && enemysIndex == tempBoardAsString.charAt(0)){
                     changedPositions[0] = new Position(i,j);
                 }
 
                 //geschlagener eigener Stein
                 if (this.array[i][j] == this.game.getPlayer().getIndex()
-                    && boardAsString.charAt(0) == 9){
+                    && tempBoardAsString.charAt(0) == 9){
                     changedPositions[1] = new Position(i,j);
                 }
 

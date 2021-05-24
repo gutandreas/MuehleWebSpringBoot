@@ -130,6 +130,7 @@ public class IndexController {
         JSONObject jsonResponseObject = new JSONObject();
         jsonResponseObject.put("modus", modus);
         jsonResponseObject.put("player1Uuid", game.getPlayer0().getUuid());
+        jsonResponseObject.put("playerIndex", 0);
         jsonResponseObject.put("gameCode", gameCode);
         jsonResponseObject.put("start", "true");
 

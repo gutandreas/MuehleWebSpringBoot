@@ -26,6 +26,7 @@ public class Game {
         playerArrayList.add(1, player1);
         round = 0;
         currentPlayer=playerArrayList.get(0);
+        currentPlayerIndex = 0;
         startPlayerIndex = startPlayerIndex;
         gameComplete = true;
         this.board = new Board(this);
