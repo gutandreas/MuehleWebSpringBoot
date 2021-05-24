@@ -22,46 +22,44 @@ class Game {
     }
 
     play(){
-        if (!this.myTurn) {
-            const task = async () => {
+        const task = async () => {
 
-                while (!this.myTurn) {
+            while (!this.myTurn) {
 
-                    await new Promise(r => setTimeout(r, 1000));
+                await new Promise(r => setTimeout(r, 3000));
 
-                    console.log("Board bei Server abfragen");
-                    fetch("/game/controller/getBoard", {
-                        method: 'POST',
-                        body: JSON.stringify({
-                            "gameCode": this.gamecode,
-                        }),
-                        headers: {
-                            "Content-type": "application/json"
+                console.log("Board bei Server abfragen");
+                fetch("/game/controller/getBoard", {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        "gameCode": this.gamecode,
+                    }),
+                    headers: {
+                        "Content-type": "application/json"
+                    }
+                })
+                    .then(resp => resp.json())
+                    .then(responseData => {
+                            console.log(responseData);
+                            let changedPositions = this.board.updateBoardAndGetChanges(responseData.board);
+
+                            if (changedPositions[0] != null){
+                                // Gegnerischer Zug führt nicht zu einer Mühle
+                                if (!this.board.checkMorris(changedPositions[0])){
+                                    this.myTurn = true;
+                                }
+
+                                // Gegnerischer Zug führt zu Mühle und es wurde bereits Stein entfernt
+                                if (this.board.checkMorris(changedPositions[0])
+                                && changedPositions[1] != null){
+                                    this.myTurn = true;
+                                }}
                         }
-                    })
-                        .then(resp => resp.json())
-                        .then(responseData => {
-                                console.log(responseData);
-                                let changedPositions = this.board.updateBoardAndGetChanges(responseData.board);
+                    )
 
-                                if (changedPositions[0] != null){
-                                    // Gegnerischer Zug führt nicht zu einer Mühle
-                                    if (!this.board.checkMorris(changedPositions[0])){
-                                        this.myTurn = true;
-                                    }
+            }}
+            task();
 
-                                    // Gegnerischer Zug führt zu Mühle und es wurde bereits Stein entfernt
-                                    if (this.board.checkMorris(changedPositions[0])
-                                    && changedPositions[1] != null){
-                                        this.myTurn = true;
-                                    }}
-                            }
-                        )
-
-                }}
-                task();
-
-        }
     }
 
 
