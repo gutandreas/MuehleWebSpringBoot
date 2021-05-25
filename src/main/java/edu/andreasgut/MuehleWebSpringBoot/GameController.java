@@ -40,14 +40,7 @@ public class GameController {
         JSONObject jsonRequestObject = new JSONObject(body);
 
         Game game = GameManager.getGame(jsonRequestObject.getString("gameCode"));
-
-        String boardAsString = "";
-
-        for (int i = 0; i < 3; i++){
-            for (int j = 0; j < 8; j++){
-                boardAsString += game.getBoard().getArray()[i][j];
-            }
-        }
+        String boardAsString = transformBoardToString(game.getBoard());
 
         JSONObject jsonResponseObject = new JSONObject();
         jsonResponseObject.put("board", boardAsString);
@@ -62,19 +55,19 @@ public class GameController {
 
     @PostMapping(
             path = "/game/controller/put")
-    public void put(@RequestBody String body) {
+    public ResponseEntity<String> put(@RequestBody String body) {
 
-        JSONObject jsonObject = new JSONObject(body);
-        String gameCode = jsonObject.getString("gameCode");
-        String playerUuid = jsonObject.getString("playerUuid");
-        int putRing = jsonObject.getInt("putRing");
-        int putField = jsonObject.getInt("putField");
+        JSONObject jsonRequestObject = new JSONObject(body);
+        String gameCode = jsonRequestObject.getString("gameCode");
+        String playerUuid = jsonRequestObject.getString("playerUuid");
+        int putRing = jsonRequestObject.getInt("putRing");
+        int putField = jsonRequestObject.getInt("putField");
+        boolean callComputer = jsonRequestObject.getBoolean("callComputer");
 
         Game game = GameManager.getGame(gameCode);
         Position putPosition = new Position(putRing, putField);
         int playerIndex = game.getPlayerIndexByUuid(playerUuid);
-
-
+        int enemysIndex = 1-game.getPlayerIndexByUuid(playerUuid);
 
         if (game.getBoard().checkPut(putPosition)){
             game.getBoard().putStone(putPosition, playerIndex);
@@ -82,6 +75,33 @@ public class GameController {
             System.out.println(GameManager.getGame(gameCode).getBoard());
         }
 
+        if (callComputer && game.getPlayerByIndex(enemysIndex) instanceof ComputerPlayer){
+            System.out.println(LocalTime.now() + " – " + this.getClass().getSimpleName() + ": Put in Spiel " + gameCode);
+            game.getBoard().putStone(game.getPlayerByIndex(enemysIndex).put(game.getBoard(), enemysIndex), enemysIndex);
+            System.out.println(game.getBoard());
+        }
+
+
+        String boardAsString = transformBoardToString(game.getBoard());
+
+
+        JSONObject jsonResponseObject = new JSONObject();
+        jsonResponseObject.put("board", boardAsString);
+
+        return ResponseEntity.status(HttpStatus.OK).body(jsonResponseObject.toString());
+
+    }
+
+    private String transformBoardToString(Board board){
+        String boardAsString = "";
+
+        for (int i = 0; i < 3; i++){
+            for (int j = 0; j < 8; j++){
+                boardAsString += board.getArray()[i][j];
+            }
+        }
+
+        return boardAsString;
     }
 
     private void colorPrint(String text, PRINTCOLOR color){

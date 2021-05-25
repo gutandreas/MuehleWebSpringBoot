@@ -17,7 +17,6 @@ class Board {
 
     putStone(position, playerIndex){
         this.array[position.getRing()][position.getField()] = playerIndex;
-        document.write(array.toString());
     }
 
     checkMorris(position){
@@ -56,6 +55,10 @@ class Board {
     checkMorrisBetweenRings(position, playerIndex){
         return playerIndex == this.array[(position.getRing()+1)%3][position.getField()]
             && playerIndex == this.array[(position.getRing()+2)%3][position.getField()];
+    }
+
+    isFieldFree(position) {
+    return this.array[position.getRing()][position.getField()] == 9;
     }
 
     updateBoardAndGetChanges(boardAsString){

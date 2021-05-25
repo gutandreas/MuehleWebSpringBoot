@@ -31,7 +31,6 @@ public class Game {
         gameComplete = true;
         this.board = new Board(this);
         System.out.println(LocalTime.now() + " – " + this.getClass().getSimpleName() + ": Game mit 2 Spielern ("+ player0.getName() + "/" + player1.getName() + ") wurde erstellt");
-        play();
     }
 
     public Game(Player player0) {
@@ -79,6 +78,10 @@ public class Game {
         return currentPlayer;
     }
 
+    public Player getPlayerByIndex(int playerIndex){
+        return getPlayerArrayList().get(playerIndex);
+    }
+
     public int getPlayerIndexByUuid(String uuid){
 
         if (getPlayerArrayList().get(0).getUuid().equals(uuid)){
@@ -89,26 +92,14 @@ public class Game {
         }
     }
 
-    public void play(){
-
-        if (round>18){
-            putPhase = false;
-            movePhase = true;
+    public Player getOtherPlayerByOwnUuid(String ownUuid){
+        if (getPlayerArrayList().get(0).getUuid().equals(ownUuid)){
+            return getPlayerArrayList().get(1);
         }
-
-
-        if (putPhase){
-            if (currentPlayer instanceof ComputerPlayer){
-                board.putStone(currentPlayer.put(board, getCurrentPlayerIndex()),currentPlayerIndex);
-            }
-
-            if (currentPlayer instanceof HumanPlayer){
-
-            }
+        else {
+            return getPlayerArrayList().get(0);
         }
-
-        round++;
-
-
     }
+
+
 }
