@@ -69,6 +69,7 @@ function clickOnField(ring, field){
 
    function putStone(ring, field){
        console.log("Put an Server senden");
+       game.board.putStone(new Position(ring, field), playerIndex)
        if (game.board.checkMorris(new Position(ring, field))){
            console.log("Mühle gebildet, Stein darf gekillt werden...")
            myTurn = true;
@@ -82,7 +83,7 @@ function clickOnField(ring, field){
                "playerUuid": game.player.getUuid(),
                "putRing": ring,
                "putField": field,
-               "callComputer": true
+               "callComputer": !myTurn
            }),
            headers: {
                "Content-type": "application/json"
