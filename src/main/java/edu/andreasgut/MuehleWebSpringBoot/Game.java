@@ -54,6 +54,10 @@ public class Game {
                 + player1.getName() + " bilden ein komplettes Game");
     }
 
+    public void increaseRound(){
+        round++;
+    }
+
     public Board getBoard() {
         return board;
     }
@@ -80,6 +84,10 @@ public class Game {
 
     public Player getPlayerByIndex(int playerIndex){
         return getPlayerArrayList().get(playerIndex);
+    }
+
+    public int getRound() {
+        return round;
     }
 
     public int getPlayerIndexByUuid(String uuid){

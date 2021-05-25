@@ -73,12 +73,14 @@ public class GameController {
             game.getBoard().putStone(putPosition, playerIndex);
             System.out.println(LocalTime.now() + " – " + this.getClass().getSimpleName() + ": Put in Spiel " + gameCode);
             System.out.println(GameManager.getGame(gameCode).getBoard());
+            game.increaseRound();
         }
 
         if (callComputer && game.getPlayerByIndex(enemysIndex) instanceof ComputerPlayer){
             System.out.println(LocalTime.now() + " – " + this.getClass().getSimpleName() + ": Put in Spiel " + gameCode);
             game.getBoard().putStone(game.getPlayerByIndex(enemysIndex).put(game.getBoard(), enemysIndex), enemysIndex);
             System.out.println(game.getBoard());
+            game.increaseRound();
         }
 
 

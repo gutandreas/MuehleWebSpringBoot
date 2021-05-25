@@ -106,23 +106,23 @@ class Board {
     let space;
     switch (row){
     case 0:
-        space = "    ";
+        space = "      ";
         for (let i = 0; i < 3; i++){
             rowString += this.array[row][i] + space;
         }
         rowString += "\n";
         break;
     case 1:
-        space = "   ";
-        rowString += " ";
+        space = "    ";
+        rowString += "  ";
         for (let i = 0; i < 3; i++){
             rowString += this.array[row][i] + space;
         }
         rowString += "\n";
         break;
     case 2:
-        space = "  ";
-        rowString += "  ";
+        space = " ";
+        rowString += "     ";
         for (let i = 0; i < 3; i++){
             rowString += this.array[row][i] + space;
         }
@@ -139,23 +139,23 @@ class Board {
         rowString += "\n";
         break;
     case 4:
-        space = "  ";
-        rowString += "  ";
+        space = " ";
+        rowString += "     ";
         for (let i = 6; i > 3; i--){
             rowString += this.array[2][i] + space;
         }
         rowString += "\n";
         break;
     case 5:
-        space = "   ";
-        rowString += " ";
+        space = "    ";
+        rowString += "  ";
         for (let i = 6; i > 3; i--){
             rowString += this.array[1][i] + space;
         }
         rowString += "\n";
         break;
     case 6:
-        space = "    ";
+        space = "      ";
         for (let i = 6; i > 3; i--){
             rowString += this.array[0][i] + space;
         }

@@ -1,4 +1,5 @@
 var myTurn = true;
+var kill = false;
 var game;
 var uuid;
 var playerIndex;
@@ -31,13 +32,13 @@ function autoRefreshField(){
                     if (changedPositions[0] != null) {
                         // Gegnerischer Zug führt nicht zu einer Mühle
                         if (!game.board.checkMorris(changedPositions[0])) {
-                            game.myTurn = true;
+                            myTurn = true;
                         }
 
                         // Gegnerischer Zug führt zu Mühle und es wurde bereits Stein entfernt
                         if (game.board.checkMorris(changedPositions[0])
                             && changedPositions[1] != null) {
-                            game.myTurn = true;
+                            myTurn = true;
                         }
                     }
                 }
@@ -50,12 +51,7 @@ function clickOnField(ring, field){
     console.log("Feld " + ring + "/" + field + " angeklickt");
     if (myTurn){
 
-        if (game.board.isFieldFree(new Position(ring, field))){
         putStone(ring, field);
-        }
-        else {
-            alert("Dieses Feld ist nicht frei");
-        }
 
     }
     else {
@@ -63,18 +59,22 @@ function clickOnField(ring, field){
     }
 
 
-    setCursor("url('images/StoneBlackCursor.png'), auto");
+    //setCursor("url('images/StoneBlackCursor.png'), auto");
 
     }
 
    function putStone(ring, field){
+
+       if (game.board.isFieldFree(new Position(ring, field))){
        console.log("Put an Server senden");
        game.board.putStone(new Position(ring, field), playerIndex)
-       if (game.board.checkMorris(new Position(ring, field))){
-           console.log("Mühle gebildet, Stein darf gekillt werden...")
-           myTurn = true;
-       }
-       else {myTurn = false;}
+
+           if (game.board.checkMorris(new Position(ring, field))){
+               console.log("Mühle gebildet, Stein darf gekillt werden...")
+               myTurn = true;
+               kill = true;
+           }
+           else {myTurn = false;}
 
        fetch("/game/controller/put", {
            method: 'POST',
@@ -95,20 +95,10 @@ function clickOnField(ring, field){
                    game.board.putStone(new Position(ring, field), playerIndex);
                    myTurn = false;
                    console.log(game.board.toString());
-
-                   /*if (changedPositions[0] != null) {
-                       // Gegnerischer Zug führt nicht zu einer Mühle
-                       if (!game.board.checkMorris(changedPositions[0])) {
-                           game.myTurn = true;
-                       }
-
-                       // Gegnerischer Zug führt zu Mühle und es wurde bereits Stein entfernt
-                       if (game.board.checkMorris(changedPositions[0])
-                           && changedPositions[1] != null) {
-                           game.myTurn = true;
-                       }
-                   }*/
                }
-           )
+           )}
+       else {
+           alert("Dieses Feld ist nicht frei");
+       }
     }
 
