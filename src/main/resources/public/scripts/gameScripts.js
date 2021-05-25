@@ -51,7 +51,13 @@ function clickOnField(ring, field){
     console.log("Feld " + ring + "/" + field + " angeklickt");
     if (myTurn){
 
-        putStone(ring, field);
+        if (kill){
+
+        }
+
+
+            putStone(ring, field);
+            game.board.round++;
 
     }
     else {
@@ -93,7 +99,6 @@ function clickOnField(ring, field){
            .then(responseData => {
                    console.log(responseData);
                    game.board.putStone(new Position(ring, field), playerIndex);
-                   myTurn = false;
                    console.log(game.board.toString());
                }
            )}
