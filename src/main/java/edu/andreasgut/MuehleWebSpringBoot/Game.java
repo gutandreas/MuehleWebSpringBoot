@@ -79,6 +79,16 @@ public class Game {
         return currentPlayer;
     }
 
+    public int getPlayerIndexByUuid(String uuid){
+
+        if (getPlayerArrayList().get(0).getUuid().equals(uuid)){
+            return 0;
+        }
+        else {
+            return 1;
+        }
+    }
+
     public void play(){
 
         if (round>18){

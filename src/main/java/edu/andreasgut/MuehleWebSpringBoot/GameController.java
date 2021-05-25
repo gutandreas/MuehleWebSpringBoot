@@ -26,7 +26,8 @@ public class GameController {
         JSONObject jsonResponseObject = new JSONObject();
         jsonResponseObject.put("myTurn", myTurn);
 
-        System.out.println(LocalTime.now() + " – " + getClass().getSimpleName() + "Spieler mit UUID " + playerUuid + " wartet");
+        System.out.println(LocalTime.now() + " – " + getClass().getSimpleName()
+                + "Spieler mit UUID " + playerUuid + " fragt an, ob er an der Reihe ist. Antwort: " + myTurn);
 
 
         return ResponseEntity.status(HttpStatus.OK).body(jsonResponseObject.toString());
@@ -71,14 +72,9 @@ public class GameController {
 
         Game game = GameManager.getGame(gameCode);
         Position putPosition = new Position(putRing, putField);
-        int playerIndex;
+        int playerIndex = game.getPlayerIndexByUuid(playerUuid);
 
-        if (game.getPlayerArrayList().get(0).getUuid().equals(playerUuid)){
-            playerIndex = 0;
-        }
-        else {
-            playerIndex = 1;
-        }
+
 
         if (game.getBoard().checkPut(putPosition)){
             game.getBoard().putStone(putPosition, playerIndex);

@@ -18,13 +18,18 @@
     aber da nur der Body ersetzt wird beim getRequest wird das hier benötigt... Wenn möglich, korrigieren-->
     <script src="scripts/Position.js"></script> <!-- das müsste eigentlich ins game.html- file,
     aber da nur der Body ersetzt wird beim getRequest wird das hier benötigt... Wenn möglich, korrigieren-->
+    <script src="scripts/jQuery.js"></script> <!-- das müsste eigentlich ins game.html- file,
+    aber da nur der Body ersetzt wird beim getRequest wird das hier benötigt... Wenn möglich, korrigieren-->
 </head>
 <body>
+
+<script>document.ready(autoRefreshMyTurn())</script>
+
 <img id="startImage1" src="images/StartImage1.png" width="20%">
 <img id="startImage2" src="images/StartImage2.png" width="20%">
 <div id="StartMainBox">
     <h1 id="headline">Neues Spiel starten</h1>
-        <form action="game.html">
+        <form action="/index/controller/gameHTML" method="get">
         <h2>Spielangaben:</h2>
 
         <div id="gamemode">
