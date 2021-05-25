@@ -12,28 +12,6 @@ public class GameController {
 
 
     @PostMapping(
-            path = "/game/controller/myTurn"
-    )
-    public ResponseEntity<String> getCurrentPlayer(@RequestBody String body){
-
-        JSONObject jsonRequestObject = new JSONObject(body);
-
-        Game game = GameManager.getGame(jsonRequestObject.getString("gameCode"));
-        String playerUuid = jsonRequestObject.getString("playerUuid");
-
-        boolean myTurn = playerUuid.equals(game.getCurrentPlayer().getUuid());
-
-        JSONObject jsonResponseObject = new JSONObject();
-        jsonResponseObject.put("myTurn", myTurn);
-
-        System.out.println(LocalTime.now() + " – " + getClass().getSimpleName()
-                + "Spieler mit UUID " + playerUuid + " fragt an, ob er an der Reihe ist. Antwort: " + myTurn);
-
-
-        return ResponseEntity.status(HttpStatus.OK).body(jsonResponseObject.toString());
-    }
-
-    @PostMapping(
             path = "/game/controller/getBoard"
     )
     public ResponseEntity<String> getBoard(@RequestBody String body){
@@ -76,11 +54,9 @@ public class GameController {
             game.increaseRound();
         }
 
+        //TODO: Wenn put-phase vorbei, muss Computer zu move wechseln
         if (callComputer && game.getPlayerByIndex(enemysIndex) instanceof ComputerPlayer){
-            System.out.println(LocalTime.now() + " – " + this.getClass().getSimpleName() + ": Put in Spiel " + gameCode);
-            game.getBoard().putStone(game.getPlayerByIndex(enemysIndex).put(game.getBoard(), enemysIndex), enemysIndex);
-            System.out.println(game.getBoard());
-            game.increaseRound();
+            computerPuts(gameCode, game, playerIndex, enemysIndex);
         }
 
 
@@ -93,6 +69,59 @@ public class GameController {
         return ResponseEntity.status(HttpStatus.OK).body(jsonResponseObject.toString());
 
     }
+
+    @PostMapping(
+            path = "/game/controller/kill")
+    public ResponseEntity<String> kill(@RequestBody String body) {
+
+        JSONObject jsonRequestObject = new JSONObject(body);
+        String gameCode = jsonRequestObject.getString("gameCode");
+        String playerUuid = jsonRequestObject.getString("playerUuid");
+        int killRing = jsonRequestObject.getInt("killRing");
+        int killField = jsonRequestObject.getInt("killField");
+
+        Game game = GameManager.getGame(gameCode);
+        Position killPosition = new Position(killRing, killField);
+        int playerIndex = game.getPlayerIndexByUuid(playerUuid);
+        int enemysIndex = 1-game.getPlayerIndexByUuid(playerUuid);
+
+        if (game.getBoard().checkKill(killPosition, enemysIndex)){
+            game.getBoard().clearStone(killPosition);
+            System.out.println(LocalTime.now() + " – " + this.getClass().getSimpleName() + ": Kill in Spiel " + gameCode);
+            System.out.println(GameManager.getGame(gameCode).getBoard());
+        }
+
+        //TODO: Wenn put-phase vorbei, muss Computer zu move wechseln
+        if (game.getPlayerByIndex(enemysIndex) instanceof ComputerPlayer){
+            computerPuts(gameCode, game, playerIndex, enemysIndex);
+        }
+
+        String boardAsString = transformBoardToString(game.getBoard());
+
+
+        JSONObject jsonResponseObject = new JSONObject();
+        jsonResponseObject.put("board", boardAsString);
+
+        return ResponseEntity.status(HttpStatus.OK).body(jsonResponseObject.toString());
+    }
+
+    private void computerPuts(String gameCode, Game game, int playerIndex, int enemysIndex) {
+        System.out.println(LocalTime.now() + " – " + this.getClass().getSimpleName() + ": Put in Spiel " + gameCode);
+        Position putPositionComp = game.getPlayerByIndex(enemysIndex).put(game.getBoard(), enemysIndex);
+        game.getBoard().putStone(putPositionComp, enemysIndex);
+        System.out.println(game.getBoard());
+
+        if (game.getBoard().checkMorris(putPositionComp)){
+            Position killPositionComp = game.getPlayerByIndex(enemysIndex).kill(game.getBoard(), playerIndex);
+            if (game.getBoard().checkKill(killPositionComp, playerIndex)){
+                game.getBoard().clearStone(killPositionComp);
+                System.out.println(LocalTime.now() + " – " + this.getClass().getSimpleName() + ": Kill in Spiel " + gameCode);
+                System.out.println(game.getBoard());
+            }
+        }
+        game.increaseRound();
+    }
+
 
     private String transformBoardToString(Board board){
         String boardAsString = "";

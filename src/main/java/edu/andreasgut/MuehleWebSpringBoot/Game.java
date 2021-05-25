@@ -11,7 +11,6 @@ public class Game {
     private Player winner;
     private int round;
     private final int NUMBEROFSTONES = 9;
-    private Player currentPlayer;
     private final Board board;
     private boolean putPhase = true;
     private boolean movePhase = false;
@@ -25,7 +24,6 @@ public class Game {
         playerArrayList.add(0, player0);
         playerArrayList.add(1, player1);
         round = 0;
-        currentPlayer=playerArrayList.get(0);
         currentPlayerIndex = 0;
         startPlayerIndex = startPlayerIndex;
         gameComplete = true;
@@ -78,9 +76,6 @@ public class Game {
         this.currentPlayerIndex = currentPlayerIndex;
     }
 
-    public Player getCurrentPlayer() {
-        return currentPlayer;
-    }
 
     public Player getPlayerByIndex(int playerIndex){
         return getPlayerArrayList().get(playerIndex);

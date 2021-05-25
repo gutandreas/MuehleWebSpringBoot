@@ -19,6 +19,27 @@ class Board {
         this.array[position.getRing()][position.getField()] = playerIndex;
     }
 
+    checkKill(position,  otherPlayerIndex){
+    return this.array[position.getRing()][position.getField()] == otherPlayerIndex &&
+    (!this.checkMorris(position) || this.countPlayersStones(otherPlayerIndex)==3);
+    }
+
+    clearStone(position) {
+    this.array[position.getRing()][position.getField()] = 9;
+}
+
+    countPlayersStones(playerIndex){
+        let counter = 0;
+        for (let i = 0; i < 3; i++){
+            for (let j = 0; j < 8; j++){
+                if (playerIndex == this.array[i][j]){
+                counter++;
+                }
+            }
+        }
+    return counter;
+    }
+
     checkMorris(position){
         let cornerField = position.getField()%2==0;
         let morris;
@@ -59,6 +80,19 @@ class Board {
 
     isFieldFree(position) {
     return this.array[position.getRing()][position.getField()] == 9;
+    }
+
+    isThisMyStone(position, ownPlayerIndex){
+    return this.array[position.getRing()][position.getField()] == ownPlayerIndex;
+    }
+
+
+    isThisMyEnemysStone( position,  ownPlayerIndex){
+    return this.isFieldOccupied(position) && !this.isThisMyStone(position, ownPlayerIndex);
+    }
+
+    isFieldOccupied( position){
+    return !this.isFieldFree(position);
     }
 
     updateBoardAndGetChanges(boardAsString){
