@@ -3,9 +3,10 @@ var kill = false;
 var game;
 var uuid;
 var playerIndex;
+var color;
+
 var moveTakePosition;
 var moveReleasePosition;
-var color;
 
 var putStones = 0;
 var killedStones = 0;
@@ -95,7 +96,7 @@ function clickOnField(ring, field){
                 }
                 else {
                     moveReleasePosition = moveStoneReleaseStep(ring, field);
-                    moveStone(new Move(moveTakePosition, moveReleasePosition));
+                    moveStone(new Move(moveTakePosition, moveReleasePosition))
                     moveTakePosition = null;
                 }
         }
@@ -140,7 +141,9 @@ function moveStone(move){
             console.log("Spielrunde: " + game.round);
             increaseRound();
 
-        if (game.board.checkMorris(new Position(move.toPosition, move.toPosition))){
+            moveStoneGraphic(move, playerIndex);
+
+        if (game.board.checkMorris(move.toPosition)){
             console.log("Mühle gebildet, Stein darf gekillt werden")
             myTurn = true;
             kill = true;
@@ -275,11 +278,32 @@ function moveStone(move){
         enemyPutStones++;
         $("#putLabel1").text("Steine gesetzt: " + enemyPutStones)
 
-    }
+    }}
+
+    function moveStoneGraphic(move, index) {
+
+        $('#'.concat("r").concat(move.fromPosition.getRing()).concat("f").concat(move.fromPosition.getField())).empty();
 
 
+        let ring = move.toPosition.getRing();
+        let field = move.toPosition.getField();
 
+        if (index == playerIndex) {
+            if (color == "BLACK") {
+                $('#'.concat("r").concat(ring).concat("f").concat(field)).prepend('<img src="images/StoneBlack.png" height="100%" width="100%"/>');
+            }
+            if (color == "WHITE") {
+                $('#'.concat("r").concat(ring).concat("f").concat(field)).prepend('<img src="images/StoneWhite.png" height="100%" width="100%"/>');
+            }
 
+        } else {
+            if (color == "WHITE") {
+                $('#'.concat("r").concat(ring).concat("f").concat(field)).prepend('<img src="images/StoneBlack.png" height="100%" width="100%"/>');
+            }
+            if (color == "BLACK") {
+                $('#'.concat("r").concat(ring).concat("f").concat(field)).prepend('<img src="images/StoneWhite.png" height="100%" width="100%"/>');
+            }
+        }
     }
 
     function clearStoneGraphic(ring, field, ownPlayer){
