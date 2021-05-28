@@ -42,13 +42,20 @@ function autoRefreshField(){
                         // Gegnerischer Zug führt nicht zu einer Mühle
                         if (!game.board.checkMorris(changedPositions[0])) {
                             myTurn = true;
+                            setStoneGraphic(changedPositions[0].ring, changedPositions[0].field, 1-playerIndex);
                         }
 
                         // Gegnerischer Zug führt zu Mühle und es wurde bereits Stein entfernt
                         if (game.board.checkMorris(changedPositions[0])
                             && changedPositions[1] != null) {
                             myTurn = true;
+                            setStoneGraphic(changedPositions[0].ring, changedPositions[0].field, 1-playerIndex);
+                            clearStoneGraphic(changedPositions[1].ring, changedPositions[1].field);
+
+
                         }
+
+
                     }
                 }
             )
@@ -68,7 +75,8 @@ function clickOnField(ring, field){
         // put-Phase
         if (game.round <= 18 && !kill){
             putStone(ring, field);
-            $("r".concat(ring).concat("f").concat(field), )
+
+
             }
 
         // move-Phase
@@ -166,6 +174,8 @@ function moveStone(move){
            console.log("Spielrunde: " + game.round);
            game.round++;
 
+           setStoneGraphic(ring, field, playerIndex);
+
                if (game.board.checkMorris(new Position(ring, field))){
                    console.log("Mühle gebildet, Stein darf gekillt werden")
                    myTurn = true;
@@ -202,6 +212,8 @@ function moveStone(move){
             console.log("Kill an Server senden");
             game.board.clearStone(new Position(ring, field));
 
+            clearStoneGraphic(ring, field);
+
             fetch("/game/controller/kill", {
                 method: 'POST',
                 body: JSON.stringify({
@@ -225,5 +237,27 @@ function moveStone(move){
 
         else {
             alert("Auf diesem Feld kann kein Stein entfernt werden")}
+    }
+
+    function setStoneGraphic(ring, field, index){
+
+    if (index == playerIndex){
+        if (color == "BLACK"){
+        $('#'.concat("r").concat(ring).concat("f").concat(field)).prepend('<img src="images/StoneBlack.png" height="120%" width="120%"/>');}
+        if (color == "WHITE"){
+            $('#'.concat("r").concat(ring).concat("f").concat(field)).prepend('<img src="images/StoneWhite.png" height="120%" width="120%"/>');}
+    }
+    else {
+        if (color == "WHITE"){
+            $('#'.concat("r").concat(ring).concat("f").concat(field)).prepend('<img src="images/StoneBlack.png" height="120%" width="120%"/>');}
+        if (color == "BLACK"){
+            $('#'.concat("r").concat(ring).concat("f").concat(field)).prepend('<img src="images/StoneWhite.png" height="120%" width="120%"/>');}
+    }
+
+    }
+
+    function clearStoneGraphic(ring, field){
+
+        $('#'.concat("r").concat(ring).concat("f").concat(field)).empty();
     }
 

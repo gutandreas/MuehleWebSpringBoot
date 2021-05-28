@@ -54,7 +54,7 @@ public class GameController {
             game.increaseRound();
         }
 
-        if (game.getPlayerByIndex(enemysIndex) instanceof ComputerPlayer){
+        if (callComputer && game.getPlayerByIndex(enemysIndex) instanceof ComputerPlayer){
 
             if (game.getRound() <= 2 * game.getNUMBEROFSTONES()){
                 computerPuts(gameCode, game, playerIndex, enemysIndex);
@@ -110,7 +110,7 @@ public class GameController {
             game.increaseRound();
         }
 
-        if (game.getPlayerByIndex(enemysIndex) instanceof ComputerPlayer){
+        if (callComputer && game.getPlayerByIndex(enemysIndex) instanceof ComputerPlayer){
 
             if (game.getRound() <= 2 * game.getNUMBEROFSTONES()){
                 computerPuts(gameCode, game, playerIndex, enemysIndex);
