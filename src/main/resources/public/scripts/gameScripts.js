@@ -42,28 +42,44 @@ function autoRefreshField(){
             .then(responseData => {
                     console.log(responseData);
 
-                    increaseRound();
-                    console.log("Spielrunde: " + game.round);
-
                     let changedPositions = game.board.updateBoardAndGetChanges(responseData.board);
 
                     if (changedPositions[0] != null) {
 
-                        // Gegnerischer Zug führt nicht zu einer Mühle
-                        if (!game.board.checkMorris(changedPositions[0])) {
-                            myTurn = true;
-                            setStoneGraphic(changedPositions[0].ring, changedPositions[0].field, 1-playerIndex);
+
+                        if (game.round < 18){
+                            // Gegnerischer Zug führt nicht zu einer Mühle
+                            if (!game.board.checkMorris(changedPositions[0])) {
+                                myTurn = true;
+                                setStoneGraphic(changedPositions[0].ring, changedPositions[0].field, 1-playerIndex);
+                            }
+
+                            // Gegnerischer Zug führt zu Mühle und es wurde bereits Stein entfernt
+                            if (game.board.checkMorris(changedPositions[0])
+                                && changedPositions[2] != null) {
+                                myTurn = true;
+                                setStoneGraphic(changedPositions[0].ring, changedPositions[0].field, 1-playerIndex);
+                                clearStoneGraphic(changedPositions[1].ring, changedPositions[1].field, false);}
                         }
 
-                        // Gegnerischer Zug führt zu Mühle und es wurde bereits Stein entfernt
-                        if (game.board.checkMorris(changedPositions[0])
-                            && changedPositions[1] != null) {
-                            myTurn = true;
-                            setStoneGraphic(changedPositions[0].ring, changedPositions[0].field, 1-playerIndex);
-                            clearStoneGraphic(changedPositions[1].ring, changedPositions[1].field, false);
+                        if (game.round >= 18){
+                            // Gegnerischer Zug führt nicht zu einer Mühle
+                            if (!game.board.checkMorris(changedPositions[0])) {
+                                myTurn = true;
 
+                                moveStoneGraphic(new Move(changedPositions[1], changedPositions[0]), 1-playerIndex)
+                            }
+
+                            // Gegnerischer Zug führt zu Mühle und es wurde bereits Stein entfernt
+                            if (game.board.checkMorris(changedPositions[0])
+                                && changedPositions[2] != null) {
+                                myTurn = true;
+                                moveStoneGraphic(new Move(changedPositions[1], changedPositions[0]), 1-playerIndex)
+                                clearStoneGraphic(changedPositions[1].ring, changedPositions[1].field, false);}
 
                         }
+
+                        increaseRound();
 
 
                     }
@@ -83,14 +99,14 @@ function clickOnField(ring, field){
         }
 
         // put-Phase
-        if (game.round <= 18 && !kill){
+        if (game.round < 18 && !kill){
             putStone(ring, field);
 
 
             }
 
         // move-Phase
-        if (game.round > 18 && !kill){
+        if (game.round >= 18 && !kill){
                 if (moveTakePosition == null){
                     moveTakePosition = moveStoneTakeStep(ring,field);
                 }

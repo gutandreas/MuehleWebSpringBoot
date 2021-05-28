@@ -42,13 +42,11 @@ public class ComputerPlayer extends Player {
                     if(board.isFieldFree(new Position(i,(j+1)%8))){
                         move.setFrom(new Position(i, j));
                         move.setTo(new Position(i, (j+1)%8));
-                        System.out.println(i+" "+j);
                         break loop;
                     }
                     if(board.isFieldFree(new Position(i,(j+7)%8))){
                         move.setFrom(new Position(i, j));
                         move.setTo(new Position(i, (j+7)%8));
-                        System.out.println(i+" "+j);
                         break loop;
                     }
                 }

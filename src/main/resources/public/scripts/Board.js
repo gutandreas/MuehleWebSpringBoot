@@ -116,23 +116,29 @@ class Board {
     updateBoardAndGetChanges(boardAsString){
 
         let tempBoardAsString = boardAsString;
-        let changedPositions = new Array(2);
+        let changedPositions = new Array(3);
         let enemysIndex = 1-this.game.getPlayer().getIndex();
 
 
         for (let i = 0; i < 3; i++) {
             for (let j = 0; j < 8; j++) {
 
-                //veränderter gegnerischer Stein
+                //gegnerischer Stein auf vorher freiem Feld
                 if (this.array[i][j] == 9
                     && enemysIndex == tempBoardAsString.charAt(0)){
                     changedPositions[0] = new Position(i,j);
                 }
 
+                //freies Feld, auf dem vorher gegnerischer Stein war
+                if (this.array[i][j] == enemysIndex
+                    && tempBoardAsString.charAt(0) == 9){
+                    changedPositions[1] = new Position(i,j);
+                }
+
                 //geschlagener eigener Stein
                 if (this.array[i][j] == this.game.getPlayer().getIndex()
                     && tempBoardAsString.charAt(0) == 9){
-                    changedPositions[1] = new Position(i,j);
+                    changedPositions[2] = new Position(i,j);
                 }
 
                 this.array[i][j] = tempBoardAsString.charAt(0);

@@ -7,7 +7,7 @@ class Game {
         this.myTurn = start;
         this.action = "put";
         this.gamecode = gameCode;
-        this.round = 1;
+        this.round = 0;
 
         document.getElementById("boardImage").disabled = true;
     }
