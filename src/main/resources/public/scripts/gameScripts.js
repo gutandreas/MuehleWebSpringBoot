@@ -17,9 +17,6 @@ var enemyKilledStones = 0;
 var enemyLostStones = 0;
 
 
-
-
-
 function setCursor(cursorURL){
     document.getElementById("boardImage").style.cursor = cursorURL;
 }
@@ -59,7 +56,7 @@ function autoRefreshField(){
                                 && changedPositions[2] != null) {
                                 myTurn = true;
                                 setStoneGraphic(changedPositions[0].ring, changedPositions[0].field, 1-playerIndex);
-                                clearStoneGraphic(changedPositions[1].ring, changedPositions[1].field, false);}
+                                clearStoneGraphic(changedPositions[2].ring, changedPositions[2].field, false);}
                         }
 
                         if (game.round >= 18){
@@ -75,7 +72,7 @@ function autoRefreshField(){
                                 && changedPositions[2] != null) {
                                 myTurn = true;
                                 moveStoneGraphic(new Move(changedPositions[1], changedPositions[0]), 1-playerIndex)
-                                clearStoneGraphic(changedPositions[1].ring, changedPositions[1].field, false);}
+                                clearStoneGraphic(changedPositions[2].ring, changedPositions[2].field, false);}
 
                         }
 
