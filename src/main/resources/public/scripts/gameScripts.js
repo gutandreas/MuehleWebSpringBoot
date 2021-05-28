@@ -104,7 +104,7 @@ function clickOnField(ring, field){
     }
 
     function moveStoneTakeStep(ring, field){
-        if (game.board.isThisMyStone(new Position(ring, field))){
+        if (game.board.isThisMyStone(new Position(ring, field), playerIndex)){
             return new Position(ring, field);
         }
         else {
@@ -243,15 +243,15 @@ function moveStone(move){
 
     if (index == playerIndex){
         if (color == "BLACK"){
-        $('#'.concat("r").concat(ring).concat("f").concat(field)).prepend('<img src="images/StoneBlack.png" height="120%" width="120%"/>');}
+        $('#'.concat("r").concat(ring).concat("f").concat(field)).prepend('<img src="images/StoneBlack.png" height="100%" width="100%"/>');}
         if (color == "WHITE"){
-            $('#'.concat("r").concat(ring).concat("f").concat(field)).prepend('<img src="images/StoneWhite.png" height="120%" width="120%"/>');}
+            $('#'.concat("r").concat(ring).concat("f").concat(field)).prepend('<img src="images/StoneWhite.png" height="100%" width="100%"/>');}
     }
     else {
         if (color == "WHITE"){
-            $('#'.concat("r").concat(ring).concat("f").concat(field)).prepend('<img src="images/StoneBlack.png" height="120%" width="120%"/>');}
+            $('#'.concat("r").concat(ring).concat("f").concat(field)).prepend('<img src="images/StoneBlack.png" height="100%" width="100%"/>');}
         if (color == "BLACK"){
-            $('#'.concat("r").concat(ring).concat("f").concat(field)).prepend('<img src="images/StoneWhite.png" height="120%" width="120%"/>');}
+            $('#'.concat("r").concat(ring).concat("f").concat(field)).prepend('<img src="images/StoneWhite.png" height="100%" width="100%"/>');}
     }
 
     }
