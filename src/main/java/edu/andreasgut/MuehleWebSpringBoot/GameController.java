@@ -54,9 +54,70 @@ public class GameController {
             game.increaseRound();
         }
 
-        //TODO: Wenn put-phase vorbei, muss Computer zu move wechseln
-        if (callComputer && game.getPlayerByIndex(enemysIndex) instanceof ComputerPlayer){
-            computerPuts(gameCode, game, playerIndex, enemysIndex);
+        if (game.getPlayerByIndex(enemysIndex) instanceof ComputerPlayer){
+
+            if (game.getRound() <= 2 * game.getNUMBEROFSTONES()){
+                computerPuts(gameCode, game, playerIndex, enemysIndex);
+            }
+            else {
+                computerMoves(gameCode, game, playerIndex, enemysIndex);
+            }
+        }
+
+
+        String boardAsString = transformBoardToString(game.getBoard());
+
+
+        JSONObject jsonResponseObject = new JSONObject();
+        jsonResponseObject.put("board", boardAsString);
+
+        return ResponseEntity.status(HttpStatus.OK).body(jsonResponseObject.toString());
+
+    }
+
+    @PostMapping(
+            path = "/game/controller/move")
+    public ResponseEntity<String> move(@RequestBody String body) {
+
+        JSONObject jsonRequestObject = new JSONObject(body);
+        String gameCode = jsonRequestObject.getString("gameCode");
+        String playerUuid = jsonRequestObject.getString("playerUuid");
+        Game game = GameManager.getGame(gameCode);
+        int playerIndex = game.getPlayerIndexByUuid(playerUuid);
+        int enemysIndex = 1-playerIndex;
+
+        Position from = new Position();
+        from.setRing(jsonRequestObject.getInt("moveFromRing"));
+        from.setField(jsonRequestObject.getInt("moveFromField"));
+
+        Position to = new Position();
+        to.setRing(jsonRequestObject.getInt("moveToRing"));
+        to.setField(jsonRequestObject.getInt("moveToField"));
+
+        Move move = new Move();
+        move.setFrom(from);
+        move.setTo(to);
+
+        boolean callComputer = jsonRequestObject.getBoolean("callComputer");
+
+
+
+
+        if (game.getBoard().checkMove(move, game.getBoard().countPlayersStones(playerIndex) == 3)){
+            game.getBoard().move(move, playerIndex);
+            System.out.println(LocalTime.now() + " – " + this.getClass().getSimpleName() + ": Move in Spiel " + gameCode);
+            System.out.println(GameManager.getGame(gameCode).getBoard());
+            game.increaseRound();
+        }
+
+        if (game.getPlayerByIndex(enemysIndex) instanceof ComputerPlayer){
+
+            if (game.getRound() <= 2 * game.getNUMBEROFSTONES()){
+                computerPuts(gameCode, game, playerIndex, enemysIndex);
+            }
+            else {
+                computerMoves(gameCode, game, playerIndex, enemysIndex);
+            }
         }
 
 
@@ -91,9 +152,15 @@ public class GameController {
             System.out.println(GameManager.getGame(gameCode).getBoard());
         }
 
-        //TODO: Wenn put-phase vorbei, muss Computer zu move wechseln
+
         if (game.getPlayerByIndex(enemysIndex) instanceof ComputerPlayer){
-            computerPuts(gameCode, game, playerIndex, enemysIndex);
+
+            if (game.getRound() <= 2 * game.getNUMBEROFSTONES()){
+                computerPuts(gameCode, game, playerIndex, enemysIndex);
+            }
+            else {
+                computerMoves(gameCode, game, playerIndex, enemysIndex);
+            }
         }
 
         String boardAsString = transformBoardToString(game.getBoard());
@@ -112,14 +179,32 @@ public class GameController {
         System.out.println(game.getBoard());
 
         if (game.getBoard().checkMorris(putPositionComp)){
-            Position killPositionComp = game.getPlayerByIndex(enemysIndex).kill(game.getBoard(), playerIndex);
-            if (game.getBoard().checkKill(killPositionComp, playerIndex)){
-                game.getBoard().clearStone(killPositionComp);
-                System.out.println(LocalTime.now() + " – " + this.getClass().getSimpleName() + ": Kill in Spiel " + gameCode);
-                System.out.println(game.getBoard());
-            }
+            computerKills(gameCode, game, playerIndex, enemysIndex);
         }
         game.increaseRound();
+    }
+
+    private void computerMoves(String gameCode, Game game, int playerIndex, int enemysIndex){
+        System.out.println(LocalTime.now() + " – " + this.getClass().getSimpleName() + ": Move in Spiel " + gameCode);
+        Move moveComp = game.getPlayerByIndex(enemysIndex).move(game.getBoard(), enemysIndex, game.getBoard().countPlayersStones(enemysIndex) == 3);
+        game.getBoard().move(moveComp, enemysIndex);
+        System.out.println(game.getBoard());
+
+        if (game.getBoard().checkMorris(moveComp.getTo())){
+            computerKills(gameCode, game, playerIndex, enemysIndex);
+        }
+        game.increaseRound();
+
+
+    }
+
+    private void computerKills(String gameCode, Game game, int playerIndex, int enemysIndex) {
+        Position killPositionComp = game.getPlayerByIndex(enemysIndex).kill(game.getBoard(), playerIndex);
+        if (game.getBoard().checkKill(killPositionComp, playerIndex)){
+            game.getBoard().clearStone(killPositionComp);
+            System.out.println(LocalTime.now() + " – " + this.getClass().getSimpleName() + ": Kill in Spiel " + gameCode);
+            System.out.println(game.getBoard());
+        }
     }
 
 

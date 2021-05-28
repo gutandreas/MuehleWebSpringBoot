@@ -64,6 +64,10 @@ public class Game {
         return playerArrayList;
     }
 
+    public int getNUMBEROFSTONES() {
+        return NUMBEROFSTONES;
+    }
+
     public boolean isGameComplete() {
         return gameComplete;
     }

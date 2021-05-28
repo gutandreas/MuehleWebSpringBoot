@@ -3,6 +3,10 @@ var kill = false;
 var game;
 var uuid;
 var playerIndex;
+var moveTakePosition;
+var moveReleasePosition;
+var color;
+
 
 
 
@@ -61,9 +65,25 @@ function clickOnField(ring, field){
             killStone(ring, field);
         }
 
-        if (game.round < 18 && !kill){
+        // put-Phase
+        if (game.round <= 18 && !kill){
             putStone(ring, field);
+            $("r".concat(ring).concat("f").concat(field), )
             }
+
+        // move-Phase
+        if (game.round > 19 && !kill){
+                if (moveTakePosition == null){
+                    moveTakePosition = moveStoneTakeStep(ring,field);
+                }
+                else {
+                    moveTakePosition = null;
+                    moveReleasePosition = moveStoneReleaseStep(ring, field);
+                    moveStone(new Move(moveTakePosition, moveReleasePosition));
+                }
+        }
+
+
 
     }
     else {
@@ -75,7 +95,70 @@ function clickOnField(ring, field){
 
     }
 
-   function putStone(ring, field){
+    function moveStoneTakeStep(ring, field){
+        if (game.board.isThisMyStone(new Position(ring, field))){
+            return new Position(ring, field);
+        }
+        else {
+            alert("Auf diesem Feld befindet sich keiner deiner Steine")
+        }
+
+    }
+
+    function moveStoneReleaseStep(ring, field){
+        if (game.board.isFieldFree(new Position(ring, field))){
+            return new Position(ring, field);
+        }
+        else {
+            alert("Dieses Feld ist nicht frei")
+        }
+
+    }
+
+function moveStone(move){
+
+        if (game.board.checkMove(move, game.board.countPlayersStones(playerIndex))){
+            console.log("Move an Server senden");
+            game.board.move(move);
+            console.log("Spielrunde: " + game.round);
+            game.round++;
+
+        if (game.board.checkMorris(new Position(move.toPosition, move.toPosition))){
+            console.log("Mühle gebildet, Stein darf gekillt werden")
+            myTurn = true;
+            kill = true;
+        }
+        else {myTurn = false;}
+
+        fetch("/game/controller/move", {
+            method: 'POST',
+            body: JSON.stringify({
+                "gameCode": game.gamecode,
+                "playerUuid": game.player.getUuid(),
+                "moveFromRing": move.fromPosition.getRing(),
+                "moveFromField": move.fromPosition.getField(),
+                "moveToRing": move.toPosition.getRing(),
+                "moveToField": move.toPosition.getField(),
+                "callComputer": !myTurn
+            }),
+            headers: {
+                "Content-type": "application/json"
+            }
+        })
+            .then(resp => resp.json())
+            .then(responseData => {
+                    console.log(responseData);
+                    console.log(game.board.toString());
+                }
+            )}
+        else {
+            alert("Das ist kein gültiger Zug")
+        }
+
+}
+
+
+    function putStone(ring, field){
 
        if (game.board.isFieldFree(new Position(ring, field))){
            console.log("Put an Server senden");
@@ -84,7 +167,7 @@ function clickOnField(ring, field){
            game.round++;
 
                if (game.board.checkMorris(new Position(ring, field))){
-                   console.log("Mühle gebildet, Stein darf gekillt werden...")
+                   console.log("Mühle gebildet, Stein darf gekillt werden")
                    myTurn = true;
                    kill = true;
                }

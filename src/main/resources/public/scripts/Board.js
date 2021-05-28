@@ -19,6 +19,24 @@ class Board {
         this.array[position.getRing()][position.getField()] = playerIndex;
     }
 
+    move(move, playerIndex) {
+    this.putStone(move.toPosition, playerIndex);
+    this.clearStone(move.fromPosition);
+    }
+
+    checkMove(move, allowedToJump){
+
+    let destinationFree = this.isFieldFree(move.toPosition);
+
+    let destinationInRing = (move.fromPosition.getRing()==move.toPosition.getRing() && Math.abs(move.fromPosition.getField()-move.toPosition.getField())==1)
+        || (move.fromPosition.getRing()==move.toPosition.getRing() && Math.abs(move.fromPosition.getField()-move.toPosition.getField())==7);
+
+    let destinationBetweenRings = move.fromPosition.getField()%2==1 && move.fromPosition.getField()==move.toPosition.getField()
+        && Math.abs(move.fromPosition.getRing()-move.toPosition.getRing())==1;
+
+    return destinationFree && (destinationInRing || destinationBetweenRings || allowedToJump);
+    }
+
     checkKill(position,  otherPlayerIndex){
     return this.array[position.getRing()][position.getField()] == otherPlayerIndex &&
     (!this.checkMorris(position) || this.countPlayersStones(otherPlayerIndex)==3);

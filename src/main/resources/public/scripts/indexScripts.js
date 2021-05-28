@@ -170,10 +170,14 @@ function sendDataMenschVsComputer(){
 
             if (player1Color == "BLACK"){
                 document.getElementById('player1StoneImage').src = "images/StoneBlack.png"
-                document.getElementById('player2StoneImage').src = "images/StoneWhite.png";}
+                document.getElementById('player2StoneImage').src = "images/StoneWhite.png";
+                window.color = "BLACK";
+            }
             else {
                 document.getElementById('player1StoneImage').src = "images/StoneWhite.png";
                 document.getElementById('player2StoneImage').src = "images/StoneBlack.png";
+                window.color = "WHITE";
+
             }
 
             window.game = new Game(new Player(player1Name, responseData.player1Uuid, responseData.playerIndex), responseData.gameCode, true);

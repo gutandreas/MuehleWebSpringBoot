@@ -17,7 +17,7 @@ public class HumanPlayer extends edu.andreasgut.MuehleWebSpringBoot.Player {
     }
 
     @Override
-    Position[] move(Board board, int playerIndex, boolean allowedToJump) {
+    Move move(Board board, int playerIndex, boolean allowedToJump) {
 
         return null;
     }

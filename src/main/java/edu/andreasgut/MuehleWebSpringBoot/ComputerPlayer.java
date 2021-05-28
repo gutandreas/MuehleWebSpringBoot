@@ -32,30 +32,28 @@ public class ComputerPlayer extends Player {
 
 
     @Override
-    Position[] move(Board board, int playerIndex, boolean allowedToJump) {
-        Position[] positions = new Position[2];
+    Move move(Board board, int playerIndex, boolean allowedToJump) {
+        Move move = new Move();
 
         loop:{
         for (int i = 0; i < 3; i++){
             for(int j = 0; j < 7; j++){
                 if (board.isThisMyStone(new Position(i,j),playerIndex)){
                     if(board.isFieldFree(new Position(i,(j+1)%8))){
-                        positions[0] = new Position(i, j);
-                        positions[1] = new Position(i, (j+1)%8);
+                        move.setFrom(new Position(i, j));
+                        move.setTo(new Position(i, (j+1)%8));
                         System.out.println(i+" "+j);
                         break loop;
                     }
                     if(board.isFieldFree(new Position(i,(j+7)%8))){
-                        positions[0] = new Position(i, j);
-                        positions[1] = new Position(i, (j+7)%8);
+                        move.setFrom(new Position(i, j));
+                        move.setTo(new Position(i, (j+7)%8));
                         System.out.println(i+" "+j);
                         break loop;
                     }
-
-
                 }
         }}}
-        return positions;
+        return move;
     }
 
 
