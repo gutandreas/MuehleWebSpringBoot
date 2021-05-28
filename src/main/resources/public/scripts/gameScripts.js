@@ -7,6 +7,15 @@ var moveTakePosition;
 var moveReleasePosition;
 var color;
 
+var putStones = 0;
+var killedStones = 0;
+var lostStones = 0;
+
+var enemyPutStones = 0;
+var enemyKilledStones = 0;
+var enemyLostStones = 0;
+
+
 
 
 
@@ -32,7 +41,7 @@ function autoRefreshField(){
             .then(responseData => {
                     console.log(responseData);
 
-                    game.round++;
+                    increaseRound();
                     console.log("Spielrunde: " + game.round);
 
                     let changedPositions = game.board.updateBoardAndGetChanges(responseData.board);
@@ -50,7 +59,7 @@ function autoRefreshField(){
                             && changedPositions[1] != null) {
                             myTurn = true;
                             setStoneGraphic(changedPositions[0].ring, changedPositions[0].field, 1-playerIndex);
-                            clearStoneGraphic(changedPositions[1].ring, changedPositions[1].field);
+                            clearStoneGraphic(changedPositions[1].ring, changedPositions[1].field, false);
 
 
                         }
@@ -80,14 +89,14 @@ function clickOnField(ring, field){
             }
 
         // move-Phase
-        if (game.round > 19 && !kill){
+        if (game.round > 18 && !kill){
                 if (moveTakePosition == null){
                     moveTakePosition = moveStoneTakeStep(ring,field);
                 }
                 else {
-                    moveTakePosition = null;
                     moveReleasePosition = moveStoneReleaseStep(ring, field);
                     moveStone(new Move(moveTakePosition, moveReleasePosition));
+                    moveTakePosition = null;
                 }
         }
 
@@ -129,7 +138,7 @@ function moveStone(move){
             console.log("Move an Server senden");
             game.board.move(move);
             console.log("Spielrunde: " + game.round);
-            game.round++;
+            increaseRound();
 
         if (game.board.checkMorris(new Position(move.toPosition, move.toPosition))){
             console.log("Mühle gebildet, Stein darf gekillt werden")
@@ -172,7 +181,7 @@ function moveStone(move){
            console.log("Put an Server senden");
            game.board.putStone(new Position(ring, field), playerIndex)
            console.log("Spielrunde: " + game.round);
-           game.round++;
+           increaseRound();
 
            setStoneGraphic(ring, field, playerIndex);
 
@@ -212,7 +221,7 @@ function moveStone(move){
             console.log("Kill an Server senden");
             game.board.clearStone(new Position(ring, field));
 
-            clearStoneGraphic(ring, field);
+            clearStoneGraphic(ring, field, true);
 
             fetch("/game/controller/kill", {
                 method: 'POST',
@@ -239,6 +248,13 @@ function moveStone(move){
             alert("Auf diesem Feld kann kein Stein entfernt werden")}
     }
 
+
+    function increaseRound(){
+    game.round++;
+    $("#rundeText").text("Spielrunde: " + game.round)
+
+    }
+
     function setStoneGraphic(ring, field, index){
 
     if (index == playerIndex){
@@ -246,18 +262,46 @@ function moveStone(move){
         $('#'.concat("r").concat(ring).concat("f").concat(field)).prepend('<img src="images/StoneBlack.png" height="100%" width="100%"/>');}
         if (color == "WHITE"){
             $('#'.concat("r").concat(ring).concat("f").concat(field)).prepend('<img src="images/StoneWhite.png" height="100%" width="100%"/>');}
+
+        putStones++;
+        $("#putLabel0").text("Steine gesetzt: " + putStones)
     }
     else {
         if (color == "WHITE"){
             $('#'.concat("r").concat(ring).concat("f").concat(field)).prepend('<img src="images/StoneBlack.png" height="100%" width="100%"/>');}
         if (color == "BLACK"){
             $('#'.concat("r").concat(ring).concat("f").concat(field)).prepend('<img src="images/StoneWhite.png" height="100%" width="100%"/>');}
-    }
+
+        enemyPutStones++;
+        $("#putLabel1").text("Steine gesetzt: " + enemyPutStones)
 
     }
 
-    function clearStoneGraphic(ring, field){
+
+
+
+    }
+
+    function clearStoneGraphic(ring, field, ownPlayer){
+
+        if (ownPlayer){
+            killedStones++;
+            enemyLostStones++;
+            $("#killedLabel0").text("Steine gewonnen: " + killedStones)
+            $("#lostLabel1").text("Steine verloren: " + enemyLostStones)
+        }
+        else {
+            enemyKilledStones++;
+            lostStones++;
+            $("#killedLabel1").text("Steine gewonnen: " + enemyKilledStones)
+            $("#lostLabel0").text("Steine verloren: " + lostStones)
+
+        }
+
+
+
 
         $('#'.concat("r").concat(ring).concat("f").concat(field)).empty();
+
     }
 
