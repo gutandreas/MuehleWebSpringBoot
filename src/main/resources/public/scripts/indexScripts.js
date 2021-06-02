@@ -81,8 +81,9 @@ function sendDataMenschVsMenschStart(){
             .then(resp => resp.json())
             .then(responseData => {
                 console.log(responseData);
-                document.getElementById('gameCodeH2').innerText = (responseData.gameCode);
+                document.getElementById('gameCodeH2').innerText += (" " + responseData.gameCode);
                 document.getElementById('player1NameH2').innerText += (" " + responseData.player1Name);
+                document.getElementById('player1UuidH2').innerText += (" " + responseData.player1Uuid);
                 if (responseData.player1Color == "BLACK"){
                     document.getElementById('player1ColorH2').innerText += (" " + "Schwarz");}
                 else {

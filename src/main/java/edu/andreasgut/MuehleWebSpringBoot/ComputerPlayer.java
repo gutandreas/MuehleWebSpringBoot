@@ -12,6 +12,7 @@ public class ComputerPlayer extends Player {
 
     @Override
     Position put(Board board, int playerIndex) {
+
         Position position = new Position();
         int i;
         int j;
