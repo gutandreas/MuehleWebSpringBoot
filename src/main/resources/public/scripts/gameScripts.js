@@ -150,11 +150,12 @@ function moveStone(move){
 
         if (game.board.checkMove(move, game.board.countPlayersStones(playerIndex))){
             console.log("Move an Server senden");
-            game.board.move(move);
+            game.board.move(move, playerIndex);
             console.log("Spielrunde: " + game.round);
             increaseRound();
 
             moveStoneGraphic(move, playerIndex);
+
 
         if (game.board.checkMorris(move.toPosition)){
             console.log("Mühle gebildet, Stein darf gekillt werden")
