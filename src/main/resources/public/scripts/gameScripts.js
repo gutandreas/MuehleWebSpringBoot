@@ -148,7 +148,7 @@ function clickOnField(ring, field){
 
 function moveStone(move){
 
-        if (game.board.checkMove(move, game.board.countPlayersStones(playerIndex))){
+        if (game.board.checkMove(move, game.board.countPlayersStones(playerIndex) == 3)){
             console.log("Move an Server senden");
             game.board.move(move, playerIndex);
             console.log("Spielrunde: " + game.round);
