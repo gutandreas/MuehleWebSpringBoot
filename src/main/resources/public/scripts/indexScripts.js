@@ -162,22 +162,33 @@ function sendDataMenschVsComputer(){
         .then(resp => resp.json())
         .then(responseData => {
             console.log(responseData);
-            document.getElementById('player1NameGameText').innerText += (" " + player1Name);
-            document.getElementById('player2NameGameText').innerText += (" " + computerName);
-            document.getElementById('modusH1').innerText = ("Mühle online – Spielmodus: Mensch vs. Computer");
-            document.getElementById('gameCodeH2').innerText = responseData.gameCode;
-            document.getElementById('playerUuidH2').innerText = responseData.player1Uuid;
-            document.getElementById('playerIndexH2').innerText = responseData.playerIndex;
+            //document.getElementById('player1NameGameText').innerText = ("Player 1: " + player1Name);
+            $('#player1NameGameText').text("Player 1: " + player1Name)
+            //document.getElementById('player2NameGameText').innerText = ("Player 2; " + computerName);
+            $('#player2NameGameText').text("Player 2: " + computerName)
+            //document.getElementById('modusH1').innerText = ("Mühle online – Spielmodus: Mensch vs. Computer");
+            $('#modusH1').text("Mühle online – Spielmodus: Mensch vs. Computer")
+            //document.getElementById('gameCodeH2').innerText = responseData.gameCode;
+            $('#gameCodeH2').text(responseData.gameCode)
+            //document.getElementById('playerUuidH2').innerText = responseData.player1Uuid;
+            $('#player1UuidH2').text(responseData.player1Uuid)
+            //document.getElementById('playerIndexH2').innerText = responseData.playerIndex;
+            $('#playerIndexH2').text(responseData.playerIndex)
+
             $('#spielverlaufLabel').text(player1Name + " ist an der Reihe")
 
             if (player1Color == "BLACK"){
-                document.getElementById('player1StoneImage').src = "images/StoneBlack.png"
-                document.getElementById('player2StoneImage').src = "images/StoneWhite.png";
+                //document.getElementById('player1StoneImage').src = "images/StoneBlack.png"
+                $('#player1StoneImage').attr('src', 'images/StoneBlack.png')
+                //document.getElementById('player2StoneImage').src = "images/StoneWhite.png";
+                $('#player2StoneImage').attr('src', 'images/StoneWhite.png')
                 window.color = "BLACK";
             }
             else {
-                document.getElementById('player1StoneImage').src = "images/StoneWhite.png";
-                document.getElementById('player2StoneImage').src = "images/StoneBlack.png";
+                //document.getElementById('player1StoneImage').src = "images/StoneWhite.png";
+                $('#player1StoneImage').attr('src', 'images/StoneWhite.png')
+                //document.getElementById('player2StoneImage').src = "images/StoneBlack.png";
+                $('#player2StoneImage').attr('src', 'images/StoneBlack.png')
                 window.color = "WHITE";
 
             }

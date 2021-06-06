@@ -9,7 +9,8 @@ class Game {
         this.gamecode = gameCode;
         this.round = 0;
 
-        document.getElementById("boardImage").disabled = true;
+        //document.getElementById("boardImage").disabled = true;
+        $('#boardImage').attr('disabled', true)
     }
 
     getMyTurn(){
