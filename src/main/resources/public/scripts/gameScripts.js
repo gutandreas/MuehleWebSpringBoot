@@ -1,5 +1,3 @@
-
-
 var myTurn = true;
 var kill = false;
 var game;
@@ -51,38 +49,11 @@ function autoRefreshField(){
 
 
                         if (game.round < 18){
-                            // Gegnerischer Zug führt nicht zu einer Mühle
-                            if (!game.board.checkMorris(changedPositions[0])) {
-                                myTurn = true;
-                                $('#spielverlaufLabel').text(name + " ist an der Reihe")
-                                setStoneGraphic(changedPositions[0].ring, changedPositions[0].field, 1-playerIndex);
-                            }
-
-                            // Gegnerischer Zug führt zu Mühle und es wurde bereits Stein entfernt
-                            if (game.board.checkMorris(changedPositions[0])
-                                && changedPositions[2] != null) {
-                                myTurn = true;
-                                $('#spielverlaufLabel').text(name + " ist an der Reihe")
-                                setStoneGraphic(changedPositions[0].ring, changedPositions[0].field, 1-playerIndex);
-                                clearStoneGraphic(changedPositions[2].ring, changedPositions[2].field, false);}
+                            updateBoardAfterEnemysPut(changedPositions)
                         }
 
                         if (game.round >= 18){
-                            // Gegnerischer Zug führt nicht zu einer Mühle
-                            if (!game.board.checkMorris(changedPositions[0])) {
-                                myTurn = true;
-                                $('#spielverlaufLabel').text(name + " ist an der Reihe")
-                                moveStoneGraphic(new Move(changedPositions[1], changedPositions[0]), 1-playerIndex)
-                            }
-
-                            // Gegnerischer Zug führt zu Mühle und es wurde bereits Stein entfernt
-                            if (game.board.checkMorris(changedPositions[0])
-                                && changedPositions[2] != null) {
-                                myTurn = true;
-                                $('#spielverlaufLabel').text(name + " ist an der Reihe")
-                                moveStoneGraphic(new Move(changedPositions[1], changedPositions[0]), 1-playerIndex)
-                                clearStoneGraphic(changedPositions[2].ring, changedPositions[2].field, false);}
-
+                           updateBoardAfterEnemysMove(changedPositions)
                         }
 
                         increaseRound();
@@ -90,6 +61,7 @@ function autoRefreshField(){
                         if (game.board.countPlayersStones(playerIndex) < 3 && game.round > 18){
                             gameOver = true;
                             alert(enemyName + " hat das Spiel gewonnen")
+                            $('#spielverlaufLabel').text(enemyName + " hat das Spiel gewonnen")
                         }
 
 
@@ -97,6 +69,40 @@ function autoRefreshField(){
                 }
             )
 }}, 1000)}
+
+function updateBoardAfterEnemysPut(changedPositions){
+    // Gegnerischer Zug führt nicht zu einer Mühle
+    if (!game.board.checkMorris(changedPositions[0])) {
+        myTurn = true;
+        $('#spielverlaufLabel').text(name + " ist an der Reihe")
+        setStoneGraphic(changedPositions[0].ring, changedPositions[0].field, 1-playerIndex);
+    }
+
+    // Gegnerischer Zug führt zu Mühle und es wurde bereits Stein entfernt
+    if (game.board.checkMorris(changedPositions[0])
+        && changedPositions[2] != null) {
+        myTurn = true;
+        $('#spielverlaufLabel').text(name + " ist an der Reihe")
+        setStoneGraphic(changedPositions[0].ring, changedPositions[0].field, 1-playerIndex);
+        clearStoneGraphic(changedPositions[2].ring, changedPositions[2].field, false);}
+}
+
+function updateBoardAfterEnemysMove(changedPositions){
+    // Gegnerischer Zug führt nicht zu einer Mühle
+    if (!game.board.checkMorris(changedPositions[0])) {
+        myTurn = true;
+        $('#spielverlaufLabel').text(name + " ist an der Reihe")
+        moveStoneGraphic(new Move(changedPositions[1], changedPositions[0]), 1-playerIndex)
+    }
+
+    // Gegnerischer Zug führt zu Mühle und es wurde bereits Stein entfernt
+    if (game.board.checkMorris(changedPositions[0])
+        && changedPositions[2] != null) {
+        myTurn = true;
+        $('#spielverlaufLabel').text(name + " ist an der Reihe")
+        moveStoneGraphic(new Move(changedPositions[1], changedPositions[0]), 1-playerIndex)
+        clearStoneGraphic(changedPositions[2].ring, changedPositions[2].field, false);}
+}
 
 
 function clickOnField(ring, field){
@@ -264,13 +270,20 @@ function moveStone(move){
 
             clearStoneGraphic(ring, field, true);
 
+            if (game.board.countPlayersStones(1-playerIndex) < 3 && game.round > 18){
+                gameOver = true;
+                alert(name + " hat das Spiel gewonnen!")
+                $('#spielverlaufLabel').text(name + " hat das Spiel gewonnen")
+            }
+
             fetch("/game/controller/kill", {
                 method: 'POST',
                 body: JSON.stringify({
                     "gameCode": game.gamecode,
                     "playerUuid": game.player.getUuid(),
                     "killRing": ring,
-                    "killField": field
+                    "killField": field,
+                    "callComputer": !gameOver
                 }),
                 headers: {
                     "Content-type": "application/json"
@@ -278,16 +291,15 @@ function moveStone(move){
             })
                 .then(resp => resp.json())
                 .then(responseData => {
+
+                    if (!gameOver){
                         console.log(responseData);
                         console.log(game.board.toString());
                         myTurn = false;
                         kill = false;
-                        if (game.board.countPlayersStones(1-playerIndex) < 3 && game.round > 18){
-                            gameOver = true;
-                            alert(name + " hat das Spiel gewonnen!")
-                        }
+
                         $('#spielverlaufLabel').text(enemyName + " ist an der Reihe")
-                    }
+                    }}
                 )}
 
         else {

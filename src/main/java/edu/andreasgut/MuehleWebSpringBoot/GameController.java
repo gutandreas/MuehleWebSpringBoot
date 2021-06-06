@@ -140,6 +140,7 @@ public class GameController {
         String playerUuid = jsonRequestObject.getString("playerUuid");
         int killRing = jsonRequestObject.getInt("killRing");
         int killField = jsonRequestObject.getInt("killField");
+        boolean callComputer = jsonRequestObject.getBoolean("callComputer");
 
         Game game = GameManager.getGame(gameCode);
         Position killPosition = new Position(killRing, killField);
@@ -153,7 +154,7 @@ public class GameController {
         }
 
 
-        if (game.getPlayerByIndex(enemysIndex) instanceof ComputerPlayer){
+        if (callComputer && game.getPlayerByIndex(enemysIndex) instanceof ComputerPlayer){
 
             if (game.getRound() <= 2 * game.getNUMBEROFSTONES()){
                 computerPuts(gameCode, game, playerIndex, enemysIndex);
