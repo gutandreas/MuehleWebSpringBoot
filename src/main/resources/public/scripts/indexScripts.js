@@ -168,6 +168,7 @@ function sendDataMenschVsComputer(){
             document.getElementById('gameCodeH2').innerText = responseData.gameCode;
             document.getElementById('playerUuidH2').innerText = responseData.player1Uuid;
             document.getElementById('playerIndexH2').innerText = responseData.playerIndex;
+            $('#spielverlaufLabel').text(player1Name + " ist an der Reihe")
 
             if (player1Color == "BLACK"){
                 document.getElementById('player1StoneImage').src = "images/StoneBlack.png"
@@ -184,6 +185,8 @@ function sendDataMenschVsComputer(){
             window.game = new Game(new Player(player1Name, responseData.player1Uuid, responseData.playerIndex), responseData.gameCode, true);
             window.uuid = responseData.player1Uuid;
             window.playerIndex = responseData.playerIndex;
+            window.name = player1Name;
+            window.enemyName = computerName;
 
 
         })

@@ -6,6 +6,9 @@ var game;
 var uuid;
 var playerIndex;
 var color;
+var name;
+var enemyName;
+
 
 var moveTakePosition;
 var moveReleasePosition;
@@ -50,6 +53,7 @@ function autoRefreshField(){
                             // Gegnerischer Zug führt nicht zu einer Mühle
                             if (!game.board.checkMorris(changedPositions[0])) {
                                 myTurn = true;
+                                $('#spielverlaufLabel').text(name + " ist an der Reihe")
                                 setStoneGraphic(changedPositions[0].ring, changedPositions[0].field, 1-playerIndex);
                             }
 
@@ -57,6 +61,7 @@ function autoRefreshField(){
                             if (game.board.checkMorris(changedPositions[0])
                                 && changedPositions[2] != null) {
                                 myTurn = true;
+                                $('#spielverlaufLabel').text(name + " ist an der Reihe")
                                 setStoneGraphic(changedPositions[0].ring, changedPositions[0].field, 1-playerIndex);
                                 clearStoneGraphic(changedPositions[2].ring, changedPositions[2].field, false);}
                         }
@@ -65,7 +70,7 @@ function autoRefreshField(){
                             // Gegnerischer Zug führt nicht zu einer Mühle
                             if (!game.board.checkMorris(changedPositions[0])) {
                                 myTurn = true;
-
+                                $('#spielverlaufLabel').text(name + " ist an der Reihe")
                                 moveStoneGraphic(new Move(changedPositions[1], changedPositions[0]), 1-playerIndex)
                             }
 
@@ -73,6 +78,7 @@ function autoRefreshField(){
                             if (game.board.checkMorris(changedPositions[0])
                                 && changedPositions[2] != null) {
                                 myTurn = true;
+                                $('#spielverlaufLabel').text(name + " ist an der Reihe")
                                 moveStoneGraphic(new Move(changedPositions[1], changedPositions[0]), 1-playerIndex)
                                 clearStoneGraphic(changedPositions[2].ring, changedPositions[2].field, false);}
 
@@ -163,8 +169,10 @@ function moveStone(move){
             console.log("Mühle gebildet, Stein darf gekillt werden")
             myTurn = true;
             kill = true;
+            $('#spielverlaufLabel').text(name + " darf einen gegnerischen Stein entfernen")
         }
-        else {myTurn = false;}
+        else {myTurn = false;
+              $('#spielverlaufLabel').text(enemyName + " ist an der Reihe")}
 
         fetch("/game/controller/move", {
             method: 'POST',
@@ -208,8 +216,11 @@ function moveStone(move){
                    console.log("Mühle gebildet, Stein darf gekillt werden")
                    myTurn = true;
                    kill = true;
+                   $('#spielverlaufLabel').text(name + " darf einen gegnerischen Stein entfernen")
+
                }
-               else {myTurn = false;}
+               else {myTurn = false;
+                   $('#spielverlaufLabel').text(enemyName + " ist an der Reihe")}
 
        fetch("/game/controller/put", {
            method: 'POST',
@@ -260,6 +271,7 @@ function moveStone(move){
                         console.log(game.board.toString());
                         myTurn = false;
                         kill = false;
+                        $('#spielverlaufLabel').text(enemyName + " ist an der Reihe")
                     }
                 )}
 
