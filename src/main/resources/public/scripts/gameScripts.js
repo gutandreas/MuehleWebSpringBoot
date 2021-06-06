@@ -8,6 +8,7 @@ var playerIndex;
 var color;
 var name;
 var enemyName;
+var gameOver = false;
 
 
 var moveTakePosition;
@@ -86,6 +87,11 @@ function autoRefreshField(){
 
                         increaseRound();
 
+                        if (game.board.countPlayersStones(playerIndex) < 3 && game.round > 18){
+                            gameOver = true;
+                            alert(enemyName + " hat das Spiel gewonnen")
+                        }
+
 
                     }
                 }
@@ -97,7 +103,7 @@ function clickOnField(ring, field){
 
     console.log("Feld " + ring + "/" + field + " angeklickt");
 
-    if (myTurn){
+    if (myTurn && !gameOver){
 
         if (kill){
             killStone(ring, field);
@@ -126,7 +132,12 @@ function clickOnField(ring, field){
 
     }
     else {
-        alert("Du bist nicht an der Reihe. Warte auf den Zug des Gegenspielers");
+        if (gameOver){
+            alert("Das Spiel ist bereits zu Ende...");
+        }
+        else {
+            alert("Du bist nicht an der Reihe. Warte auf den Zug des Gegenspielers");
+        }
     }
 
 
@@ -271,6 +282,10 @@ function moveStone(move){
                         console.log(game.board.toString());
                         myTurn = false;
                         kill = false;
+                        if (game.board.countPlayersStones(1-playerIndex) < 3 && game.round > 18){
+                            gameOver = true;
+                            alert(name + " hat das Spiel gewonnen!")
+                        }
                         $('#spielverlaufLabel').text(enemyName + " ist an der Reihe")
                     }
                 )}
