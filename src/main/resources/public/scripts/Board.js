@@ -44,7 +44,7 @@ class Board {
 
     clearStone(position) {
     this.array[position.getRing()][position.getField()] = 9;
-}
+    }
 
     countPlayersStones(playerIndex){
         let counter = 0;

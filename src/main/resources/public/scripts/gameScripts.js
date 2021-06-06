@@ -1,3 +1,5 @@
+
+
 var myTurn = true;
 var kill = false;
 var game;
@@ -234,7 +236,7 @@ function moveStone(move){
     }
 
     function killStone(ring, field){
-        if (game.board.checkKill(new Position(ring, field)), 1-playerIndex){
+        if (game.board.checkKill(new Position(ring, field), 1-playerIndex)){
             console.log("Kill an Server senden");
             game.board.clearStone(new Position(ring, field));
 
