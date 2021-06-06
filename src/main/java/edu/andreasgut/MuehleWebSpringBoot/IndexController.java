@@ -100,7 +100,7 @@ public class IndexController {
             JSONObject jsonResponseObject = new JSONObject();
             jsonResponseObject.put("player1Name", GameManager.getGame(gameCode).getPlayer0().getName());
             jsonResponseObject.put("player2Color", player2StoneColor);
-            jsonResponseObject.put("player2Uuid", game.getPlayer0().getUuid());
+            jsonResponseObject.put("player2Uuid", game.getPlayer1().getUuid());
             jsonResponseObject.put("player2Index", 1);
 
             return ResponseEntity.status(HttpStatus.OK).body(jsonResponseObject.toString());

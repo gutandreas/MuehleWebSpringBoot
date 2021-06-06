@@ -85,7 +85,7 @@ function sendDataMenschVsMenschStart(){
                 $('#player1NameGameText').text("Player 1: " + player1Name)
                 $('#modusH1').text("Mühle online – Spielmodus: Mensch vs. Mensch")
                 $('#gameCodeH2').text("Gamecode: " + gameCodeStart)
-                $('#player1UuidH2').text(responseData.player1Uuid)
+                $('#playerUuidH2').text("UUID: " + responseData.player1Uuid)
                 $('#playerIndexH2').text(responseData.playerIndex)
 
                 if (player1Color == "BLACK"){
@@ -99,10 +99,12 @@ function sendDataMenschVsMenschStart(){
                     window.color = "WHITE";
                 }
 
-                window.game = new Game(new Player(player1Name, responseData.player1Uuid, responseData.playerIndex), responseData.gameCode, true);
+                window.game = new Game(new Player(player1Name, responseData.player1Uuid, responseData.player1Index), gameCodeStart, true);
                 window.uuid = responseData.player1Uuid;
                 window.playerIndex = responseData.player1Index;
                 window.name = player1Name;
+                window.myTurn = true;
+
 
             })
             .catch(function(error) {
@@ -114,13 +116,8 @@ function sendDataMenschVsMenschStart(){
 
 function sendDataMenschVsMenschJoin(){
 
-
-
-
         let player2Name = $("#player2Textfield").val();
         let gameCodeJoin = $("#gamecodeJoin").val();
-
-
 
         fetch("/index/controller/menschVsMensch/join", {
             method: 'POST',
@@ -138,6 +135,7 @@ function sendDataMenschVsMenschJoin(){
             .then(responseData => {
                 console.log(responseData)
                 $('#gameCodeH2').text("Gamecode: " + gameCodeJoin)
+                $('#playerUuidH2').text("UUID: " + responseData.player2Uuid)
                 $("#player1NameGameText").text("Player 1: " + responseData.player1Name);
                 $('#player2NameGameText').text("Player 2: " + player2Name);
 
@@ -152,10 +150,11 @@ function sendDataMenschVsMenschJoin(){
                     $('#player2StoneImage').attr('src', 'images/StoneWhite.png')
                     $('#player1StoneImage').attr('src', 'images/StoneBlack.png')
                     window.color = "WHITE";
-                    window.game = new Game(new Player(player2Name, responseData.player2Uuid, responseData.playerIndex), responseData.gameCode, true);
-                    window.uuid = responseData.player1Uuid;
+                    window.game = new Game(new Player(player2Name, responseData.player2Uuid, responseData.player2Index), gameCodeJoin , false);
+                    window.uuid = responseData.player2Uuid;
                     window.playerIndex = responseData.player2Index;
                     window.name = player2Name;
+                    window.myTurn = false;
                 }
 
             })
@@ -215,6 +214,7 @@ function sendDataMenschVsComputer(){
             window.playerIndex = responseData.playerIndex;
             window.name = player1Name;
             window.enemyName = computerName;
+            window.myTurn = true;
 
 
         })

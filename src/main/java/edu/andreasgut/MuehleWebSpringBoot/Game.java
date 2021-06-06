@@ -7,7 +7,7 @@ public class Game {
 
     private Player player0;
     private Player player1;
-    private boolean gameComplete = false;
+    private boolean gameComplete;
     private Player winner;
     private int round;
     private final int NUMBEROFSTONES = 9;
@@ -33,6 +33,8 @@ public class Game {
 
     public Game(Player player0) {
         this.player0 = player0;
+        gameComplete = false;
+        playerArrayList.add(0, player0);
         this.board = new Board(this);
         System.out.println(LocalTime.now() + " – " + this.getClass().getSimpleName() + ": Game mit 1 Spieler ("+ player0.getName() +") wurde erstellt");
     }
@@ -47,6 +49,7 @@ public class Game {
 
     public void setPlayer1(Player player1) {
         this.player1 = player1;
+        playerArrayList.add(1, player1);
         gameComplete = true;
         System.out.println(LocalTime.now() + " – " + this.getClass().getSimpleName() + ": " + player0.getName() + " und "
                 + player1.getName() + " bilden ein komplettes Game");
