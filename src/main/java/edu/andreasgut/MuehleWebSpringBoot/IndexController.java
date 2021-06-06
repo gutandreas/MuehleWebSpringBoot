@@ -44,10 +44,9 @@ public class IndexController {
     @PostMapping(
             path = "/index/controller/menschVsMensch/start",
             produces = MediaType.APPLICATION_JSON_VALUE )
-    public ResponseEntity<String> loadMenschVsMensch(@RequestBody String body){
+    public ResponseEntity<String> loadMenschVsMenschStart(@RequestBody String body){
         colorPrint(body, PRINTCOLOR.YELLOW);
         JSONObject jsonObject = new JSONObject(body);
-        String modus = jsonObject.getString("modus");
         String player1Name = jsonObject.getString("player1Name");
         String gameCode = jsonObject.getString("gameCode");
         STONECOLOR player1Color;
@@ -66,10 +65,9 @@ public class IndexController {
             GameManager.addGame(gameCode, game);
 
             JSONObject jsonResponseObject = new JSONObject();
-            jsonResponseObject.put("gameCode", gameCode);
-            jsonResponseObject.put("player1Name", player1Name);
             jsonResponseObject.put("player1Uuid", game.getPlayer0().getUuid());
             jsonResponseObject.put("player1Color", player1Color.name());
+            jsonResponseObject.put("player1Index", 0);
 
             return ResponseEntity.status(HttpStatus.OK).body(jsonResponseObject.toString());
         }
@@ -78,10 +76,9 @@ public class IndexController {
 
     @PostMapping(
             path = "/index/controller/menschVsMensch/join")
-    public void loadMenschVsMenschJoin(@RequestBody String body){
+    public ResponseEntity<String> loadMenschVsMenschJoin(@RequestBody String body){
         colorPrint(body, PRINTCOLOR.YELLOW);
         JSONObject jsonObject = new JSONObject(body);
-        String modus = jsonObject.getString("modus");
         String player2Name = jsonObject.getString("player2Name");
         String gameCode = jsonObject.getString("gameCode");
 
@@ -96,11 +93,25 @@ public class IndexController {
                 player2StoneColor = STONECOLOR.BLACK;
             }
 
-            GameManager.getGame(gameCode).setPlayer1(new HumanPlayer(player2Name, generateRandomUUID(), player2StoneColor));
+            Game game = GameManager.getGame(gameCode);
+
+            game.setPlayer1(new HumanPlayer(player2Name, generateRandomUUID(), player2StoneColor));
+
+            JSONObject jsonResponseObject = new JSONObject();
+            jsonResponseObject.put("player1Name", GameManager.getGame(gameCode).getPlayer0().getName());
+            jsonResponseObject.put("player2Color", player2StoneColor);
+            jsonResponseObject.put("player2Uuid", game.getPlayer0().getUuid());
+            jsonResponseObject.put("player2Index", 1);
+
+            return ResponseEntity.status(HttpStatus.OK).body(jsonResponseObject.toString());
+
         }
         else {
             System.out.println(LocalTime.now() + " – " + this.getClass().getSimpleName() + ": GameCode falsch – Ein Spieler versuchte einem nicht existierenden Game beizutreten");
+            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("-");
         }
+
+
 
     }
 

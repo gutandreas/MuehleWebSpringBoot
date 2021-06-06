@@ -6,10 +6,11 @@ function sendData() {
     switch (modus){
         case 1: {
             if (gamecodemodus == 1){
-                sendGetRequestWaitingRoomHTML();
+                sendGetRequestGameHTML();
                 sendDataMenschVsMenschStart();
             }
             if (gamecodemodus == 2) {
+                sendGetRequestGameHTML()
                 sendDataMenschVsMenschJoin();
             }
 
@@ -58,10 +59,10 @@ function sendGetRequestWaitingRoomHTML(){
 function sendDataMenschVsMenschStart(){
 
 
-        let player1Name = document.getElementById("player1Textfield").value;
-        let gameCodeStart = document.getElementById("gamecodeStart").value;
+        let player1Name = $("#player1Textfield").val();
+        let gameCodeStart = $("#gamecodeStart").val();
         let player1Color;
-        if (document.getElementById("colorPlayer1").checked){
+        if ($("#colorPlayer1").prop('checked')){
         player1Color = "WHITE";}
         else {player1Color = "BLACK";}
 
@@ -81,40 +82,45 @@ function sendDataMenschVsMenschStart(){
             .then(resp => resp.json())
             .then(responseData => {
                 console.log(responseData);
-                document.getElementById('gameCodeH2').innerText += (" " + responseData.gameCode);
-                document.getElementById('player1NameH2').innerText += (" " + responseData.player1Name);
-                document.getElementById('player1UuidH2').innerText += (" " + responseData.player1Uuid);
-                if (responseData.player1Color == "BLACK"){
-                    document.getElementById('player1ColorH2').innerText += (" " + "Schwarz");}
+                $('#player1NameGameText').text("Player 1: " + player1Name)
+                $('#modusH1').text("Mühle online – Spielmodus: Mensch vs. Mensch")
+                $('#gameCodeH2').text("Gamecode: " + gameCodeStart)
+                $('#player1UuidH2').text(responseData.player1Uuid)
+                $('#playerIndexH2').text(responseData.playerIndex)
+
+                if (player1Color == "BLACK"){
+                    $('#player1StoneImage').attr('src', 'images/StoneBlack.png')
+                    $('#player2StoneImage').attr('src', 'images/StoneWhite.png')
+                    window.color = "BLACK";
+                }
                 else {
-                    document.getElementById('player1ColorH2').innerText += (" " + "Weiss");}
+                    $('#player1StoneImage').attr('src', 'images/StoneWhite.png')
+                    $('#player2StoneImage').attr('src', 'images/StoneBlack.png')
+                    window.color = "WHITE";
+                }
+
+                window.game = new Game(new Player(player1Name, responseData.player1Uuid, responseData.playerIndex), responseData.gameCode, true);
+                window.uuid = responseData.player1Uuid;
+                window.playerIndex = responseData.player1Index;
+                window.name = player1Name;
 
             })
             .catch(function(error) {
                 console.log(error);
             });
 
-        /*fetch("/index/controller/waitingRoomHTML/" + gameCodeStart, {
-        method: 'POST',
-            body: JSON.stringify({
-            "modus": 'Mensch vs. Mensch',
-            "startGame" : true,
-            "player1Name" : player1Name,
-            "gameCode" : gameCodeStart,
-            "player1Color" : player1Color
-        }),
-            headers: {
-            "Content-type": "application/json"
-        }
-    })*/
-
 
     }
 
 function sendDataMenschVsMenschJoin(){
 
-        let player2Name = document.getElementById("player2Textfield").value;
-        let gameCodeJoin = document.getElementById("gamecodeJoin").value;
+
+
+
+        let player2Name = $("#player2Textfield").val();
+        let gameCodeJoin = $("#gamecodeJoin").val();
+
+
 
         fetch("/index/controller/menschVsMensch/join", {
             method: 'POST',
@@ -129,21 +135,43 @@ function sendDataMenschVsMenschJoin(){
             }
         })
             .then(res => res.json())
-            .then(data => console.log(data))
+            .then(responseData => {
+                console.log(responseData)
+                $('#gameCodeH2').text("Gamecode: " + gameCodeJoin)
+                $("#player1NameGameText").text("Player 1: " + responseData.player1Name);
+                $('#player2NameGameText').text("Player 2: " + player2Name);
+
+                let player2Color = responseData.player2Color;
+
+                if (player2Color == "BLACK"){
+                    $('#player2StoneImage').attr('src', 'images/StoneBlack.png')
+                    $('#player1StoneImage').attr('src', 'images/StoneWhite.png')
+                    window.color = "BLACK";
+                }
+                else {
+                    $('#player2StoneImage').attr('src', 'images/StoneWhite.png')
+                    $('#player1StoneImage').attr('src', 'images/StoneBlack.png')
+                    window.color = "WHITE";
+                    window.game = new Game(new Player(player2Name, responseData.player2Uuid, responseData.playerIndex), responseData.gameCode, true);
+                    window.uuid = responseData.player1Uuid;
+                    window.playerIndex = responseData.player2Index;
+                    window.name = player2Name;
+                }
+
+            })
             .catch(error => console.log(error));
 }
 
 function sendDataMenschVsComputer(){
 
-    let player1Name = document.getElementById("player1Textfield").value;
+    let player1Name = $('#player1Textfield').val();
     let player1Color;
-    if (document.getElementById("colorPlayer1").checked){
+    if ($("#colorPlayer1").prop('checked')){
         player1Color = "WHITE";}
     else {player1Color = "BLACK";}
 
-    let dropdown = document.getElementById("player2Dropdown");
-    let computerName = dropdown.options[dropdown.selectedIndex].text;
-    let computerCode = dropdown.options[dropdown.selectedIndex].value;
+    let computerName = $("#player2Dropdown option:selected").text();
+    let computerCode = $("#player2Dropdown option:selected").val();
 
 
     fetch("/index/controller/menschVsComputer", {
@@ -162,35 +190,24 @@ function sendDataMenschVsComputer(){
         .then(resp => resp.json())
         .then(responseData => {
             console.log(responseData);
-            //document.getElementById('player1NameGameText').innerText = ("Player 1: " + player1Name);
             $('#player1NameGameText').text("Player 1: " + player1Name)
-            //document.getElementById('player2NameGameText').innerText = ("Player 2; " + computerName);
             $('#player2NameGameText').text("Player 2: " + computerName)
-            //document.getElementById('modusH1').innerText = ("Mühle online – Spielmodus: Mensch vs. Computer");
             $('#modusH1').text("Mühle online – Spielmodus: Mensch vs. Computer")
-            //document.getElementById('gameCodeH2').innerText = responseData.gameCode;
-            $('#gameCodeH2').text(responseData.gameCode)
-            //document.getElementById('playerUuidH2').innerText = responseData.player1Uuid;
+            $('#gameCodeH2').text("Gamecode: " + responseData.gameCode)
             $('#player1UuidH2').text(responseData.player1Uuid)
-            //document.getElementById('playerIndexH2').innerText = responseData.playerIndex;
             $('#playerIndexH2').text(responseData.playerIndex)
 
             $('#spielverlaufLabel').text(player1Name + " ist an der Reihe")
 
             if (player1Color == "BLACK"){
-                //document.getElementById('player1StoneImage').src = "images/StoneBlack.png"
                 $('#player1StoneImage').attr('src', 'images/StoneBlack.png')
-                //document.getElementById('player2StoneImage').src = "images/StoneWhite.png";
                 $('#player2StoneImage').attr('src', 'images/StoneWhite.png')
                 window.color = "BLACK";
             }
             else {
-                //document.getElementById('player1StoneImage').src = "images/StoneWhite.png";
                 $('#player1StoneImage').attr('src', 'images/StoneWhite.png')
-                //document.getElementById('player2StoneImage').src = "images/StoneBlack.png";
                 $('#player2StoneImage').attr('src', 'images/StoneBlack.png')
                 window.color = "WHITE";
-
             }
 
             window.game = new Game(new Player(player1Name, responseData.player1Uuid, responseData.playerIndex), responseData.gameCode, true);
