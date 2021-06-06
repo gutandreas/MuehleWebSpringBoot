@@ -47,14 +47,11 @@ function autoRefreshField(){
 
                     if (changedPositions[0] != null) {
 
-
                         if (game.round < 18){
-                            updateBoardAfterEnemysPut(changedPositions)
-                        }
+                            updateBoardAfterEnemysPut(changedPositions)}
 
                         if (game.round >= 18){
-                           updateBoardAfterEnemysMove(changedPositions)
-                        }
+                           updateBoardAfterEnemysMove(changedPositions)}
 
                         increaseRound();
 
@@ -63,8 +60,6 @@ function autoRefreshField(){
                             alert(enemyName + " hat das Spiel gewonnen")
                             $('#spielverlaufLabel').text(enemyName + " hat das Spiel gewonnen")
                         }
-
-
                     }
                 }
             )
@@ -117,25 +112,17 @@ function clickOnField(ring, field){
 
         // put-Phase
         if (game.round < 18 && !kill){
-            putStone(ring, field);
-
-
-            }
+            putStone(ring, field);}
 
         // move-Phase
         if (game.round >= 18 && !kill){
                 if (moveTakePosition == null){
-                    moveTakePosition = moveStoneTakeStep(ring,field);
-                }
+                    moveTakePosition = moveStoneTakeStep(ring,field);}
                 else {
                     moveReleasePosition = moveStoneReleaseStep(ring, field);
                     moveStone(new Move(moveTakePosition, moveReleasePosition))
-                    moveTakePosition = null;
-                }
+                    moveTakePosition = null;}
         }
-
-
-
     }
     else {
         if (gameOver){
@@ -146,32 +133,27 @@ function clickOnField(ring, field){
         }
     }
 
-
     //setCursor("url('images/StoneBlackCursor.png'), auto");
 
     }
 
     function moveStoneTakeStep(ring, field){
         if (game.board.isThisMyStone(new Position(ring, field), playerIndex)){
-            return new Position(ring, field);
-        }
+            return new Position(ring, field);}
         else {
-            alert("Auf diesem Feld befindet sich keiner deiner Steine")
-        }
-
+            alert("Auf diesem Feld befindet sich keiner deiner Steine")}
     }
+
 
     function moveStoneReleaseStep(ring, field){
         if (game.board.isFieldFree(new Position(ring, field))){
-            return new Position(ring, field);
-        }
+            return new Position(ring, field);}
         else {
-            alert("Dieses Feld ist nicht frei")
-        }
-
+            alert("Dieses Feld ist nicht frei")}
     }
 
-function moveStone(move){
+
+    function moveStone(move){
 
         if (game.board.checkMove(move, game.board.countPlayersStones(playerIndex) == 3)){
             console.log("Move an Server senden");
@@ -182,41 +164,42 @@ function moveStone(move){
             moveStoneGraphic(move, playerIndex);
 
 
-        if (game.board.checkMorris(move.toPosition)){
-            console.log("Mühle gebildet, Stein darf gekillt werden")
-            myTurn = true;
-            kill = true;
-            $('#spielverlaufLabel').text(name + " darf einen gegnerischen Stein entfernen")
-        }
-        else {myTurn = false;
-              $('#spielverlaufLabel').text(enemyName + " ist an der Reihe")}
+            if (game.board.checkMorris(move.toPosition)
+                && (game.board.isThereStoneToKill(1-playerIndex)
+                    || (game.board.countPlayersStones(1-playerIndex) == 3 && game.round > 18))){
 
-        fetch("/game/controller/move", {
-            method: 'POST',
-            body: JSON.stringify({
-                "gameCode": game.gamecode,
-                "playerUuid": game.player.getUuid(),
-                "moveFromRing": move.fromPosition.getRing(),
-                "moveFromField": move.fromPosition.getField(),
-                "moveToRing": move.toPosition.getRing(),
-                "moveToField": move.toPosition.getField(),
-                "callComputer": !myTurn
-            }),
-            headers: {
-                "Content-type": "application/json"
+                console.log("Mühle gebildet, Stein darf gekillt werden")
+                myTurn = true;
+                kill = true;
+                $('#spielverlaufLabel').text(name + " darf einen gegnerischen Stein entfernen")
             }
-        })
-            .then(resp => resp.json())
-            .then(responseData => {
-                    console.log(responseData);
-                    console.log(game.board.toString());
-                }
-            )}
-        else {
-            alert("Das ist kein gültiger Zug")
-        }
+            else {myTurn = false;
+                  $('#spielverlaufLabel').text(enemyName + " ist an der Reihe")}
 
-}
+            fetch("/game/controller/move", {
+                method: 'POST',
+                body: JSON.stringify({
+                    "gameCode": game.gamecode,
+                    "playerUuid": game.player.getUuid(),
+                    "moveFromRing": move.fromPosition.getRing(),
+                    "moveFromField": move.fromPosition.getField(),
+                    "moveToRing": move.toPosition.getRing(),
+                    "moveToField": move.toPosition.getField(),
+                    "callComputer": !myTurn
+                }),
+                headers: {
+                    "Content-type": "application/json"
+                }
+            })
+                .then(resp => resp.json())
+                .then(responseData => {
+                        console.log(responseData);
+                        console.log(game.board.toString());
+                    }
+                )}
+        else {
+            alert("Das ist kein gültiger Zug")}
+    }
 
 
     function putStone(ring, field){
@@ -229,7 +212,10 @@ function moveStone(move){
 
            setStoneGraphic(ring, field, playerIndex);
 
-               if (game.board.checkMorris(new Position(ring, field))){
+               if (game.board.checkMorris(move.toPosition)
+                   && (game.board.isThereStoneToKill(1-playerIndex)
+                       || (game.board.countPlayersStones(1-playerIndex) == 3 && game.round > 18))){
+
                    console.log("Mühle gebildet, Stein darf gekillt werden")
                    myTurn = true;
                    kill = true;
@@ -239,25 +225,25 @@ function moveStone(move){
                else {myTurn = false;
                    $('#spielverlaufLabel').text(enemyName + " ist an der Reihe")}
 
-       fetch("/game/controller/put", {
-           method: 'POST',
-           body: JSON.stringify({
-               "gameCode": game.gamecode,
-               "playerUuid": game.player.getUuid(),
-               "putRing": ring,
-               "putField": field,
-               "callComputer": !myTurn
-           }),
-           headers: {
-               "Content-type": "application/json"
-           }
-       })
-           .then(resp => resp.json())
-           .then(responseData => {
-                   console.log(responseData);
-                   console.log(game.board.toString());
+           fetch("/game/controller/put", {
+               method: 'POST',
+               body: JSON.stringify({
+                   "gameCode": game.gamecode,
+                   "playerUuid": game.player.getUuid(),
+                   "putRing": ring,
+                   "putField": field,
+                   "callComputer": !myTurn
+               }),
+               headers: {
+                   "Content-type": "application/json"
                }
-           )}
+           })
+               .then(resp => resp.json())
+               .then(responseData => {
+                       console.log(responseData);
+                       console.log(game.board.toString());
+                   }
+               )}
        else {
            alert("Dieses Feld ist nicht frei");
        }

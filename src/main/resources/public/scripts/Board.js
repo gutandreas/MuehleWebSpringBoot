@@ -20,8 +20,8 @@ class Board {
     }
 
     move(move, playerIndex) {
-    this.putStone(move.toPosition, playerIndex);
-    this.clearStone(move.fromPosition);
+        this.putStone(move.toPosition, playerIndex);
+        this.clearStone(move.fromPosition);
     }
 
     checkMove(move, allowedToJump){
@@ -40,6 +40,16 @@ class Board {
     checkKill(position,  otherPlayerIndex){
     return this.array[position.getRing()][position.getField()] == otherPlayerIndex &&
     (!this.checkMorris(position) || this.countPlayersStones(otherPlayerIndex)==3);
+    }
+
+    isThereStoneToKill(otherPlayerIndex){
+        for (let ring = 0; ring < 3; ring++){
+            for (let field = 0; field < 8; field++){
+                if (this.array[ring][field] == otherPlayerIndex && !this.checkMorris(new Position(ring,field))){
+                    return true;}
+            }
+        }
+        return false;
     }
 
     clearStone(position) {
