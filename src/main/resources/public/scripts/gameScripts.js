@@ -212,7 +212,7 @@ function clickOnField(ring, field){
 
            setStoneGraphic(ring, field, playerIndex);
 
-               if (game.board.checkMorris(move.toPosition)
+               if (game.board.checkMorris(new Position(ring, field))
                    && (game.board.isThereStoneToKill(1-playerIndex)
                        || (game.board.countPlayersStones(1-playerIndex) == 3 && game.round > 18))){
 
