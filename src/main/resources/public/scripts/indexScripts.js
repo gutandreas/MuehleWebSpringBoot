@@ -384,8 +384,15 @@ function setDropdownIndex(player, index){
     document.getElementById(dropdownString).selectedIndex = index;
 }
 
-function clickOnElement(element){
-    document.getElementById(element).click();
+function changeSwitchToOpposite(oppositeElement){
+
+    if ($('#'.concat(oppositeElement)).prop('checked')){
+        $('#'.concat(oppositeElement)).prop('checked', false)}
+    else {
+        $('#'.concat(oppositeElement)).prop('checked', true)
+    }
+
+    //document.getElementById(element.toString()).click();
 }
 
 function setModus(modus){
