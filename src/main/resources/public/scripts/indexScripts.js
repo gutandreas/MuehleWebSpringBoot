@@ -103,7 +103,10 @@ function sendDataMenschVsMenschStart(){
                 window.uuid = responseData.player1Uuid;
                 window.playerIndex = responseData.player1Index;
                 window.name = player1Name;
+                window.enemyName = responseData.player2Name;
                 window.myTurn = true;
+                $("#spielverlaufLabel").text(player1Name + " startet das Spiel.")
+
 
 
             })
@@ -150,12 +153,15 @@ function sendDataMenschVsMenschJoin(){
                     $('#player2StoneImage').attr('src', 'images/StoneWhite.png')
                     $('#player1StoneImage').attr('src', 'images/StoneBlack.png')
                     window.color = "WHITE";
-                    window.game = new Game(new Player(player2Name, responseData.player2Uuid, responseData.player2Index), gameCodeJoin , false);
-                    window.uuid = responseData.player2Uuid;
-                    window.playerIndex = responseData.player2Index;
-                    window.name = player2Name;
-                    window.myTurn = false;
                 }
+
+                window.game = new Game(new Player(player2Name, responseData.player2Uuid, responseData.player2Index), gameCodeJoin , false);
+                window.uuid = responseData.player2Uuid;
+                window.playerIndex = responseData.player2Index;
+                window.name = player2Name;
+                window.enemyName = responseData.player1Name;
+                window.myTurn = false;
+                $("#spielverlaufLabel").text(responseData.player1Name + " startet das Spiel.")
 
             })
             .catch(error => console.log(error));
