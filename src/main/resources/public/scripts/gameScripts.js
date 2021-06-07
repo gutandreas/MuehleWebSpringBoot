@@ -73,6 +73,14 @@ function updateBoardAfterEnemysPut(changedPositions){
         setStoneGraphic(changedPositions[0].ring, changedPositions[0].field, 1-playerIndex);
     }
 
+    // Gegnerischer Zug führt zu einer Mühle
+    if (game.board.checkMorris(changedPositions[0])) {
+        myTurn = false;
+        setStoneGraphic(changedPositions[0].ring, changedPositions[0].field, 1-playerIndex);
+    }
+
+
+
     // Gegnerischer Zug führt zu Mühle und es wurde bereits Stein entfernt
     if (game.board.checkMorris(changedPositions[0])
         && changedPositions[2] != null) {
