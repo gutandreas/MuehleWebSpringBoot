@@ -24,7 +24,7 @@ public class GameController {
         jsonResponseObject.put("board", boardAsString);
 
         System.out.println(LocalTime.now() + " – " + getClass().getSimpleName()
-                + "Board aus dem Game " + jsonRequestObject.getString("gameCode") + " wurde abgefragt");
+                + ": Board aus dem Game " + jsonRequestObject.getString("gameCode") + " wurde abgefragt");
 
 
         return ResponseEntity.status(HttpStatus.OK).body(jsonResponseObject.toString());
