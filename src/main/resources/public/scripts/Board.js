@@ -13,7 +13,10 @@ class Board {
                 this.array[i][j] = 9;
             }
 
-    }}
+        }
+
+        this.changedPositions = new Array(3);
+    }
 
     putStone(position, playerIndex){
         this.array[position.getRing()][position.getField()] = playerIndex;
@@ -126,7 +129,6 @@ class Board {
     updateBoardAndGetChanges(boardAsString){
 
         let tempBoardAsString = boardAsString;
-        let changedPositions = new Array(3);
         let enemysIndex = 1-this.game.getPlayer().getIndex();
 
 
@@ -136,19 +138,19 @@ class Board {
                 //gegnerischer Stein auf vorher freiem Feld
                 if (this.array[i][j] == 9
                     && enemysIndex == tempBoardAsString.charAt(0)){
-                    changedPositions[0] = new Position(i,j);
+                    this.changedPositions[0] = new Position(i,j);
                 }
 
                 //freies Feld, auf dem vorher gegnerischer Stein war
                 if (this.array[i][j] == enemysIndex
                     && tempBoardAsString.charAt(0) == 9){
-                    changedPositions[1] = new Position(i,j);
+                    this.changedPositions[1] = new Position(i,j);
                 }
 
                 //geschlagener eigener Stein
                 if (this.array[i][j] == this.game.getPlayer().getIndex()
                     && tempBoardAsString.charAt(0) == 9){
-                    changedPositions[2] = new Position(i,j);
+                    this.changedPositions[2] = new Position(i,j);
                 }
 
                 this.array[i][j] = tempBoardAsString.charAt(0);
@@ -159,7 +161,7 @@ class Board {
         }
 
         console.log(this.toString());
-        return changedPositions;
+        return this.changedPositions;
     }
 
     toString(){
