@@ -5,13 +5,13 @@ function sendData() {
 
     switch (modus){
         case 1: {
-            if (gamecodemodus == 1){
-                sendGetRequestGameHTML();
-                sendDataMenschVsMenschStart();
+
+            if (gamecodemodus == 1) {
+                checkAndSendDataMenschVsMenschStart();
             }
+
             if (gamecodemodus == 2) {
-                sendGetRequestGameHTML()
-                sendDataMenschVsMenschJoin();
+                checkAndSendDataMenschVsMenschJoin();
             }
 
             break;
@@ -27,8 +27,74 @@ function sendData() {
             break;
         }
     }
+}
 
+function checkAndSendDataMenschVsMenschStart() {
 
+            let gameCodeStart = $("#gamecodeStart").val();
+            let player1Name = $("#player1Textfield").val();
+
+            if (gameCodeStart.length == 0){
+                alert("Bitte geben Sie einen Gamecode ein")
+                return false
+            }
+            if (player1Name.length == 0){
+                alert("Bitte geben Sie einen Namen ein")
+                return false
+            }
+
+            fetch("/index/controller/checkGamecode", {
+                method: 'POST',
+                body: JSON.stringify({
+                    "gamecode": gameCodeStart
+                })})
+                .then(resp => resp.json())
+                .then(responseData => {
+                    console.log(responseData)
+                    if (responseData.gamecodeOk){
+                        console.log("testgamecode")
+                        sendGetRequestGameHTML();
+                        sendDataMenschVsMenschJoin();
+                    }
+                    else {
+                        alert("Der Gamecode wird bereits verwendet. Bitte wählen Sie einen anderen Gamecode");
+                        return false;
+                    }
+            })
+}
+
+function checkAndSendDataMenschVsMenschJoin() {
+
+    let gameCodeJoin = $("#gamecodeJoin").val();
+    let player2Name = $("#player2Textfield").val();
+
+    if (gameCodeJoin.length == 0){
+        alert("Bitte geben Sie einen Gamecode ein")
+        return false
+    }
+    if (player2Name.length == 0){
+        alert("Bitte geben Sie einen Namen ein")
+        return false
+    }
+
+    fetch("/index/controller/checkGamecode", {
+        method: 'POST',
+        body: JSON.stringify({
+            "gamecode": gameCodeJoin
+        })})
+        .then(resp => resp.json())
+        .then(responseData => {
+            console.log(responseData)
+            if (!responseData.gamecodeOk){
+                console.log("testgamecode")
+                sendGetRequestGameHTML();
+                sendDataMenschVsMenschStart();
+            }
+            else {
+                alert("Der Gamecode existiert noch nicht verwendet. Bitte wählen kontrollieren Sie die Eingabe oder starten Sie ein neues Spiel.");
+                return false;
+            }
+        })
 }
 
 
@@ -44,16 +110,6 @@ function sendGetRequestGameHTML(){
         });
 }
 
-function sendGetRequestWaitingRoomHTML(){
-    fetch('/index/controller/waitingRoomHTML', {method: 'GET'})
-        .then((response) => {
-            return response.text();
-        })
-        .then((html) => {
-            //document.head.innerHTML = html
-            document.body.innerHTML = html
-        });
-}
 
 
 function sendDataMenschVsMenschStart(){

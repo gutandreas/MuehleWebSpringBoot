@@ -217,6 +217,19 @@ public class IndexController {
 
     }
 
+    @PostMapping(
+            path = "/index/controller/checkGamecode")
+    public ResponseEntity<String> checkGamecode(@RequestBody String body){
+        colorPrint(body, PRINTCOLOR.YELLOW);
+        JSONObject jsonObject = new JSONObject(body);
+        String gamecode = jsonObject.getString("gamecode");
+
+        JSONObject jsonResponseObject = new JSONObject();
+        jsonResponseObject.put("gamecodeOk", !GameManager.checkIfGameExists(gamecode));
+
+        return ResponseEntity.status(HttpStatus.OK).body(jsonResponseObject.toString());
+    }
+
     private void colorPrint(String text, PRINTCOLOR color){
         System.out.print(color);
         System.out.println(text);
