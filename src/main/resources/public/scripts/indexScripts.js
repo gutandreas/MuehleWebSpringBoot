@@ -103,19 +103,39 @@ function sendDataMenschVsMenschStart(){
                 window.uuid = responseData.player1Uuid;
                 window.playerIndex = responseData.player1Index;
                 window.name = player1Name;
-                window.enemyName = responseData.player2Name;
                 window.myTurn = true;
                 $("#spielverlaufLabel").text(player1Name + " startet das Spiel.")
 
+                var checkEnemy = setInterval(function () {
+
+                            //Abfrage nach Gegenspieler. Wenn möglich in separate Methode gliedern.
+                            fetch("/index/controller/menschVsMensch/getEnemy", {
+                                method: 'POST',
+                                body: JSON.stringify({
+                                    "gameCode": gameCodeStart
+                                }),
+                                headers: {
+                                    "Content-type": "application/json"
+                                }
+                            })
+                                .then(resp => resp.json())
+                                .then(responseData => {
+                                    if (responseData.player2Name != ""){
+                                        console.log(responseData);
+                                        window.enemyName = responseData.player2Name;
+                                        $('#player2NameGameText').text("Player 2: " + responseData.player2Name)
+                                        clearInterval(checkEnemy)
+                                    }
+                                })
+                        }, 3000)
 
 
             })
             .catch(function(error) {
                 console.log(error);
             });
-
-
     }
+
 
 function sendDataMenschVsMenschJoin(){
 
