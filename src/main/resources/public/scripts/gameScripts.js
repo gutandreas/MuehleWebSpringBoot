@@ -7,6 +7,7 @@ var color;
 var name;
 var enemyName;
 var gameOver = false;
+var enemyLoggedIn = true;
 
 
 var moveTakePosition;
@@ -123,7 +124,7 @@ function clickOnField(ring, field){
 
     console.log("Feld " + ring + "/" + field + " angeklickt");
 
-    if (myTurn && !gameOver){
+    if (myTurn && !gameOver && enemyLoggedIn){
 
         if (kill){
             killStone(ring, field);
@@ -147,8 +148,11 @@ function clickOnField(ring, field){
         if (gameOver){
             alert("Das Spiel ist bereits zu Ende...");
         }
-        else {
+        if (!myTurn){
             alert("Du bist nicht an der Reihe. Warte auf den Zug des Gegenspielers");
+        }
+        if (!enemyLoggedIn){
+            alert("Bitte warten Sie, bis ihr Gegenspieler im Spiel " + game.gameCode + " eingeloggt ist")
         }
     }
 

@@ -104,6 +104,7 @@ function sendDataMenschVsMenschStart(){
                 window.playerIndex = responseData.player1Index;
                 window.name = player1Name;
                 window.myTurn = true;
+                window.enemyLoggedIn = false;
                 $("#spielverlaufLabel").text(player1Name + " startet das Spiel.")
 
                 checkEnemy(gameCodeStart)
@@ -134,9 +135,11 @@ function sendDataMenschVsMenschStart(){
                     if (responseData.player2Name != ""){
                         console.log(responseData);
                         window.enemyName = responseData.player2Name;
+                        window.enemyLoggedIn = true;
                         $('#player2NameGameText').text("Player 2: " + responseData.player2Name)
                         clearInterval(checkEnemy)
                     }
+
                 })
         }, 3000)
     }

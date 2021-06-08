@@ -76,7 +76,7 @@ public class IndexController {
 
     @PostMapping(
             path = "/index/controller/menschVsMensch/getEnemy")
-    public ResponseEntity<String> getEnemy(@RequestBody String body){
+    private ResponseEntity<String> getEnemy(@RequestBody String body){
         colorPrint(body, PRINTCOLOR.YELLOW);
         JSONObject jsonObject = new JSONObject(body);
         String gameCode = jsonObject.getString("gameCode");
