@@ -17,13 +17,11 @@ function sendData() {
             break;
         }
         case 2: {
-            sendGetRequestGameHTML();
-            sendDataMenschVsComputer();
+            checkAndSendDataMenschVsComputer()
             break;
         }
         case 3: {
-            sendGetRequestGameHTML();
-            sendDataComputerVsComputer();
+            checkAndSendDataComputerVsComputer()
             break;
         }
     }
@@ -36,11 +34,11 @@ function checkAndSendDataMenschVsMenschStart() {
 
             if (gameCodeStart.length == 0){
                 alert("Bitte geben Sie einen Gamecode ein")
-                return false
+                return
             }
             if (player1Name.length == 0){
                 alert("Bitte geben Sie einen Namen ein")
-                return false
+                return
             }
 
             fetch("/index/controller/checkGamecode", {
@@ -54,11 +52,10 @@ function checkAndSendDataMenschVsMenschStart() {
                     if (responseData.gamecodeOk){
                         console.log("testgamecode")
                         sendGetRequestGameHTML();
-                        sendDataMenschVsMenschJoin();
+                        sendDataMenschVsMenschStart();
                     }
                     else {
                         alert("Der Gamecode wird bereits verwendet. Bitte wählen Sie einen anderen Gamecode");
-                        return false;
                     }
             })
 }
@@ -70,11 +67,11 @@ function checkAndSendDataMenschVsMenschJoin() {
 
     if (gameCodeJoin.length == 0){
         alert("Bitte geben Sie einen Gamecode ein")
-        return false
+        return
     }
     if (player2Name.length == 0){
         alert("Bitte geben Sie einen Namen ein")
-        return false
+        return
     }
 
     fetch("/index/controller/checkGamecode", {
@@ -88,14 +85,42 @@ function checkAndSendDataMenschVsMenschJoin() {
             if (!responseData.gamecodeOk){
                 console.log("testgamecode")
                 sendGetRequestGameHTML();
-                sendDataMenschVsMenschStart();
+                sendDataMenschVsMenschJoin();
             }
             else {
                 alert("Der Gamecode existiert noch nicht verwendet. Bitte wählen kontrollieren Sie die Eingabe oder starten Sie ein neues Spiel.");
-                return false;
             }
         })
 }
+
+function checkAndSendDataMenschVsComputer() {
+
+    let player1Name = $("#player1Textfield").val();
+
+    if (player1Name.length == 0) {
+        alert("Bitte geben Sie einen Namen ein")
+        return
+    }
+    else {
+        sendGetRequestGameHTML();
+        sendDataMenschVsComputer();
+    }
+}
+
+function checkAndSendDataComputerVsComputer() {
+
+
+    //Hier Prüfung für diessen Modus einfügen
+    if (false) {
+        alert("Bitte geben Sie einen Namen ein")
+        return
+    }
+    else {
+        sendGetRequestGameHTML();
+        sendDataComputerVsComputer();
+    }
+}
+
 
 
 
