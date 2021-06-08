@@ -67,7 +67,7 @@ function updateBoardAfterEnemysPut(changedPositions){
     if (changedPositions[0] != null && !game.board.checkMorris(changedPositions[0])) {
         myTurn = true;
         $('#spielverlaufLabel').text(name + " ist an der Reihe")
-        setStoneGraphic(changedPositions[0].ring, changedPositions[0].field, 1-playerIndex);
+        putStoneGraphic(changedPositions[0].ring, changedPositions[0].field, 1-playerIndex);
         changedPositions[0] = null;
         increaseRound();
     }
@@ -75,7 +75,7 @@ function updateBoardAfterEnemysPut(changedPositions){
     // Gegnerischer Zug führt zu einer Mühle
     if (changedPositions[0] != null && game.board.checkMorris(changedPositions[0])) {
         myTurn = false;
-        setStoneGraphic(changedPositions[0].ring, changedPositions[0].field, 1-playerIndex);
+        putStoneGraphic(changedPositions[0].ring, changedPositions[0].field, 1-playerIndex);
         changedPositions[0] = null;
         increaseRound();
     }
@@ -91,19 +91,31 @@ function updateBoardAfterEnemysPut(changedPositions){
 
 function updateBoardAfterEnemysMove(changedPositions){
     // Gegnerischer Zug führt nicht zu einer Mühle
-    if (!game.board.checkMorris(changedPositions[0])) {
+    if (changedPositions[0] != null && !game.board.checkMorris(changedPositions[1])) {
         myTurn = true;
         $('#spielverlaufLabel').text(name + " ist an der Reihe")
         moveStoneGraphic(new Move(changedPositions[1], changedPositions[0]), 1-playerIndex)
+        changedPositions[0] = null;
+        changedPositions[1] = null;
+        increaseRound()
     }
 
-    // Gegnerischer Zug führt zu Mühle und es wurde bereits Stein entfernt
-    if (game.board.checkMorris(changedPositions[0])
-        && changedPositions[2] != null) {
+    // Gegnerischer Zug führt zu einer Mühle
+    if (changedPositions[0] != null && game.board.checkMorris(changedPositions[0])) {
+        myTurn = false;
+        moveStoneGraphic(changedPositions[0].ring, changedPositions[0].field, 1-playerIndex);
+        changedPositions[0] = null;
+        changedPositions[1] = null;
+        increaseRound();
+    }
+
+    // Es wurde ein eigener Stein entfernt
+    if (changedPositions[2] != null) {
+        console.log(changedPositions[2])
         myTurn = true;
         $('#spielverlaufLabel').text(name + " ist an der Reihe")
-        moveStoneGraphic(new Move(changedPositions[1], changedPositions[0]), 1-playerIndex)
-        clearStoneGraphic(changedPositions[2].ring, changedPositions[2].field, false);}
+        clearStoneGraphic(changedPositions[2].ring, changedPositions[2].field, false);
+        changedPositions[2] = null;}
 }
 
 
@@ -217,7 +229,7 @@ function clickOnField(ring, field){
            console.log("Spielrunde: " + game.round);
            increaseRound();
 
-           setStoneGraphic(ring, field, playerIndex);
+           putStoneGraphic(ring, field, playerIndex);
 
                if (game.board.checkMorris(new Position(ring, field))
                    && (game.board.isThereStoneToKill(1-playerIndex)
@@ -306,7 +318,7 @@ function clickOnField(ring, field){
 
     }
 
-    function setStoneGraphic(ring, field, index){
+    function putStoneGraphic(ring, field, index){
 
     if (index == playerIndex){
         if (color == "BLACK"){
