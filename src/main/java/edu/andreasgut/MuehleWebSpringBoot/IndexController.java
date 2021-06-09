@@ -24,11 +24,13 @@ public class IndexController {
         return modelAndView;}
 
     @GetMapping(
-            path = "/index/controller/waitingRoomHTML")
-    public ModelAndView loadWaitingRoomHTML() {
+            path = "/index/controller/gameCompHTML")
+    public ModelAndView loadGameCompHTML() {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("/waitingRoom.html");
+        modelAndView.setViewName("/gameComp.html");
         return modelAndView;}
+
+
 
         // Hier wird die gameID herausgelesen... Macht noch nicht wirklich Sinn so...
     @PostMapping(
@@ -200,7 +202,9 @@ public class IndexController {
         JSONObject jsonObject = new JSONObject(body);
         String modus = jsonObject.getString("modus");
         String computerName1 = jsonObject.getString("computerName1");
+        String computerCode1 = jsonObject.getString("computerCode1");
         String computerName2 = jsonObject.getString("computerName2");
+        String computerCode2 = jsonObject.getString("computerCode2");
         String player1Color = jsonObject.getString("player1Color");
 
         Game game = new Game(new ComputerPlayer(computerName1, generateRandomUUID(), STONECOLOR.BLACK), new ComputerPlayer(computerName2, generateRandomUUID(), STONECOLOR.WHITE), 0);

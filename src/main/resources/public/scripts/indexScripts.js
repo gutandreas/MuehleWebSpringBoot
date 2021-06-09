@@ -116,7 +116,7 @@ function checkAndSendDataComputerVsComputer() {
         return
     }
     else {
-        sendGetRequestGameHTML();
+        sendGetRequestGameCompHTML();
         sendDataComputerVsComputer();
     }
 }
@@ -126,6 +126,17 @@ function checkAndSendDataComputerVsComputer() {
 
 function sendGetRequestGameHTML(){
     fetch('/index/controller/gameHTML', {method: 'GET'})
+        .then((response) => {
+            return response.text();
+        })
+        .then((html) => {
+            //document.head.innerHTML = html
+            document.body.innerHTML = html
+        });
+}
+
+function sendGetRequestGameCompHTML(){
+    fetch('/index/controller/gameCompHTML', {method: 'GET'})
         .then((response) => {
             return response.text();
         })
@@ -371,15 +382,19 @@ function sendDataComputerVsComputer(){
         .then(resp => resp.json())
         .then(responseData => {
             console.log(responseData);
-            document.getElementById('player1NameGameText').innerText += (" " + responseData.computerName1);
-            document.getElementById('player2NameGameText').innerText += (" " + responseData.computerName2);
-            document.getElementById('gameCodeGameH1').innerText = ("Mühle online – Spielmodus: " + responseData.modus + " / Gamecode: " + responseData.gameCode.substring(13));
-            if (responseData.player1Color == "BLACK"){
-                document.getElementById('player1StoneImage').src = "images/StoneBlack.png"
-                document.getElementById('player2StoneImage').src = "images/StoneWhite.png";}
+            $('#player1NameGameText').text("Player 1: " + responseData.computerName1);
+            $('#player2NameGameText').text("Player2: " + responseData.computerName2);
+            $('#gameCodeGameH1').text("Mühle online – Spielmodus: Computer vs. Computer")
+            if (player1Color == "BLACK"){
+                $('#player1StoneImage').attr('src', 'images/StoneBlack.png')
+                $('#player2StoneImage').attr('src', 'images/StoneWhite.png')
+                window.color = "BLACK";
+            }
             else {
-                document.getElementById('player1StoneImage').src = "images/StoneWhite.png";
-                document.getElementById('player2StoneImage').src = "images/StoneBlack.png";}
+                $('#player1StoneImage').attr('src', 'images/StoneWhite.png')
+                $('#player2StoneImage').attr('src', 'images/StoneBlack.png')
+                window.color = "WHITE";
+            }
         })
         .catch(function(error) {
             console.log(error);
