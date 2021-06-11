@@ -45,6 +45,14 @@
 <div>
     <button type="button" onclick="nextStep()">Nächster Zug</button>
     <label> Spielablauf: </label><input type="checkbox" id="play-pause" /><label for="play-pause" id="play-pause-label" class="win-button" onclick="startAndStopGame($('#play-pause').prop('checked'))"></label>
+    <select id="tempoDropdown" onchange="setTempo($('#tempoDropdown option:selected').val())">
+        <div>
+            <option value="3000">Langsam</option>
+            <option value="1000">Mittelschnell</option>
+            <option value="300">Schnell</option>
+
+        </div>
+    </select>
 </div>
 
 

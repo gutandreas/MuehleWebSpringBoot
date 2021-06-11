@@ -2,7 +2,10 @@ var gameComp
 var currentIndexComp = 0;
 var color1Comp;
 var color2Comp;
-var nextStepAuto
+var nextStepAuto;
+var tempoStepAuto = 3000;
+
+
 
 
     function startAndStopGame(checked) {
@@ -11,9 +14,17 @@ var nextStepAuto
             clearInterval(nextStepAuto)
             console.log("pause")
         } else {
-            nextStepAuto = setInterval(nextStep, 1000)
-
+            nextStepAuto = setInterval(nextStep, tempoStepAuto)
         }
+    }
+
+    function setTempo(interval){
+        tempoStepAuto = interval;
+        if ($("#play-pause").prop('checked')){
+            startAndStopGame(true);
+            startAndStopGame(false);
+        }
+
     }
 
     function nextStep(){
