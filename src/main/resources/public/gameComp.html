@@ -43,7 +43,7 @@
 </div>
 
 <div>
-    <button type="button" onclick="nextStep()">Nächster Zug</button>
+    <button type="button" id="nextStepButton" onclick="nextStep()">Nächster Zug</button>
     <label> Spielablauf: </label><input type="checkbox" id="play-pause" /><label for="play-pause" id="play-pause-label" class="win-button" onclick="startAndStopGame($('#play-pause').prop('checked'))"></label>
     <select id="tempoDropdown" onchange="setTempo($('#tempoDropdown option:selected').val())">
         <div>

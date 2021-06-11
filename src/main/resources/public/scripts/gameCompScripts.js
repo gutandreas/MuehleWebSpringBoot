@@ -28,6 +28,11 @@ var tempoStepAuto = 3000;
     }
 
     function nextStep(){
+        if (gameComp.round > 18 && gameComp.board.countPlayersStones(currentIndexComp) == 2){
+            stopGame();
+            return;
+        }
+
         if(gameComp.round < 18){
             putComp()
         }
@@ -35,6 +40,15 @@ var tempoStepAuto = 3000;
             moveComp()
         }
 
+    }
+
+    function stopGame(){
+        alert(gameComp.getComputerPlayerByIndex(1-currentIndexComp).name + " hat das Spiel gewonnen!")
+        $('#nextStepButton').prop('disabled', true)
+        if ($("#play-pause").prop('checked')){
+            startAndStopGame(true);
+        }
+        $('#play-pause').prop('disabled', true)
     }
 
     function putComp(){
@@ -61,6 +75,11 @@ var tempoStepAuto = 3000;
                 }
                 else {
                     currentIndexComp = 1 - currentIndexComp;
+                    if (currentIndexComp == 0){
+                        $('#spielverlaufLabel').text(gameComp.computer2.name + " ist am Zug")}
+                    else {
+                        $('#spielverlaufLabel').text(gameComp.computer1.name + " ist am Zug")
+                    }
                 }
                 increaseRoundComp();
             })
@@ -92,6 +111,11 @@ function moveComp(){
             }
             else {
                 currentIndexComp = 1 - currentIndexComp;
+                if (currentIndexComp == 0){
+                    $('#spielverlaufLabel').text(gameComp.computer2.name + " ist am Zug")}
+                else {
+                    $('#spielverlaufLabel').text(gameComp.computer1.name + " ist am Zug")
+                }
             }
             increaseRoundComp();
         })
