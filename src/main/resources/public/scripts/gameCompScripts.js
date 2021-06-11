@@ -2,20 +2,27 @@ var gameComp
 var currentIndexComp = 0;
 var color1Comp;
 var color2Comp;
+var nextStepAuto
 
 
-    function startAndStopGame(checked){
-    if (checked){
+    function startAndStopGame(checked) {
+
+        if (checked) {
+            clearInterval(nextStepAuto)
+            console.log("pause")
+        } else {
+            nextStepAuto = setInterval(nextStep, 1000)
+
+        }
+    }
+
+    function nextStep(){
         if(gameComp.round < 18){
             putComp()
         }
         else {
             moveComp()
         }
-    }
-    else {
-        console.log("pause")
-    }
 
     }
 
