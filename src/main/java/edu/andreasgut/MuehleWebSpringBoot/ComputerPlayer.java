@@ -38,7 +38,7 @@ public class ComputerPlayer extends Player {
 
         loop:{
         for (int i = 0; i < 3; i++){
-            for(int j = 0; j < 7; j++){
+            for(int j = 0; j < 8; j++){
                 if (board.isThisMyStone(new Position(i,j),playerIndex)){
                     if(board.isFieldFree(new Position(i,(j+1)%8))){
                         move.setFrom(new Position(i, j));
