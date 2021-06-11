@@ -21,7 +21,7 @@
 
 <div id="score">
     <h2>Spielstand</h2>
-    <h3 id="rundeText">Spielrunde: 1 </h3>
+    <h3 id="rundeText">Spielrunde: 0 </h3>
     <h3 id="player1NameGameText">Player 1: </h3>
     <table><td style="width: 25%"><img id="player1StoneImage" style="width: 100%"> </td><td>
         <h4 class="labelPut" id="putLabel0">Steine gesetzt: 0</h4>
@@ -42,9 +42,9 @@
     <label id="spielverlaufLabel"></label>
 </div>
 
-<div>
-    <button type="button" id="nextStepButton" onclick="nextStep()">Nächster Zug</button>
-    <label> Spielablauf: </label><input type="checkbox" id="play-pause" /><label for="play-pause" id="play-pause-label" class="win-button" onclick="startAndStopGame($('#play-pause').prop('checked'))"></label>
+<div id="playOptions">
+    <input type="button" id="nextStepButton" onclick="nextStep()" value="Nächster Zug">
+    <label style="padding-left: 2%">Spieltempo:</label>
     <select id="tempoDropdown" onchange="setTempo($('#tempoDropdown option:selected').val())">
         <div>
             <option value="3000">Langsam</option>
@@ -53,6 +53,8 @@
 
         </div>
     </select>
+    <label style="padding-left: 2%">Spiel starten: </label><input type="checkbox" id="play-pause" /><label for="play-pause" id="play-pause-label" class="win-button" onclick="startAndStopGame($('#play-pause').prop('checked'))"></label>
+
 </div>
 
 

@@ -43,12 +43,15 @@ var tempoStepAuto = 3000;
     }
 
     function stopGame(){
-        alert(gameComp.getComputerPlayerByIndex(1-currentIndexComp).name + " hat das Spiel gewonnen!")
         $('#nextStepButton').prop('disabled', true)
-        if ($("#play-pause").prop('checked')){
-            startAndStopGame(true);
-        }
         $('#play-pause').prop('disabled', true)
+        $('#tempoDropdown').prop('disabled', true)
+        clearInterval(nextStepAuto);
+        if (currentIndexComp == 0){
+            $('#spielverlaufLabel').text(gameComp.computer2.name + " hat das Spiel gewonnen")}
+        else {
+            $('#spielverlaufLabel').text(gameComp.computer1.name + " hat das Spiel gewonnen")
+        }
     }
 
     function putComp(){
