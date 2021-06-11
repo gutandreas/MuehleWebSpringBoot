@@ -200,22 +200,18 @@ public class IndexController {
     public ResponseEntity<String> loadComputerVsComputer(@RequestBody String body){
         colorPrint(body, PRINTCOLOR.YELLOW);
         JSONObject jsonObject = new JSONObject(body);
-        String modus = jsonObject.getString("modus");
         String computerName1 = jsonObject.getString("computerName1");
         String computerCode1 = jsonObject.getString("computerCode1");
         String computerName2 = jsonObject.getString("computerName2");
         String computerCode2 = jsonObject.getString("computerCode2");
-        String player1Color = jsonObject.getString("player1Color");
 
         Game game = new Game(new ComputerPlayer(computerName1, generateRandomUUID(), STONECOLOR.BLACK), new ComputerPlayer(computerName2, generateRandomUUID(), STONECOLOR.WHITE), 0);
         String gameCode = GameManager.addGameAndGetGameCode(game);
 
         JSONObject jsonResponseObject = new JSONObject();
-        jsonResponseObject.put("modus", modus);
         jsonResponseObject.put("gameCode", gameCode);
-        jsonResponseObject.put("computerName1", computerName1);
-        jsonResponseObject.put("computerName2", computerName2);
-        jsonResponseObject.put("player1Color", player1Color);
+        jsonResponseObject.put("uuid1", GameManager.getGame(gameCode).getPlayer0().getUuid());
+        jsonResponseObject.put("uuid2", GameManager.getGame(gameCode).getPlayer1().getUuid());
 
         return ResponseEntity.status(HttpStatus.OK).body(jsonResponseObject.toString());
 

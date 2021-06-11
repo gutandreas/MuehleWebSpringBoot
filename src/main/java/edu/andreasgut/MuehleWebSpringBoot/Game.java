@@ -75,13 +75,6 @@ public class Game {
         return gameComplete;
     }
 
-    public int getCurrentPlayerIndex() {
-        return currentPlayerIndex;
-    }
-
-    public void setCurrentPlayerIndex(int currentPlayerIndex) {
-        this.currentPlayerIndex = currentPlayerIndex;
-    }
 
 
     public Player getPlayerByIndex(int playerIndex){
@@ -99,6 +92,15 @@ public class Game {
         }
         else {
             return 1;
+        }
+    }
+
+    public Player getPlayerByUuid(String ownUuid){
+        if (getPlayerArrayList().get(0).getUuid().equals(ownUuid)){
+            return getPlayerArrayList().get(0);
+        }
+        else {
+            return getPlayerArrayList().get(1);
         }
     }
 

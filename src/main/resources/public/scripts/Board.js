@@ -12,9 +12,7 @@ class Board {
             for (let j = 0; j < 8; j++) {
                 this.array[i][j] = 9;
             }
-
         }
-
         this.changedPositions = new Array(3);
     }
 

@@ -371,7 +371,6 @@ function sendDataComputerVsComputer(){
                 "modus": 'Modus Computer vs. Computer',
                 "computerName1" : computerName1,
                 "computerCode1" : computerCode1,
-                "player1Color" : player1Color,
                 "computerName2" : computerName2,
                 "computerCode2" : computerCode2
         }),
@@ -382,19 +381,19 @@ function sendDataComputerVsComputer(){
         .then(resp => resp.json())
         .then(responseData => {
             console.log(responseData);
-            $('#player1NameGameText').text("Player 1: " + responseData.computerName1);
-            $('#player2NameGameText').text("Player2: " + responseData.computerName2);
-            $('#gameCodeGameH1').text("Mühle online – Spielmodus: Computer vs. Computer")
+            $('#player1NameGameText').text("Player 1: " + computerName1);
+            $('#player2NameGameText').text("Player2: " + computerName2);
+            $('#modusH1').text("Mühle online – Spielmodus: Computer vs. Computer")
             if (player1Color == "BLACK"){
                 $('#player1StoneImage').attr('src', 'images/StoneBlack.png')
                 $('#player2StoneImage').attr('src', 'images/StoneWhite.png')
-                window.color = "BLACK";
             }
             else {
                 $('#player1StoneImage').attr('src', 'images/StoneWhite.png')
                 $('#player2StoneImage').attr('src', 'images/StoneBlack.png')
-                window.color = "WHITE";
             }
+            window.gameComp = new GameComp(new Player(computerName1, responseData.uuid1, 0),
+                new Player(computerName2, responseData.uuid2, 1), responseData.gameCode);
         })
         .catch(function(error) {
             console.log(error);

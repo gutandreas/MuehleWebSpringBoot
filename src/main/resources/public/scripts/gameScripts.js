@@ -386,22 +386,5 @@ function clickOnField(ring, field){
 
         }
 
-
-
-
         $('#'.concat("r").concat(ring).concat("f").concat(field)).empty();
-
     }
-
-    //Comp-vs-Comp-Modus
-
-    function startAndStopGame(checked){
-    if (checked){
-        console.log("play")
-    }
-    else {
-        console.log("pause")
-    }
-
-    }
-
