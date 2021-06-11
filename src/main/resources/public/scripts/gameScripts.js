@@ -393,3 +393,15 @@ function clickOnField(ring, field){
 
     }
 
+    //Comp-vs-Comp-Modus
+
+    function startAndStopGame(checked){
+    if (checked){
+        console.log("play")
+    }
+    else {
+        console.log("pause")
+    }
+
+    }
+

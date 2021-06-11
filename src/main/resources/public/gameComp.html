@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Mühle - Onlinespiel</title>
     <link rel="stylesheet" type="text/css" href="css/style.css">
+
     <script src="scripts/gameScripts.js"></script>
     <script src="scripts/indexScripts.js"></script>
 </head>
@@ -41,7 +42,14 @@
     <label id="spielverlaufLabel"></label>
 </div>
 
+<div>
+    <label> Spielablauf: </label><input type="checkbox" id="play-pause" /><label for="play-pause" id="play-pause-label" class="win-button" onclick="startAndStopGame($('#play-pause').prop('checked'))"></label>
+</div>
+
+
+
 <div id="boardImage" style="position: relative;" >
+
     <img src="Images/Spielfeld.png" style="width: 40%; height: auto;">
     <div id="r0f0" style="position: absolute; left: 30%; top: 0%; width: 6%; height: 14%; background-color: rgba(0, 0, 0, 0);"></div>
     <div id="r0f1" style="position: absolute; left: 47%; top: 0%; width: 6%; height: 14%; background-color: rgba(0, 0, 0, 0);"></div>

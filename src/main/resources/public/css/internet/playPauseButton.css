@@ -1,0 +1,26 @@
+/* PLAYPAUSEBUTTON: Importiert von https://codepen.io/zthall/pen/NNOyey am 11. Juni 2021 https://codepen.io/zthall/pen/NNOyey */
+
+
+html,
+body {
+    height: 100%;
+    width: 100%;
+}
+
+
+
+#play-pause {
+    display: none;
+}
+
+label {
+    cursor: pointer;
+}
+
+#play-pause:checked + #play-pause-label::after {
+    content: '❙❙';
+}
+
+#play-pause-label::after {
+    content: '►';
+}
