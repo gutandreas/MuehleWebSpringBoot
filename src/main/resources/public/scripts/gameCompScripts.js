@@ -2,12 +2,11 @@ var gameComp
 var currentIndexComp = 0;
 var color1Comp;
 var color2Comp;
-var roundComp = 1;
 
 
     function startAndStopGame(checked){
     if (checked){
-        if(roundComp < 17){
+        if(gameComp.round < 18){
             putComp()
         }
         else {
@@ -69,7 +68,7 @@ function moveComp(){
             let move = new Move(fromPosition, toPosistion);
             gameComp.board.move(move, currentIndexComp)
             console.log(gameComp.board.toString())
-            moveStoneGraphic(move, currentIndexComp)
+            moveStoneGraphicComp(move, currentIndexComp)
             if (gameComp.board.checkMorris(move.toPosition) && gameComp.board.isThereStoneToKill(1-currentIndexComp)){
                 killComp()
             }
@@ -141,6 +140,32 @@ function clearStoneGraphicComp(ring, field, index){
     }
 
     $('#'.concat("r").concat(ring).concat("f").concat(field)).empty();
+}
+
+function moveStoneGraphicComp(move, index) {
+
+    $('#'.concat("r").concat(move.fromPosition.getRing()).concat("f").concat(move.fromPosition.getField())).empty();
+
+
+    let ring = move.toPosition.getRing();
+    let field = move.toPosition.getField();
+
+    if (index == 0) {
+        if (color1Comp == "BLACK") {
+            $('#'.concat("r").concat(ring).concat("f").concat(field)).prepend('<img src="images/StoneBlack.png" height="100%" width="100%"/>');
+        }
+        if (color1Comp == "WHITE") {
+            $('#'.concat("r").concat(ring).concat("f").concat(field)).prepend('<img src="images/StoneWhite.png" height="100%" width="100%"/>');
+        }
+
+    } else {
+        if (color2Comp == "WHITE") {
+            $('#'.concat("r").concat(ring).concat("f").concat(field)).prepend('<img src="images/StoneWhite.png" height="100%" width="100%"/>');
+        }
+        if (color2Comp == "BLACK") {
+            $('#'.concat("r").concat(ring).concat("f").concat(field)).prepend('<img src="images/StoneBlack.png" height="100%" width="100%"/>');
+        }
+    }
 }
 
     function increaseRoundComp(){

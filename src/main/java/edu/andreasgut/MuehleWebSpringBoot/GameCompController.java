@@ -71,7 +71,7 @@ public class GameCompController {
 
         JSONObject jsonRequestObject = new JSONObject(body);
         String gameCode = jsonRequestObject.getString("gameCode");
-        String playerUuid = jsonRequestObject.getString("playerUuid");
+        String playerUuid = jsonRequestObject.getString("uuid");
         Game game = GameManager.getGame(gameCode);
         Board board = game.getBoard();
         int playerIndex = game.getPlayerIndexByUuid(playerUuid);
