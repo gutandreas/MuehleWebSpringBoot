@@ -387,10 +387,14 @@ function sendDataComputerVsComputer(){
             if (player1Color == "BLACK"){
                 $('#player1StoneImage').attr('src', 'images/StoneBlack.png')
                 $('#player2StoneImage').attr('src', 'images/StoneWhite.png')
+                color1Comp = "BLACK";
+                color2Comp = "WHITE";
             }
             else {
                 $('#player1StoneImage').attr('src', 'images/StoneWhite.png')
                 $('#player2StoneImage').attr('src', 'images/StoneBlack.png')
+                color1Comp = "WHITE";
+                color2Comp = "BLACK";
             }
             window.gameComp = new GameComp(new Player(computerName1, responseData.uuid1, 0),
                 new Player(computerName2, responseData.uuid2, 1), responseData.gameCode);

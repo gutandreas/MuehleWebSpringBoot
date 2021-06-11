@@ -10,7 +10,7 @@ public class GameCompController {
 
     @PostMapping(
             path = "/gameComp/controller/put")
-    public ResponseEntity<String> put(@RequestBody String body) {
+    public ResponseEntity<String> putComp(@RequestBody String body) {
 
         JSONObject jsonRequestObject = new JSONObject(body);
         Game game = GameManager.getGame(jsonRequestObject.getString("gameCode"));
@@ -21,9 +21,9 @@ public class GameCompController {
         System.out.println(board);
 
         Position position = game.getPlayerByUuid(uuid).put(board, index);
-        JSONObject jsonResponseObject = new JSONObject();
 
         if (board.checkPut(position)){
+            JSONObject jsonResponseObject = new JSONObject();
             jsonResponseObject.put("ring", position.getRing());
             jsonResponseObject.put("field", position.getField());
             board.putStone(position, index);
@@ -41,7 +41,7 @@ public class GameCompController {
 
     @PostMapping(
             path = "/gameComp/controller/kill")
-    public ResponseEntity<String> kill(@RequestBody String body) {
+    public ResponseEntity<String> killComp(@RequestBody String body) {
 
         JSONObject jsonRequestObject = new JSONObject(body);
         Game game = GameManager.getGame(jsonRequestObject.getString("gameCode"));
@@ -63,9 +63,37 @@ public class GameCompController {
         else {
             return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("-");
         }
-
-
     }
+
+    @PostMapping(
+            path = "/gameComp/controller/move")
+    public ResponseEntity<String> moveComp(@RequestBody String body) {
+
+        JSONObject jsonRequestObject = new JSONObject(body);
+        String gameCode = jsonRequestObject.getString("gameCode");
+        String playerUuid = jsonRequestObject.getString("playerUuid");
+        Game game = GameManager.getGame(gameCode);
+        Board board = game.getBoard();
+        int playerIndex = game.getPlayerIndexByUuid(playerUuid);
+        boolean allowedToJump = board.countPlayersStones(playerIndex) == 3;
+
+        Move move = game.getPlayerByIndex(playerIndex).move(board, playerIndex, allowedToJump);
+
+        if (board.checkMove(move, allowedToJump)){
+
+            JSONObject jsonResponseObject = new JSONObject();
+            jsonResponseObject.put("moveFromRing", move.getFrom().getRing());
+            jsonResponseObject.put("moveFromField", move.getFrom().getField());
+            jsonResponseObject.put("moveToRing", move.getTo().getRing());
+            jsonResponseObject.put("moveToField", move.getTo().getField());
+            board.move(move, playerIndex);
+
+            return ResponseEntity.status(HttpStatus.OK).body(jsonResponseObject.toString());
+        }
+        else {
+            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("-");
+        }}
+
 
 
 
