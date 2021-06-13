@@ -4,6 +4,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalTime;
+
 
 @RestController
 public class GameCompController {
@@ -18,8 +20,6 @@ public class GameCompController {
         Board board = game.getBoard();
         int index = game.getPlayerIndexByUuid(uuid);
 
-        System.out.println(board);
-
         Position position = game.getPlayerByUuid(uuid).put(board, index);
 
         if (board.checkPut(position)){
@@ -27,6 +27,10 @@ public class GameCompController {
             jsonResponseObject.put("ring", position.getRing());
             jsonResponseObject.put("field", position.getField());
             board.putStone(position, index);
+
+            System.out.println(LocalTime.now() + " – " + getClass().getSimpleName()
+                    + ": Put in Game " + jsonRequestObject.getString("gameCode"));
+            System.out.println(board);
 
             return ResponseEntity.status(HttpStatus.OK).body(jsonResponseObject.toString());
         }
@@ -58,6 +62,10 @@ public class GameCompController {
             jsonResponseObject.put("field", position.getField());
             board.clearStone(position);
 
+            System.out.println(LocalTime.now() + " – " + getClass().getSimpleName()
+                    + ": Kill in Game " + jsonRequestObject.getString("gameCode"));
+            System.out.println(board);
+
             return ResponseEntity.status(HttpStatus.OK).body(jsonResponseObject.toString());
         }
         else {
@@ -87,6 +95,10 @@ public class GameCompController {
             jsonResponseObject.put("moveToRing", move.getTo().getRing());
             jsonResponseObject.put("moveToField", move.getTo().getField());
             board.move(move, playerIndex);
+
+            System.out.println(LocalTime.now() + " – " + getClass().getSimpleName()
+                    + ": Move in Game " + jsonRequestObject.getString("gameCode"));
+            System.out.println(board);
 
             return ResponseEntity.status(HttpStatus.OK).body(jsonResponseObject.toString());
         }

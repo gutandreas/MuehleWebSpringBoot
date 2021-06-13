@@ -8,6 +8,8 @@ var name;
 var enemyName;
 var gameOver = false;
 var enemyLoggedIn = true;
+var pathWaitingCursor = "images/SandglassCursor.png"
+var pathPutCursor = "images/PutCursor.png"
 
 
 var moveTakePosition;
@@ -50,7 +52,7 @@ function autoRefreshField(){
                         updateBoardAfterEnemysPut(changedPositions)}
 
                     if (game.round >= 18){
-                       updateBoardAfterEnemysMove(changedPositions)}
+                        updateBoardAfterEnemysMove(changedPositions)}
 
 
                     if (game.board.countPlayersStones(playerIndex) < 3 && game.round > 18){
@@ -67,6 +69,7 @@ function updateBoardAfterEnemysPut(changedPositions){
     // Gegnerischer Zug führt nicht zu einer Mühle
     if (changedPositions[0] != null && !game.board.checkMorris(changedPositions[0])) {
         myTurn = true;
+        //setBoardCursor(pathPutCursor);
         $('#spielverlaufLabel').text(name + " ist an der Reihe")
         putStoneGraphic(changedPositions[0].ring, changedPositions[0].field, 1-playerIndex);
         changedPositions[0] = null;
@@ -156,7 +159,6 @@ function clickOnField(ring, field){
         }
     }
 
-    //setCursor("url('images/StoneBlackCursor.png'), auto");
 
     }
 
@@ -246,7 +248,9 @@ function clickOnField(ring, field){
 
                }
                else {myTurn = false;
-                   $('#spielverlaufLabel').text(enemyName + " ist an der Reihe")}
+                   $('#spielverlaufLabel').text(enemyName + " ist an der Reihe")
+                   //setBoardCursor(pathWaitingCursor);
+                   }
 
            fetch("/game/controller/put", {
                method: 'POST',
@@ -387,4 +391,16 @@ function clickOnField(ring, field){
         }
 
         $('#'.concat("r").concat(ring).concat("f").concat(field)).empty();
+    }
+
+    function setBoardCursor(path){
+    let cursorText = 'url(' + path +'), auto'
+        //document.body.style.cursor = "none";
+        $('body').css('cursor', 'none');
+        $('#boardImage').mousemove(function() {
+            $(this).css( 'cursor', cursorText );
+        });
+        $('#boardImage').mouseleave(function() {
+            $(this).css( 'cursor', 'url(images/SandGlassdfCursor.png), auto' );
+        });
     }

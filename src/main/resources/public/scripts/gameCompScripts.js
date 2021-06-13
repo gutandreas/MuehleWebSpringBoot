@@ -8,6 +8,7 @@ var tempoStepAuto = 3000;
 
 
 
+
     function startAndStopGame(checked) {
 
         if (checked) {
@@ -190,7 +191,6 @@ function clearStoneGraphicComp(ring, field, index){
 function moveStoneGraphicComp(move, index) {
 
     $('#'.concat("r").concat(move.fromPosition.getRing()).concat("f").concat(move.fromPosition.getField())).empty();
-
 
     let ring = move.toPosition.getRing();
     let field = move.toPosition.getField();
