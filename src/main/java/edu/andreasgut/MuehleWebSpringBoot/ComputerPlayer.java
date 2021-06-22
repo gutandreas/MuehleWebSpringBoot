@@ -52,6 +52,25 @@ public class ComputerPlayer extends Player {
                     }
                 }
         }}}
+
+        loop:{
+            for (int i = 0; i < 3; i++){
+                for(int j = 0; j < 8; j++){
+                    if (board.isThisMyStone(new Position(i,j),playerIndex) && j%2 == 1){
+                        if(board.isFieldFree(new Position((i+1)%3,j)) && i !=2){
+                            move.setFrom(new Position(i, j));
+                            move.setTo(new Position((i+1)%3,j));
+                            break loop;
+                        }
+                        if(board.isFieldFree(new Position((i+2)%3,j)) && i!=0){
+                            move.setFrom(new Position(i, j));
+                            move.setTo(new Position((i+2)%3,j));
+                            break loop;
+                    }
+                }}}}
+
+
+
         return move;
     }
 

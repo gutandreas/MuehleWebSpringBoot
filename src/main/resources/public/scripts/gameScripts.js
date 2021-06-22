@@ -401,6 +401,6 @@ function clickOnField(ring, field){
             $(this).css( 'cursor', cursorText );
         });
         $('#boardImage').mouseleave(function() {
-            $(this).css( 'cursor', 'url(images/SandGlassdfCursor.png), auto' );
+            $(this).css( 'cursor', 'none, auto' );
         });
     }
