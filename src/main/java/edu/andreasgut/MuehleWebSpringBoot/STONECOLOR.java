@@ -2,12 +2,12 @@ package edu.andreasgut.MuehleWebSpringBoot;
 
 public enum STONECOLOR {
 
-    BLACK("edu/andreasgut/Images/StoneBlack.png",
-            "edu/andreasgut/Images/HandCursorBlack.png",
-            "edu/andreasgut/Images/KillCursorBlack.png"),
-    WHITE( "edu/andreasgut/Images/StoneWhite.png",
-            "edu/andreasgut/Images/HandCursorWhite.png",
-            "edu/andreasgut/Images/KillCursorWhite.png"),;
+    BLACK("edu/andreasgut/images/StoneBlack.png",
+            "edu/andreasgut/images/HandCursorBlack.png",
+            "edu/andreasgut/images/KillCursorBlack.png"),
+    WHITE( "edu/andreasgut/images/StoneWhite.png",
+            "edu/andreasgut/images/HandCursorWhite.png",
+            "edu/andreasgut/images/KillCursorWhite.png"),;
 
     private String pathStone, pathMoveCursor, pathKillCursor;
 
