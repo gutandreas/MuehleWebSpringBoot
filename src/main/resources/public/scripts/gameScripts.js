@@ -28,42 +28,6 @@ function setCursor(cursorURL){
     document.getElementById("boardImage").style.cursor = cursorURL;
 }
 
-function autoRefreshField(){
-    setInterval(function () {
-        if (!myTurn){
-        console.log("Board bei Server abfragen");
-        fetch("/game/controller/getBoard", {
-            method: 'POST',
-            body: JSON.stringify({
-                "gameCode": game.gamecode,
-            }),
-            headers: {
-                "Content-type": "application/json"
-            }
-        })
-            .then(resp => resp.json())
-            .then(responseData => {
-                    console.log(responseData);
-
-                    let changedPositions = game.board.updateBoardAndGetChanges(responseData.board);
-
-                    if (game.round < 18){
-                        updateBoardAfterEnemysPut(changedPositions)}
-
-                    if (game.round >= 18){
-                        updateBoardAfterEnemysMove(changedPositions)}
-
-
-                    if (game.board.countPlayersStones(playerIndex) < 3 && game.round > 18){
-                        gameOver = true;
-                        alert(enemyName + " hat das Spiel gewonnen")
-                        $('#spielverlaufLabel').text(enemyName + " hat das Spiel gewonnen")
-                    }
-
-                }
-            )
-}}, 1000)}
-
 function updateBoardAfterEnemysPut(changedPositions){
     // Gegnerischer Zug führt nicht zu einer Mühle
     if (changedPositions[0] != null && !game.board.checkMorris(changedPositions[0])) {
@@ -82,14 +46,6 @@ function updateBoardAfterEnemysPut(changedPositions){
         changedPositions[0] = null;
         increaseRound();
     }
-
-    // Es wurde ein eigener Stein entfernt
-    if (changedPositions[2] != null) {
-        console.log(changedPositions[2])
-        myTurn = true;
-        $('#spielverlaufLabel').text(name + " ist an der Reihe")
-        clearStoneGraphic(changedPositions[2].ring, changedPositions[2].field, false);
-        changedPositions[2] = null;}
 }
 
 function updateBoardAfterEnemysMove(changedPositions){
@@ -112,13 +68,22 @@ function updateBoardAfterEnemysMove(changedPositions){
         increaseRound();
     }
 
-    // Es wurde ein eigener Stein entfernt
+}
+
+function updateBoardAfterEnemysKill(changedPositions){
+
+    // Eigener Stein wurde entfernt
     if (changedPositions[2] != null) {
         console.log(changedPositions[2])
         myTurn = true;
         $('#spielverlaufLabel').text(name + " ist an der Reihe")
         clearStoneGraphic(changedPositions[2].ring, changedPositions[2].field, false);
         changedPositions[2] = null;}
+
+    if (game.round > 18 && game.board.countPlayersStones(playerIndex) < 3){
+        gameOver = true
+        alert("Sie haben das Spiel verloren");
+    }
 }
 
 
@@ -330,7 +295,15 @@ function clickOnField(ring, field){
 
                         $('#spielverlaufLabel').text(enemyName + " ist an der Reihe")
                     }}
-                )}
+                )
+                .then( e => {
+                    //Nachricht an Websocket
+                    sendMessage(websocket, JSON.stringify({
+                        "gameCode": game.gamecode,
+                        "playerUuid": game.player.getUuid(),
+                        "command" : "update",
+                        "action": "kill"
+                    }))})}
 
         else {
             alert("Auf diesem Feld kann kein Stein entfernt werden")}

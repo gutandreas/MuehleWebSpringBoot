@@ -66,7 +66,7 @@ public class WebsocketHandler extends TextWebSocketHandler {
 
                     JSONObject updateJsonObject = new JSONObject();
                     updateJsonObject.put("command", "update");
-                    updateJsonObject.put("action", "put");
+                    updateJsonObject.put("action", action);
                     updateJsonObject.put("playerUUid", updatePlayerUuid);
                     updateJsonObject.put("boardAsString", boardAsString);
                     updateJsonObject.put("action", action);

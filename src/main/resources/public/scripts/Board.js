@@ -129,6 +129,10 @@ class Board {
         let tempBoardAsString = boardAsString;
         let enemysIndex = 1-this.game.getPlayer().getIndex();
 
+        this.changedPositions[0] = null;
+        this.changedPositions[1] = null;
+        this.changedPositions[2] = null;
+
 
         for (let i = 0; i < 3; i++) {
             for (let j = 0; j < 8; j++) {
@@ -153,8 +157,6 @@ class Board {
 
                 this.array[i][j] = tempBoardAsString.charAt(0);
                 tempBoardAsString = tempBoardAsString.substr(1);
-
-
             }
         }
 

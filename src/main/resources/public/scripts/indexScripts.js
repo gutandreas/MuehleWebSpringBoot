@@ -167,8 +167,9 @@ function onMessage(evt){
         if (message.action == "put"){
             updateBoardAfterEnemysPut(changedPositions)}
         if (message.action == "move"){
-            updateBoardAfterEnemysMove(changedPositions)
-        }
+            updateBoardAfterEnemysMove(changedPositions)}
+        if (message.action == "kill"){
+            updateBoardAfterEnemysKill(changedPositions)}
     }
     else {
         alert("kein update")
