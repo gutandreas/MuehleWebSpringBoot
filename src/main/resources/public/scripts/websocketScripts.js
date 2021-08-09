@@ -19,7 +19,13 @@ function onMessage(evt){
 
     var message = JSON.parse(evt.data);
 
-    if (message.command == "update"){
+    if (message.command == "join" && message.playerUuid != uuid){
+        window.enemyName = message.player2Name;
+        window.enemyLoggedIn = true;
+        $('#player2NameGameText').text("Player 2: " + message.player2Name)
+    }
+
+    if (message.command == "update" && message.playerUuid != uuid){
 
         let changedPositions = game.board.updateBoardAndGetChanges(message.boardAsString);
         if (message.action == "put"){

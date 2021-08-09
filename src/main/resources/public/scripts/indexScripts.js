@@ -101,11 +101,12 @@ function checkAndSendDataMenschVsMenschJoin() {
                 doConnect();
                 sendMessage(websocket, JSON.stringify({
                     "gameCode" : gameCodeJoin,
-                    "command" : "join"
+                    "command" : "join",
+                    "player2Name" : player2Name
                 }))
             }
             else {
-                alert("Der Gamecode existiert noch nicht verwendet. Bitte wählen kontrollieren Sie die Eingabe oder starten Sie ein neues Spiel.");
+                alert("Der Gamecode wird noch nicht verwendet. Bitte kontrollieren Sie die Eingabe oder starten Sie ein neues Spiel.");
             }
         })
 }
@@ -216,7 +217,6 @@ function sendDataMenschVsMenschStart(){
                 window.enemyLoggedIn = false;
                 $("#spielverlaufLabel").text(player1Name + " startet das Spiel.")
 
-                checkEnemy(gameCodeStart)
 
 
 
@@ -226,32 +226,6 @@ function sendDataMenschVsMenschStart(){
             });
     }
 
-    function checkEnemy(gamecode){
-        var checkEnemy = setInterval(function () {
-
-            //Abfrage nach Gegenspieler. Wenn möglich in separate Methode gliedern.
-            fetch("/index/controller/menschVsMensch/getEnemy", {
-                method: 'POST',
-                body: JSON.stringify({
-                    "gameCode": gamecode
-                }),
-                headers: {
-                    "Content-type": "application/json"
-                }
-            })
-                .then(resp => resp.json())
-                .then(responseData => {
-                    if (responseData.player2Name != ""){
-                        console.log(responseData);
-                        window.enemyName = responseData.player2Name;
-                        window.enemyLoggedIn = true;
-                        $('#player2NameGameText').text("Player 2: " + responseData.player2Name)
-                        clearInterval(checkEnemy)
-                    }
-
-                })
-        }, 3000)
-    }
 
 function sendDataMenschVsMenschJoin(){
 

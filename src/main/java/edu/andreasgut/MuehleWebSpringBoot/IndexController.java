@@ -76,30 +76,6 @@ public class IndexController {
 
     }
 
-    @PostMapping(
-            path = "/index/controller/menschVsMensch/getEnemy")
-    private ResponseEntity<String> getEnemy(@RequestBody String body){
-        colorPrint(body, PRINTCOLOR.YELLOW);
-        JSONObject jsonObject = new JSONObject(body);
-        String gameCode = jsonObject.getString("gameCode");
-
-        System.out.println(this.getClass().getSimpleName() + ": Im Game mit dem Code '" + gameCode + "' wurde der Gegner abgefragt.");
-
-        JSONObject jsonResponseObject = new JSONObject();
-
-        if (GameManager.getGame(gameCode).getPlayer1() != null){
-
-            jsonResponseObject.put("player2Name", GameManager.getGame(gameCode).getPlayer1().getName());
-
-            return ResponseEntity.status(HttpStatus.OK).body(jsonResponseObject.toString());
-        }
-        else {
-
-            jsonResponseObject.put("player2Name", "");
-            return ResponseEntity.status(HttpStatus.ACCEPTED).body(jsonResponseObject.toString());
-        }
-
-    }
 
     @PostMapping(
             path = "/index/controller/menschVsMensch/join")
@@ -134,7 +110,8 @@ public class IndexController {
 
         }
         else {
-            System.out.println(LocalTime.now() + " – " + this.getClass().getSimpleName() + ": GameCode falsch – Ein Spieler versuchte einem nicht existierenden Game beizutreten");
+            System.out.println(LocalTime.now() + " – " + this.getClass().getSimpleName()
+                    + ": GameCode falsch – Ein Spieler versuchte einem nicht existierenden Game beizutreten");
             return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("-");
         }
 

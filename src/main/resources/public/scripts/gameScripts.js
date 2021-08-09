@@ -119,7 +119,7 @@ function clickOnField(ring, field){
             alert("Du bist nicht an der Reihe. Warte auf den Zug des Gegenspielers");
         }
         if (!enemyLoggedIn){
-            alert("Bitte warten Sie, bis ihr Gegenspieler im Spiel " + game.gameCode + " eingeloggt ist")
+            alert("Bitte warten Sie, bis Ihr Gegenspieler eingeloggt ist")
         }
     }
 

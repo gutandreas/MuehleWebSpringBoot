@@ -49,16 +49,27 @@ public class WebsocketHandler extends TextWebSocketHandler {
                     game.addToSessionList(session);
                     session.sendMessage(new TextMessage("Verbunden mit Game " + gameCode));
                     break;
+
                 case "join":
                     game.addToSessionList(session);
-                    session.sendMessage(new TextMessage("Verbunden mit Game " + gameCode));
+                    String player2Name = jsonObject.getString("player2Name");
+
+                    JSONObject joinJsonObject = new JSONObject();
+                    joinJsonObject.put("command", "join");
+                    joinJsonObject.put("player2Name", player2Name);
+
+                    for (WebSocketSession s : sessions){
+                        s.sendMessage(new TextMessage(joinJsonObject.toString()));
+                    }
                     break;
+
                 case "broadcast":
                     String broadcastPlayerUuid = jsonObject.getString("playerUuid");
                     for (WebSocketSession s : sessions){
                         s.sendMessage(new TextMessage(broadcastPlayerUuid + " sent a Message"));
                     }
                     break;
+
                 case "update":
                     String updatePlayerUuid = jsonObject.getString("playerUuid");
                     String boardAsString = game.getBoard().getBoardAsString();
@@ -67,7 +78,7 @@ public class WebsocketHandler extends TextWebSocketHandler {
                     JSONObject updateJsonObject = new JSONObject();
                     updateJsonObject.put("command", "update");
                     updateJsonObject.put("action", action);
-                    updateJsonObject.put("playerUUid", updatePlayerUuid);
+                    updateJsonObject.put("playerUuid", updatePlayerUuid);
                     updateJsonObject.put("boardAsString", boardAsString);
                     updateJsonObject.put("action", action);
                     for (WebSocketSession s : sessions){
