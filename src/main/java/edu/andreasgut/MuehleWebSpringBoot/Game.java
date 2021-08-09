@@ -1,7 +1,10 @@
 package edu.andreasgut.MuehleWebSpringBoot;
 
+import org.springframework.web.socket.WebSocketSession;
+
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class Game {
 
@@ -15,6 +18,7 @@ public class Game {
     private boolean putPhase = true;
     private boolean movePhase = false;
     private int currentPlayerIndex;
+    private LinkedList<WebSocketSession> sessionList = new LinkedList<>(); // Maximal 100 Teilnehmer pro Game
 
     private ArrayList<Player> playerArrayList = new ArrayList<>();
 
@@ -37,6 +41,14 @@ public class Game {
         playerArrayList.add(0, player0);
         this.board = new Board(this);
         System.out.println(LocalTime.now() + " – " + this.getClass().getSimpleName() + ": Game mit 1 Spieler ("+ player0.getName() +") wurde erstellt");
+    }
+
+    public void addToSessionList(WebSocketSession session){
+        sessionList.add(session);
+    }
+
+    public LinkedList<WebSocketSession> getSessionList() {
+        return sessionList;
     }
 
     public Player getPlayer0() {
@@ -62,6 +74,8 @@ public class Game {
     public Board getBoard() {
         return board;
     }
+
+
 
     public ArrayList<Player> getPlayerArrayList() {
         return playerArrayList;

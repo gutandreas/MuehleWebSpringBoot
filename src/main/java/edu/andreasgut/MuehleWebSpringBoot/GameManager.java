@@ -1,5 +1,7 @@
 package edu.andreasgut.MuehleWebSpringBoot;
 
+import org.springframework.web.socket.WebSocketSession;
+
 import java.time.LocalTime;
 import java.util.HashMap;
 

@@ -28,7 +28,6 @@ function setCursor(cursorURL){
     document.getElementById("boardImage").style.cursor = cursorURL;
 }
 
-
 function autoRefreshField(){
     setInterval(function () {
         if (!myTurn){
@@ -201,6 +200,7 @@ function clickOnField(ring, field){
             else {myTurn = false;
                   $('#spielverlaufLabel').text(enemyName + " ist an der Reihe")}
 
+
             fetch("/game/controller/move", {
                 method: 'POST',
                 body: JSON.stringify({
@@ -221,7 +221,16 @@ function clickOnField(ring, field){
                         console.log(responseData);
                         console.log(game.board.toString());
                     }
-                )}
+                )
+                .then( e => {
+                    //Nachricht an Websocket
+                    sendMessage(websocket, JSON.stringify({
+                        "gameCode": game.gamecode,
+                        "playerUuid": game.player.getUuid(),
+                        "command" : "update",
+                        "action": "move"
+                    }))})
+               }
         else {
             alert("Das ist kein gültiger Zug")}
     }
@@ -270,7 +279,15 @@ function clickOnField(ring, field){
                        console.log(responseData);
                        console.log(game.board.toString());
                    }
-               )}
+               )
+               .then( e => {
+                   //Nachricht an Websocket
+                   sendMessage(websocket, JSON.stringify({
+                       "gameCode": game.gamecode,
+                       "playerUuid": game.player.getUuid(),
+                       "command" : "update",
+                       "action": "put"
+               }))})}
        else {
            alert("Dieses Feld ist nicht frei");
        }

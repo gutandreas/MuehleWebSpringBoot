@@ -275,6 +275,19 @@ public class Board {
         return rowString;}
 
 
+    public String getBoardAsString(){
+        String boardAsString = "";
+
+        for (int i = 0; i < 3; i++){
+            for (int j = 0; j < 8; j++){
+                boardAsString += getArray()[i][j];
+            }
+        }
+
+        return boardAsString;
+    }
+
+
     public Object clone(){
         return new Board(this);
     }}

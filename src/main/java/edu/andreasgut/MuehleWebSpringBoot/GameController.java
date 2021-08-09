@@ -4,7 +4,10 @@ import org.json.JSONObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.socket.TextMessage;
+import org.springframework.web.socket.WebSocketSession;
 
+import java.io.IOException;
 import java.time.LocalTime;
 
 @RestController
@@ -70,6 +73,15 @@ public class GameController {
 
         JSONObject jsonResponseObject = new JSONObject();
         jsonResponseObject.put("board", boardAsString);
+
+        for (WebSocketSession session : game.getSessionList())
+        {
+            try {
+                session.sendMessage(new TextMessage("Put an Stelle" + putPosition));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
 
         return ResponseEntity.status(HttpStatus.OK).body(jsonResponseObject.toString());
 
