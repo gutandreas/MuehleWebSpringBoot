@@ -325,12 +325,19 @@ function sendDataMenschVsComputer(){
                 window.color = "WHITE";
             }
 
+            doConnect();
+            sendMessage(websocket, JSON.stringify({
+                "gameCode" : responseData.gameCode,
+                "command" : "connect"
+            }))
+
             window.game = new Game(new Player(player1Name, responseData.player1Uuid, responseData.playerIndex), responseData.gameCode, true);
             window.uuid = responseData.player1Uuid;
             window.playerIndex = responseData.playerIndex;
             window.name = player1Name;
             window.enemyName = computerName;
             window.myTurn = true;
+
 
 
         })

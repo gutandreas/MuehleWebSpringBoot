@@ -25,15 +25,11 @@ function onMessage(evt){
         $('#player2NameGameText').text("Player 2: " + message.player2Name)
     }
 
-    if (message.command == "update" && message.playerUuid != uuid){
+    if (message.command == "update" /*&& message.playerUuid != uuid*/){ //auskommentiert, sonst wird Board gegen Computer nach eigenem Zug nicht abgefragt...
 
         let changedPositions = game.board.updateBoardAndGetChanges(message.boardAsString);
-        if (message.action == "put"){
-            updateBoardAfterEnemysPut(changedPositions)}
-        if (message.action == "move"){
-            updateBoardAfterEnemysMove(changedPositions)}
-        if (message.action == "kill"){
-            updateBoardAfterEnemysKill(changedPositions)}
+
+        updateBoardGraphic(changedPositions);
     }
 
 

@@ -3,11 +3,16 @@ package edu.andreasgut.MuehleWebSpringBoot;
 import org.json.JSONObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.concurrent.ListenableFuture;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.socket.TextMessage;
+import org.springframework.web.socket.WebSocketHandler;
+import org.springframework.web.socket.WebSocketHttpHeaders;
 import org.springframework.web.socket.WebSocketSession;
+import org.springframework.web.socket.client.WebSocketClient;
 
 import java.io.IOException;
+import java.net.URI;
 import java.time.LocalTime;
 
 @RestController
@@ -65,6 +70,7 @@ public class GameController {
             else {
                 computerMoves(gameCode, game, playerIndex, enemysIndex);
             }
+
         }
 
 

@@ -28,62 +28,55 @@ function setCursor(cursorURL){
     document.getElementById("boardImage").style.cursor = cursorURL;
 }
 
-function updateBoardAfterEnemysPut(changedPositions){
-    // Gegnerischer Zug führt nicht zu einer Mühle
-    if (changedPositions[0] != null && !game.board.checkMorris(changedPositions[0])) {
+function updateBoardGraphic(changedPositions){
+    // Gegnerischer Put führt nicht zu einer Mühle
+    if (changedPositions[0] != null && changedPositions[1] == null && !game.board.checkMorris(changedPositions[0])) {
         myTurn = true;
         //setBoardCursor(pathPutCursor);
         $('#spielverlaufLabel').text(name + " ist an der Reihe")
         putStoneGraphic(changedPositions[0].ring, changedPositions[0].field, 1-playerIndex);
-        changedPositions[0] = null;
         increaseRound();
     }
 
-    // Gegnerischer Zug führt zu einer Mühle
-    if (changedPositions[0] != null && game.board.checkMorris(changedPositions[0])) {
+    // Gegnerischer Put führt zu einer Mühle
+    if (changedPositions[0] != null && changedPositions[1] == null && game.board.checkMorris(changedPositions[0])) {
         myTurn = false;
         putStoneGraphic(changedPositions[0].ring, changedPositions[0].field, 1-playerIndex);
-        changedPositions[0] = null;
+        //changedPositions[0] = null;
         increaseRound();
     }
-}
 
-function updateBoardAfterEnemysMove(changedPositions){
-    // Gegnerischer Zug führt nicht zu einer Mühle
-    if (changedPositions[0] != null && !game.board.checkMorris(changedPositions[1])) {
+    // Gegnerischer Move führt nicht zu einer Mühle
+    if (changedPositions[0] != null && changedPositions[1] != null && !game.board.checkMorris(changedPositions[1])) {
         myTurn = true;
         $('#spielverlaufLabel').text(name + " ist an der Reihe")
         moveStoneGraphic(new Move(changedPositions[1], changedPositions[0]), 1-playerIndex)
-        changedPositions[0] = null;
-        changedPositions[1] = null;
         increaseRound()
     }
 
-    // Gegnerischer Zug führt zu einer Mühle
-    if (changedPositions[0] != null && game.board.checkMorris(changedPositions[1])) {
-        myTurn = false;
+    // Gegnerischer Move führt zu einer Mühle
+    if (changedPositions[0] != null && changedPositions[1] != null && game.board.checkMorris(changedPositions[1])) {
+        myTurn = true;
+        $('#spielverlaufLabel').text(name + " ist an der Reihe")
         moveStoneGraphic(new Move(changedPositions[1], changedPositions[0]), 1-playerIndex)
-        changedPositions[0] = null;
-        changedPositions[1] = null;
-        increaseRound();
+        increaseRound()
     }
 
-}
-
-function updateBoardAfterEnemysKill(changedPositions){
-
-    // Eigener Stein wurde entfernt
+    // Gegnerischer Kill
     if (changedPositions[2] != null) {
         console.log(changedPositions[2])
         myTurn = true;
         $('#spielverlaufLabel').text(name + " ist an der Reihe")
         clearStoneGraphic(changedPositions[2].ring, changedPositions[2].field, false);
-        changedPositions[2] = null;}
+    }
 
+    // Prüfung Spielende
     if (game.round > 18 && game.board.countPlayersStones(playerIndex) < 3){
         gameOver = true
         alert("Sie haben das Spiel verloren");
     }
+
+
 }
 
 
@@ -188,14 +181,22 @@ function clickOnField(ring, field){
                     }
                 )
                 .then( e => {
+
+                    let delay;
+                    if (window.modus == 1){
+                        delay = 0;}
+                    if (window.modus == 2){
+                        delay = 300;}
+
                     //Nachricht an Websocket
+                    setTimeout(function(){
                     sendMessage(websocket, JSON.stringify({
                         "gameCode": game.gamecode,
                         "playerUuid": game.player.getUuid(),
                         "command" : "update",
                         "action": "move"
-                    }))})
-               }
+                    }))}, delay)
+                })}
         else {
             alert("Das ist kein gültiger Zug")}
     }
@@ -246,13 +247,20 @@ function clickOnField(ring, field){
                    }
                )
                .then( e => {
-                   //Nachricht an Websocket
-                   sendMessage(websocket, JSON.stringify({
-                       "gameCode": game.gamecode,
-                       "playerUuid": game.player.getUuid(),
-                       "command" : "update",
-                       "action": "put"
-               }))})}
+
+                   let delay;
+                   if (window.modus == 1){
+                       delay = 0;}
+                   if (window.modus == 2){
+                       delay = 300;}
+
+                   setTimeout(function(){
+                       sendMessage(websocket, JSON.stringify({
+                               "gameCode": game.gamecode,
+                               "playerUuid": game.player.getUuid(),
+                               "command" : "update",
+                               "action": "put"}))}, delay);
+               })}
        else {
            alert("Dieses Feld ist nicht frei");
        }
@@ -297,13 +305,23 @@ function clickOnField(ring, field){
                     }}
                 )
                 .then( e => {
+
+                    let delay;
+                    if (window.modus == 1){
+                        delay = 0;}
+                    if (window.modus == 2){
+                        delay = 1000;}
+
+                    setTimeout(function(){
+
                     //Nachricht an Websocket
                     sendMessage(websocket, JSON.stringify({
                         "gameCode": game.gamecode,
                         "playerUuid": game.player.getUuid(),
                         "command" : "update",
                         "action": "kill"
-                    }))})}
+                    }))}, delay)
+                })}
 
         else {
             alert("Auf diesem Feld kann kein Stein entfernt werden")}
