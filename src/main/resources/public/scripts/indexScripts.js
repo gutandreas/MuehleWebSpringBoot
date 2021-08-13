@@ -52,14 +52,8 @@ function checkAndSendDataMenschVsMenschStart() {
                 .then(responseData => {
                     console.log(responseData)
                     if (responseData.gamecodeOk){
-                        console.log("testgamecode")
                         sendGetRequestGameHTML();
                         sendDataMenschVsMenschStart();
-                        doConnect();
-                        sendMessage(websocket, JSON.stringify({
-                            "gameCode" : gameCodeStart,
-                            "command" : "connect"
-                        }))
 
                     }
                     else {
@@ -98,12 +92,6 @@ function checkAndSendDataMenschVsMenschJoin() {
                 console.log("testgamecode")
                 sendGetRequestGameHTML();
                 sendDataMenschVsMenschJoin();
-                doConnect();
-                sendMessage(websocket, JSON.stringify({
-                    "gameCode" : gameCodeJoin,
-                    "command" : "join",
-                    "player2Name" : player2Name
-                }))
             }
             else {
                 alert("Der Gamecode wird noch nicht verwendet. Bitte kontrollieren Sie die Eingabe oder starten Sie ein neues Spiel.");
@@ -217,6 +205,11 @@ function sendDataMenschVsMenschStart(){
                 window.enemyLoggedIn = false;
                 $("#spielverlaufLabel").text(player1Name + " startet das Spiel.")
 
+                doConnect();
+                sendMessage(websocket, JSON.stringify({
+                    "gameCode" : gameCodeStart,
+                    "command" : "start"
+                }))
 
 
 
@@ -271,7 +264,16 @@ function sendDataMenschVsMenschJoin(){
                 window.name = player2Name;
                 window.enemyName = responseData.player1Name;
                 window.myTurn = false;
-                $("#spielverlaufLabel").text(responseData.player1Name + " startet das Spiel.")
+                $("#spielverlaufLabel").text(enemyName + " darf einen Stein setzen.")
+                console.log("Enemyname: " + enemyName)
+
+                doConnect();
+                sendMessage(websocket, JSON.stringify({
+                    "gameCode" : gameCodeJoin,
+                    "command" : "join",
+                    "player2Name" : player2Name,
+                    "playerUuid" : uuid
+                }))
 
             })
             .catch(error => console.log(error));
@@ -312,7 +314,7 @@ function sendDataMenschVsComputer(){
             $('#player1UuidH2').text(responseData.player1Uuid)
             $('#playerIndexH2').text(responseData.playerIndex)
 
-            $('#spielverlaufLabel').text(player1Name + " ist an der Reihe")
+            $('#spielverlaufLabel').text(player1Name + " darf einen Stein setzen")
 
             if (player1Color == "BLACK"){
                 $('#player1StoneImage').attr('src', 'images/StoneBlack.png')
@@ -328,7 +330,7 @@ function sendDataMenschVsComputer(){
             doConnect();
             sendMessage(websocket, JSON.stringify({
                 "gameCode" : responseData.gameCode,
-                "command" : "connect"
+                "command" : "start"
             }))
 
             window.game = new Game(new Player(player1Name, responseData.player1Uuid, responseData.playerIndex), responseData.gameCode, true);

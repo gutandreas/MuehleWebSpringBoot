@@ -71,6 +71,8 @@ public class GameController {
                 computerMoves(gameCode, game, playerIndex, enemysIndex);
             }
 
+
+
         }
 
 
@@ -80,14 +82,7 @@ public class GameController {
         JSONObject jsonResponseObject = new JSONObject();
         jsonResponseObject.put("board", boardAsString);
 
-        for (WebSocketSession session : game.getSessionList())
-        {
-            try {
-                session.sendMessage(new TextMessage("Put an Stelle" + putPosition));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+
 
         return ResponseEntity.status(HttpStatus.OK).body(jsonResponseObject.toString());
 
@@ -136,6 +131,8 @@ public class GameController {
             else {
                 computerMoves(gameCode, game, playerIndex, enemysIndex);
             }
+
+
         }
 
 
@@ -180,6 +177,7 @@ public class GameController {
             else {
                 computerMoves(gameCode, game, playerIndex, enemysIndex);
             }
+
         }
 
         String boardAsString = transformBoardToString(game.getBoard());
@@ -196,8 +194,9 @@ public class GameController {
         Position putPositionComp = game.getPlayerByIndex(enemysIndex).put(game.getBoard(), enemysIndex);
         game.getBoard().putStone(putPositionComp, enemysIndex);
         System.out.println(game.getBoard());
+        computerSendPutMessage(gameCode, game.getPlayerByIndex(enemysIndex), putPositionComp);
 
-        if (game.getBoard().checkMorris(putPositionComp)){
+        if (game.getBoard().checkMorris(putPositionComp) && game.getBoard().isThereStoneToKill(playerIndex)){
             computerKills(gameCode, game, playerIndex, enemysIndex);
         }
         game.increaseRound();
@@ -208,8 +207,10 @@ public class GameController {
         Move moveComp = game.getPlayerByIndex(enemysIndex).move(game.getBoard(), enemysIndex, game.getBoard().countPlayersStones(enemysIndex) == 3);
         game.getBoard().move(moveComp, enemysIndex);
         System.out.println(game.getBoard());
+        computerSendMoveMessage(gameCode, game.getPlayerByIndex(enemysIndex), moveComp);
 
-        if (game.getBoard().checkMorris(moveComp.getTo())){
+
+        if (game.getBoard().checkMorris(moveComp.getTo()) && game.getBoard().isThereStoneToKill(playerIndex)){
             computerKills(gameCode, game, playerIndex, enemysIndex);
         }
         game.increaseRound();
@@ -223,6 +224,99 @@ public class GameController {
             game.getBoard().clearStone(killPositionComp);
             System.out.println(LocalTime.now() + " – " + this.getClass().getSimpleName() + ": Kill in Spiel " + gameCode);
             System.out.println(game.getBoard());
+            computerSendKillMessage(gameCode, game.getPlayerByIndex(enemysIndex), killPositionComp);
+
+        }
+    }
+
+    private void computerSendPutMessage(String gameCode, Player computerPlayer, Position position){
+        String uuid = computerPlayer.getUuid();
+
+        for (WebSocketSession session : GameManager.getGame(gameCode).getSessionList())
+        {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("playerUuid", uuid);
+            jsonObject.put("gameCode", gameCode);
+            jsonObject.put("command", "update");
+            jsonObject.put("action", "put");
+            jsonObject.put("ring", position.getRing());
+            jsonObject.put("field", position.getField());
+            jsonObject.put("boardAsString", GameManager.getGame(gameCode).getBoard().getBoardAsString());
+
+            try {
+                session.sendMessage(new TextMessage(jsonObject.toString()));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void computerSendMoveMessage(String gameCode, Player computerPlayer, Move move){
+        String uuid = computerPlayer.getUuid();
+        Position from = move.getFrom();
+        Position to = move.getTo();
+
+        for (WebSocketSession session : GameManager.getGame(gameCode).getSessionList())
+        {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("playerUuid", uuid);
+            jsonObject.put("gameCode", gameCode);
+            jsonObject.put("command", "update");
+            jsonObject.put("action", "move");
+            jsonObject.put("moveFromRing", from.getRing());
+            jsonObject.put("moveFromField", from.getField());
+            jsonObject.put("moveToRing", to.getRing());
+            jsonObject.put("moveToField", to.getField());
+            jsonObject.put("boardAsString", GameManager.getGame(gameCode).getBoard().getBoardAsString());
+
+            try {
+                session.sendMessage(new TextMessage(jsonObject.toString()));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void computerSendKillMessage(String gameCode, Player computerPlayer, Position position){
+        String uuid = computerPlayer.getUuid();
+
+        for (WebSocketSession session : GameManager.getGame(gameCode).getSessionList())
+        {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("playerUuid", uuid);
+            jsonObject.put("gameCode", gameCode);
+            jsonObject.put("command", "update");
+            jsonObject.put("action", "kill");
+            jsonObject.put("ring", position.getRing());
+            jsonObject.put("field", position.getField());
+            jsonObject.put("boardAsString", GameManager.getGame(gameCode).getBoard().getBoardAsString());
+
+            try {
+                session.sendMessage(new TextMessage(jsonObject.toString()));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void computerSendUpdateMessage(String gameCode, Player computerPlayer, String action){
+
+        String uuid = computerPlayer.getUuid();
+
+        for (WebSocketSession session : GameManager.getGame(gameCode).getSessionList())
+        {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("playerUuid", uuid);
+            jsonObject.put("gameCode", gameCode);
+            jsonObject.put("command", "update");
+            jsonObject.put("action", action);
+            jsonObject.put("boardAsString", GameManager.getGame(gameCode).getBoard().getBoardAsString());
+
+            try {
+                session.sendMessage(new TextMessage(jsonObject.toString()));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 

@@ -15,21 +15,65 @@ function onClose(evt){
 }
 
 function onMessage(evt){
-    console.log(evt.data)
 
     var message = JSON.parse(evt.data);
 
-    if (message.command == "join" && message.playerUuid != uuid){
-        window.enemyName = message.player2Name;
-        window.enemyLoggedIn = true;
-        $('#player2NameGameText').text("Player 2: " + message.player2Name)
+    if (message.command == "start"){
+        console.log("Spiel " + message.gameCode + " eröffnet")
     }
 
-    if (message.command == "update" /*&& message.playerUuid != uuid*/){ //auskommentiert, sonst wird Board gegen Computer nach eigenem Zug nicht abgefragt...
+    if (message.command == "join" && message.playerUuid != uuid){
+        window.enemyName = message.player2Name
+        window.enemyLoggedIn = true;
+        $('#player2NameGameText').text("Player 2: " + enemyName)
+        console.log(message.player2Name + " ist dem Spiel beigetreten")
+    }
 
-        let changedPositions = game.board.updateBoardAndGetChanges(message.boardAsString);
+    if (message.command == "update" && message.playerUuid != uuid){
 
-        updateBoardGraphic(changedPositions);
+        console.log(evt.data)
+
+        if (message.action == "put"){
+            let position = new Position(message.ring, message.field);
+            game.board.putStone(position, 1-playerIndex);
+            putStoneGraphic(message.ring, message.field, 1-playerIndex);
+            increaseRound();
+            if (game.board.checkMorris(position) && game.board.isThereStoneToKill(playerIndex)){
+                editMyTurn(false, true)
+            }
+            else {
+                editMyTurn(true, false)
+            }
+        }
+
+        if (message.action == "move"){
+            let from = new Position(message.moveFromRing, message.moveFromField);
+            let to = new Position(message.moveToRing, message.moveToField);
+            let move = new Move(from, to)
+            console.log(move)
+            game.board.move(move, 1-playerIndex);
+            moveStoneGraphic(move, 1-playerIndex);
+            increaseRound();
+            if (game.board.checkMorris(to) && game.board.isThereStoneToKill(playerIndex)){
+                editMyTurn(false, true)
+            }
+            else {
+                editMyTurn(true, false)
+            }
+        }
+
+        if (message.action == "kill"){
+            let position = new Position(message.ring, message.field);
+            game.board.clearStone(position);
+            clearStoneGraphic(message.ring, message.field, false);
+            if (game.board.countPlayersStones(playerIndex) < 3 && game.round > 18){
+                gameOver = true;
+                alert("Sie haben das Spiel verloren")
+            }
+            else {
+                editMyTurn(true, false);}
+
+        }
     }
 
 

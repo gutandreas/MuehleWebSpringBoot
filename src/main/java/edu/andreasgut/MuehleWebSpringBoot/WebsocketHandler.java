@@ -45,21 +45,20 @@ public class WebsocketHandler extends TextWebSocketHandler {
             LinkedList<WebSocketSession> sessions = game.getSessionList();
 
             switch (command) {
-                case "connect":
+                case "start":
                     game.addToSessionList(session);
-                    session.sendMessage(new TextMessage("Verbunden mit Game " + gameCode));
+                    JSONObject startJsonObject = new JSONObject();
+                    startJsonObject.put("command", "start");
+                    startJsonObject.put("gameCode", gameCode);
+
+                    session.sendMessage(new TextMessage(startJsonObject.toString()));
                     break;
 
                 case "join":
                     game.addToSessionList(session);
-                    String player2Name = jsonObject.getString("player2Name");
-
-                    JSONObject joinJsonObject = new JSONObject();
-                    joinJsonObject.put("command", "join");
-                    joinJsonObject.put("player2Name", player2Name);
 
                     for (WebSocketSession s : sessions){
-                        s.sendMessage(new TextMessage(joinJsonObject.toString()));
+                        s.sendMessage(new TextMessage(jsonObject.toString()));
                     }
                     break;
 
@@ -71,19 +70,38 @@ public class WebsocketHandler extends TextWebSocketHandler {
                     break;
 
                 case "update":
-                    String updatePlayerUuid = jsonObject.getString("playerUuid");
-                    String boardAsString = game.getBoard().getBoardAsString();
-                    String action = jsonObject.getString("action");
 
+                    String updatePlayerUuid = jsonObject.getString("playerUuid");
+                    //String boardAsString = game.getBoard().getBoardAsString();
+                    String action = jsonObject.getString("action");
                     JSONObject updateJsonObject = new JSONObject();
-                    updateJsonObject.put("command", "update");
+
+                    if (action.equals("put")){
+                        for (WebSocketSession s : sessions){
+                            s.sendMessage(new TextMessage(jsonObject.toString()));
+                    }}
+
+                    if (action.equals("kill")){
+                        for (WebSocketSession s : sessions){
+                            s.sendMessage(new TextMessage(jsonObject.toString()));
+                        }}
+
+                    if (action.equals("move")){
+                        for (WebSocketSession s : sessions){
+                            s.sendMessage(new TextMessage(jsonObject.toString()));
+                        }}
+
+
+
+
+                    /*updateJsonObject.put("command", "update");
                     updateJsonObject.put("action", action);
                     updateJsonObject.put("playerUuid", updatePlayerUuid);
                     updateJsonObject.put("boardAsString", boardAsString);
                     updateJsonObject.put("action", action);
                     for (WebSocketSession s : sessions){
                         s.sendMessage(new TextMessage(updateJsonObject.toString()));
-                    }
+                    }*/
             }
         }
         else {

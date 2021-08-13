@@ -89,20 +89,20 @@ function clickOnField(ring, field){
         if (kill){
             killStone(ring, field);
         }
+        else {  // put-Phase
+                if (game.round < 18 && !kill){
+                    putStone(ring, field);}
 
-        // put-Phase
-        if (game.round < 18 && !kill){
-            putStone(ring, field);}
+                // move-Phase
+                if (game.round >= 18 && !kill){
+                    if (moveTakePosition == null){
+                        moveTakePosition = moveStoneTakeStep(ring,field);}
+                    else {
+                        moveReleasePosition = moveStoneReleaseStep(ring, field);
+                        moveStone(new Move(moveTakePosition, moveReleasePosition))
+                        moveTakePosition = null;}
+                }}
 
-        // move-Phase
-        if (game.round >= 18 && !kill){
-                if (moveTakePosition == null){
-                    moveTakePosition = moveStoneTakeStep(ring,field);}
-                else {
-                    moveReleasePosition = moveStoneReleaseStep(ring, field);
-                    moveStone(new Move(moveTakePosition, moveReleasePosition))
-                    moveTakePosition = null;}
-        }
     }
     else {
         if (gameOver){
@@ -119,87 +119,42 @@ function clickOnField(ring, field){
 
     }
 
-    function moveStoneTakeStep(ring, field){
-        if (game.board.isThisMyStone(new Position(ring, field), playerIndex)){
-            return new Position(ring, field);}
+    function editMyTurn(isMyTurn, isKill){
+
+    myTurn = isMyTurn;
+    kill = isKill;
+        console.log(enemyName);
+
+    if (isMyTurn){
+        if (isKill){
+            $('#spielverlaufLabel').text(name + " darf einen gegnerischen Stein entfernen")
+
+        }
         else {
-            alert("Auf diesem Feld befindet sich keiner deiner Steine")}
-    }
-
-
-    function moveStoneReleaseStep(ring, field){
-        if (game.board.isFieldFree(new Position(ring, field))){
-            return new Position(ring, field);}
-        else {
-            alert("Dieses Feld ist nicht frei")}
-    }
-
-
-    function moveStone(move){
-
-        if (game.board.checkMove(move, game.board.countPlayersStones(playerIndex) == 3)){
-            console.log("Move an Server senden");
-            game.board.move(move, playerIndex);
-            console.log("Spielrunde: " + game.round);
-            increaseRound();
-
-            moveStoneGraphic(move, playerIndex);
-
-
-            if (game.board.checkMorris(move.toPosition)
-                && (game.board.isThereStoneToKill(1-playerIndex)
-                    || (game.board.countPlayersStones(1-playerIndex) == 3 && game.round > 18))){
-
-                console.log("Mühle gebildet, Stein darf gekillt werden")
-                myTurn = true;
-                kill = true;
-                $('#spielverlaufLabel').text(name + " darf einen gegnerischen Stein entfernen")
+            if (game.round <18){
+                $('#spielverlaufLabel').text(name + " darf einen Stein setzen")
             }
-            else {myTurn = false;
-                  $('#spielverlaufLabel').text(enemyName + " ist an der Reihe")}
-
-
-            fetch("/game/controller/move", {
-                method: 'POST',
-                body: JSON.stringify({
-                    "gameCode": game.gamecode,
-                    "playerUuid": game.player.getUuid(),
-                    "moveFromRing": move.fromPosition.getRing(),
-                    "moveFromField": move.fromPosition.getField(),
-                    "moveToRing": move.toPosition.getRing(),
-                    "moveToField": move.toPosition.getField(),
-                    "callComputer": !myTurn
-                }),
-                headers: {
-                    "Content-type": "application/json"
-                }
-            })
-                .then(resp => resp.json())
-                .then(responseData => {
-                        console.log(responseData);
-                        console.log(game.board.toString());
-                    }
-                )
-                .then( e => {
-
-                    let delay;
-                    if (window.modus == 1){
-                        delay = 0;}
-                    if (window.modus == 2){
-                        delay = 300;}
-
-                    //Nachricht an Websocket
-                    setTimeout(function(){
-                    sendMessage(websocket, JSON.stringify({
-                        "gameCode": game.gamecode,
-                        "playerUuid": game.player.getUuid(),
-                        "command" : "update",
-                        "action": "move"
-                    }))}, delay)
-                })}
-        else {
-            alert("Das ist kein gültiger Zug")}
+            else {
+                $('#spielverlaufLabel').text(name + " darf einen Stein bewegen")
+            }
+        }
     }
+    else {
+        if (isKill){
+            $('#spielverlaufLabel').text(enemyName + " darf einen gegnerischen Stein entfernen")
+        }
+        else {
+            if (game.round <18){
+                $('#spielverlaufLabel').text(enemyName + " darf einen Stein setzen")
+            }
+            else {
+                $('#spielverlaufLabel').text(enemyName + " darf einen Stein bewegen")
+            }
+        }
+
+    }
+    }
+
 
 
     function putStone(ring, field){
@@ -217,15 +172,21 @@ function clickOnField(ring, field){
                        || (game.board.countPlayersStones(1-playerIndex) == 3 && game.round > 18))){
 
                    console.log("Mühle gebildet, Stein darf gekillt werden")
-                   myTurn = true;
-                   kill = true;
-                   $('#spielverlaufLabel').text(name + " darf einen gegnerischen Stein entfernen")
+                   editMyTurn(true, true);
 
                }
-               else {myTurn = false;
-                   $('#spielverlaufLabel').text(enemyName + " ist an der Reihe")
+               else {
+                   editMyTurn(false, false)
                    //setBoardCursor(pathWaitingCursor);
                    }
+
+           let delay;
+           if (window.modus == 1){
+               delay = 0;}
+           if (window.modus == 2){
+               delay = 300;}
+
+           setTimeout(function(){
 
            fetch("/game/controller/put", {
                method: 'POST',
@@ -247,24 +208,104 @@ function clickOnField(ring, field){
                    }
                )
                .then( e => {
-
-                   let delay;
-                   if (window.modus == 1){
-                       delay = 0;}
-                   if (window.modus == 2){
-                       delay = 300;}
-
-                   setTimeout(function(){
-                       sendMessage(websocket, JSON.stringify({
+                   sendMessage(websocket, JSON.stringify({
                                "gameCode": game.gamecode,
                                "playerUuid": game.player.getUuid(),
                                "command" : "update",
-                               "action": "put"}))}, delay);
+                               "action": "put",
+                               "ring": ring,
+                               "field": field}))
                })}
+               , delay)}
        else {
            alert("Dieses Feld ist nicht frei");
        }
     }
+
+
+
+function moveStoneTakeStep(ring, field){
+    if (game.board.isThisMyStone(new Position(ring, field), playerIndex)){
+        return new Position(ring, field);}
+    else {
+        alert("Auf diesem Feld befindet sich keiner deiner Steine")}
+}
+
+
+function moveStoneReleaseStep(ring, field){
+    if (game.board.isFieldFree(new Position(ring, field))){
+        return new Position(ring, field);}
+    else {
+        alert("Dieses Feld ist nicht frei")}
+}
+
+
+function moveStone(move){
+
+    if (game.board.checkMove(move, game.board.countPlayersStones(playerIndex) == 3)){
+        console.log("Move an Server senden");
+        game.board.move(move, playerIndex);
+        console.log("Spielrunde: " + game.round);
+        increaseRound();
+
+        moveStoneGraphic(move, playerIndex);
+
+
+        if (game.board.checkMorris(move.toPosition)
+            && (game.board.isThereStoneToKill(1-playerIndex)
+                || (game.board.countPlayersStones(1-playerIndex) == 3 /*&& game.round > 18*/))){
+
+            console.log("Mühle gebildet, Stein darf gekillt werden")
+            editMyTurn(true, true)
+        }
+        else {
+            editMyTurn(false, false)}
+
+        let delay;
+        if (window.modus == 1){
+            delay = 0;}
+        if (window.modus == 2){
+            delay = 300;}
+
+        setTimeout(function(){
+
+                fetch("/game/controller/move", {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        "gameCode": game.gamecode,
+                        "playerUuid": game.player.getUuid(),
+                        "moveFromRing": move.fromPosition.getRing(),
+                        "moveFromField": move.fromPosition.getField(),
+                        "moveToRing": move.toPosition.getRing(),
+                        "moveToField": move.toPosition.getField(),
+                        "callComputer": !myTurn
+                    }),
+                    headers: {
+                        "Content-type": "application/json"
+                    }
+                })
+                    .then(resp => resp.json())
+                    .then(responseData => {
+                            console.log(responseData);
+                            console.log(game.board.toString());
+                        }
+                    )
+                    .then( e => {
+                        //Nachricht an Websocket
+                        sendMessage(websocket, JSON.stringify({
+                            "gameCode": game.gamecode,
+                            "playerUuid": game.player.getUuid(),
+                            "command" : "update",
+                            "action": "move",
+                            "moveFromRing": move.fromPosition.getRing(),
+                            "moveFromField": move.fromPosition.getField(),
+                            "moveToRing": move.toPosition.getRing(),
+                            "moveToField": move.toPosition.getField()}))
+                    })}
+            , delay)}
+    else {
+        alert("Das ist kein gültiger Zug")}
+}
 
     function killStone(ring, field){
         if (game.board.checkKill(new Position(ring, field), 1-playerIndex)){
@@ -278,6 +319,18 @@ function clickOnField(ring, field){
                 alert(name + " hat das Spiel gewonnen!")
                 $('#spielverlaufLabel').text(name + " hat das Spiel gewonnen")
             }
+
+            if (!gameOver){
+                editMyTurn(false, false);
+            }
+
+            let delay;
+            if (window.modus == 1){
+                delay = 0;}
+            if (window.modus == 2){
+                delay = 300;}
+
+            setTimeout(function(){
 
             fetch("/game/controller/kill", {
                 method: 'POST',
@@ -294,34 +347,22 @@ function clickOnField(ring, field){
             })
                 .then(resp => resp.json())
                 .then(responseData => {
-
-                    if (!gameOver){
                         console.log(responseData);
                         console.log(game.board.toString());
-                        myTurn = false;
-                        kill = false;
-
-                        $('#spielverlaufLabel').text(enemyName + " ist an der Reihe")
-                    }}
+                }
                 )
                 .then( e => {
-
-                    let delay;
-                    if (window.modus == 1){
-                        delay = 0;}
-                    if (window.modus == 2){
-                        delay = 1000;}
-
-                    setTimeout(function(){
-
                     //Nachricht an Websocket
                     sendMessage(websocket, JSON.stringify({
                         "gameCode": game.gamecode,
                         "playerUuid": game.player.getUuid(),
                         "command" : "update",
-                        "action": "kill"
-                    }))}, delay)
+                        "action": "kill",
+                        "ring": ring,
+                        "field": field
+                    }))
                 })}
+                , delay)}
 
         else {
             alert("Auf diesem Feld kann kein Stein entfernt werden")}
