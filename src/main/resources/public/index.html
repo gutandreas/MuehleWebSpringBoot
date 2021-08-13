@@ -44,47 +44,40 @@
 
         <div id="gamemode">
             <h3>Spielmodus:</h3>
-            <input class="radio" type="radio" name="Spielerzahl" value="1" onclick="showComputerMenus(1), setModus(1)" required checked>
+            <input class="radio" type="radio" name="Spielerzahl" value="1" onclick="organizeMenu(1)" required checked>
             <label> Mensch vs. Mensch </label>
             <br>
-            <input type="radio" class="radio" name="Spielerzahl" value="2" onclick="showComputerMenus(2), setModus(2)">
+            <input type="radio" class="radio" name="Spielerzahl" value="2" onclick="organizeMenu(2)">
             <label> Mensch vs. Computer</label>
             <br>
-            <input type="radio" class="radio" name="Spielerzahl" value="3" onclick="showComputerMenus(3), setModus(3)">
-            <label> Computer vs. Computer</label>
+            <input type="radio" class="radio" name="Spielerzahl" value="3" onclick="organizeMenu(3)">
+            <label> Spiel beobachten</label> <input id="gamecodeWatch" type="text" maxlength="10" autocomplete="off" style="display: none" placeholder="Spielcode des laufenden Spiels">
         </div>
 
         <div id="gamecode">
             <h3>Gamecode:</h3>
-            <input id="startGameRadio" class="radio" type="radio" name="Spielcode" value="1" onclick="showGamecodeTextfield(1), showPlayer1Setting(true), showPlayer2Setting(false), setGamecodeModus(1)" required checked>
+            <input id="startGameRadio" class="radio" type="radio" name="Spielcode" value="1" onclick="organizeGameCodeSettings(1)" required checked>
             <label>Ein neues Spiel starten</label>
             <input id="gamecodeStart" type="text" maxlength="10" autocomplete="off" placeholder="Neuen Gamecode wählen">
             <br>
-            <input id="joinGameRadio"type="radio" class="radio" name="Spielcode" value="2" onclick="showGamecodeTextfield(2), showPlayer1Setting(false), showPlayer2Setting(true), setGamecodeModus(2), setVisibilityofPlayer2ColorSwitch(false)" >
+            <input id="joinGameRadio"type="radio" class="radio" name="Spielcode" value="2" onclick="organizeGameCodeSettings(2)" >
             <label>Einem Spiel beitreten</label>
             <input id="gamecodeJoin" type="text" maxlength="10" autocomplete="off" placeholder="Erhaltener Gamecode" style="display:none">
             <br>
         </div>
 
 
-        <h2>Spielerangaben:</h2>
+        <h2 id="SpielerangabenH2">Spielerangaben:</h2>
 
         <div id="player1Settings">
-            <h3> Spieler 1: </h3>
-            <input id="player1Textfield" type="text" name="namePlayer2" maxlength="25" autocomplete="off" placeholder="Name Player 1">
-            <select id="player1Dropdown" onchange="checkChangeInDropdownMenu(this)">
+            <h3 id="Spieler1H3"> Spieler 1: </h3>
+            <input id="player1Textfield" type="text" name="namePlayer2" maxlength="25" autocomplete="off" placeholder="Name Spieler 1">
+            <select id="player1Dropdown" style="display: none">
                 <div>
-                    <option value="1">Standardcomputer</option>
-                    <option value="0">Computer hinzufügen </option>
+                    <option value="1">Starker Computer</option>
+                    <option value="0">Schwacher Computer</option>
                 </div>
             </select>
-            <div id="computerCode1">
-                <input type="text" maxlength="20" placeholder="Computername" id="computerCodeName1">
-                <textarea id="computerCode1TextArea" rows="10" cols=80% placeholder="Geben Sie hier den Codes des Computers ein..."></textarea>
-                <br>
-                <input type="button" value="Computer hinzufügen" onclick="saveComputer(1)">
-                <br>
-            </div>
             <label>Schwarz</label>
             <label class="switch">
                 <input id="colorPlayer1" type="checkbox" onclick="changeSwitchToOpposite('colorPlayer2')">
@@ -94,27 +87,21 @@
         </div>
 
         <div id="player2Settings" style="display: none">
-            <h3> Spieler 2: </h3>
-            <input id="player2Textfield" type="text" name="namePlayer2" maxlength="25" autocomplete="off" placeholder="Name Player 2">
-            <select id="player2Dropdown" onchange="checkChangeInDropdownMenu(this)">
+            <h3 id="Spieler2H3"> Spieler 2: </h3>
+            <input id="player2Textfield" type="text" name="namePlayer2" maxlength="25" autocomplete="off" placeholder="Name Spieler 2">
+            <select id="player2Dropdown" style="display: none">
                 <div>
-                    <option value="1">Standardcomputer</option>
-                    <option value="0">Computer hinzufügen</option>
+                    <option value="1">Starker Computer</option>
+                    <option value="0">Schwacher Computer</option>
                 </div>
             </select>
-            <div id="computerCode2">
-                <input type="text" maxlength="20" placeholder="Computername" id="computerCodeName2">
-                <textarea id="computerCode2TextArea" rows="10" cols=80% placeholder="Geben Sie hier den Codes des Computers ein..."></textarea>
-                <br>
-                <input type="button" value="Computer hinzufügen" onclick="saveComputer(2)">
-                <br>
-            </div>
-                <label id="labelSchwarzPlayer2">Schwarz</label>
-                <label id="colorPlayer2Switch" class="switch">
-                    <input id="colorPlayer2" type="checkbox" onclick="changeSwitchToOpposite('colorPlayer1')" checked>
-                    <span class="slider round"></span>
-                </label>
-                <label id="labelWeissPlayer2">Weiss</label>
+                    <label id="labelSchwarzPlayer2">Schwarz</label>
+                    <label id="colorPlayer2Switch" class="switch">
+                        <input id="colorPlayer2" type="checkbox" onclick="changeSwitchToOpposite('colorPlayer1')" checked>
+                        <span class="slider round"></span>
+                    </label>
+                    <label id="labelWeissPlayer2">Weiss</label>
+
         </div>
         <input type="button" value="Spiel starten" onclick="sendData()">
         <br>

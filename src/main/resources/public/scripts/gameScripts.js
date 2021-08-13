@@ -28,56 +28,6 @@ function setCursor(cursorURL){
     document.getElementById("boardImage").style.cursor = cursorURL;
 }
 
-function updateBoardGraphic(changedPositions){
-    // Gegnerischer Put führt nicht zu einer Mühle
-    if (changedPositions[0] != null && changedPositions[1] == null && !game.board.checkMorris(changedPositions[0])) {
-        myTurn = true;
-        //setBoardCursor(pathPutCursor);
-        $('#spielverlaufLabel').text(name + " ist an der Reihe")
-        putStoneGraphic(changedPositions[0].ring, changedPositions[0].field, 1-playerIndex);
-        increaseRound();
-    }
-
-    // Gegnerischer Put führt zu einer Mühle
-    if (changedPositions[0] != null && changedPositions[1] == null && game.board.checkMorris(changedPositions[0])) {
-        myTurn = false;
-        putStoneGraphic(changedPositions[0].ring, changedPositions[0].field, 1-playerIndex);
-        //changedPositions[0] = null;
-        increaseRound();
-    }
-
-    // Gegnerischer Move führt nicht zu einer Mühle
-    if (changedPositions[0] != null && changedPositions[1] != null && !game.board.checkMorris(changedPositions[1])) {
-        myTurn = true;
-        $('#spielverlaufLabel').text(name + " ist an der Reihe")
-        moveStoneGraphic(new Move(changedPositions[1], changedPositions[0]), 1-playerIndex)
-        increaseRound()
-    }
-
-    // Gegnerischer Move führt zu einer Mühle
-    if (changedPositions[0] != null && changedPositions[1] != null && game.board.checkMorris(changedPositions[1])) {
-        myTurn = true;
-        $('#spielverlaufLabel').text(name + " ist an der Reihe")
-        moveStoneGraphic(new Move(changedPositions[1], changedPositions[0]), 1-playerIndex)
-        increaseRound()
-    }
-
-    // Gegnerischer Kill
-    if (changedPositions[2] != null) {
-        console.log(changedPositions[2])
-        myTurn = true;
-        $('#spielverlaufLabel').text(name + " ist an der Reihe")
-        clearStoneGraphic(changedPositions[2].ring, changedPositions[2].field, false);
-    }
-
-    // Prüfung Spielende
-    if (game.round > 18 && game.board.countPlayersStones(playerIndex) < 3){
-        gameOver = true
-        alert("Sie haben das Spiel verloren");
-    }
-
-
-}
 
 
 function clickOnField(ring, field){
@@ -115,8 +65,6 @@ function clickOnField(ring, field){
             alert("Bitte warten Sie, bis Ihr Gegenspieler eingeloggt ist")
         }
     }
-
-
     }
 
     function editMyTurn(isMyTurn, isKill){
