@@ -241,6 +241,7 @@ public class GameController {
             jsonObject.put("action", "put");
             jsonObject.put("ring", position.getRing());
             jsonObject.put("field", position.getField());
+            jsonObject.put("playerIndex", 1);
             jsonObject.put("boardAsString", GameManager.getGame(gameCode).getBoard().getBoardAsString());
 
             try {
@@ -267,6 +268,7 @@ public class GameController {
             jsonObject.put("moveFromField", from.getField());
             jsonObject.put("moveToRing", to.getRing());
             jsonObject.put("moveToField", to.getField());
+            jsonObject.put("playerIndex", 1);
             jsonObject.put("boardAsString", GameManager.getGame(gameCode).getBoard().getBoardAsString());
 
             try {
@@ -289,6 +291,7 @@ public class GameController {
             jsonObject.put("action", "kill");
             jsonObject.put("ring", position.getRing());
             jsonObject.put("field", position.getField());
+            jsonObject.put("playerIndex", 1);
             jsonObject.put("boardAsString", GameManager.getGame(gameCode).getBoard().getBoardAsString());
 
             try {

@@ -88,6 +88,50 @@ label{
     overflow: auto;
 }
 
+/*Container*/
+#header{
+    position: relative;
+    width: 100%;
+    max-height: 20%;
+    min-height: 15%;
+
+}
+
+#middle{
+    position: relative;
+    display: flex;
+    grid-template-columns: repeat(3, 1fr);
+    width: 100%;
+    min-width: 100%;
+}
+#boardImage{
+    position: relative;
+    width: 40%;
+    min-width: 40%;
+    min-width: 500px;
+    min-height: 500px;
+    max-height: 60%;
+    max-height: 1000px;
+    display: inline-block;
+}
+
+#score{
+    width: 28%;
+    padding-right: 2%;
+}
+
+#log{
+    padding-left: 2%;
+}
+
+#OptionBox{
+    position: relative;
+    top: 2%
+}
+
+
+
+
 #OptionBox{
     padding: 2%;
     width: 50%;
@@ -127,17 +171,7 @@ label{
 
 
 
-#score{
-    float: left;
-    width: 28%;
-    padding: 1%;
-}
 
-#log{
-    float: right;
-    width: 28%;
-    padding: 1%;
-}
 
 
 
