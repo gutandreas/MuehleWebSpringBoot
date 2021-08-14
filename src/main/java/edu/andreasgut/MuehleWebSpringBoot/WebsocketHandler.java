@@ -62,6 +62,10 @@ public class WebsocketHandler extends TextWebSocketHandler {
                     }
                     break;
 
+                case "watch":
+                    game.addToSessionList(session);
+                    break;
+
                 case "broadcast":
                     String broadcastPlayerUuid = jsonObject.getString("playerUuid");
                     for (WebSocketSession s : sessions){

@@ -29,14 +29,15 @@ function onMessage(evt){
         console.log(message.player2Name + " ist dem Spiel beigetreten")
     }
 
+
     if (message.command == "update" && message.playerUuid != uuid){
 
         console.log(evt.data)
 
         if (message.action == "put"){
             let position = new Position(message.ring, message.field);
-            game.board.putStone(position, 1-playerIndex);
-            putStoneGraphic(message.ring, message.field, 1-playerIndex);
+            game.board.putStone(position, message.playerIndex);
+            putStoneGraphic(message.ring, message.field, message.playerIndex);
             increaseRound();
             if (game.board.checkMorris(position) && game.board.isThereStoneToKill(playerIndex)){
                 editMyTurn(false, true)
@@ -51,8 +52,8 @@ function onMessage(evt){
             let to = new Position(message.moveToRing, message.moveToField);
             let move = new Move(from, to)
             console.log(move)
-            game.board.move(move, 1-playerIndex);
-            moveStoneGraphic(move, 1-playerIndex);
+            game.board.move(move, message.playerIndex);
+            moveStoneGraphic(move, message.playerIndex);
             increaseRound();
             if (game.board.checkMorris(to) && game.board.isThereStoneToKill(playerIndex)){
                 editMyTurn(false, true)
@@ -75,6 +76,8 @@ function onMessage(evt){
 
         }
     }
+
+
 
 
 }

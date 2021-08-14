@@ -30,6 +30,13 @@ public class IndexController {
         modelAndView.setViewName("/gameComp.html");
         return modelAndView;}
 
+    @GetMapping(
+            path = "/index/controller/gameWatchHTML")
+    public ModelAndView loadGameWatchhHTML() {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("/gameWatch.html");
+        return modelAndView;}
+
 
 
         // Hier wird die gameID herausgelesen... Macht noch nicht wirklich Sinn so...
@@ -151,7 +158,7 @@ public class IndexController {
         return ResponseEntity.status(HttpStatus.OK).body(jsonResponseObject.toString());
     }
 
-    @PostMapping(
+   /* @PostMapping(
             path = "/index/controller/menschVsMensch/checkIfGameComplete",
             produces = MediaType.APPLICATION_JSON_VALUE )
     public ResponseEntity<String> checkIfSetComplete(@RequestBody String body){
@@ -169,6 +176,42 @@ public class IndexController {
             return ResponseEntity.status(HttpStatus.OK).body(jsonResponseObject.toString());
         }
         return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("-");
+    }*/
+
+
+    @PostMapping(
+            path = "/index/controller/checkIfGameComplete")
+    public ResponseEntity<String> checkIfGameComplete(@RequestBody String body){
+        colorPrint(body, PRINTCOLOR.YELLOW);
+        JSONObject jsonObject = new JSONObject(body);
+        String gamecode = jsonObject.getString("gamecode");
+
+        JSONObject jsonResponseObject = new JSONObject();
+        jsonResponseObject.put("gamecodeOk", GameManager.checkIfGameExists(gamecode) && GameManager.getGame(gamecode).getPlayer1() != null);
+
+        return ResponseEntity.status(HttpStatus.OK).body(jsonResponseObject.toString());
+    }
+
+    @PostMapping(
+            path = "/index/controller/gameWatch")
+    public ResponseEntity<String> loadGameWatch(@RequestBody String body){
+        colorPrint(body, PRINTCOLOR.YELLOW);
+        JSONObject jsonObject = new JSONObject(body);
+        String gameCode = jsonObject.getString("gameCode");
+
+        Game game = GameManager.getGame(gameCode);
+        JSONObject jsonResponseObject = new JSONObject();
+        jsonResponseObject.put("player1Name", game.getPlayer0().getName());
+        if (game.getPlayer1() != null){
+            jsonResponseObject.put("player2Name", game.getPlayer1().getName());}
+        else {
+            jsonResponseObject.put("player2Name", "");
+        }
+        jsonResponseObject.put("player1Color", game.getPlayer0().getStonecolor());
+        jsonResponseObject.put("player1Index", 0);
+
+        return ResponseEntity.status(HttpStatus.OK).body(jsonResponseObject.toString());
+
     }
 
 
@@ -193,6 +236,25 @@ public class IndexController {
         return ResponseEntity.status(HttpStatus.OK).body(jsonResponseObject.toString());
 
     }
+
+    @PostMapping(
+            path = "/index/controller/gameCodeExists")
+    public ResponseEntity<String> gameCodeExists(@RequestBody String body){
+        colorPrint(body, PRINTCOLOR.YELLOW);
+        JSONObject jsonObject = new JSONObject(body);
+        String gamecode = jsonObject.getString("gamecode");
+
+
+        if (GameManager.checkIfGameExists(gamecode)){
+            return ResponseEntity.status(HttpStatus.OK).body(jsonObject.toString());
+        }
+        else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(jsonObject.toString());
+        }
+
+    }
+
+
 
     @PostMapping(
             path = "/index/controller/checkGamecode")

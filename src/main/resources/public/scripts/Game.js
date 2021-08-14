@@ -1,5 +1,6 @@
 class Game {
 
+    //Konstruktor für Spieler
     constructor(player, gameCode, start) {
 
         this.player = player;
@@ -10,6 +11,7 @@ class Game {
 
         $('#boardImage').attr('disabled', true)
     }
+
 
     getMyTurn(){
         return this.myTurn;

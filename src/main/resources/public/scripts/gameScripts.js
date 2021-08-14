@@ -159,6 +159,7 @@ function clickOnField(ring, field){
                    sendMessage(websocket, JSON.stringify({
                                "gameCode": game.gamecode,
                                "playerUuid": game.player.getUuid(),
+                               "playerIndex": playerIndex,
                                "command" : "update",
                                "action": "put",
                                "ring": ring,
