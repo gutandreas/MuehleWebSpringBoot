@@ -66,10 +66,9 @@ public class WebsocketHandler extends TextWebSocketHandler {
                     game.addToSessionList(session);
                     break;
 
-                case "broadcast":
-                    String broadcastPlayerUuid = jsonObject.getString("playerUuid");
+                case "chat":
                     for (WebSocketSession s : sessions){
-                        s.sendMessage(new TextMessage(broadcastPlayerUuid + " sent a Message"));
+                        s.sendMessage(new TextMessage(jsonObject.toString()));
                     }
                     break;
 

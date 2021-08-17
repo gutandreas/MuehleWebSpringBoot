@@ -29,6 +29,11 @@ function onMessage(evt){
         console.log(message.player2Name + " ist dem Spiel beigetreten")
     }
 
+    if (message.command == "chat" && message.playerUuid != uuid){
+        console.log(message);
+        $('#messageBox').append(message.name + ": " + message.message + "\n");
+    }
+
 
     if (message.command == "update" && message.playerUuid != uuid){
 
