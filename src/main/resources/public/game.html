@@ -76,11 +76,11 @@
 
         <div style="position: absolute; top: 30%">
             <h2>Chat</h2>
-            <textarea id="messageBox" type="text" style="min-width: 180%;" readonly="true" rows="10"></textarea>
+            <textarea id="messageBox" type="text" style="min-width: 180%; resize: none" readonly="true" rows="10"></textarea>
             <br>
-            <input id="messageLine" type="text" style="min-width: 180%" placeholder="Nachricht hier eingeben...">
+            <input id="messageLine" type="text" style="min-width: 180%; resize: none" placeholder="Nachricht hier eingeben...">
             <br>
-            <input type="button" value="Nachricht senden" onclick="sendChatMessage()">
+            <input id="messageButton" type="button" value="Nachricht senden" onclick="sendChatMessage()">
         </div>
 
     </div>

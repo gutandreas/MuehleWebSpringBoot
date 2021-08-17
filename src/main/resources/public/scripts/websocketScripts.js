@@ -20,6 +20,8 @@ function onMessage(evt){
 
     if (message.command == "start"){
         console.log("Spiel " + message.gameCode + " eröffnet")
+        $("#messageLine").prop('disabled', true);
+        $("#messageButton").prop('disabled', true);
     }
 
     if (message.command == "join" && message.playerUuid != uuid){
@@ -27,6 +29,8 @@ function onMessage(evt){
         window.enemyLoggedIn = true;
         $('#player2NameGameText').text("Player 2: " + enemyName)
         console.log(message.player2Name + " ist dem Spiel beigetreten")
+        $("#messageLine").prop('disabled', false);
+        $("#messageButton").prop('disabled', false);
     }
 
     if (message.command == "chat" && message.playerUuid != uuid){
