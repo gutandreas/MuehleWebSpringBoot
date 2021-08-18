@@ -60,9 +60,10 @@ function onMessage(evt){
             let from = new Position(message.moveFromRing, message.moveFromField);
             let to = new Position(message.moveToRing, message.moveToField);
             let move = new Move(from, to)
+            let playerIndex = message.playerIndex;
             console.log(move)
-            game.board.move(move, message.playerIndex);
-            moveStoneGraphic(move, message.playerIndex);
+            game.board.move(move, playerIndex);
+            moveStoneGraphic(move, playerIndex);
             increaseRound();
             if (game.board.checkMorris(to) && game.board.isThereStoneToKill(playerIndex)){
                 editMyTurn(false, true)

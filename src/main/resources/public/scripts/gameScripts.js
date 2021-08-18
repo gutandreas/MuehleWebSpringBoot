@@ -249,7 +249,8 @@ function moveStone(move){
                             "moveFromRing": move.fromPosition.getRing(),
                             "moveFromField": move.fromPosition.getField(),
                             "moveToRing": move.toPosition.getRing(),
-                            "moveToField": move.toPosition.getField()}))
+                            "moveToField": move.toPosition.getField(),
+                            "playerIndex": playerIndex}))
                     })}
             , delay)}
     else {
