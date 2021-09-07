@@ -53,7 +53,7 @@ function checkAndSendDataMenschVsMenschStart() {
                 .then(responseData => {
                     console.log(responseData)
                     if (responseData.gamecodeOk){
-                        sendGetRequestGameHTML();
+                        //sendGetRequestGameHTML();
                         sendDataMenschVsMenschStart();
 
                     }
@@ -91,7 +91,7 @@ function checkAndSendDataMenschVsMenschJoin() {
             console.log(responseData)
             if (!responseData.gamecodeOk){
                 console.log("testgamecode")
-                sendGetRequestGameHTML();
+                //sendGetRequestGameHTML();
                 sendDataMenschVsMenschJoin();
             }
             else {
@@ -109,7 +109,7 @@ function checkAndSendDataMenschVsComputer() {
         return
     }
     else {
-        sendGetRequestGameHTML();
+        //sendGetRequestGameHTML();
         sendDataMenschVsComputer();
     }
 }
@@ -133,7 +133,8 @@ async function checkAndSendDataGameWatch(){
             else {throw new Error("Der Gamecode wird noch nicht verwendet. Bitte kontrollieren Sie die Eingabe.")}})
         .then(responseData => {
             console.log(responseData)
-            sendGetRequestGameWatchHTML();})
+            //sendGetRequestGameWatchHTML();
+                })
         .then(() => sendDataGameWatch())
         .catch(e => alert(e.message))
 }
@@ -216,12 +217,14 @@ function sendDataMenschVsMenschStart(){
         })
             .then(resp => resp.json())
             .then(responseData => {
+                document.body.innerHTML = responseData.html;
                 console.log(responseData);
                 $('#player1NameGameText').text("Player 1: " + player1Name)
                 $('#modusH1').text("Mühle online – Spielmodus: Mensch vs. Mensch")
                 $('#gameCodeH2').text("Gamecode: " + gameCodeStart)
                 $('#playerUuidH2').text("UUID: " + responseData.player1Uuid)
                 $('#playerIndexH2').text(responseData.playerIndex)
+
 
                 if (player1Color == "BLACK"){
                     $('#player1StoneImage').attr('src', 'images/StoneBlack.png')
@@ -276,6 +279,7 @@ function sendDataMenschVsMenschJoin(){
         })
             .then(res => res.json())
             .then(responseData => {
+                document.body.innerHTML = responseData.html;
                 console.log(responseData)
                 $('#modusH1').text("Mühle online – Spielmodus: Mensch vs. Mensch")
                 $('#gameCodeH2').text("Gamecode: " + gameCodeJoin)
@@ -344,6 +348,7 @@ function sendDataMenschVsComputer(){
     })
         .then(resp => resp.json())
         .then(responseData => {
+            document.body.innerHTML = responseData.html;
             console.log(responseData);
             $('#player1NameGameText').text("Player 1: " + player1Name)
             $('#player2NameGameText').text("Player 2: " + computerName)
@@ -403,6 +408,7 @@ function sendDataGameWatch(){
     })
         .then(resp => resp.json())
         .then(responseData => {
+            document.body.innerHTML = responseData.html;
             console.log(responseData);
             $('#modusH1').text("Mühle online – Spielmodus: Spiel beobachten")
             $('#player1NameGameText').text("Player 1: " + responseData.player1Name)

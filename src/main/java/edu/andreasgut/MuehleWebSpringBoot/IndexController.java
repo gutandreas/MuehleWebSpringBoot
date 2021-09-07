@@ -1,42 +1,23 @@
 package edu.andreasgut.MuehleWebSpringBoot;
 
 import org.json.JSONObject;
+import org.springframework.boot.Banner;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.time.LocalTime;
 import java.util.UUID;
 
 
 @RestController
 public class IndexController {
-
-
-
-    @GetMapping(
-            path = "/index/controller/gameHTML")
-    public ModelAndView loadGameHTML() {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("/game.html");
-        return modelAndView;}
-
-    @GetMapping(
-            path = "/index/controller/gameCompHTML")
-    public ModelAndView loadGameCompHTML() {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("/gameComp.html");
-        return modelAndView;}
-
-    @GetMapping(
-            path = "/index/controller/gameWatchHTML")
-    public ModelAndView loadGameWatchhHTML() {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("/gameWatch.html");
-        return modelAndView;}
-
 
 
         // Hier wird die gameID herausgelesen... Macht noch nicht wirklich Sinn so...
@@ -54,6 +35,8 @@ public class IndexController {
             path = "/index/controller/menschVsMensch/start",
             produces = MediaType.APPLICATION_JSON_VALUE )
     public ResponseEntity<String> loadMenschVsMenschStart(@RequestBody String body){
+
+
         colorPrint(body, PRINTCOLOR.YELLOW);
         JSONObject jsonObject = new JSONObject(body);
         String player1Name = jsonObject.getString("player1Name");
@@ -77,6 +60,7 @@ public class IndexController {
             jsonResponseObject.put("player1Uuid", game.getPlayer0().getUuid());
             jsonResponseObject.put("player1Color", player1Color.name());
             jsonResponseObject.put("player1Index", 0);
+            jsonResponseObject.put("html", getHTMLContent("game"));
 
             return ResponseEntity.status(HttpStatus.OK).body(jsonResponseObject.toString());
         }
@@ -112,6 +96,7 @@ public class IndexController {
             jsonResponseObject.put("player2Color", player2StoneColor);
             jsonResponseObject.put("player2Uuid", game.getPlayer1().getUuid());
             jsonResponseObject.put("player2Index", 1);
+            jsonResponseObject.put("html", getHTMLContent("game"));
 
             return ResponseEntity.status(HttpStatus.OK).body(jsonResponseObject.toString());
 
@@ -153,6 +138,7 @@ public class IndexController {
         jsonResponseObject.put("playerIndex", 0);
         jsonResponseObject.put("gameCode", gameCode);
         jsonResponseObject.put("start", "true");
+        jsonResponseObject.put("html", getHTMLContent("game"));
 
 
         return ResponseEntity.status(HttpStatus.OK).body(jsonResponseObject.toString());
@@ -209,6 +195,7 @@ public class IndexController {
         }
         jsonResponseObject.put("player1Color", game.getPlayer0().getStonecolor());
         jsonResponseObject.put("player1Index", 0);
+        jsonResponseObject.put("html", getHTMLContent("gameWatch"));
 
         return ResponseEntity.status(HttpStatus.OK).body(jsonResponseObject.toString());
 
@@ -279,6 +266,28 @@ public class IndexController {
     private String generateRandomUUID(){
         UUID uuid = UUID.randomUUID();
         return uuid.toString();
+    }
+
+    private String getHTMLContent(String filename){
+        StringBuilder bldr = new StringBuilder();
+        String str;
+
+        BufferedReader in = null;
+        try {
+            in = new BufferedReader(new FileReader("/Users/andreasgut/Documents/EigenesProjekt/MuehleWebSpringBoot/src/main/resources/public/" + filename + ".html"));
+            while((str = in.readLine())!=null)
+                bldr.append(str);
+
+            in.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        String content = bldr.toString();
+
+        return content;
     }
 
 
