@@ -403,3 +403,13 @@ function moveStone(move){
             $(this).css( 'cursor', 'none, auto' );
         });
     }
+
+    function getIndexPage(){
+        fetch('/index/loadIndex', {method: 'GET'})
+            .then((response) => {
+                return response.text();
+            })
+            .then((html) => {
+                document.body.innerHTML = html
+            });
+    }

@@ -12,6 +12,7 @@ function onOpen(evt){
 
 function onClose(evt){
     alert("Websocket closed")
+    getIndexPage();
 }
 
 function onMessage(evt){
@@ -37,6 +38,9 @@ function onMessage(evt){
         console.log(message);
         $('#messageBox').append(message.name + ": " + message.message + "\n");
     }
+
+
+
 
 
     if (message.command == "update" && message.playerUuid != uuid){

@@ -109,7 +109,6 @@ function checkAndSendDataMenschVsComputer() {
         return
     }
     else {
-        //sendGetRequestGameHTML();
         sendDataMenschVsComputer();
     }
 }
@@ -133,61 +132,9 @@ async function checkAndSendDataGameWatch(){
             else {throw new Error("Der Gamecode wird noch nicht verwendet. Bitte kontrollieren Sie die Eingabe.")}})
         .then(responseData => {
             console.log(responseData)
-            //sendGetRequestGameWatchHTML();
                 })
         .then(() => sendDataGameWatch())
         .catch(e => alert(e.message))
-}
-
-
-function checkAndSendDataComputerVsComputer() {
-
-
-    //Hier Prüfung für diesen Modus einfügen
-    if (false) {
-        alert("Bitte geben Sie einen Namen ein")
-        return
-    }
-    else {
-        sendGetRequestGameCompHTML();
-        sendDataComputerVsComputer();
-    }
-}
-
-
-
-
-function sendGetRequestGameHTML(){
-    fetch('/index/controller/gameHTML', {method: 'GET'})
-        .then((response) => {
-            return response.text();
-        })
-        .then((html) => {
-            //document.head.innerHTML = html
-            document.body.innerHTML = html
-        });
-}
-
-function sendGetRequestGameWatchHTML(){
-    fetch('/index/controller/gameWatchHTML', {method: 'GET'})
-        .then((response) => {
-            return response.text();
-        })
-        .then((html) => {
-            //document.head.innerHTML = html
-            document.body.innerHTML = html
-        });
-}
-
-function sendGetRequestGameCompHTML(){
-    fetch('/index/controller/gameCompHTML', {method: 'GET'})
-        .then((response) => {
-            return response.text();
-        })
-        .then((html) => {
-            //document.head.innerHTML = html
-            document.body.innerHTML = html
-        });
 }
 
 

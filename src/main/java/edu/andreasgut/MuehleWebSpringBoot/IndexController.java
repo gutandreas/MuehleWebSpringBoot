@@ -19,6 +19,13 @@ import java.util.UUID;
 @RestController
 public class IndexController {
 
+    @GetMapping(
+            path = "/index/loadIndex")
+    public ModelAndView loadIndex() {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("/index.html");
+        return modelAndView;}
+
 
         // Hier wird die gameID herausgelesen... Macht noch nicht wirklich Sinn so...
     @PostMapping(
