@@ -45,6 +45,14 @@ public class Game {
 
     public void addToSessionList(WebSocketSession session){
         sessionList.add(session);
+        System.out.println(this.getClass().getSimpleName() + ": Session " + session + " wurde zur Sessionlist hinzugefügt");
+    }
+
+    public void removeFromSessionList(WebSocketSession session) {
+        if (sessionList.contains(session)){
+            sessionList.remove(session);
+            System.out.println(this.getClass().getSimpleName() + ": Session " + session + " wurde aus der Sessionlist entfernt");
+        }
     }
 
     public LinkedList<WebSocketSession> getSessionList() {

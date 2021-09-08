@@ -1,6 +1,7 @@
 package edu.andreasgut.MuehleWebSpringBoot;
 
 import org.json.JSONObject;
+import org.springframework.boot.web.servlet.server.Session;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
@@ -58,7 +59,7 @@ public class WebsocketHandler extends TextWebSocketHandler {
                     game.addToSessionList(session);
 
                     for (WebSocketSession s : sessions){
-                        s.sendMessage(new TextMessage(jsonObject.toString()));
+                        sendMessageWithExceptionHandling(game, s, jsonObject.toString());
                     }
                     break;
 
@@ -68,7 +69,7 @@ public class WebsocketHandler extends TextWebSocketHandler {
 
                 case "chat":
                     for (WebSocketSession s : sessions){
-                        s.sendMessage(new TextMessage(jsonObject.toString()));
+                        sendMessageWithExceptionHandling(game, s, jsonObject.toString());
                     }
                     break;
 
@@ -81,17 +82,17 @@ public class WebsocketHandler extends TextWebSocketHandler {
 
                     if (action.equals("put")){
                         for (WebSocketSession s : sessions){
-                            s.sendMessage(new TextMessage(jsonObject.toString()));
+                            sendMessageWithExceptionHandling(game, s, jsonObject.toString());
                     }}
 
                     if (action.equals("kill")){
                         for (WebSocketSession s : sessions){
-                            s.sendMessage(new TextMessage(jsonObject.toString()));
+                            sendMessageWithExceptionHandling(game, s, jsonObject.toString());
                         }}
 
                     if (action.equals("move")){
                         for (WebSocketSession s : sessions){
-                            s.sendMessage(new TextMessage(jsonObject.toString()));
+                            sendMessageWithExceptionHandling(game, s, jsonObject.toString());
                         }}
 
 
@@ -114,4 +115,12 @@ public class WebsocketHandler extends TextWebSocketHandler {
 
     }
 
+    private void sendMessageWithExceptionHandling(Game game, WebSocketSession session, String message){
+        try {
+            session.sendMessage(new TextMessage(message));
+        }
+        catch (Exception e){
+            game.removeFromSessionList(session);
+        }
+    }
 }
