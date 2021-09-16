@@ -39,6 +39,8 @@ public class WebsocketHandler extends TextWebSocketHandler {
         String gameCode = jsonObject.getString("gameCode");
         String command = jsonObject.getString("command");
 
+        System.out.println(jsonObject);
+
 
 
         if (GameManager.checkIfGameExists(gameCode)) {
@@ -75,25 +77,44 @@ public class WebsocketHandler extends TextWebSocketHandler {
 
                 case "update":
 
-                    String updatePlayerUuid = jsonObject.getString("playerUuid");
-                    //String boardAsString = game.getBoard().getBoardAsString();
                     String action = jsonObject.getString("action");
-                    JSONObject updateJsonObject = new JSONObject();
 
                     if (action.equals("put")){
-                        for (WebSocketSession s : sessions){
-                            sendMessageWithExceptionHandling(game, s, jsonObject.toString());
-                    }}
+
+                        if (GameControllerWebsocket.put(jsonObject)){
+                            for (WebSocketSession s : sessions){
+                                sendMessageWithExceptionHandling(game, s, jsonObject.toString());}
+                        }
+                        else {
+                            sendErrorMessageToSender(session, "Ungültiger Put");
+                        }
+                    }
+
+                    if (action.equals("move")) {
+
+                        if (GameControllerWebsocket.move(jsonObject)) {
+                            for (WebSocketSession s : sessions) {
+                                sendMessageWithExceptionHandling(game, s, jsonObject.toString());
+                            }
+                        }
+                        else {
+                            sendErrorMessageToSender(session, "Ungültiger Move");
+                        }
+                    }
 
                     if (action.equals("kill")){
-                        for (WebSocketSession s : sessions){
-                            sendMessageWithExceptionHandling(game, s, jsonObject.toString());
-                        }}
 
-                    if (action.equals("move")){
-                        for (WebSocketSession s : sessions){
-                            sendMessageWithExceptionHandling(game, s, jsonObject.toString());
-                        }}
+                        if (GameControllerWebsocket.kill(jsonObject)) {
+                            for (WebSocketSession s : sessions){
+                                sendMessageWithExceptionHandling(game, s, jsonObject.toString());
+                            }
+                        }
+                        else {
+                            sendErrorMessageToSender(session, "Ungültiger Kill");
+                        }
+                    }
+
+
 
 
 
@@ -121,6 +142,14 @@ public class WebsocketHandler extends TextWebSocketHandler {
         }
         catch (Exception e){
             game.removeFromSessionList(session);
+        }
+    }
+
+    private void sendErrorMessageToSender(WebSocketSession session, String message){
+        try {
+            session.sendMessage(new TextMessage(message));
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

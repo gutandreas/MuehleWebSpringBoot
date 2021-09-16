@@ -134,9 +134,23 @@ function clickOnField(ring, field){
            if (window.modus == 2){
                delay = 300;}
 
+
+
            setTimeout(function(){
 
-           fetch("/game/controller/put", {
+                   sendMessage(websocket, JSON.stringify({
+                       "gameCode": game.gamecode,
+                       "playerUuid": game.player.getUuid(),
+                       "playerIndex": playerIndex,
+                       "command" : "update",
+                       "action": "put",
+                       "ring": ring,
+                       "field": field,
+                       "callComputer": !myTurn}))
+
+
+
+           /*fetch("/game/controller/put", {
                method: 'POST',
                body: JSON.stringify({
                    "gameCode": game.gamecode,
@@ -164,7 +178,7 @@ function clickOnField(ring, field){
                                "action": "put",
                                "ring": ring,
                                "field": field}))
-               })}
+               })*/}
                , delay)}
        else {
            alert("Dieses Feld ist nicht frei");
@@ -218,7 +232,19 @@ function moveStone(move){
 
         setTimeout(function(){
 
-                fetch("/game/controller/move", {
+                sendMessage(websocket, JSON.stringify({
+                    "gameCode": game.gamecode,
+                    "playerUuid": game.player.getUuid(),
+                    "command" : "update",
+                    "action": "move",
+                    "moveFromRing": move.fromPosition.getRing(),
+                    "moveFromField": move.fromPosition.getField(),
+                    "moveToRing": move.toPosition.getRing(),
+                    "moveToField": move.toPosition.getField(),
+                    "playerIndex": playerIndex,
+                    "callComputer": !myTurn}))
+
+                /*fetch("/game/controller/move", {
                     method: 'POST',
                     body: JSON.stringify({
                         "gameCode": game.gamecode,
@@ -251,7 +277,7 @@ function moveStone(move){
                             "moveToRing": move.toPosition.getRing(),
                             "moveToField": move.toPosition.getField(),
                             "playerIndex": playerIndex}))
-                    })}
+                    })*/}
             , delay)}
     else {
         alert("Das ist kein gültiger Zug")}
@@ -282,7 +308,17 @@ function moveStone(move){
 
             setTimeout(function(){
 
-            fetch("/game/controller/kill", {
+                    sendMessage(websocket, JSON.stringify({
+                        "gameCode": game.gamecode,
+                        "playerUuid": game.player.getUuid(),
+                        "command" : "update",
+                        "action": "kill",
+                        "ring": ring,
+                        "field": field,
+                        "callComputer": !gameOver
+                    }))
+
+            /*fetch("/game/controller/kill", {
                 method: 'POST',
                 body: JSON.stringify({
                     "gameCode": game.gamecode,
@@ -311,7 +347,7 @@ function moveStone(move){
                         "ring": ring,
                         "field": field
                     }))
-                })}
+                })*/}
                 , delay)}
 
         else {
