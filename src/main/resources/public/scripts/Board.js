@@ -47,6 +47,7 @@ class Board {
         for (let ring = 0; ring < 3; ring++){
             for (let field = 0; field < 8; field++){
                 if (this.array[ring][field] == otherPlayerIndex && !this.checkMorris(new Position(ring,field))){
+                    console.log("Stone to Kill okay.")
                     return true;}
             }
         }

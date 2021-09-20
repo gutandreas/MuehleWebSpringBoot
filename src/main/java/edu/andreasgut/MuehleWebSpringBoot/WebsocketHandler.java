@@ -1,11 +1,8 @@
 package edu.andreasgut.MuehleWebSpringBoot;
 
 import org.json.JSONObject;
-import org.springframework.boot.web.servlet.server.Session;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
-import org.springframework.web.socket.WebSocketMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
@@ -39,7 +36,6 @@ public class WebsocketHandler extends TextWebSocketHandler {
         String gameCode = jsonObject.getString("gameCode");
         String command = jsonObject.getString("command");
 
-        System.out.println(jsonObject);
 
 
 
@@ -86,7 +82,7 @@ public class WebsocketHandler extends TextWebSocketHandler {
                                 sendMessageWithExceptionHandling(game, s, jsonObject.toString());}
                         }
                         else {
-                            sendErrorMessageToSender(session, "Ungültiger Put");
+                            sendExceptionMessageToSender(session, "Ungültiger Put");
                         }
                     }
 
@@ -98,7 +94,7 @@ public class WebsocketHandler extends TextWebSocketHandler {
                             }
                         }
                         else {
-                            sendErrorMessageToSender(session, "Ungültiger Move");
+                            sendExceptionMessageToSender(session, "Ungültiger Move");
                         }
                     }
 
@@ -110,27 +106,14 @@ public class WebsocketHandler extends TextWebSocketHandler {
                             }
                         }
                         else {
-                            sendErrorMessageToSender(session, "Ungültiger Kill");
+                            sendExceptionMessageToSender(session, "Ungültiger Kill");
                         }
                     }
 
-
-
-
-
-
-                    /*updateJsonObject.put("command", "update");
-                    updateJsonObject.put("action", action);
-                    updateJsonObject.put("playerUuid", updatePlayerUuid);
-                    updateJsonObject.put("boardAsString", boardAsString);
-                    updateJsonObject.put("action", action);
-                    for (WebSocketSession s : sessions){
-                        s.sendMessage(new TextMessage(updateJsonObject.toString()));
-                    }*/
             }
         }
         else {
-            session.sendMessage(new TextMessage("Game mit Code " + gameCode + " existiert nicht."));
+            sendExceptionMessageToSender(session, "Game mit Code " + gameCode + " existiert nicht.");
         }
 
 
@@ -145,9 +128,14 @@ public class WebsocketHandler extends TextWebSocketHandler {
         }
     }
 
-    private void sendErrorMessageToSender(WebSocketSession session, String message){
+    private void sendExceptionMessageToSender(WebSocketSession session, String details){
+
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("command", "exception");
+        jsonObject.put("details", details);
+
         try {
-            session.sendMessage(new TextMessage(message));
+            session.sendMessage(new TextMessage(jsonObject.toString()));
         } catch (IOException e) {
             e.printStackTrace();
         }

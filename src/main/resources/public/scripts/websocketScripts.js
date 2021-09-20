@@ -40,9 +40,6 @@ function onMessage(evt){
     }
 
 
-
-
-
     if (message.command == "update" && message.playerUuid != uuid){
 
         console.log(evt.data)
@@ -89,6 +86,10 @@ function onMessage(evt){
                 editMyTurn(true, false);}
 
         }
+    }
+
+    if (message.command == "exception"){
+        console.log(message.details);
     }
 
 

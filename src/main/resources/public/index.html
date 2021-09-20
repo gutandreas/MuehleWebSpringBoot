@@ -31,8 +31,6 @@
 </head>
 <body>
 
-<!--<script>$(document).ready(autoRefreshField())</script>-->
-<!--<script>document.ready(autoRefreshJoin())</script>-->
 
 <img id="startImage1" src="images/StartImage1.png" width="20%">
 <img id="startImage2" src="images/StartImage2.png" width="20%">
@@ -55,13 +53,13 @@
 
         <div id="gamecode">
             <h3>Gamecode:</h3>
-            <input id="startGameRadio" class="radio" type="radio" name="Spielcode" value="1" onclick="organizeGameCodeSettings(1)" required checked>
+            <input id="startGameRadio" class="radio" type="radio" name="Spielcode" value="1" onclick="organizeGameCodeSettings(1) " required checked>
             <label>Ein neues Spiel starten</label>
-            <input id="gamecodeStart" type="text" maxlength="10" autocomplete="off" placeholder="Neuen Gamecode wählen">
+            <input id="gamecodeStart" type="text" maxlength="10" autocomplete="off" onkeyup="{this.value = this.value.replace(/[^a-zA-Z0-9]/g, ''); this.value = this.value.toUpperCase() }" placeholder="Neuen Gamecode wählen">
             <br>
             <input id="joinGameRadio"type="radio" class="radio" name="Spielcode" value="2" onclick="organizeGameCodeSettings(2)" >
             <label>Einem Spiel beitreten</label>
-            <input id="gamecodeJoin" type="text" maxlength="10" autocomplete="off" placeholder="Erhaltener Gamecode" style="display:none">
+            <input id="gamecodeJoin" type="text" maxlength="10" autocomplete="off" placeholder="Erhaltener Gamecode" onkeyup="{this.value = this.value.replace(/[^a-zA-Z0-9]/g, ''); this.value = this.value.toUpperCase() }" style="display:none">
             <br>
         </div>
 
