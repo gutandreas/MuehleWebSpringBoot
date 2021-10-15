@@ -90,8 +90,6 @@ function checkAndSendDataMenschVsMenschJoin() {
         .then(responseData => {
             console.log(responseData)
             if (!responseData.gamecodeOk){
-                console.log("testgamecode")
-                //sendGetRequestGameHTML();
                 sendDataMenschVsMenschJoin();
             }
             else {
@@ -164,7 +162,15 @@ function sendDataMenschVsMenschStart(){
         })
             .then(resp => resp.json())
             .then(responseData => {
-                document.body.innerHTML = responseData.html;
+                console.log("MENSCHVSMENSCH")
+
+                let head = responseData.html.match(/<head[^>]*>[\s\S]*<\/head>/gi);
+                let body = responseData.html.match(/<body[^>]*>[\s\S]*<\/body>/gi);
+
+                $("head").html(head);
+                $("body").html(body);
+
+                //document.body.innerHTML = responseData.html;
                 console.log(responseData);
                 $('#player1NameGameText').text("Player 1: " + player1Name)
                 $('#modusH1').text("Mühle online – Spielmodus: Mensch vs. Mensch")
@@ -226,7 +232,14 @@ function sendDataMenschVsMenschJoin(){
         })
             .then(res => res.json())
             .then(responseData => {
-                document.body.innerHTML = responseData.html;
+
+                let head = responseData.html.match(/<head[^>]*>[\s\S]*<\/head>/gi);
+                let body = responseData.html.match(/<body[^>]*>[\s\S]*<\/body>/gi);
+
+                $("head").html(head);
+                $("body").html(body);
+
+                //document.body.innerHTML = responseData.html;
                 console.log(responseData)
                 $('#modusH1').text("Mühle online – Spielmodus: Mensch vs. Mensch")
                 $('#gameCodeH2').text("Gamecode: " + gameCodeJoin)
@@ -295,7 +308,14 @@ function sendDataMenschVsComputer(){
     })
         .then(resp => resp.json())
         .then(responseData => {
-            document.body.innerHTML = responseData.html;
+
+            let head = responseData.html.match(/<head[^>]*>[\s\S]*<\/head>/gi);
+            let body = responseData.html.match(/<body[^>]*>[\s\S]*<\/body>/gi);
+
+            $("head").html(head);
+            $("body").html(body);
+
+            //document.body.innerHTML = responseData.html;
             console.log(responseData);
             $('#player1NameGameText').text("Player 1: " + player1Name)
             $('#player2NameGameText').text("Player 2: " + computerName)
@@ -355,12 +375,19 @@ function sendDataGameWatch(){
     })
         .then(resp => resp.json())
         .then(responseData => {
-            document.body.innerHTML = responseData.html;
+
+            let head = responseData.html.match(/<head[^>]*>[\s\S]*<\/head>/gi);
+            let body = responseData.html.match(/<body[^>]*>[\s\S]*<\/body>/gi);
+
+            $("head").html(head);
+            $("body").html(body);
+
+            //document.body.innerHTML = responseData.html;
             console.log(responseData);
             $('#modusH1').text("Mühle online – Spielmodus: Spiel beobachten")
             $('#player1NameGameText').text("Player 1: " + responseData.player1Name)
             $('#player2NameGameText').text("Player 2: " + responseData.player2Name)
-            $('#gameCodeH2').text("Gamecode: " + responseData.gameCode)
+            $('#gameCodeH2').text("Gamecode: " + responseData.gameCodeWatch)
 
             $('#spielverlaufLabel').text(responseData.player1Name + " darf einen Stein setzen")
 

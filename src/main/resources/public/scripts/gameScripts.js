@@ -449,3 +449,4 @@ function moveStone(move){
                 document.body.innerHTML = html
             });
     }
+

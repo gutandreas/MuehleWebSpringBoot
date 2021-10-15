@@ -7,26 +7,10 @@
     <link rel="stylesheet" type="text/css" href="css/internet/toggleSwitch.css">
     <link rel="stylesheet" type="text/css" href="css/internet/playPauseButton.css">
     <script src="scripts/indexScripts.js"></script>
-    <script src="scripts/gameScripts.js"></script> <!-- das müsste eigentlich ins game.html- file,
-    aber da nur der Body ersetzt wird beim getRequest wird das hier benötigt... Wenn möglich, korrigieren-->
-    <script src="scripts/Game.js"></script> <!-- das müsste eigentlich ins game.html- file,
-    aber da nur der Body ersetzt wird beim getRequest wird das hier benötigt... Wenn möglich, korrigieren-->
-    <script src="scripts/Player.js"></script> <!-- das müsste eigentlich ins game.html- file,
-    aber da nur der Body ersetzt wird beim getRequest wird das hier benötigt... Wenn möglich, korrigieren-->
-    <script src="scripts/Board.js"></script> <!-- das müsste eigentlich ins game.html- file,
-    aber da nur der Body ersetzt wird beim getRequest wird das hier benötigt... Wenn möglich, korrigieren-->
-    <script src="scripts/Position.js"></script> <!-- das müsste eigentlich ins game.html- file,
-    aber da nur der Body ersetzt wird beim getRequest wird das hier benötigt... Wenn möglich, korrigieren-->
-    <script src="scripts/Move.js"></script> <!-- das müsste eigentlich ins game.html- file,
-    aber da nur der Body ersetzt wird beim getRequest wird das hier benötigt... Wenn möglich, korrigieren-->
-    <script src="scripts/jQuery.js"></script> <!-- das müsste eigentlich ins game.html- file,
-    aber da nur der Body ersetzt wird beim getRequest wird das hier benötigt... Wenn möglich, korrigieren-->
-    <script src="scripts/websocketScripts.js"></script> <!-- das müsste eigentlich ins game.html- file,
-    aber da nur der Body ersetzt wird beim getRequest wird das hier benötigt... Wenn möglich, korrigieren-->
-    <script src="scripts/menuScripts.js"></script> <!-- das müsste eigentlich ins game.html- file,
-    aber da nur der Body ersetzt wird beim getRequest wird das hier benötigt... Wenn möglich, korrigieren-->
-    <script src="scripts/chatScripts.js"></script> <!-- das müsste eigentlich ins game.html- file,
-    aber da nur der Body ersetzt wird beim getRequest wird das hier benötigt... Wenn möglich, korrigieren-->
+    <script src="scripts/jQuery.js"></script>
+    <script src="scripts/websocketScripts.js"></script>
+    <script src="scripts/menuScripts.js"></script>
+
 
 </head>
 <body>
@@ -48,7 +32,7 @@
             <label> Mensch vs. Computer</label>
             <br>
             <input type="radio" class="radio" name="Spielerzahl" value="3" onclick="organizeMenu(3)">
-            <label> Spiel beobachten</label> <input id="gamecodeWatch" type="text" maxlength="10" autocomplete="off" style="display: none" placeholder="Spielcode des laufenden Spiels">
+            <label> Spiel beobachten</label> <input id="gamecodeWatch" type="text" maxlength="10" autocomplete="off" style="display: none" onkeyup="{this.value = this.value.replace(/[^a-zA-Z0-9]/g, ''); this.value = this.value.toUpperCase() }"placeholder="Spielcode des laufenden Spiels">
         </div>
 
         <div id="gamecode">

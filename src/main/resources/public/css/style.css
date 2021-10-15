@@ -72,6 +72,8 @@ label{
 }
 
 
+
+
 #startImage1{
     float: left;
 }
@@ -169,6 +171,11 @@ label{
     overflow-x: scroll;
 }
 
+#giveUpButton{
+    background-color: firebrick;
+    -webkit-text-fill-color: whitesmoke;
+
+}
 
 
 

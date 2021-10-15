@@ -27,6 +27,7 @@ public class IndexController {
         return modelAndView;}
 
 
+
         // Hier wird die gameID herausgelesen... Macht noch nicht wirklich Sinn so...
     @PostMapping(
             path = "/index/controller/waitingRoomHTML/{gameCode}")
@@ -202,6 +203,7 @@ public class IndexController {
         }
         jsonResponseObject.put("player1Color", game.getPlayer0().getStonecolor());
         jsonResponseObject.put("player1Index", 0);
+        jsonResponseObject.put("gameCodeWatch", gameCode);
         jsonResponseObject.put("html", getHTMLContent("gameWatch"));
 
         return ResponseEntity.status(HttpStatus.OK).body(jsonResponseObject.toString());

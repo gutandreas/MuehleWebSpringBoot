@@ -1,3 +1,9 @@
+function giveUp(){
+
+    alert("Test")
+
+}
+
 function sendChatMessage(){
 
     let name = game.player.name;
@@ -18,3 +24,4 @@ function sendChatMessage(){
 
 
 }
+
