@@ -84,6 +84,8 @@ public class WebsocketHandler extends TextWebSocketHandler {
 
                     if (action.equals("put")){
 
+                        game.setGameStarted(true);
+
                         if (GameControllerWebsocket.put(jsonObject)){
                             for (WebSocketSession s : sessions){
                                 sendMessageWithExceptionHandling(game, s, jsonObject.toString());}

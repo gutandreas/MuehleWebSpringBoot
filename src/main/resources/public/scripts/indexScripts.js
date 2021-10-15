@@ -120,14 +120,16 @@ async function checkAndSendDataGameWatch(){
         return
     }
 
-    fetch("/index/controller/gameCodeExists", {
+    fetch("/index/controller/ableToWatch", {
         method: 'POST',
         body: JSON.stringify({
             "gamecode": gameCodeJoin
         })})
         .then(resp =>
             {if (resp.ok){resp.json()}
-            else {throw new Error("Der Gamecode wird noch nicht verwendet. Bitte kontrollieren Sie die Eingabe.")}})
+            else {
+                    throw new Error("Der Gamecode wird noch nicht verwendet oder das Spiel wurde bereits begonnen. Bitte kontrollieren Sie die Eingabe.")
+            }})
         .then(responseData => {
             console.log(responseData)
                 })
@@ -410,6 +412,13 @@ function sendDataGameWatch(){
                 "gameCode" : gameCode,
                 "command" : "watch"
             }))
+
+            sendMessage(websocket, JSON.stringify({
+                "gameCode": gameCode,
+                "playerUuid": "anonym",
+                "command" : "chat",
+                "name" : "Anonymer Beobachter",
+                "message" : "Ich schaue euch zu..."}));
 
 
 

@@ -31,7 +31,9 @@ public class GameManager {
         return gameMap.get(gameCode);
     }
 
-   static public synchronized boolean checkIfGameExists(String gameCode){
+    static public synchronized boolean checkIfGameExists(String gameCode){
         return gameMap.containsKey(gameCode);
    }
+
+   static public synchronized boolean checkIfGameAlreadyStarted(String gameCode) {return gameMap.get(gameCode).isGameStarted();}
 }

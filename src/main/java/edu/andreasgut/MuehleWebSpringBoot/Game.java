@@ -11,6 +11,7 @@ public class Game {
     private Player player0;
     private Player player1;
     private boolean gameComplete;
+    private boolean gameStarted = false;
     private Player winner;
     private int round;
     private final int NUMBEROFSTONES = 9;
@@ -115,6 +116,14 @@ public class Game {
         else {
             return 1;
         }
+    }
+
+    public boolean isGameStarted() {
+        return gameStarted;
+    }
+
+    public void setGameStarted(boolean gameStarted) {
+        this.gameStarted = gameStarted;
     }
 
     public Player getPlayerByUuid(String ownUuid){

@@ -250,6 +250,25 @@ public class IndexController {
 
     }
 
+    @PostMapping(
+            path = "/index/controller/ableToWatch")
+    public ResponseEntity<String> ableToWatch(@RequestBody String body){
+        colorPrint(body, PRINTCOLOR.YELLOW);
+        JSONObject jsonObject = new JSONObject(body);
+        String gamecode = jsonObject.getString("gamecode");
+
+
+        if (!GameManager.checkIfGameExists(gamecode)){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(jsonObject.toString());
+        }
+        if (GameManager.checkIfGameAlreadyStarted(gamecode)){
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(jsonObject.toString());
+        }
+
+        return ResponseEntity.status(HttpStatus.OK).body(jsonObject.toString());
+
+    }
+
 
 
     @PostMapping(
