@@ -11,7 +11,7 @@ function onOpen(evt){
 }
 
 function onClose(evt){
-    alert("Websocket closed")
+    alert("Die Verbindung zum Server ist abgebrochen. Sie werden auf die Startseite zurückgeleitet.")
     getIndexPage();
 }
 
@@ -37,6 +37,12 @@ function onMessage(evt){
     if (message.command == "chat" && message.playerUuid != uuid){
         console.log(message);
         $('#messageBox').append(message.name + ": " + message.message + "\n");
+    }
+
+    if (message.command == "giveup" && message.playerUuid != uuid){
+        console.log(message);
+        alert(message.name + " hat aufgeben und verliert das Spiel. Sie werden zur Startseite zurückgeleitet...");
+        getIndexPage();
     }
 
 

@@ -1,6 +1,18 @@
 function giveUp(){
 
-    alert("Test")
+    var r = confirm("Wollen Sie wirklich aufgeben? Mit dem Aufgeben verlieren Sie das Spiel.");
+    if (r == true) {
+        sendMessage(websocket, JSON.stringify({
+            "gameCode": game.gamecode,
+            "playerUuid": game.player.getUuid(),
+            "command" : "giveup",
+            "name" : name}))
+        getIndexPage();
+    }
+
+    else {
+        alert("Schön, dass Sie dranbleiben, weiterhin viel Glück!")
+    }
 
 }
 
@@ -22,6 +34,8 @@ function sendChatMessage(){
         "name" : name,
         "message" : message}));
 
-
 }
+
+
+
 

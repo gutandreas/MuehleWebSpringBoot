@@ -71,6 +71,13 @@ public class WebsocketHandler extends TextWebSocketHandler {
                     }
                     break;
 
+                case "giveup":
+                    for (WebSocketSession s : sessions){
+                        sendMessageWithExceptionHandling(game, s, jsonObject.toString());
+                    }
+                    GameManager.removeGame(gameCode);
+                    break;
+
                 case "update":
 
                     String action = jsonObject.getString("action");
