@@ -15,11 +15,12 @@ import java.io.IOException;
 import java.net.URI;
 import java.time.LocalTime;
 
+// Alter Ansatz. Ist nicht mehr nötig...
 @RestController
 public class GameController {
 
 
-    @PostMapping(
+    /*@PostMapping(
             path = "/game/controller/getBoard"
     )
     public ResponseEntity<String> getBoard(@RequestBody String body){
@@ -341,7 +342,7 @@ public class GameController {
         System.out.println(text);
         System.out.print(PRINTCOLOR.RESET);
 
-    }
+    }*/
 
 
 }

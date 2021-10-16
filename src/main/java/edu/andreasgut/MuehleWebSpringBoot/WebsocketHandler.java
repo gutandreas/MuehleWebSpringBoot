@@ -86,7 +86,7 @@ public class WebsocketHandler extends TextWebSocketHandler {
 
                         game.setGameStarted(true);
 
-                        if (GameControllerWebsocket.put(jsonObject)){
+                        if (GameControllerWebsocket.checkPutAndPutIfPossible(jsonObject)){
                             for (WebSocketSession s : sessions){
                                 sendMessageWithExceptionHandling(game, s, jsonObject.toString());}
                         }
@@ -97,7 +97,7 @@ public class WebsocketHandler extends TextWebSocketHandler {
 
                     if (action.equals("move")) {
 
-                        if (GameControllerWebsocket.move(jsonObject)) {
+                        if (GameControllerWebsocket.checkMoveAndMoveAndMoveIfPossible(jsonObject)) {
                             for (WebSocketSession s : sessions) {
                                 sendMessageWithExceptionHandling(game, s, jsonObject.toString());
                             }
@@ -109,7 +109,7 @@ public class WebsocketHandler extends TextWebSocketHandler {
 
                     if (action.equals("kill")){
 
-                        if (GameControllerWebsocket.kill(jsonObject)) {
+                        if (GameControllerWebsocket.checkKillAndKillIfPossible(jsonObject)) {
                             for (WebSocketSession s : sessions){
                                 sendMessageWithExceptionHandling(game, s, jsonObject.toString());
                             }
@@ -117,6 +117,13 @@ public class WebsocketHandler extends TextWebSocketHandler {
                         else {
                             sendExceptionMessageToSender(session, "Ungültiger Kill");
                         }
+
+                    }
+
+                    // Falls Game over, wird Game aus dem Gamemanager entfernt. Gamecode wieder frei.
+                    int enemyStoneNumber = game.getBoard().countPlayersStones(1-game.getPlayerIndexByUuid(jsonObject.getString("playerUuid")));
+                    if (enemyStoneNumber < 3 && game.getRound() > 18){
+                        GameManager.removeGame(gameCode);
                     }
 
             }

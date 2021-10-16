@@ -12,7 +12,7 @@ import java.time.LocalTime;
 
 public class GameControllerWebsocket {
 
-    static public boolean put(JSONObject jsonRequestObject) {
+    static public boolean checkPutAndPutIfPossible(JSONObject jsonRequestObject) {
 
         String gameCode = jsonRequestObject.getString("gameCode");
         String playerUuid = jsonRequestObject.getString("playerUuid");
@@ -50,7 +50,7 @@ public class GameControllerWebsocket {
 
     }
 
-    static public boolean move(JSONObject jsonRequestObject) {
+    static public boolean checkMoveAndMoveAndMoveIfPossible(JSONObject jsonRequestObject) {
 
 
         String gameCode = jsonRequestObject.getString("gameCode");
@@ -103,7 +103,7 @@ public class GameControllerWebsocket {
 
     }
 
-    static public boolean kill(JSONObject jsonRequestObject) {
+    static public boolean checkKillAndKillIfPossible(JSONObject jsonRequestObject) {
 
         String gameCode = jsonRequestObject.getString("gameCode");
         String playerUuid = jsonRequestObject.getString("playerUuid");
