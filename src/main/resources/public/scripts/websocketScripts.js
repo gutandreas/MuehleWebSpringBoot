@@ -17,47 +17,47 @@ function onClose(evt){
 
 function onMessage(evt){
 
-    var message = JSON.parse(evt.data);
+    var incommingMessage = JSON.parse(evt.data);
 
-    if (message.command == "start"){
-        console.log("Spiel " + message.gameCode + " eröffnet")
+    if (incommingMessage.command == "start"){
+        console.log("Spiel " + incommingMessage.gameCode + " eröffnet")
         $("#messageLine").prop('disabled', true);
         $("#messageButton").prop('disabled', true);
         $("#complimentEnemyButton").prop('disabled', true);
         $("#offendEnemyButton").prop('disabled', true);
     }
 
-    if (message.command == "join" && message.playerUuid != uuid){
-        window.enemyName = message.player2Name
+    if (incommingMessage.command == "join" && incommingMessage.playerUuid != uuid){
+        window.enemyName = incommingMessage.player2Name
         window.enemyLoggedIn = true;
         $('#player2NameGameText').text("Player 2: " + enemyName)
-        console.log(message.player2Name + " ist dem Spiel beigetreten")
+        console.log(incommingMessage.player2Name + " ist dem Spiel beigetreten")
         $("#messageLine").prop('disabled', false);
         $("#messageButton").prop('disabled', false);
         $("#complimentEnemyButton").prop('disabled', false);
         $("#offendEnemyButton").prop('disabled', false);
     }
 
-    if (message.command == "chat" && message.playerUuid != uuid){
-        console.log(message);
-        $('#messageBox').append(message.name + ": " + message.message + "\n");
+    if (incommingMessage.command == "chat" && incommingMessage.playerUuid != uuid){
+        console.log(incommingMessage);
+        putMessageToMessageBox(incommingMessage.name, incommingMessage.message);
     }
 
-    if (message.command == "giveup" && message.playerUuid != uuid){
-        console.log(message);
-        alert(message.name + " hat aufgeben und verliert das Spiel. Sie werden zur Startseite zurückgeleitet...");
+    if (incommingMessage.command == "giveup" && incommingMessage.playerUuid != uuid){
+        console.log(incommingMessage);
+        alert(incommingMessage.name + " hat aufgeben und verliert das Spiel. Sie werden zur Startseite zurückgeleitet...");
         getIndexPage();
     }
 
 
-    if (message.command == "update" && message.playerUuid != uuid){
+    if (incommingMessage.command == "update" && incommingMessage.playerUuid != uuid){
 
         console.log(evt.data)
 
-        if (message.action == "put"){
-            let position = new Position(message.ring, message.field);
-            game.board.putStone(position, message.playerIndex);
-            putStoneGraphic(message.ring, message.field, message.playerIndex);
+        if (incommingMessage.action == "put"){
+            let position = new Position(incommingMessage.ring, incommingMessage.field);
+            game.board.putStone(position, incommingMessage.playerIndex);
+            putStoneGraphic(incommingMessage.ring, incommingMessage.field, incommingMessage.playerIndex);
             increaseRound();
             if (game.board.checkMorris(position) && game.board.isThereStoneToKill(playerIndex)){
                 editMyTurn(false, true)
@@ -67,11 +67,11 @@ function onMessage(evt){
             }
         }
 
-        if (message.action == "move"){
-            let from = new Position(message.moveFromRing, message.moveFromField);
-            let to = new Position(message.moveToRing, message.moveToField);
+        if (incommingMessage.action == "move"){
+            let from = new Position(incommingMessage.moveFromRing, incommingMessage.moveFromField);
+            let to = new Position(incommingMessage.moveToRing, incommingMessage.moveToField);
             let move = new Move(from, to)
-            let playerIndex = message.playerIndex;
+            let playerIndex = incommingMessage.playerIndex;
             console.log(move)
             game.board.move(move, playerIndex);
             moveStoneGraphic(move, playerIndex);
@@ -84,10 +84,10 @@ function onMessage(evt){
             }
         }
 
-        if (message.action == "kill"){
-            let position = new Position(message.ring, message.field);
+        if (incommingMessage.action == "kill"){
+            let position = new Position(incommingMessage.ring, incommingMessage.field);
             game.board.clearStone(position);
-            clearStoneGraphic(message.ring, message.field, false);
+            clearStoneGraphic(incommingMessage.ring, incommingMessage.field, false);
             if (game.board.countPlayersStones(playerIndex) < 3 && game.round > 18){
                 gameOver = true;
                 alert("Sie haben das Spiel verloren")
@@ -98,8 +98,8 @@ function onMessage(evt){
         }
     }
 
-    if (message.command == "exception"){
-        console.log(message.details);
+    if (incommingMessage.command == "exception"){
+        console.log(incommingMessage.details);
     }
 
 
