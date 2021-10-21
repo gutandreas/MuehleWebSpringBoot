@@ -1,7 +1,9 @@
 package edu.andreasgut.MuehleWebSpringBoot;
 
+import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 
+import java.io.IOException;
 import java.time.LocalTime;
 import java.util.HashMap;
 
@@ -26,6 +28,8 @@ public class GameManager {
         System.out.println(LocalTime.now() + " – " + "Gamemanager: Game mit dem Gamecode " + gameCode + " hinzugefügt");
         return gameCode;
     }
+
+
 
     static public synchronized Game getGame(String gameCode){
         return gameMap.get(gameCode);

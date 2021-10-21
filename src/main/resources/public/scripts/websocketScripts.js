@@ -23,6 +23,8 @@ function onMessage(evt){
         console.log("Spiel " + message.gameCode + " eröffnet")
         $("#messageLine").prop('disabled', true);
         $("#messageButton").prop('disabled', true);
+        $("#complimentEnemyButton").prop('disabled', true);
+        $("#offendEnemyButton").prop('disabled', true);
     }
 
     if (message.command == "join" && message.playerUuid != uuid){
@@ -32,6 +34,8 @@ function onMessage(evt){
         console.log(message.player2Name + " ist dem Spiel beigetreten")
         $("#messageLine").prop('disabled', false);
         $("#messageButton").prop('disabled', false);
+        $("#complimentEnemyButton").prop('disabled', false);
+        $("#offendEnemyButton").prop('disabled', false);
     }
 
     if (message.command == "chat" && message.playerUuid != uuid){

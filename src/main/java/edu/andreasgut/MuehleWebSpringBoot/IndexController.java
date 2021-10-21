@@ -1,7 +1,6 @@
 package edu.andreasgut.MuehleWebSpringBoot;
 
 import org.json.JSONObject;
-import org.springframework.boot.Banner;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -28,14 +27,14 @@ public class IndexController {
 
 
 
-        // Hier wird die gameID herausgelesen... Macht noch nicht wirklich Sinn so...
+/*        // Hier wird die gameID herausgelesen... Macht noch nicht wirklich Sinn so...
     @PostMapping(
             path = "/index/controller/waitingRoomHTML/{gameCode}")
     public @ResponseBody JSONObject loadWaitingRoomHTMLid(@PathVariable String gameCode) {
         Game game = new Game(new HumanPlayer("player1", generateRandomUUID(), STONECOLOR.BLACK), (new HumanPlayer("player2", generateRandomUUID(), STONECOLOR.WHITE)), 0);
         JSONObject jsonObject = new JSONObject(game);
         System.out.println(this.getClass().getSimpleName() + ": Das Game mit dem Code '" + gameCode + "' wurde erstellt");
-        return jsonObject;}
+        return jsonObject;}*/
 
 
 
@@ -57,6 +56,7 @@ public class IndexController {
         }
 
         if (GameManager.checkIfGameExists(gameCode)){
+
             System.out.println("Bereits vorhandener Gamecode: Dieser Gamecode wird bereits für ein anderes Spiel verwendet");
             return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("-");
         }
