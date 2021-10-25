@@ -92,7 +92,7 @@ function sendChatMessage(){
         putMessageToMessageBox(name, message)
     }
     else {
-        alert("Die können keine leeren Nachrichten senden!")
+        alert("Sie können keine leeren Nachrichten senden!")
     }
 
 }

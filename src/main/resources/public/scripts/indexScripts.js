@@ -44,7 +44,7 @@ function checkAndSendDataMenschVsMenschStart() {
             }
 
 
-            fetch("/index/controller/checkGamecode", {
+            fetch("/index/controller/ableToStart", {
                 method: 'POST',
                 body: JSON.stringify({
                     "gamecode": gameCodeStart
@@ -53,7 +53,6 @@ function checkAndSendDataMenschVsMenschStart() {
                 .then(responseData => {
                     console.log(responseData)
                     if (responseData.gamecodeOk){
-                        //sendGetRequestGameHTML();
                         sendDataMenschVsMenschStart();
 
                     }
@@ -81,7 +80,7 @@ function checkAndSendDataMenschVsMenschJoin() {
         return
     }
 
-    fetch("/index/controller/checkGamecode", {
+    fetch("/index/controller/ableToJoin", {
         method: 'POST',
         body: JSON.stringify({
             "gamecode": gameCodeJoin
@@ -89,11 +88,11 @@ function checkAndSendDataMenschVsMenschJoin() {
         .then(resp => resp.json())
         .then(responseData => {
             console.log(responseData)
-            if (!responseData.gamecodeOk){
+            if (responseData.gamecodeOk){
                 sendDataMenschVsMenschJoin();
             }
             else {
-                alert("Der Gamecode wird noch nicht verwendet. Bitte kontrollieren Sie die Eingabe oder starten Sie ein neues Spiel.");
+                alert("Der Gamecode wird noch nicht verwendet oder das Spiel ist bereits komplett. Bitte kontrollieren Sie die Eingabe oder starten Sie ein neues Spiel.");
             }
         })
 }

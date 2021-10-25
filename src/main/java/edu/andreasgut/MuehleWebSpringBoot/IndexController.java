@@ -84,7 +84,7 @@ public class IndexController {
         String player2Name = jsonObject.getString("player2Name");
         String gameCode = jsonObject.getString("gameCode");
 
-        if (GameManager.checkIfGameExists(gameCode)){
+        if (GameManager.checkIfGameExists(gameCode) && !GameManager.getGame(gameCode).isGameComplete()){
             STONECOLOR player1StoneColor = GameManager.getGame(gameCode).getPlayer0().getStonecolor();
 
             STONECOLOR player2StoneColor;
@@ -111,7 +111,7 @@ public class IndexController {
         }
         else {
             System.out.println(LocalTime.now() + " – " + this.getClass().getSimpleName()
-                    + ": GameCode falsch – Ein Spieler versuchte einem nicht existierenden Game beizutreten");
+                    + ": GameCode falsch – Ein Spieler versuchte einem nicht existierenden oder schon kompletten Game beizutreten");
             return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("-");
         }
 
@@ -211,7 +211,7 @@ public class IndexController {
     }
 
 
-    @PostMapping(
+    /*@PostMapping(
             path = "/index/controller/computerVsComputer")
     public ResponseEntity<String> loadComputerVsComputer(@RequestBody String body){
         colorPrint(body, PRINTCOLOR.YELLOW);
@@ -231,9 +231,9 @@ public class IndexController {
 
         return ResponseEntity.status(HttpStatus.OK).body(jsonResponseObject.toString());
 
-    }
+    }*/
 
-    @PostMapping(
+   /* @PostMapping(
             path = "/index/controller/gameCodeExists")
     public ResponseEntity<String> gameCodeExists(@RequestBody String body){
         colorPrint(body, PRINTCOLOR.YELLOW);
@@ -248,6 +248,33 @@ public class IndexController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(jsonObject.toString());
         }
 
+    }*/
+
+    @PostMapping(
+            path = "/index/controller/ableToStart")
+    public ResponseEntity<String> ableToStart(@RequestBody String body){
+        colorPrint(body, PRINTCOLOR.YELLOW);
+        JSONObject jsonObject = new JSONObject(body);
+        String gamecode = jsonObject.getString("gamecode");
+
+        JSONObject jsonResponseObject = new JSONObject();
+        jsonResponseObject.put("gamecodeOk", !GameManager.checkIfGameExists(gamecode));
+
+        return ResponseEntity.status(HttpStatus.OK).body(jsonResponseObject.toString());
+    }
+
+    @PostMapping(
+            path = "/index/controller/ableToJoin")
+    public ResponseEntity<String> ableToJoin(@RequestBody String body){
+        colorPrint(body, PRINTCOLOR.YELLOW);
+        JSONObject jsonObject = new JSONObject(body);
+        String gamecode = jsonObject.getString("gamecode");
+
+        JSONObject jsonResponseObject = new JSONObject();
+        jsonResponseObject.put("gamecodeOk", GameManager.checkIfGameExists(gamecode) && GameManager.getGame(gamecode).getPlayer0() != null
+            && GameManager.getGame(gamecode).getPlayer1() == null);
+
+        return ResponseEntity.status(HttpStatus.OK).body(jsonResponseObject.toString());
     }
 
     @PostMapping(
@@ -271,7 +298,7 @@ public class IndexController {
 
 
 
-    @PostMapping(
+    /*@PostMapping(
             path = "/index/controller/checkGamecode")
     public ResponseEntity<String> checkGamecode(@RequestBody String body){
         colorPrint(body, PRINTCOLOR.YELLOW);
@@ -282,7 +309,7 @@ public class IndexController {
         jsonResponseObject.put("gamecodeOk", !GameManager.checkIfGameExists(gamecode));
 
         return ResponseEntity.status(HttpStatus.OK).body(jsonResponseObject.toString());
-    }
+    }*/
 
     private void colorPrint(String text, PRINTCOLOR color){
         System.out.print(color);
