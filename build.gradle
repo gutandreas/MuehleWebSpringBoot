@@ -24,6 +24,21 @@ dependencies {
 
 }
 
+bootJar {
+	//mainClassName = 'MuehleWebSpringBootApplication'
+}
+
+
+task fatJar(type: Jar) {
+	manifest {
+		attributes 'Main-Class': 'edu/andreasgut/MuehleWebSpringBoot/MuehleWebSpringBootApplication';
+		//attributes 'Main-Class': 'EiBotBoard.Controller'
+	}
+	archiveBaseName = project.name + '-exp'
+	from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
+	with jar
+}
+
 test {
 	useJUnitPlatform()
 }
