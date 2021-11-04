@@ -1,15 +1,8 @@
 package edu.andreasgut.MuehleWebSpringBoot;
-
-import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.json.JSONObject;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.ResourceLoader;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -21,8 +14,6 @@ import java.util.UUID;
 @RestController
 public class IndexController {
 
-    @Autowired
-    private ResourceLoader resourceLoader;
 
     @GetMapping(
             path = "/index/loadIndex")
@@ -335,15 +326,8 @@ public class IndexController {
 
         BufferedReader in;
         try {
-            //in = new BufferedReader(new FileReader("/Users/andreasgut/Documents/EigenesProjekt/MuehleWebSpringBoot/src/main/resources/public/" + filename + ".html"));
-            /*File file = new File("src/main/resources/public/" + filename + ".html");
-            String path = file.getAbsolutePath();*/
-
-            //File file = ResourceUtils.getFile("classpath:" + filename + ".html");
-
             InputStream inputStream = getClass().getResourceAsStream("/public/" + filename + ".html");
-            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-            in = new BufferedReader(reader);
+            in = new BufferedReader(new InputStreamReader(inputStream));
 
             while((str = in.readLine())!=null)
                 bldr.append(str);

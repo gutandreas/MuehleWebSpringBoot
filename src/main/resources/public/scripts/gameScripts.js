@@ -41,16 +41,29 @@ function clickOnField(ring, field){
         }
         else {  // put-Phase
                 if (game.round < 18 && !kill){
-                    putStone(ring, field);}
+                    putStone(ring, field);
+                    }
 
                 // move-Phase
                 if (game.round >= 18 && !kill){
                     if (moveTakePosition == null){
-                        moveTakePosition = moveStoneTakeStep(ring,field);}
+                        moveTakePosition = moveStoneTakeStep(ring,field);
+                        fadeStone(ring, field, 500, false);
+                    }
                     else {
                         moveReleasePosition = moveStoneReleaseStep(ring, field);
-                        moveStone(new Move(moveTakePosition, moveReleasePosition))
-                        moveTakePosition = null;}
+                        console.log(moveReleasePosition)
+                        //Stein an gleiche Position zurücklegen
+                        if (moveTakePosition.ring === moveReleasePosition.ring && moveTakePosition.field === moveReleasePosition.field){
+                            moveTakePosition = null;
+                            fadeStone(ring, field, 500, true)}
+                        //Stein an neue Position setzen
+                        else {
+                            moveStone(new Move(moveTakePosition, moveReleasePosition))
+                            moveTakePosition = null;
+                            }
+
+                        }
                 }}
 
     }
@@ -148,37 +161,7 @@ function clickOnField(ring, field){
                        "field": field,
                        "callComputer": !myTurn}))
 
-
-
-           /*fetch("/game/controller/put", {
-               method: 'POST',
-               body: JSON.stringify({
-                   "gameCode": game.gamecode,
-                   "playerUuid": game.player.getUuid(),
-                   "putRing": ring,
-                   "putField": field,
-                   "callComputer": !myTurn
-               }),
-               headers: {
-                   "Content-type": "application/json"
                }
-           })
-               .then(resp => resp.json())
-               .then(responseData => {
-                       console.log(responseData);
-                       console.log(game.board.toString());
-                   }
-               )
-               .then( e => {
-                   sendMessage(websocket, JSON.stringify({
-                               "gameCode": game.gamecode,
-                               "playerUuid": game.player.getUuid(),
-                               "playerIndex": playerIndex,
-                               "command" : "update",
-                               "action": "put",
-                               "ring": ring,
-                               "field": field}))
-               })*/}
                , delay)}
        else {
            alert("Dieses Feld ist nicht frei");
@@ -196,8 +179,9 @@ function moveStoneTakeStep(ring, field){
 
 
 function moveStoneReleaseStep(ring, field){
-    if (game.board.isFieldFree(new Position(ring, field))){
-        return new Position(ring, field);}
+    var position = new Position(ring, field);
+    if (game.board.isFieldFree(position) || (moveTakePosition.ring == ring && moveTakePosition.field == field)){
+        return position;}
     else {
         alert("Dieses Feld ist nicht frei")}
 }
@@ -243,44 +227,11 @@ function moveStone(move){
                     "moveToField": move.toPosition.getField(),
                     "playerIndex": playerIndex,
                     "callComputer": !myTurn}))
-
-                /*fetch("/game/controller/move", {
-                    method: 'POST',
-                    body: JSON.stringify({
-                        "gameCode": game.gamecode,
-                        "playerUuid": game.player.getUuid(),
-                        "moveFromRing": move.fromPosition.getRing(),
-                        "moveFromField": move.fromPosition.getField(),
-                        "moveToRing": move.toPosition.getRing(),
-                        "moveToField": move.toPosition.getField(),
-                        "callComputer": !myTurn
-                    }),
-                    headers: {
-                        "Content-type": "application/json"
-                    }
-                })
-                    .then(resp => resp.json())
-                    .then(responseData => {
-                            console.log(responseData);
-                            console.log(game.board.toString());
-                        }
-                    )
-                    .then( e => {
-                        //Nachricht an Websocket
-                        sendMessage(websocket, JSON.stringify({
-                            "gameCode": game.gamecode,
-                            "playerUuid": game.player.getUuid(),
-                            "command" : "update",
-                            "action": "move",
-                            "moveFromRing": move.fromPosition.getRing(),
-                            "moveFromField": move.fromPosition.getField(),
-                            "moveToRing": move.toPosition.getRing(),
-                            "moveToField": move.toPosition.getField(),
-                            "playerIndex": playerIndex}))
-                    })*/}
+            }
             , delay)}
     else {
-        alert("Das ist kein gültiger Zug")}
+        alert("Das ist kein gültiger Zug")
+        fadeStone(move.fromPosition.getRing(), move.fromPosition.getField(), 500, true)}
 }
 
     function killStone(ring, field){
@@ -317,37 +268,7 @@ function moveStone(move){
                         "field": field,
                         "callComputer": !gameOver
                     }))
-
-            /*fetch("/game/controller/kill", {
-                method: 'POST',
-                body: JSON.stringify({
-                    "gameCode": game.gamecode,
-                    "playerUuid": game.player.getUuid(),
-                    "killRing": ring,
-                    "killField": field,
-                    "callComputer": !gameOver
-                }),
-                headers: {
-                    "Content-type": "application/json"
                 }
-            })
-                .then(resp => resp.json())
-                .then(responseData => {
-                        console.log(responseData);
-                        console.log(game.board.toString());
-                }
-                )
-                .then( e => {
-                    //Nachricht an Websocket
-                    sendMessage(websocket, JSON.stringify({
-                        "gameCode": game.gamecode,
-                        "playerUuid": game.player.getUuid(),
-                        "command" : "update",
-                        "action": "kill",
-                        "ring": ring,
-                        "field": field
-                    }))
-                })*/}
                 , delay)}
 
         else {
@@ -382,6 +303,20 @@ function moveStone(move){
         $("#putLabel1").text("Steine gesetzt: " + enemyPutStones)
 
     }}
+
+
+
+    function fadeStone(ring, field, speed, fadeIn) {
+        if (fadeIn){
+            $('#'.concat("r").concat(ring).concat("f").concat(field)).find("img").fadeTo(speed, 1);
+        }
+        else {
+        $('#'.concat("r").concat(ring).concat("f").concat(field)).find("img").fadeTo(speed, 0.5);
+        }
+
+    }
+
+
 
     function moveStoneGraphic(move, index) {
 
