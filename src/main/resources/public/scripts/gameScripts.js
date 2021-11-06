@@ -39,13 +39,14 @@ function clickOnField(ring, field){
         else {  // put-Phase
                 if (game.round < 18 && !kill){
                     putStone(ring, field);
+                    return;
                     }
 
                 // move-Phase
                 if (game.round >= 18 && !kill){
                     if (moveTakePosition == null){
                         moveTakePosition = moveStoneTakeStep(ring,field);
-                        fadeStone(ring, field, 500, false);
+
                     }
                     else {
                         moveReleasePosition = moveStoneReleaseStep(ring, field);
@@ -168,6 +169,7 @@ function clickOnField(ring, field){
 
 function moveStoneTakeStep(ring, field){
     if (game.board.isThisMyStone(new Position(ring, field), playerIndex)){
+        fadeStone(ring, field, 500, false);
         return new Position(ring, field);}
     else {
         alert("Auf diesem Feld befindet sich keiner deiner Steine")}
