@@ -15,18 +15,15 @@ var pathPutCursor = "images/PutCursor.png"
 var moveTakePosition;
 var moveReleasePosition;
 
-var putStones = 0;
-var killedStones = 0;
-var lostStones = 0;
+var player1PutStones = 0;
+var player1KilledStones = 0;
+var player1LostStones = 0;
 
-var enemyPutStones = 0;
-var enemyKilledStones = 0;
-var enemyLostStones = 0;
+var player2PutStones = 0;
+var player2KilledStones = 0;
+var player2LostStones = 0;
 
 
-function setCursor(cursorURL){
-    document.getElementById("boardImage").style.cursor = cursorURL;
-}
 
 
 
@@ -84,7 +81,6 @@ function clickOnField(ring, field){
 
     myTurn = isMyTurn;
     kill = isKill;
-        console.log(enemyName);
 
     if (isMyTurn){
         if (isKill){
@@ -239,7 +235,7 @@ function moveStone(move){
             console.log("Kill an Server senden");
             game.board.clearStone(new Position(ring, field));
 
-            clearStoneGraphic(ring, field, true);
+            clearStoneGraphic(ring, field, playerIndex);
 
             if (game.board.countPlayersStones(1-playerIndex) < 3 && game.round > 18){
                 gameOver = true;
@@ -290,8 +286,7 @@ function moveStone(move){
         if (color == "WHITE"){
             $('#'.concat("r").concat(ring).concat("f").concat(field)).prepend('<img src="images/StoneWhite.png" height="100%" width="100%"/>');}
 
-        putStones++;
-        $("#putLabel0").text("Steine gesetzt: " + putStones)
+
     }
     else {
         if (color == "WHITE"){
@@ -299,10 +294,21 @@ function moveStone(move){
         if (color == "BLACK"){
             $('#'.concat("r").concat(ring).concat("f").concat(field)).prepend('<img src="images/StoneWhite.png" height="100%" width="100%"/>');}
 
-        enemyPutStones++;
-        $("#putLabel1").text("Steine gesetzt: " + enemyPutStones)
 
-    }}
+
+    }
+
+    if (index == 0){
+        player1PutStones++;
+        $("#putLabel0").text("Steine gesetzt: " + player1PutStones)
+    }
+    else {
+        player2PutStones++;
+        $("#putLabel1").text("Steine gesetzt: " + player2PutStones)
+    }
+
+
+}
 
 
 
@@ -344,23 +350,24 @@ function moveStone(move){
         }
     }
 
-    function clearStoneGraphic(ring, field, ownPlayer){
+    function clearStoneGraphic(ring, field, killingPlayerIndex){
 
-        if (ownPlayer){
-            killedStones++;
-            enemyLostStones++;
-            $("#killedLabel0").text("Steine gewonnen: " + killedStones)
-            $("#lostLabel1").text("Steine verloren: " + enemyLostStones)
+        if (killingPlayerIndex == 0){
+            player1KilledStones++;
+            player2LostStones++;
+            $("#killedLabel0").text("Steine gewonnen: " + player1KilledStones)
+            $("#lostLabel1").text("Steine verloren: " + player2LostStones)
         }
         else {
-            enemyKilledStones++;
-            lostStones++;
-            $("#killedLabel1").text("Steine gewonnen: " + enemyKilledStones)
-            $("#lostLabel0").text("Steine verloren: " + lostStones)
+            player2KilledStones++;
+            player1LostStones++;
+            $("#killedLabel1").text("Steine gewonnen: " + player2KilledStones)
+            $("#lostLabel0").text("Steine verloren: " + player1LostStones)
 
         }
 
         $('#'.concat("r").concat(ring).concat("f").concat(field)).empty();
+
     }
 
     function setBoardCursor(path){

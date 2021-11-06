@@ -155,8 +155,8 @@ function putStoneGraphicComp(ring, field, index){
         if (color1Comp == "WHITE"){
             $('#'.concat("r").concat(ring).concat("f").concat(field)).prepend('<img src="images/StoneWhite.png" height="100%" width="100%"/>');}
 
-        putStones++;
-        $("#putLabel0").text("Steine gesetzt: " + putStones)
+        player1PutStones++;
+        $("#putLabel0").text("Steine gesetzt: " + player1PutStones)
     }
     else {
         if (color2Comp == "WHITE"){
@@ -164,24 +164,24 @@ function putStoneGraphicComp(ring, field, index){
         if (color2Comp == "BLACK"){
             $('#'.concat("r").concat(ring).concat("f").concat(field)).prepend('<img src="images/StoneBlack.png" height="100%" width="100%"/>');}
 
-        enemyPutStones++;
-        $("#putLabel1").text("Steine gesetzt: " + enemyPutStones)
+        player2PutStones++;
+        $("#putLabel1").text("Steine gesetzt: " + player2PutStones)
 
     }}
 
 function clearStoneGraphicComp(ring, field, index){
 
     if (index == 0){
-        killedStones++;
-        enemyLostStones++;
-        $("#killedLabel0").text("Steine gewonnen: " + killedStones)
-        $("#lostLabel1").text("Steine verloren: " + enemyLostStones)
+        player1KilledStones++;
+        player2LostStones++;
+        $("#killedLabel0").text("Steine gewonnen: " + player1KilledStones)
+        $("#lostLabel1").text("Steine verloren: " + player2LostStones)
     }
     else {
-        enemyKilledStones++;
-        lostStones++;
-        $("#killedLabel1").text("Steine gewonnen: " + enemyKilledStones)
-        $("#lostLabel0").text("Steine verloren: " + lostStones)
+        player2KilledStones++;
+        player1LostStones++;
+        $("#killedLabel1").text("Steine gewonnen: " + player2KilledStones)
+        $("#lostLabel0").text("Steine verloren: " + player1LostStones)
 
     }
 

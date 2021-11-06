@@ -1,3 +1,6 @@
+
+
+
 function giveUp(){
 
     var r = confirm("Wollen Sie wirklich aufgeben? Mit dem Aufgeben verlieren Sie das Spiel.");
@@ -96,6 +99,8 @@ function sendChatMessage(){
     }
 
 }
+
+
 
 function randomNumber(min, max) {
     min = Math.ceil(min);

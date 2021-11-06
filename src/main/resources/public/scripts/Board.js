@@ -116,6 +116,10 @@ class Board {
     return this.array[position.getRing()][position.getField()] == ownPlayerIndex;
     }
 
+    getFieldContent(position){
+        return this.array[position.getRing()][position.getField()];
+    }
+
 
     isThisMyEnemysStone( position,  ownPlayerIndex){
     return this.isFieldOccupied(position) && !this.isThisMyStone(position, ownPlayerIndex);

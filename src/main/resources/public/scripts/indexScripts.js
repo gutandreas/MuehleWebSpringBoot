@@ -268,7 +268,6 @@ function sendDataMenschVsMenschJoin(){
                 window.enemyName = responseData.player1Name;
                 window.myTurn = false;
                 $("#spielverlaufLabel").text(enemyName + " darf einen Stein setzen.")
-                console.log("Enemyname: " + enemyName)
 
                 doConnect();
                 sendMessage(websocket, JSON.stringify({

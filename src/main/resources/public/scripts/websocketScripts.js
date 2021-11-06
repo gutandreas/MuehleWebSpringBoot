@@ -87,8 +87,10 @@ function onMessage(evt){
 
         if (incommingMessage.action == "kill"){
             let position = new Position(incommingMessage.ring, incommingMessage.field);
+            let index = 1-game.board.getFieldContent(position);
             game.board.clearStone(position);
-            clearStoneGraphic(incommingMessage.ring, incommingMessage.field, false);
+
+            clearStoneGraphic(incommingMessage.ring, incommingMessage.field, index);
             if (game.board.countPlayersStones(playerIndex) < 3 && game.round > 18){
                 gameOver = true;
                 alert("Sie haben das Spiel verloren")
