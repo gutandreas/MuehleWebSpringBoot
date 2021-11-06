@@ -72,6 +72,65 @@ label{
 }
 
 
+#movePhaseLabel{
+    -webkit-text-fill-color: #505050;
+    background: #d29900;
+}
+
+#putPhaseLabel{
+    -webkit-text-fill-color: #505050;
+    background: #333333;
+    box-shadow: 0 0 3px;
+    letter-spacing: 2px;
+    padding: 4px;
+    display: block;
+    width: 70%;
+    margin-top: 1%;
+    text-align: center;
+}
+
+#putPhaseLabel:hover{
+    -webkit-text-fill-color: Black;
+    background: #77ccff;
+    box-shadow: 0 0 12px #ffffff;
+}
+
+#movePhaseLabel{
+    -webkit-text-fill-color: #505050;
+    background: #333333;
+    box-shadow: 0 0 3px;
+    letter-spacing: 2px;
+    padding: 4px;
+    margin-top: 1%;
+    display: block;
+    width: 70%;
+    text-align: center;
+}
+
+#movePhaseLabel:hover{
+    -webkit-text-fill-color: Black;
+    background: #66ff66;
+    box-shadow: 0 0 12px #ffffff;
+}
+
+#killPhaseLabel{
+    -webkit-text-fill-color: #505050;
+    background: #333333;
+    box-shadow: 0 0 3px;
+    letter-spacing: 2px;
+    padding: 4px;
+    display: block;
+    width: 70%;
+    margin-top: 1%;
+    text-align: center;
+}
+
+#killPhaseLabel:hover{
+    -webkit-text-fill-color: Black;
+    background: #ffaaaa;
+    box-shadow: 0 0 12px #ffffff;
+}
+
 
 
 #startImage1{
