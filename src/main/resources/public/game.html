@@ -47,7 +47,7 @@
 
 
     <div id="boardImage">
-        <img src="images/Spielfeld.png" style="width: 100%;  z-index: -1">
+        <img src="images/Spielfeld.png" style="width: 100%; z-index: -1; min-width: 600px">
         <div id="r0f0" style="position: absolute; left: 0%; top: 0%; width: 14%; height: 14%; background-color: rgba(0, 0, 0, 0);" onclick="clickOnField(0, 0)"></div>
         <div id="r0f1" style="position: absolute; left: 43%; top: 0%; width: 14%; height: 14%; background-color: rgba(0, 0, 0, 0);" onclick="clickOnField(0, 1)"></div>
         <div id="r0f2" style="position: absolute; right: 0%; top: 0%; width: 14%; height: 14%; background-color: rgba(0, 0, 0, 0);" onclick="clickOnField(0, 2)"></div>
@@ -79,27 +79,27 @@
 
     <div id="log">
         <h2>Nächster Schritt</h2>
+
+
+        <label class="phaseLabel" id="putPhaseLabel">SETZEN</label><br>
+        <label class="phaseLabel" id="movePhaseLabel">VERSCHIEBEN</label><br>
+        <label class="phaseLabel" id="killPhaseLabel">ENTFERNEN</label><br>
         <label id="spielverlaufLabel"></label>
 
-        <label id="putPhaseLabel">SETZEN</label>
-        <label id="movePhaseLabel">VERSCHIEBEN</label>
-        <label id="killPhaseLabel">ENTFERNEN</label>
-
-        <div style="position: absolute; top: 35%">
+        <div>
             <h2>Chat</h2>
-            <textarea id="messageBox" type="text" style="min-width: 180%; resize: none" readonly="true" rows="10"></textarea>
+            <textarea id="messageBox" type="text" style="width: 100%; resize: none" readonly="true" rows="10"></textarea>
             <br>
-            <input id="messageLine" type="text" style="min-width: 180%; resize: none" placeholder="Nachricht hier eingeben...">
+            <input id="messageLine" type="text" style="width: 100%; resize: none" placeholder="Nachricht hier eingeben...">
             <br>
-            <input id="messageButton" type="button" value="Nachricht senden" style="width: 100%" onclick="sendChatMessage()">
+            <input class="chatButton" id="messageButton" type="button" value="Nachricht senden"  onclick="sendChatMessage()">
             <br>
-            <input id="complimentEnemyButton" type="button" value="Gegner loben" style="width: 100%; background: #ddffdd" onclick="complimentEnemy()">
+            <input class="chatButton" id="complimentEnemyButton" type="button" value="Gegner loben" style="background: #ddffdd" onclick="complimentEnemy()">
             <br>
-            <input id="offendEnemyButton" type="button" value="Gegner beleidigen" style="width: 100%; background: peachpuff" onclick="offendEnemy()">
+            <input class="chatButton" id="offendEnemyButton" type="button" value="Gegner beleidigen" style=" background: peachpuff" onclick="offendEnemy()">
             <br>
 
-            <br>
-            <input id="giveUpButton" type="button" value="Spiel aufgeben" onclick="giveUp()">
+            <input class="chatButton" id="giveUpButton" type="button" value="💀💀💀 Spiel aufgeben 💀💀💀"  onclick="giveUp()">
         </div>
 
 
@@ -118,9 +118,9 @@
 
 
 
-<div id="OptionBox">
+<!--<div id="OptionBox">
     <input id="musicButton" type="button" value="Musik an">
-</div>
+</div>-->
 <table>
 
 </table>

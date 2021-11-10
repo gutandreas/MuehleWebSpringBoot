@@ -37,6 +37,7 @@ function onMessage(evt){
         $("#messageButton").prop('disabled', false);
         $("#complimentEnemyButton").prop('disabled', false);
         $("#offendEnemyButton").prop('disabled', false);
+        $("#putPhaseLabel").addClass("putPhaseLabel");
     }
 
     if (incommingMessage.command == "chat" && incommingMessage.playerUuid != uuid){

@@ -85,33 +85,58 @@ function clickOnField(ring, field){
 
     if (isMyTurn){
         if (isKill){
-            $('#spielverlaufLabel').text(name + " darf einen gegnerischen Stein entfernen")
+            $('#spielverlaufLabel').text(name + " darf einen Stein entfernen")
+            $("#putPhaseLabel").removeClass("putPhaseLabel");
+            $("#movePhaseLabel").removeClass("movePhaseLabel");
+            $("#killPhaseLabel").removeClass("killPhaseLabel");
+            $("#killPhaseLabel").addClass("killPhaseLabel");
 
         }
         else {
             if (game.round <18){
                 $('#spielverlaufLabel').text(name + " darf einen Stein setzen")
+                $("#putPhaseLabel").removeClass("putPhaseLabel");
+                $("#putPhaseLabel").removeClass("movePhaseLabel");
+                $("#putPhaseLabel").removeClass("killPhaseLabel");
+                $("#putPhaseLabel").addClass("putPhaseLabel");
             }
             else {
                 $('#spielverlaufLabel').text(name + " darf einen Stein bewegen")
+                $("#putPhaseLabel").removeClass("putPhaseLabel");
+                $("#movePhaseLabel").removeClass("movePhaseLabel");
+                $("#putPhaseLabel").removeClass("killPhaseLabel");
+                $("#movePhaseLabel").addClass("movePhaseLabel");
             }
         }
     }
     else {
         if (isKill){
-            $('#spielverlaufLabel').text(enemyName + " darf einen gegnerischen Stein entfernen")
+            $('#spielverlaufLabel').text(enemyName + " darf einen Stein entfernen")
+            $("#putPhaseLabel").removeClass("putPhaseLabel");
+            $("#movePhaseLabel").removeClass("movePhaseLabel");
+            $("#killPhaseLabel").removeClass("killPhaseLabel");
+
         }
         else {
             if (game.round <18){
                 $('#spielverlaufLabel').text(enemyName + " darf einen Stein setzen")
+                $("#putPhaseLabel").removeClass("putPhaseLabel");
+                $("#movePhaseLabel").removeClass("movePhaseLabel");
+                $("#killPhaseLabel").removeClass("killPhaseLabel");
             }
             else {
                 $('#spielverlaufLabel').text(enemyName + " darf einen Stein bewegen")
+                $("#putPhaseLabel").removeClass("putPhaseLabel");
+                $("#movePhaseLabel").removeClass("movePhaseLabel");
+                $("#killPhaseLabel").removeClass("killPhaseLabel");
             }
         }
 
     }
     }
+
+
+
 
 
 
