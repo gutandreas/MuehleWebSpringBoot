@@ -325,6 +325,7 @@ function sendDataMenschVsComputer(){
             $('#playerIndexH2').text(responseData.playerIndex)
 
             $('#spielverlaufLabel').text(player1Name + " darf einen Stein setzen")
+            $("#putPhaseLabel").addClass("putPhaseLabel");
 
             if (player1Color == "BLACK"){
                 $('#player1StoneImage').attr('src', 'images/StoneBlack.png')

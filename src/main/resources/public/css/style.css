@@ -103,18 +103,67 @@ label{
     -webkit-text-fill-color: Black;
     background: #77ccff;
     box-shadow: 0 0 12px #ffffff;
+
+    -webkit-animation: blueblink 1.5s steps(100, start) infinite;
+
 }
+
+
+@-webkit-keyframes blueblink {
+
+
+    0% {
+        background: #77ccff;
+    }
+
+    40% {
+        background: #55aadd;
+    }
+
+}
+
+
 
 .movePhaseLabel{
     -webkit-text-fill-color: Black;
     background: #33cc66;
     box-shadow: 0 0 12px #ffffff;
+
+    -webkit-animation: greenblink 1.5s steps(100, start) infinite;
+}
+
+@-webkit-keyframes greenblink {
+
+
+    0% {
+        background: #33cc66;
+    }
+
+    40% {
+        background: #22bb55;
+    }
+
 }
 
 .killPhaseLabel{
     -webkit-text-fill-color: Black;
     background: #ff5555;
     box-shadow: 0 0 12px #ffffff;
+
+    -webkit-animation: redblink 1.5s steps(100, start) infinite;
+}
+
+@-webkit-keyframes redblink {
+
+
+    0% {
+        background: #ff5555;
+    }
+
+    40% {
+        background: #ee4444;
+    }
+
 }
 
 .chatButton{
