@@ -268,6 +268,10 @@ function moveStone(move){
                 gameOver = true;
                 alert(name + " hat das Spiel gewonnen!")
                 $('#spielverlaufLabel').text(name + " hat das Spiel gewonnen")
+                $("#putPhaseLabel").removeClass("putPhaseLabel");
+                $("#movePhaseLabel").removeClass("movePhaseLabel");
+                $("#killPhaseLabel").removeClass("killPhaseLabel");
+
             }
 
             if (!gameOver){

@@ -52,7 +52,7 @@
 
         <div id="player1Settings">
             <h3 id="Spieler1H3"> Spieler 1: </h3>
-            <input id="player1Textfield" type="text" name="namePlayer2" maxlength="15" autocomplete="off" placeholder="Name Spieler 1">
+            <input id="player1Textfield" type="text" name="namePlayer2" maxlength="15" autocomplete="off" placeholder="Name Spieler 1" onkeyup="{this.value = this.value.replace(/[^a-zA-Z0-9]/g, ''); this.value = this.value.toUpperCase() }">
             <select id="player1Dropdown" style="display: none">
                 <div>
                     <option value="1">Starker Computer</option>
@@ -69,7 +69,7 @@
 
         <div id="player2Settings" style="display: none">
             <h3 id="Spieler2H3"> Spieler 2: </h3>
-            <input id="player2Textfield" type="text" name="namePlayer2" maxlength="15" autocomplete="off" placeholder="Name Spieler 2">
+            <input id="player2Textfield" type="text" name="namePlayer2" maxlength="15" autocomplete="off" placeholder="Name Spieler 2" onkeyup="{this.value = this.value.replace(/[^a-zA-Z0-9]/g, ''); this.value = this.value.toUpperCase() }">
             <select id="player2Dropdown" style="display: none">
                 <div>
                     <option value="1">Starker Computer</option>
