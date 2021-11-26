@@ -181,7 +181,8 @@ function clickOnField(ring, field){
                        "action": "put",
                        "ring": ring,
                        "field": field,
-                       "callComputer": !myTurn}))
+                       "callComputer": !myTurn,
+                       "triggerAxidraw": true}))
 
                }
                , delay)}
@@ -249,7 +250,8 @@ function moveStone(move){
                     "moveToRing": move.toPosition.getRing(),
                     "moveToField": move.toPosition.getField(),
                     "playerIndex": playerIndex,
-                    "callComputer": !myTurn}))
+                    "callComputer": !myTurn,
+                    "triggerAxidraw": true}))
             }
             , delay)}
     else {
@@ -293,7 +295,8 @@ function moveStone(move){
                         "action": "kill",
                         "ring": ring,
                         "field": field,
-                        "callComputer": !gameOver
+                        "callComputer": !gameOver,
+                        "triggerAxidraw": true
                     }))
                 }
                 , delay)}

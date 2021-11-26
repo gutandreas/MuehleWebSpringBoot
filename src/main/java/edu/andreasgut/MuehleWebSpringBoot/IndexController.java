@@ -134,7 +134,14 @@ public class IndexController {
             computerColor = STONECOLOR.BLACK;
         }
 
-        Game game = new Game(new HumanPlayer(player1Name, generateRandomUUID(), player1Color), new ComputerPlayer(computerName, generateRandomUUID(), computerColor), 0);
+        ScorePoints putPoints = new ScorePoints(2000, 1000,30, 200, 300,3, -2000, -1000, -30, -200, -300, -3);
+        ScorePoints movePoints = new ScorePoints(2000, 300,250, 200, 300,3, -2000, -300, -250, -200, -300, -3);
+        int levelLimit = Integer.parseInt(jsonObject.getString("computerLevel"));
+
+        ComputerPlayer computerPlayer = new ComputerPlayer(computerName, computerColor, generateRandomUUID(), putPoints, movePoints, levelLimit);
+        Game game = new Game(new HumanPlayer(player1Name, generateRandomUUID(), player1Color), computerPlayer, 0);
+        computerPlayer.setGame(game);
+
         String gameCode = GameManager.addGameAndGetGameCode(game);
 
         JSONObject jsonResponseObject = new JSONObject();

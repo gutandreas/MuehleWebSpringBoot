@@ -290,7 +290,7 @@ function sendDataMenschVsComputer(){
     else {player1Color = "BLACK";}
 
     let computerName = $("#player2Dropdown option:selected").text();
-    let computerCode = $("#player2Dropdown option:selected").val();
+    let computerLevel = $("#player2Dropdown option:selected").val();
 
 
     fetch("/index/controller/menschVsComputer", {
@@ -300,7 +300,7 @@ function sendDataMenschVsComputer(){
                 "player1Name" : player1Name,
                 "player1Color" : player1Color,
                 "computerName" : computerName,
-                "computerCode" : computerCode
+                "computerLevel" : computerLevel
         }),
         headers: {
             "Content-type": "application/json"

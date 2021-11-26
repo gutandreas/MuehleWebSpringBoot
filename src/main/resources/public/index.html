@@ -53,12 +53,12 @@
         <div id="player1Settings">
             <h3 id="Spieler1H3"> Spieler 1: </h3>
             <input id="player1Textfield" type="text" name="namePlayer2" maxlength="15" autocomplete="off" placeholder="Name Spieler 1" onkeyup="{this.value = this.value.replace(/[^a-zA-Z0-9]/g, ''); this.value = this.value.toUpperCase() }">
-            <select id="player1Dropdown" style="display: none">
+           <!-- <select id="player1Dropdown" style="display: none">
                 <div>
-                    <option value="1">Starker Computer</option>
-                    <option value="0">Schwacher Computer</option>
+                    <option value="5">Starker Computer</option>
+                    <option value="1">Schwacher Computer</option>
                 </div>
-            </select>
+            </select>-->
             <label>Schwarz</label>
             <label class="switch">
                 <input id="colorPlayer1" type="checkbox" onclick="changeSwitchToOpposite('colorPlayer2')">
@@ -72,8 +72,9 @@
             <input id="player2Textfield" type="text" name="namePlayer2" maxlength="15" autocomplete="off" placeholder="Name Spieler 2" onkeyup="{this.value = this.value.replace(/[^a-zA-Z0-9]/g, ''); this.value = this.value.toUpperCase() }">
             <select id="player2Dropdown" style="display: none">
                 <div>
-                    <option value="1">Starker Computer</option>
-                    <option value="0">Schwacher Computer</option>
+                    <option value="5">Starker Computer</option>
+                    <option value="3">Mittelstarker Computer</option>
+                    <option value="1">Schwacher Computer</option>
                 </div>
             </select>
                     <label id="labelSchwarzPlayer2">Schwarz</label>

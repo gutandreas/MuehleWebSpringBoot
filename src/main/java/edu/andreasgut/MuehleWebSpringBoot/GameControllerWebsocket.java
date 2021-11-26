@@ -194,6 +194,7 @@ public class GameControllerWebsocket {
             jsonObject.put("ring", position.getRing());
             jsonObject.put("field", position.getField());
             jsonObject.put("playerIndex", 1);
+            jsonObject.put("triggerAxidraw", true);
             jsonObject.put("boardAsString", GameManager.getGame(gameCode).getBoard().getBoardAsString());
 
             try {
@@ -221,6 +222,7 @@ public class GameControllerWebsocket {
             jsonObject.put("moveToRing", to.getRing());
             jsonObject.put("moveToField", to.getField());
             jsonObject.put("playerIndex", 1);
+            jsonObject.put("triggerAxidraw", true);
             jsonObject.put("boardAsString", GameManager.getGame(gameCode).getBoard().getBoardAsString());
 
             try {
@@ -244,6 +246,7 @@ public class GameControllerWebsocket {
             jsonObject.put("ring", position.getRing());
             jsonObject.put("field", position.getField());
             jsonObject.put("playerIndex", 1);
+            jsonObject.put("triggerAxidraw", true);
             jsonObject.put("boardAsString", GameManager.getGame(gameCode).getBoard().getBoardAsString());
 
             try {
