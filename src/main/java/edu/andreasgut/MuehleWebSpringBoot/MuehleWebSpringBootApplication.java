@@ -9,7 +9,6 @@ import java.net.Socket;
 public class MuehleWebSpringBootApplication {
 
 	public static void main(String[] args) {
-
 		SpringApplication.run(MuehleWebSpringBootApplication.class, args);
 	}
 
