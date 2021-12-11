@@ -8,11 +8,14 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.io.*;
 import java.time.LocalTime;
+import java.util.Timer;
 import java.util.UUID;
 
 
 @RestController
 public class IndexController {
+
+    private final int TIMELIMIT = 2*60*60*1000;
 
 
     @GetMapping(
@@ -21,17 +24,6 @@ public class IndexController {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("/index.html");
         return modelAndView;}
-
-
-
-/*        // Hier wird die gameID herausgelesen... Macht noch nicht wirklich Sinn so...
-    @PostMapping(
-            path = "/index/controller/waitingRoomHTML/{gameCode}")
-    public @ResponseBody JSONObject loadWaitingRoomHTMLid(@PathVariable String gameCode) {
-        Game game = new Game(new HumanPlayer("player1", generateRandomUUID(), STONECOLOR.BLACK), (new HumanPlayer("player2", generateRandomUUID(), STONECOLOR.WHITE)), 0);
-        JSONObject jsonObject = new JSONObject(game);
-        System.out.println(this.getClass().getSimpleName() + ": Das Game mit dem Code '" + gameCode + "' wurde erstellt");
-        return jsonObject;}*/
 
 
 
@@ -60,6 +52,7 @@ public class IndexController {
         else {
             Game game = new Game(new HumanPlayer(player1Name, generateRandomUUID(), player1Color));
             GameManager.addGame(gameCode, game);
+            new Timer().schedule(new ClearTask(gameCode), TIMELIMIT);
 
             JSONObject jsonResponseObject = new JSONObject();
             jsonResponseObject.put("player1Uuid", game.getPlayer0().getUuid());
@@ -143,6 +136,7 @@ public class IndexController {
         computerPlayer.setGame(game);
 
         String gameCode = GameManager.addGameAndGetGameCode(game);
+        new Timer().schedule(new ClearTask(gameCode), TIMELIMIT);
 
         JSONObject jsonResponseObject = new JSONObject();
         jsonResponseObject.put("modus", modus);
@@ -214,45 +208,6 @@ public class IndexController {
 
     }
 
-
-    /*@PostMapping(
-            path = "/index/controller/computerVsComputer")
-    public ResponseEntity<String> loadComputerVsComputer(@RequestBody String body){
-        colorPrint(body, PRINTCOLOR.YELLOW);
-        JSONObject jsonObject = new JSONObject(body);
-        String computerName1 = jsonObject.getString("computerName1");
-        String computerCode1 = jsonObject.getString("computerCode1");
-        String computerName2 = jsonObject.getString("computerName2");
-        String computerCode2 = jsonObject.getString("computerCode2");
-
-        Game game = new Game(new ComputerPlayer(computerName1, generateRandomUUID(), STONECOLOR.BLACK), new ComputerPlayer(computerName2, generateRandomUUID(), STONECOLOR.WHITE), 0);
-        String gameCode = GameManager.addGameAndGetGameCode(game);
-
-        JSONObject jsonResponseObject = new JSONObject();
-        jsonResponseObject.put("gameCode", gameCode);
-        jsonResponseObject.put("uuid1", GameManager.getGame(gameCode).getPlayer0().getUuid());
-        jsonResponseObject.put("uuid2", GameManager.getGame(gameCode).getPlayer1().getUuid());
-
-        return ResponseEntity.status(HttpStatus.OK).body(jsonResponseObject.toString());
-
-    }*/
-
-   /* @PostMapping(
-            path = "/index/controller/gameCodeExists")
-    public ResponseEntity<String> gameCodeExists(@RequestBody String body){
-        colorPrint(body, PRINTCOLOR.YELLOW);
-        JSONObject jsonObject = new JSONObject(body);
-        String gamecode = jsonObject.getString("gamecode");
-
-
-        if (GameManager.checkIfGameExists(gamecode)){
-            return ResponseEntity.status(HttpStatus.OK).body(jsonObject.toString());
-        }
-        else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(jsonObject.toString());
-        }
-
-    }*/
 
     @PostMapping(
             path = "/index/controller/ableToStart")

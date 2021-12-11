@@ -51,6 +51,13 @@ function onMessage(evt){
         getIndexPage();
     }
 
+    if (incommingMessage.command == "timeout"){
+        console.log(incommingMessage);
+        alert("Die Zeit maximale Zeit für dieses Spiel ist abgelaufen. Sie werden zur Startseite zurückgeleitet...");
+        getIndexPage();
+
+    }
+
 
     if (incommingMessage.command == "update" && incommingMessage.playerUuid != uuid){
 
