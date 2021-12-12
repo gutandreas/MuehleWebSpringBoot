@@ -282,10 +282,31 @@ label{
 
 
 
+/*schmales Computerfenster*/
+@media screen and (max-width: 1000px) {
 
-@media screen and (max-width: 900px) {
-
-    #startImage1, #startImage2 {
+    #startImage1, #startImage2, #log, #chat, #score {
         display: none;
     }
+
+    #StartMainBox {
+        width: 70%;
+        overflow: hidden;
+    }
+}
+
+/*Handy*/
+@media only screen and (max-device-width: 1050px) {
+
+    #startImage1, #startImage2, #log, #chat, #score {
+        display: none;
+    }
+
+    #StartMainBox {
+        width: 70%;
+        height: 100%;
+        overflow: hidden;
+    }
+
+
 }
