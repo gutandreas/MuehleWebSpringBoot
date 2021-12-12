@@ -56,9 +56,9 @@ public class ComputerPlayer extends Player {
         }
 
         if (set.getLevel()%2 == 0){
-            gameTree.keepOnlyBestChildren(set, 12);}
+            gameTree.keepOnlyBestChildren(set, 9);}
         else {
-            gameTree.keepOnlyWorstChildren(set, 12);
+            gameTree.keepOnlyWorstChildren(set, 9);
         }
 
         for (GameTreeNode child : set.getChildren()){
@@ -142,9 +142,9 @@ public class ComputerPlayer extends Player {
         }
 
         if (set.getLevel()%2 == 0){
-            gameTree.keepOnlyBestChildren(set, 12);}
+            gameTree.keepOnlyBestChildren(set, 9);}
         else {
-            gameTree.keepOnlyWorstChildren(set, 12);
+            gameTree.keepOnlyWorstChildren(set, 9);
         }
 
 
