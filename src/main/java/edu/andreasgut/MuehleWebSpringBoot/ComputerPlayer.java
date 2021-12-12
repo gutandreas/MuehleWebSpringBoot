@@ -31,15 +31,8 @@ public class ComputerPlayer extends Player {
 
         recursivePutBfs(gameTree.getRoot(), putPoints, movePoints, playerIndex, playerIndex, levelLimit);
 
-        System.out.println(gameTree);
+        //System.out.println(gameTree);
 
-        Stack<GameTreeNode> winningPath = gameTree.getPathToBestLeaf();
-        System.out.println("Gewinnerpfad:");
-        while (!winningPath.isEmpty()){
-            System.out.println(winningPath.pop());
-        }
-
-        System.out.println("Gesetzter Stein: " + gameTree.getBestPut());
         return gameTree.getBestPut();
     }
 
@@ -63,9 +56,9 @@ public class ComputerPlayer extends Player {
         }
 
         if (set.getLevel()%2 == 0){
-            gameTree.keepOnlyBestChildren(set, 10);}
+            gameTree.keepOnlyBestChildren(set, 12);}
         else {
-            gameTree.keepOnlyWorstChildren(set, 1);
+            gameTree.keepOnlyWorstChildren(set, 12);
         }
 
         for (GameTreeNode child : set.getChildren()){
@@ -106,11 +99,11 @@ public class ComputerPlayer extends Player {
 
                 gameTreeNode2.setBoard(clonedBoard2);
                 gameTreeNode2.setScore(Advisor.getScore(gameTreeNode2, scorePoints, scorePlayerIndex, false));
-                gameTree.addSet(parent, gameTreeNode2);
+                gameTree.addNode(parent, gameTreeNode2);
             }
         }
         else {
-            gameTree.addSet(parent, gameTreeNode1);
+            gameTree.addNode(parent, gameTreeNode1);
         }
 
     }
@@ -123,15 +116,8 @@ public class ComputerPlayer extends Player {
 
         recursiveMoveBfs(gameTree.getRoot(), movePoints, playerIndex, playerIndex, levelLimit);
 
-        System.out.println(gameTree);
+        //System.out.println(gameTree);
 
-        Stack<GameTreeNode> winningPath = gameTree.getPathToBestLeaf();
-        System.out.println("Gewinnerpfad:");
-        while (!winningPath.isEmpty()){
-            System.out.println(winningPath.pop());
-        }
-
-        System.out.println("Getätigter Zug: " + gameTree.getBestMove());
         return gameTree.getBestMove();
 
     }
@@ -156,9 +142,9 @@ public class ComputerPlayer extends Player {
         }
 
         if (set.getLevel()%2 == 0){
-            gameTree.keepOnlyBestChildren(set, 3);}
+            gameTree.keepOnlyBestChildren(set, 12);}
         else {
-            gameTree.keepOnlyWorstChildren(set, 1);
+            gameTree.keepOnlyWorstChildren(set, 12);
         }
 
 
@@ -194,11 +180,11 @@ public class ComputerPlayer extends Player {
 
                 gameTreeNode2.setBoard(clonedBoard2);
                 gameTreeNode2.setScore(Advisor.getScore(gameTreeNode2, scorePoints, scorePlayerIndex, false));
-                gameTree.addSet(parent, gameTreeNode2);
+                gameTree.addNode(parent, gameTreeNode2);
             }
         }
         else {
-            gameTree.addSet(parent, gameTreeNode1);
+            gameTree.addNode(parent, gameTreeNode1);
         }
     }
 

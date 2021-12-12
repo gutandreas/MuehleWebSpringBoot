@@ -11,9 +11,11 @@ public class GameTreeNode {
     private Move move;
     private Position kill;
     private int score;
+    private int inheritedScore;
     private GameTreeNode parent;
     private LinkedList<GameTreeNode> children = new LinkedList<>();
     private String scoreDetails;
+    private boolean visited = false;
 
     public Board getBoard() {
         return board;
@@ -55,6 +57,14 @@ public class GameTreeNode {
         this.score = score;
     }
 
+    public int getInheritedScore() {
+        return inheritedScore;
+    }
+
+    public void setInheritedScore(int inheritedScore) {
+        this.inheritedScore = inheritedScore;
+    }
+
     public GameTreeNode getParent() {
         return parent;
     }
@@ -69,6 +79,14 @@ public class GameTreeNode {
 
     public void setLevel(int level) {
         this.level = level;
+    }
+
+    public boolean isVisited() {
+        return visited;
+    }
+
+    public void setVisited(boolean visited) {
+        this.visited = visited;
     }
 
     public LinkedList<GameTreeNode> getChildren() {
@@ -93,19 +111,19 @@ public class GameTreeNode {
 
         if (put != null){
             if (kill == null){
-                return  "Level " + level + ", Put an " + put + ", Score: " + score + "\n" + board;
-                }
+                return  "Level " + level + ", Put an " + put + ", Score: " + score + ", Inherited Score: " + inheritedScore + "\n" + board;
+            }
             else {
-                return  "Level " + level + ", Put an " + put + " mit Kill an " + kill + ", Score: " + score + "\n" + board;
+                return  "Level " + level + ", Put an " + put + " mit Kill an " + kill + ", Score: " + score + ", Inherited Score: " + inheritedScore + "\n" + board;
             }
         }
 
         if (move != null){
             if (kill == null) {
-                return "Level " + level + ", " + move + ", Score: " + score + "\n" + board;
+                return "Level " + level + ", " + move + ", Score: " + score + ", Inherited Score: " + inheritedScore + "\n" + board;
             }
             else {
-                return  "Level " + level + ", Move an " + move + " mit Kill an " + kill + ", Score: " + score + "\n" + board;
+                return  "Level " + level + ", Move an " + move + " mit Kill an " + kill + ", Score: " + ", Inherited Score: " + inheritedScore + score + "\n" + board;
             }
         }
 
