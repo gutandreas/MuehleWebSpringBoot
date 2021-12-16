@@ -1,6 +1,6 @@
 function doConnect(){
-    //websocket = new WebSocket("ws://localhost:443/board");
-    websocket = new WebSocket("ws://217.160.10.113:443/board");
+    websocket = new WebSocket("ws://localhost:443/board");
+    //websocket = new WebSocket("ws://217.160.10.113:443/board");
     websocket.onopen = function(evt) { onOpen(evt) };
     websocket.onclose = function(evt) { onClose(evt) };
     websocket.onmessage = function(evt) { onMessage(evt) };

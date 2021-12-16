@@ -68,12 +68,15 @@ function clickOnField(ring, field){
     else {
         if (gameOver){
             alert("Das Spiel ist bereits zu Ende...");
+            return;
         }
         if (!myTurn){
             alert("Du bist nicht an der Reihe. Warte auf den Zug des Gegenspielers");
+            return;
         }
         if (!enemyLoggedIn){
             alert("Bitte warten Sie, bis Ihr Gegenspieler eingeloggt ist")
+            return;
         }
     }
     }
