@@ -55,7 +55,26 @@ function onMessage(evt){
         console.log(incommingMessage);
         alert("Die Zeit maximale Zeit für dieses Spiel ist abgelaufen. Sie werden zur Startseite zurückgeleitet...");
         getIndexPage();
+    }
 
+    if (incommingMessage.command == "gameOver"){
+        console.log(incommingMessage);
+
+        $("#putPhaseLabel").removeClass("putPhaseLabel");
+        $("#movePhaseLabel").removeClass("movePhaseLabel");
+        $("#killPhaseLabel").removeClass("killPhaseLabel");
+        gameOver = true;
+
+        if (incommingMessage.playerIndex == playerIndex){
+            alert(enemyName + " hat das Spiel gewonnen!")
+            $('#spielverlaufLabel').text(enemyName + " hat das Spiel gewonnen!")
+
+
+        }
+        else {
+            alert(name + " hat das Spiel gewonnen!")
+            $('#spielverlaufLabel').text(name + " hat das Spiel gewonnen!")
+        }
     }
 
 
@@ -99,12 +118,8 @@ function onMessage(evt){
             game.board.clearStone(position);
 
             clearStoneGraphic(incommingMessage.ring, incommingMessage.field, index);
-            if (game.board.countPlayersStones(playerIndex) < 3 && game.round > 18){
-                gameOver = true;
-                alert("Sie haben das Spiel verloren")
-            }
-            else {
-                editMyTurn(true, false);}
+
+            editMyTurn(true, false);
 
         }
     }

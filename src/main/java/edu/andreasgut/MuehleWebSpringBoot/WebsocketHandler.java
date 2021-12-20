@@ -101,6 +101,7 @@ public class WebsocketHandler extends TextWebSocketHandler {
                             for (WebSocketSession s : sessions) {
                                 sendMessageWithExceptionHandling(game, s, jsonObject.toString());
                             }
+                            game.checkWinner();
                         }
                         else {
                             sendExceptionMessageToSender(session, "Ungültiger Move");
@@ -113,6 +114,7 @@ public class WebsocketHandler extends TextWebSocketHandler {
                             for (WebSocketSession s : sessions){
                                 sendMessageWithExceptionHandling(game, s, jsonObject.toString());
                             }
+                            game.checkWinner();
                         }
                         else {
                             sendExceptionMessageToSender(session, "Ungültiger Kill");

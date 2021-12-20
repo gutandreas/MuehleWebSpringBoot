@@ -12,12 +12,10 @@ public class Game {
     private Player player1;
     private boolean gameComplete;
     private boolean gameStarted = false;
-    private Player winner;
+    private String gameCode;
     private int round;
     private final int NUMBEROFSTONES = 9;
     private final Board board;
-    private boolean putPhase = true;
-    private boolean movePhase = false;
     private int currentPlayerIndex;
     private LinkedList<WebSocketSession> sessionList = new LinkedList<>(); // Maximal 100 Teilnehmer pro Game
 
@@ -122,8 +120,45 @@ public class Game {
         return gameStarted;
     }
 
+    public void checkWinner(){
+
+        boolean player0lessThan3Stones = round > 18 && board.countPlayersStones(0) < 3;
+        boolean player0unableToMove = round > 18 && !board.checkIfAbleToMove(0);
+
+        if (player0lessThan3Stones){
+            GameControllerWebsocket.sendGameOverMessage(gameCode, 0, "Weniger als 3 Steine");
+            return;
+        }
+
+        if (player0unableToMove){
+            GameControllerWebsocket.sendGameOverMessage(gameCode, 0, "Keine möglichen Züge mehr");
+            return;
+        }
+
+        boolean player1lessThan3Stones = round > 18 && board.countPlayersStones(1) < 3;
+        boolean player1unableToMove = round > 18 && !board.checkIfAbleToMove(1);
+
+        if (player1lessThan3Stones){
+            GameControllerWebsocket.sendGameOverMessage(gameCode, 1, "Weniger als 3 Steine");
+            return;
+        }
+
+        if (player1unableToMove){
+            GameControllerWebsocket.sendGameOverMessage(gameCode, 1, "Keine möglichen Züge mehr");
+            return;
+        }
+
+
+    }
+
+
+
     public void setGameStarted(boolean gameStarted) {
         this.gameStarted = gameStarted;
+    }
+
+    public void setGameCode(String gameCode) {
+        this.gameCode = gameCode;
     }
 
     public Player getPlayerByUuid(String ownUuid){

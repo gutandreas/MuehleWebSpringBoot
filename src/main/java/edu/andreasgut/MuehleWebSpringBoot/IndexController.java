@@ -51,6 +51,7 @@ public class IndexController {
         }
         else {
             Game game = new Game(new HumanPlayer(player1Name, generateRandomUUID(), player1Color));
+            game.setGameCode(gameCode);
             GameManager.addGame(gameCode, game);
             new Timer().schedule(new ClearTask(gameCode), TIMELIMIT);
 
@@ -136,6 +137,7 @@ public class IndexController {
         computerPlayer.setGame(game);
 
         String gameCode = GameManager.addGameAndGetGameCode(game);
+        game.setGameCode(gameCode);
         new Timer().schedule(new ClearTask(gameCode), TIMELIMIT);
 
         JSONObject jsonResponseObject = new JSONObject();

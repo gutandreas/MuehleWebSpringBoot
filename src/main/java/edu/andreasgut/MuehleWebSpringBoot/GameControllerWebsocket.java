@@ -78,6 +78,7 @@ public class GameControllerWebsocket {
             System.out.println(LocalTime.now() + " – " + "GameCotrollerWebsocket: Move in Spiel " + gameCode);
             System.out.println(GameManager.getGame(gameCode).getBoard());
             game.increaseRound();
+            game.checkWinner();
         }
         else {
             return false;
@@ -117,6 +118,7 @@ public class GameControllerWebsocket {
             game.getBoard().clearStone(killPosition);
             System.out.println(LocalTime.now() + " – " + "GameControllerWebsocket: Kill in Spiel " + gameCode);
             System.out.println(GameManager.getGame(gameCode).getBoard());
+            game.checkWinner();
         }
         else {
             return false;
@@ -245,6 +247,24 @@ public class GameControllerWebsocket {
             jsonObject.put("playerIndex", 1);
             jsonObject.put("triggerAxidraw", true);
             jsonObject.put("boardAsString", GameManager.getGame(gameCode).getBoard().getBoardAsString());
+
+            try {
+                session.sendMessage(new TextMessage(jsonObject.toString()));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public static void sendGameOverMessage(String gameCode, int index, String details){
+
+        for (WebSocketSession session : GameManager.getGame(gameCode).getSessionList())
+        {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("gameCode", gameCode);
+            jsonObject.put("command", "gameOver");
+            jsonObject.put("playerIndex", index);
+            jsonObject.put("details", details);
 
             try {
                 session.sendMessage(new TextMessage(jsonObject.toString()));

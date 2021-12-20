@@ -269,19 +269,7 @@ function moveStone(move){
 
             clearStoneGraphic(ring, field, playerIndex);
 
-            if (game.board.countPlayersStones(1-playerIndex) < 3 && game.round > 18){
-                gameOver = true;
-                alert(name + " hat das Spiel gewonnen!")
-                $('#spielverlaufLabel').text(name + " hat das Spiel gewonnen")
-                $("#putPhaseLabel").removeClass("putPhaseLabel");
-                $("#movePhaseLabel").removeClass("movePhaseLabel");
-                $("#killPhaseLabel").removeClass("killPhaseLabel");
-
-            }
-
-            if (!gameOver){
-                editMyTurn(false, false);
-            }
+            editMyTurn(false, false);
 
             let delay;
             if (window.modus == 1){
@@ -298,7 +286,7 @@ function moveStone(move){
                         "action": "kill",
                         "ring": ring,
                         "field": field,
-                        "callComputer": !gameOver,
+                        "callComputer": true,
                         "triggerAxidraw": true
                     }))
                 }
