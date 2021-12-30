@@ -412,13 +412,6 @@ function sendDataGameWatch(){
                 "command" : "watch"
             }))
 
-            sendMessage(websocket, JSON.stringify({
-                "gameCode": gameCode,
-                "playerUuid": "anonym",
-                "command" : "chat",
-                "name" : "Anonymer Beobachter",
-                "message" : "Ich schaue euch zu..."}));
-
 
 
         })

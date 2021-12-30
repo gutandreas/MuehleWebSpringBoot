@@ -63,6 +63,14 @@ public class WebsocketHandler extends TextWebSocketHandler {
 
                 case "watch":
                     game.addToSessionList(session);
+                    JSONObject watchJsonObject = new JSONObject();
+                    watchJsonObject.put("gameCode", jsonObject.getString("gameCode"));
+                    watchJsonObject.put("command", "chat");
+                    watchJsonObject.put("name", "Anonymer Beobachter");
+                    watchJsonObject.put("message", "Ich schaue euch zu...");
+                    for (WebSocketSession s : sessions){
+                        sendMessageWithExceptionHandling(game, s, watchJsonObject.toString());
+                    }
                     break;
 
                 case "chat":
@@ -122,11 +130,11 @@ public class WebsocketHandler extends TextWebSocketHandler {
 
                     }
 
-                    // Falls Game over, wird Game aus dem Gamemanager entfernt. Gamecode wieder frei.
+                    /*// Falls Game over, wird Game aus dem Gamemanager entfernt. Gamecode wieder frei.
                     int enemyStoneNumber = game.getBoard().countPlayersStones(1-game.getPlayerIndexByUuid(jsonObject.getString("playerUuid")));
                     if (enemyStoneNumber < 3 && game.getRound() > 18){
                         GameManager.removeGame(gameCode);
-                    }
+                    }*/
 
             }
         }
