@@ -110,7 +110,7 @@ function checkAndSendDataMenschVsComputer() {
     }
 }
 
-//TODO: Mit dem sendDataGameWatch wird nicht gewartet bis HTML zurück ist
+
 async function checkAndSendDataGameWatch(){
     let gameCodeJoin = $("#gamecodeWatch").val();
 
@@ -125,9 +125,10 @@ async function checkAndSendDataGameWatch(){
             "gamecode": gameCodeJoin
         })})
         .then(resp =>
-            {if (resp.ok){resp.json()}
+            {if (resp.ok){
+                resp.json()}
             else {
-                    throw new Error("Der Gamecode wird noch nicht verwendet oder das Spiel wurde bereits begonnen. Bitte kontrollieren Sie die Eingabe.")
+                throw new Error("Der Gamecode wird noch nicht verwendet oder das Spiel wurde bereits begonnen. Bitte kontrollieren Sie die Eingabe.")
             }})
         .then(responseData => {
             console.log(responseData)
