@@ -28,6 +28,18 @@ public class GameTree {
 
         LinkedList<GameTreeNode> leaves = new LinkedList<>();
         getLeavesRecursive(root, leaves);
+
+        leaves.sort((o1, o2) -> {
+            if (o1.getLevel() > o2.getLevel()){
+                return -1;
+            }
+            if (o1.getLevel() == o2.getLevel()){
+                return 0;
+            }
+            else return 1;
+
+        });
+
         return leaves;
 
     }
@@ -148,7 +160,7 @@ public class GameTree {
         LinkedList<GameTreeNode> bestList = new LinkedList<>();
 
         for (GameTreeNode node : root.getChildren()){
-            if (node.getInheritedScore() == root.getInheritedScore()){
+            if (node.getInheritedScore() == root.getInheritedScore() && node.getKill() != null){
                 bestList.add(node);
             }
         }
