@@ -63,6 +63,10 @@ function onMessage(evt){
         $("#putPhaseLabel").removeClass("putPhaseLabel");
         $("#movePhaseLabel").removeClass("movePhaseLabel");
         $("#killPhaseLabel").removeClass("killPhaseLabel");
+        $("#giveUpButton").prop("value", "Zum Menü");
+        $("#giveUpButton").css("background","#118833");
+
+
         gameOver = true;
 
         if (incommingMessage.playerIndex == playerIndex){

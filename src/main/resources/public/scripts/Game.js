@@ -17,6 +17,7 @@ class Game {
         return this.myTurn;
     }
 
+
     getPlayer(){
         return this.player;
     }

@@ -8,9 +8,6 @@ var name;
 var enemyName;
 var gameOver = false;
 var enemyLoggedIn = true;
-var pathWaitingCursor = "images/SandglassCursor.png"
-var pathPutCursor = "images/PutCursor.png"
-
 
 var moveTakePosition;
 var moveReleasePosition;

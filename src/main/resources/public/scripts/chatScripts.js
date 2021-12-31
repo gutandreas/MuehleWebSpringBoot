@@ -3,18 +3,22 @@
 
 function giveUp(){
 
-    var r = confirm("Wollen Sie wirklich aufgeben? Mit dem Aufgeben verlieren Sie das Spiel.");
-    if (r == true) {
-        sendMessage(websocket, JSON.stringify({
-            "gameCode": game.gamecode,
-            "playerUuid": game.player.getUuid(),
-            "command" : "giveup",
-            "name" : name}))
-        getIndexPage();
+    if (!gameOver) {
+        var r = confirm("Wollen Sie wirklich aufgeben? Mit dem Aufgeben verlieren Sie das Spiel.");
+        if (r == true) {
+            sendMessage(websocket, JSON.stringify({
+                "gameCode": game.gamecode,
+                "playerUuid": game.player.getUuid(),
+                "command": "giveup",
+                "name": name
+            }))
+            getIndexPage();
+        } else {
+            alert("Schön, dass Sie dranbleiben, weiterhin viel Glück!")
+        }
     }
-
     else {
-        alert("Schön, dass Sie dranbleiben, weiterhin viel Glück!")
+        getIndexPage();
     }
 
 }
