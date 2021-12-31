@@ -63,8 +63,10 @@ function onMessage(evt){
         $("#putPhaseLabel").removeClass("putPhaseLabel");
         $("#movePhaseLabel").removeClass("movePhaseLabel");
         $("#killPhaseLabel").removeClass("killPhaseLabel");
-        $("#giveUpButton").prop("value", "Zum Menü");
-        $("#giveUpButton").css("background","#118833");
+        $("#giveUpButton").prop("value", "ZUM MENÜ");
+        $("#giveUpButton").css("background","#33cc66");
+        $("#giveUpButton").css("-webkit-text-fill-color", "BLACK");
+
 
 
         gameOver = true;
@@ -87,6 +89,7 @@ function onMessage(evt){
         console.log(evt.data)
 
         if (incommingMessage.action == "put"){
+
             let position = new Position(incommingMessage.ring, incommingMessage.field);
             game.board.putStone(position, incommingMessage.playerIndex);
             putStoneGraphic(incommingMessage.ring, incommingMessage.field, incommingMessage.playerIndex);
