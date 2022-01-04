@@ -43,8 +43,10 @@ function checkAndSendDataMenschVsMenschStart() {
                 return
             }
 
+            sendDataMenschVsMenschStart();
 
-            fetch("/index/controller/ableToStart", {
+
+            /*fetch("/index/controller/ableToStart", {
                 method: 'POST',
                 body: JSON.stringify({
                     "gamecode": gameCodeStart
@@ -59,7 +61,7 @@ function checkAndSendDataMenschVsMenschStart() {
                     else {
                         alert("Der Gamecode wird bereits verwendet. Bitte wählen Sie einen anderen Gamecode");
                     }
-            })
+            })*/
 
 
 
@@ -80,7 +82,9 @@ function checkAndSendDataMenschVsMenschJoin() {
         return
     }
 
-    fetch("/index/controller/ableToJoin", {
+    sendDataMenschVsMenschJoin();
+
+    /*fetch("/index/controller/ableToJoin", {
         method: 'POST',
         body: JSON.stringify({
             "gamecode": gameCodeJoin
@@ -94,7 +98,7 @@ function checkAndSendDataMenschVsMenschJoin() {
             else {
                 alert("Der Gamecode wird noch nicht verwendet oder das Spiel ist bereits komplett. Bitte kontrollieren Sie die Eingabe oder starten Sie ein neues Spiel.");
             }
-        })
+        })*/
 }
 
 function checkAndSendDataMenschVsComputer() {
@@ -103,11 +107,10 @@ function checkAndSendDataMenschVsComputer() {
 
     if (player1Name.length == 0) {
         alert("Bitte geben Sie einen Namen ein")
-        return
-    }
-    else {
-        sendDataMenschVsComputer();
-    }
+        return}
+
+    sendDataMenschVsComputer();
+
 }
 
 
@@ -119,7 +122,9 @@ async function checkAndSendDataGameWatch(){
         return
     }
 
-    fetch("/index/controller/ableToWatch", {
+    sendDataGameWatch();
+
+    /*fetch("/index/controller/ableToWatch", {
         method: 'POST',
         body: JSON.stringify({
             "gamecode": gameCodeJoin
@@ -134,7 +139,7 @@ async function checkAndSendDataGameWatch(){
             console.log(responseData)
                 })
         .then(() => sendDataGameWatch())
-        .catch(e => alert(e.message))
+        .catch(e => alert(e.message))*/
 }
 
 
@@ -210,7 +215,8 @@ function sendDataMenschVsMenschStart(){
 
             })
             .catch(function(error) {
-                console.log(error);
+                console.log(error)
+                alert("Dieser Gamecode wird bereits verwendet.")
             });
     }
 
@@ -279,7 +285,11 @@ function sendDataMenschVsMenschJoin(){
                 }))
 
             })
-            .catch(error => console.log(error));
+            .catch(
+                error => {
+                    console.log(error)
+                    alert("Der Gamecode wird noch nicht verwendet oder das Spiel ist bereits komplett. Bitte kontrollieren Sie die Eingabe oder starten Sie ein neues Spiel.")}
+            );
 }
 
 function sendDataMenschVsComputer(){
@@ -418,6 +428,7 @@ function sendDataGameWatch(){
         })
         .catch(function(error) {
             console.log(error);
+            alert("Der Gamecode existiert nicht oder das Game wurde bereits gestartet und kann deshalb nicht mehr beobachtet werden.")
         });
 }
 

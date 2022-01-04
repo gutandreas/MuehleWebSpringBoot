@@ -67,8 +67,6 @@ function onMessage(evt){
         $("#giveUpButton").css("background","#33cc66");
         $("#giveUpButton").css("-webkit-text-fill-color", "BLACK");
 
-
-
         gameOver = true;
 
         if (incommingMessage.playerIndex == playerIndex){

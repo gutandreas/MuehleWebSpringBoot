@@ -15,7 +15,7 @@ import java.util.UUID;
 @RestController
 public class IndexController {
 
-    private final int TIMELIMIT = 2*60*60*1000;
+    private final int TIMELIMIT = 12*60*60*1000;
 
 
     @GetMapping(
@@ -47,7 +47,7 @@ public class IndexController {
         if (GameManager.checkIfGameExists(gameCode)){
 
             System.out.println("Bereits vorhandener Gamecode: Dieser Gamecode wird bereits für ein anderes Spiel verwendet");
-            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("-");
+            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("Dieser Gamecode wird bereits für ein anderes Spiel verwendet");
         }
         else {
             Game game = new Game(new HumanPlayer(player1Name, generateRandomUUID(), player1Color));
@@ -193,6 +193,10 @@ public class IndexController {
         JSONObject jsonObject = new JSONObject(body);
         String gameCode = jsonObject.getString("gameCode");
 
+        if (!GameManager.checkIfGameExists(gameCode) || GameManager.checkIfGameAlreadyStarted(gameCode)){
+            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("-");
+        }
+
         Game game = GameManager.getGame(gameCode);
         JSONObject jsonResponseObject = new JSONObject();
         jsonResponseObject.put("player1Name", game.getPlayer0().getName());
@@ -211,7 +215,7 @@ public class IndexController {
     }
 
 
-    @PostMapping(
+    /*@PostMapping(
             path = "/index/controller/ableToStart")
     public ResponseEntity<String> ableToStart(@RequestBody String body){
         colorPrint(body, PRINTCOLOR.YELLOW);
@@ -222,9 +226,9 @@ public class IndexController {
         jsonResponseObject.put("gamecodeOk", !GameManager.checkIfGameExists(gamecode));
 
         return ResponseEntity.status(HttpStatus.OK).body(jsonResponseObject.toString());
-    }
+    }*/
 
-    @PostMapping(
+    /*@PostMapping(
             path = "/index/controller/ableToJoin")
     public ResponseEntity<String> ableToJoin(@RequestBody String body){
         colorPrint(body, PRINTCOLOR.YELLOW);
@@ -236,9 +240,9 @@ public class IndexController {
             && GameManager.getGame(gamecode).getPlayer1() == null);
 
         return ResponseEntity.status(HttpStatus.OK).body(jsonResponseObject.toString());
-    }
+    }*/
 
-    @PostMapping(
+    /*@PostMapping(
             path = "/index/controller/ableToWatch")
     public ResponseEntity<String> ableToWatch(@RequestBody String body){
         colorPrint(body, PRINTCOLOR.YELLOW);
@@ -255,7 +259,7 @@ public class IndexController {
 
         return ResponseEntity.status(HttpStatus.OK).body(jsonObject.toString());
 
-    }
+    }*/
 
 
 
