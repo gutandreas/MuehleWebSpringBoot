@@ -59,6 +59,7 @@ function onMessage(evt){
 
     if (incommingMessage.command == "roboterConnected"){
         console.log(incommingMessage);
+        game.setRoboterConnected(true);
         $("#roboterConnectedLabel").addClass("roboterConnectedLabel");
     }
 
@@ -131,6 +132,17 @@ function onMessage(evt){
 
             editMyTurn(true, false);
 
+        }
+
+        if (game.isRoboterConnected()){
+
+            setRoboterWaiting(true)
+            console.log("Auf Roboter warten")
+
+            setTimeout(function() {
+                setRoboterWaiting(false);
+                console.log("Fertig gewartet")
+            }, 15000)
         }
     }
 

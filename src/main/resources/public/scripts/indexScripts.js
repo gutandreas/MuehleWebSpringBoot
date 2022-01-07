@@ -269,6 +269,7 @@ function sendDataMenschVsMenschJoin(){
                 }
 
                 if (responseData.roboterConnected){
+                    game.setRoboterConnected(true)
                     $("#roboterConnectedLabel").addClass("roboterConnectedLabel");
                 }
 

@@ -7,6 +7,7 @@ var color;
 var name;
 var enemyName;
 var gameOver = false;
+var watingForRoboter = false;
 var enemyLoggedIn = true;
 
 var moveTakePosition;
@@ -28,7 +29,7 @@ function clickOnField(ring, field){
 
     console.log("Feld " + ring + "/" + field + " angeklickt");
 
-    if (myTurn && !gameOver && enemyLoggedIn){
+    if (myTurn && !gameOver && enemyLoggedIn && !watingForRoboter){
 
         if (kill){
             killStone(ring, field);
@@ -73,6 +74,10 @@ function clickOnField(ring, field){
         }
         if (!enemyLoggedIn){
             alert("Bitte warten Sie, bis Ihr Gegenspieler eingeloggt ist")
+            return;
+        }
+        if (watingForRoboter){
+            alert("Bitte warten Sie, der Roboter den Zug ausgeführt hat")
             return;
         }
     }
@@ -390,6 +395,10 @@ function moveStone(move){
 
         $('#'.concat("r").concat(ring).concat("f").concat(field)).empty();
 
+    }
+
+    function setRoboterWaiting(waiting){
+        watingForRoboter = waiting;
     }
 
     function setBoardCursor(path){
