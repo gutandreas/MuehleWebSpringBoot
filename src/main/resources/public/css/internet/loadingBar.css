@@ -1,0 +1,43 @@
+/*https://codepen.io/ychnightder-the-bold/pen/XWKMXNe*/
+
+.progress{
+    position: absolute;
+    height: 10px;
+    width: 16.5%;
+    border: 3px solid #eeaa33;
+    border-radius: 15px;
+    margin-top: 1%;
+    opacity: 0%;
+    animation: hide 14s linear;
+}
+.progress .color{
+    position: absolute;
+    background-color: #aa6622;
+    width: 0px;
+    height: 10px;
+    border-radius: 15px;
+    animation: progress 13s linear;
+}
+@keyframes progress{
+    0%{
+        width: 0%;
+    }
+    100%{
+        width: 100%;
+    }
+}
+
+@keyframes hide {
+    0%{
+        opacity: 100%;
+    }
+
+    90%{
+        opacity: 100%;
+    }
+
+    100%{
+        opacity: 0%;
+    }
+
+}

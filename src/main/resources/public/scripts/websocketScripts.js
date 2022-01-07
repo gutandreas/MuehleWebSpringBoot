@@ -135,14 +135,7 @@ function onMessage(evt){
         }
 
         if (game.isRoboterConnected()){
-
-            setRoboterWaiting(true)
-            console.log("Auf Roboter warten")
-
-            setTimeout(function() {
-                setRoboterWaiting(false);
-                console.log("Fertig gewartet")
-            }, 15000)
+            waitForRoboter()
         }
     }
 
@@ -157,6 +150,18 @@ function onMessage(evt){
 
 function onError(evt){
     alert("Websocket Error")
+}
+
+function waitForRoboter(){
+    setRoboterWaiting(true)
+    console.log("Auf Roboter warten")
+    $("#progressbar").addClass("progress");
+
+    setTimeout(function() {
+        setRoboterWaiting(false);
+        console.log("Fertig gewartet")
+        $("#progressbar").removeClass("progress");
+    }, 13000)
 }
 
 // https://dev.to/ndrbrt/wait-for-the-websocket-connection-to-be-open-before-sending-a-message-1h12
@@ -190,3 +195,4 @@ const sendMessage = async (socket, msg) => {
         socket.send(msg)
     }
 }
+
