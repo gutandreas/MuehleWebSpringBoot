@@ -8,7 +8,7 @@
     border-radius: 15px;
     margin-top: 1%;
     opacity: 0%;
-    animation: hide 14s linear;
+    animation: hide 11s linear;
 }
 .progress .color{
     position: absolute;
@@ -16,7 +16,7 @@
     width: 0px;
     height: 10px;
     border-radius: 15px;
-    animation: progress 13s linear;
+    animation: progress 10s linear;
 }
 @keyframes progress{
     0%{

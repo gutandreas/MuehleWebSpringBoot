@@ -89,6 +89,11 @@ function clickOnField(ring, field){
     kill = isKill;
 
     if (isMyTurn){
+
+        if (game.doesRoboterNeedWaitingTime()){
+            waitForRoboter()
+        }
+
         if (isKill){
             $('#spielverlaufLabel').text(name + " darf einen Stein entfernen")
             $("#putPhaseLabel").removeClass("putPhaseLabel");
@@ -138,6 +143,18 @@ function clickOnField(ring, field){
         }
 
     }
+    }
+
+    function waitForRoboter(){
+        setRoboterWaiting(true)
+        console.log("Auf Roboter warten")
+        $("#progressbar").addClass("progress");
+
+        setTimeout(function() {
+            setRoboterWaiting(false);
+            console.log("Fertig gewartet")
+            $("#progressbar").removeClass("progress");
+        }, 10000)
     }
 
 
