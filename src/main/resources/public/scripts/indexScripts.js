@@ -268,6 +268,10 @@ function sendDataMenschVsMenschJoin(){
                     window.color = "WHITE";
                 }
 
+                if (responseData.roboterConnected){
+                    $("#roboterConnectedLabel").addClass("roboterConnectedLabel");
+                }
+
                 window.game = new Game(new Player(player2Name, responseData.player2Uuid, responseData.player2Index), gameCodeJoin , false);
                 window.uuid = responseData.player2Uuid;
                 window.playerIndex = responseData.player2Index;
@@ -420,7 +424,7 @@ function sendDataGameWatch(){
             doConnect();
             sendMessage(websocket, JSON.stringify({
                 "gameCode" : gameCode,
-                "command" : "watch"
+                "command" : "watch",
             }))
 
 

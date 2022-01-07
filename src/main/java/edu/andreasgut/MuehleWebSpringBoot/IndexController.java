@@ -95,6 +95,7 @@ public class IndexController {
             jsonResponseObject.put("player2Color", player2StoneColor);
             jsonResponseObject.put("player2Uuid", game.getPlayer1().getUuid());
             jsonResponseObject.put("player2Index", 1);
+            jsonResponseObject.put("roboterConnected", GameManager.getGame(gameCode).isRoboterConnected());
             jsonResponseObject.put("html", getHTMLContent("game"));
 
             return ResponseEntity.status(HttpStatus.OK).body(jsonResponseObject.toString());

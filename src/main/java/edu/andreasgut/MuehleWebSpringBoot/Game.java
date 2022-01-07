@@ -17,6 +17,7 @@ public class Game {
     private final int NUMBEROFSTONES = 9;
     private final Board board;
     private int currentPlayerIndex;
+    private boolean roboterConnected;
     private LinkedList<WebSocketSession> sessionList = new LinkedList<>(); // Maximal 100 Teilnehmer pro Game
 
     private ArrayList<Player> playerArrayList = new ArrayList<>();
@@ -159,6 +160,14 @@ public class Game {
 
     public void setGameCode(String gameCode) {
         this.gameCode = gameCode;
+    }
+
+    public boolean isRoboterConnected() {
+        return roboterConnected;
+    }
+
+    public void setRoboterConnected(boolean roboterConnected) {
+        this.roboterConnected = roboterConnected;
     }
 
     public Player getPlayerByUuid(String ownUuid){

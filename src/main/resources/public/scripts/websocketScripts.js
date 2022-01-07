@@ -57,6 +57,11 @@ function onMessage(evt){
         getIndexPage();
     }
 
+    if (incommingMessage.command == "roboterConnected"){
+        console.log(incommingMessage);
+        $("#roboterConnectedLabel").addClass("roboterConnectedLabel");
+    }
+
     if (incommingMessage.command == "gameOver"){
         console.log(incommingMessage);
 

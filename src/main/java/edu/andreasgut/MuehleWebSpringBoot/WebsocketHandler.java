@@ -28,7 +28,7 @@ public class WebsocketHandler extends TextWebSocketHandler {
         webSocketSessions.remove(session);
     }
 
-    public void handleTextMessage(WebSocketSession session, TextMessage message) throws IOException {
+    synchronized public void handleTextMessage(WebSocketSession session, TextMessage message) throws IOException {
         System.out.println(message.getPayload() + " from " + session.getRemoteAddress());
 
         JSONObject jsonObject = new JSONObject(message.getPayload());
@@ -55,7 +55,6 @@ public class WebsocketHandler extends TextWebSocketHandler {
 
                 case "join":
                     game.addToSessionList(session);
-
                     for (WebSocketSession s : sessions){
                         sendMessageWithExceptionHandling(game, s, jsonObject.toString());
                     }
@@ -84,6 +83,13 @@ public class WebsocketHandler extends TextWebSocketHandler {
                         sendMessageWithExceptionHandling(game, s, jsonObject.toString());
                     }
                     GameManager.removeGame(gameCode);
+                    break;
+
+                case "roboterConnected":
+                    game.setRoboterConnected(true);
+                    for (WebSocketSession s : sessions){
+                        sendMessageWithExceptionHandling(game, s, jsonObject.toString());
+                    }
                     break;
 
                 case "update":

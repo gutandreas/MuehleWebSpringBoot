@@ -166,6 +166,13 @@ label{
 
 }
 
+.roboterConnectedLabel{
+    -webkit-text-fill-color: Black;
+    background: #eeaa33;
+    box-shadow: 0 0 12px #ffffff;
+}
+
+
 .chatButton{
     width: 60%;
 }
