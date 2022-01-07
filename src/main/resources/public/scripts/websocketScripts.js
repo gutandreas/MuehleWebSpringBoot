@@ -60,6 +60,7 @@ function onMessage(evt){
     if (incommingMessage.command == "roboterConnected"){
         console.log(incommingMessage);
         game.setRoboterConnected(true);
+        game.setRoboterNeedsWaitingTime(incommingMessage.roboterWaitingTime)
         $("#roboterConnectedLabel").addClass("roboterConnectedLabel");
     }
 
@@ -134,7 +135,7 @@ function onMessage(evt){
 
         }
 
-        if (game.isRoboterConnected()){
+        if (game.doesRoboterNeedWaitingTime()){
             waitForRoboter()
         }
     }
