@@ -103,7 +103,7 @@ public class IndexController {
         else {
             System.out.println(LocalTime.now() + " – " + this.getClass().getSimpleName()
                     + ": GameCode falsch – Ein Spieler versuchte einem nicht existierenden oder schon kompletten Game beizutreten");
-            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("-");
+            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("Gamecode existiert nicht oder Game ist bereits komplett");
         }
 
     }
@@ -194,7 +194,9 @@ public class IndexController {
         String gameCode = jsonObject.getString("gameCode");
 
         if (!GameManager.checkIfGameExists(gameCode) || GameManager.checkIfGameAlreadyStarted(gameCode)){
-            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("-");
+            System.out.println(LocalTime.now() + " – " + this.getClass().getSimpleName()
+                    + ": GameCode falsch – Ein Spieler versuchte ein nicht existierenden oder schon gestartetes Game zu beobachten");
+            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("Gamecode existiert nicht oder Game hat schon gestartet");
         }
 
         Game game = GameManager.getGame(gameCode);
