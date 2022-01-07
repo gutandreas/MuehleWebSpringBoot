@@ -268,12 +268,18 @@ function sendDataMenschVsMenschJoin(){
                     window.color = "WHITE";
                 }
 
+
+                window.game = new Game(new Player(player2Name, responseData.player2Uuid, responseData.player2Index), gameCodeJoin , false);
+
                 if (responseData.roboterConnected){
                     game.setRoboterConnected(true)
                     $("#roboterConnectedLabel").addClass("roboterConnectedLabel");
+                    if (responseData.roboterWaitingTime){
+                        game.setRoboterNeedsWaitingTime(true);
+                        console.log("Wartezeit in Game gesetzt")
+                    }
                 }
 
-                window.game = new Game(new Player(player2Name, responseData.player2Uuid, responseData.player2Index), gameCodeJoin , false);
                 window.uuid = responseData.player2Uuid;
                 window.playerIndex = responseData.player2Index;
                 window.name = player2Name;
