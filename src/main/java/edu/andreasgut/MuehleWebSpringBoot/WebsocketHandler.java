@@ -85,8 +85,18 @@ public class WebsocketHandler extends TextWebSocketHandler {
                     GameManager.removeGame(gameCode);
                     break;
 
-                case "roboterConnected":
-                    game.setRoboterConnected(true);
+                case "roboterConnection":
+                    if (jsonObject.getBoolean("connected")){
+                        game.setRoboterConnected(true);
+                        game.setRoboterWatching(jsonObject.getBoolean("watching"));
+                        game.setRoboterPlaying(jsonObject.getBoolean("playing"));
+                    }
+                    else {
+                        game.setRoboterConnected(false);
+                        game.setRoboterWatching(false);
+                        game.setRoboterPlaying(false);
+                    }
+
                     for (WebSocketSession s : sessions){
                         sendMessageWithExceptionHandling(game, s, jsonObject.toString());
                     }

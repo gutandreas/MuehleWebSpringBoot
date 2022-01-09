@@ -57,11 +57,21 @@ function onMessage(evt){
         getIndexPage();
     }
 
-    if (incommingMessage.command == "roboterConnected"){
+    if (incommingMessage.command == "roboterConnection"){
         console.log(incommingMessage);
-        game.setRoboterConnected(true);
-        game.setRoboterNeedsWaitingTime(incommingMessage.roboterWaitingTime)
-        $("#roboterConnectedLabel").addClass("roboterConnectedLabel");
+        if (incommingMessage.connected){
+            game.setRoboterConnected(true);
+            $("#roboterConnectedLabel").addClass("roboterConnectedLabel");
+        }
+        else {
+            game.setRoboterConnected(false);
+            $("#roboterConnectedLabel").removeClass("roboterConnectedLabel");
+        }
+
+
+        game.setRoboterWatching(incommingMessage.watching)
+        game.setRoboterPlaying(incommingMessage.playing)
+
     }
 
     if (incommingMessage.command == "gameOver"){

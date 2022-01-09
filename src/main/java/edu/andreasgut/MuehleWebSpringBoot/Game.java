@@ -18,6 +18,8 @@ public class Game {
     private final Board board;
     private int currentPlayerIndex;
     private boolean roboterConnected;
+    private boolean roboterWatching;
+    private boolean roboterPlaying;
     private LinkedList<WebSocketSession> sessionList = new LinkedList<>(); // Maximal 100 Teilnehmer pro Game
 
     private ArrayList<Player> playerArrayList = new ArrayList<>();
@@ -168,6 +170,22 @@ public class Game {
 
     public void setRoboterConnected(boolean roboterConnected) {
         this.roboterConnected = roboterConnected;
+    }
+
+    public boolean isRoboterWatching() {
+        return roboterWatching;
+    }
+
+    public void setRoboterWatching(boolean roboterWatching) {
+        this.roboterWatching = roboterWatching;
+    }
+
+    public boolean isRoboterPlaying() {
+        return roboterPlaying;
+    }
+
+    public void setRoboterPlaying(boolean roboterPlaying) {
+        this.roboterPlaying = roboterPlaying;
     }
 
     public Player getPlayerByUuid(String ownUuid){

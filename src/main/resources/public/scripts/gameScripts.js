@@ -90,9 +90,10 @@ function clickOnField(ring, field){
 
     if (isMyTurn){
 
-        if (game.doesRoboterNeedWaitingTime()){
+        if (game.doesRoboterWatch() || (game.isRoboterPlaying && kill)){
             waitForRoboter()
         }
+
 
         if (isKill){
             $('#spielverlaufLabel').text(name + " darf einen Stein entfernen")

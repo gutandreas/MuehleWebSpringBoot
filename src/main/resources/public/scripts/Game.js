@@ -10,7 +10,8 @@ class Game {
         this.gamecode = gameCode;
         this.round = 0;
         this.roboterConnected = false;
-        this.roboterNeedsWaitingTime = false;
+        this.roboterWatching = false;
+        this.roboterPlaying = false;
 
         $('#boardImage').attr('disabled', true)
     }
@@ -36,12 +37,20 @@ class Game {
         return this.roboterConnected;
     }
 
-    setRoboterNeedsWaitingTime(waiting){
-        this.roboterNeedsWaitingTime = waiting
+    setRoboterWatching(watching){
+        this.roboterWatching = watching
     }
 
-    doesRoboterNeedWaitingTime(){
-        return this.roboterNeedsWaitingTime
+    doesRoboterWatch(){
+        return this.roboterWatching
+    }
+
+    setRoboterPlaying(playing){
+        this.roboterPlaying
+    }
+
+    isRoboterPlaying(){
+        return this.roboterPlaying
     }
 
 
