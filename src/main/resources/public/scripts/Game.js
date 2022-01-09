@@ -14,6 +14,7 @@ class Game {
         this.roboterPlaying = false;
 
         $('#boardImage').attr('disabled', true)
+        console.log(this.roboterPlaying);
     }
 
 
@@ -41,12 +42,12 @@ class Game {
         this.roboterWatching = watching
     }
 
-    doesRoboterWatch(){
+    isRoboterWatching(){
         return this.roboterWatching
     }
 
     setRoboterPlaying(playing){
-        this.roboterPlaying
+        this.roboterPlaying = playing;
     }
 
     isRoboterPlaying(){

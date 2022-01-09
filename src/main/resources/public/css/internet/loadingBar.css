@@ -5,6 +5,7 @@
     height: 10px;
     width: 16.5%;
     border: 3px solid #eeaa33;
+    box-shadow: 0 0 5px #ffffff;
     border-radius: 15px;
     margin-top: 1%;
     opacity: 0%;
@@ -12,7 +13,7 @@
 }
 .progress .color{
     position: absolute;
-    background-color: #aa6622;
+    background-color: white;
     width: 0px;
     height: 10px;
     border-radius: 15px;
@@ -21,9 +22,21 @@
 @keyframes progress{
     0%{
         width: 0%;
+        background-color: white;
     }
+
+    10%{background-color: white;}
+    20%{background-color: indianred;}
+    30%{background-color: white;}
+    40%{background-color: indianred;}
+    50%{background-color: white;}
+    60%{background-color: indianred;}
+    70%{background-color: white;}
+    80%{background-color: indianred;}
+    90%{background-color: white;}
     100%{
         width: 100%;
+        background-color: indianred;
     }
 }
 

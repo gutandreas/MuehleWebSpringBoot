@@ -90,7 +90,7 @@ function clickOnField(ring, field){
 
     if (isMyTurn){
 
-        if (game.doesRoboterWatch() || (game.isRoboterPlaying && kill)){
+        if (game.isRoboterWatching() || (game.isRoboterPlaying() && isKill)){
             waitForRoboter()
         }
 

@@ -61,16 +61,16 @@ function onMessage(evt){
         console.log(incommingMessage);
         if (incommingMessage.connected){
             game.setRoboterConnected(true);
+            game.setRoboterWatching(incommingMessage.watching);
+            game.setRoboterPlaying(incommingMessage.playing);
             $("#roboterConnectedLabel").addClass("roboterConnectedLabel");
         }
         else {
             game.setRoboterConnected(false);
+            game.setRoboterWatching(false);
+            game.setRoboterPlaying(false);
             $("#roboterConnectedLabel").removeClass("roboterConnectedLabel");
         }
-
-
-        game.setRoboterWatching(incommingMessage.watching)
-        game.setRoboterPlaying(incommingMessage.playing)
 
     }
 
