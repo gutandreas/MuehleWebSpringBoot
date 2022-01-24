@@ -44,7 +44,7 @@ public class IndexController {
             player1Color = STONECOLOR.WHITE;
         }
 
-        if (GameManager.checkIfGameExists(gameCode)){
+        if (GameManager.doesGameExist(gameCode)){
 
             System.out.println("Bereits vorhandener Gamecode: Dieser Gamecode wird bereits für ein anderes Spiel verwendet");
             return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("Dieser Gamecode wird bereits für ein anderes Spiel verwendet");
@@ -75,7 +75,7 @@ public class IndexController {
         String player2Name = jsonObject.getString("player2Name");
         String gameCode = jsonObject.getString("gameCode");
 
-        if (GameManager.checkIfGameExists(gameCode) && !GameManager.getGame(gameCode).isGameComplete()){
+        if (GameManager.doesGameExist(gameCode) && !GameManager.getGame(gameCode).isGameComplete()){
             STONECOLOR player1StoneColor = GameManager.getGame(gameCode).getPlayer0().getStonecolor();
 
             STONECOLOR player2StoneColor;
@@ -144,7 +144,8 @@ public class IndexController {
         Game game = new Game(new HumanPlayer(player1Name, generateRandomUUID(), player1Color), computerPlayer, 0);
         computerPlayer.setGame(game);
 
-        String gameCode = GameManager.addGameAndGetGameCode(game);
+        String gameCode = GameManager.generateGameCode();
+        GameManager.addGame(gameCode, game);
         game.setGameCode(gameCode);
         new Timer().schedule(new ClearTask(gameCode), TIMELIMIT);
 
@@ -201,7 +202,7 @@ public class IndexController {
         JSONObject jsonObject = new JSONObject(body);
         String gameCode = jsonObject.getString("gameCode");
 
-        if (!GameManager.checkIfGameExists(gameCode) || GameManager.checkIfGameAlreadyStarted(gameCode)){
+        if (!GameManager.doesGameExist(gameCode) || GameManager.hasGameAlreadyStarted(gameCode)){
             System.out.println(LocalTime.now() + " – " + this.getClass().getSimpleName()
                     + ": GameCode falsch – Ein Spieler versuchte ein nicht existierenden oder schon gestartetes Game zu beobachten");
             return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("Gamecode existiert nicht oder Game hat schon gestartet");

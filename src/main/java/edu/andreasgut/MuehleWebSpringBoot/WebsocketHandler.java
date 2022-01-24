@@ -39,7 +39,7 @@ public class WebsocketHandler extends TextWebSocketHandler {
 
 
 
-        if (GameManager.checkIfGameExists(gameCode)) {
+        if (GameManager.doesGameExist(gameCode)) {
             Game game = GameManager.getGame(gameCode);
             LinkedList<WebSocketSession> sessions = game.getSessionList();
 

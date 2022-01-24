@@ -18,7 +18,7 @@ public class ClearTask extends TimerTask {
     @Override
     public void run() {
         System.out.println("Cleartask");
-        if (GameManager.checkIfGameExists(gameCode)){
+        if (GameManager.doesGameExist(gameCode)){
             sendTimeOutMessage(gameCode);
             GameManager.removeGame(gameCode);
         }
