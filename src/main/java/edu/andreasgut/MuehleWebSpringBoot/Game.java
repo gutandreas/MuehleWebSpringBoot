@@ -123,36 +123,7 @@ public class Game {
         return gameStarted;
     }
 
-    public void checkWinner(){
 
-        boolean player0lessThan3Stones = round > 18 && board.countPlayersStones(0) < 3;
-        boolean player0unableToMove = round > 18 && !board.checkIfAbleToMove(0);
-
-        if (player0lessThan3Stones){
-            GameControllerWebsocket.sendGameOverMessage(gameCode, 0, "Weniger als 3 Steine");
-            return;
-        }
-
-        if (player0unableToMove){
-            GameControllerWebsocket.sendGameOverMessage(gameCode, 0, "Keine möglichen Züge mehr");
-            return;
-        }
-
-        boolean player1lessThan3Stones = round > 18 && board.countPlayersStones(1) < 3;
-        boolean player1unableToMove = round > 18 && !board.checkIfAbleToMove(1);
-
-        if (player1lessThan3Stones){
-            GameControllerWebsocket.sendGameOverMessage(gameCode, 1, "Weniger als 3 Steine");
-            return;
-        }
-
-        if (player1unableToMove){
-            GameControllerWebsocket.sendGameOverMessage(gameCode, 1, "Keine möglichen Züge mehr");
-            return;
-        }
-
-
-    }
 
 
 

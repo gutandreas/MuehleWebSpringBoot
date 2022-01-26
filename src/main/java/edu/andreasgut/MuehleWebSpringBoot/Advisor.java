@@ -426,7 +426,7 @@ public class Advisor {
             for (int field = 0; field < 8; field++) {
 
                 Position position = new Position(ring, field);
-                if (board.checkKill(position, enemysIndex)){
+                if (board.canPlayerKill(position, onwPlayerIndex)){
                     killList.add(position);
                 }
 

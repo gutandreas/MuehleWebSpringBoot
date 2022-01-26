@@ -46,7 +46,7 @@ public class IndexController {
 
         if (GameManager.doesGameExist(gameCode)){
 
-            System.out.println("Bereits vorhandener Gamecode: Dieser Gamecode wird bereits für ein anderes Spiel verwendet");
+            System.out.println(LocalTime.now() + " – " + "IndexController: Bereits vorhandener Gamecode. Dieser Gamecode wird bereits für ein anderes Spiel verwendet");
             return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("Dieser Gamecode wird bereits für ein anderes Spiel verwendet");
         }
         else {
@@ -205,7 +205,7 @@ public class IndexController {
         if (!GameManager.doesGameExist(gameCode) || GameManager.hasGameAlreadyStarted(gameCode)){
             System.out.println(LocalTime.now() + " – " + this.getClass().getSimpleName()
                     + ": GameCode falsch – Ein Spieler versuchte ein nicht existierenden oder schon gestartetes Game zu beobachten");
-            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("Gamecode existiert nicht oder Game hat schon gestartet");
+            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("Der Gamecode existiert nicht oder das Game wurde bereits gestartet und kann deshalb nicht mehr beobachtet werden.");
         }
 
         Game game = GameManager.getGame(gameCode);

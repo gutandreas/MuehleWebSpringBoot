@@ -7,10 +7,11 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalTime;
 
 
+// Alter Ansatz. Ist nicht mehr nötig...
 @RestController
 public class GameCompController {
 
-    @PostMapping(
+    /*@PostMapping(
             path = "/gameComp/controller/put")
     public ResponseEntity<String> putComp(@RequestBody String body) {
 
@@ -55,7 +56,7 @@ public class GameCompController {
 
         Position position = game.getPlayerByUuid(uuid).kill(board, enemyIndex);
 
-        if (board.checkKill(position, enemyIndex)) {
+        if (board.canPlayerKill(position, game.getPlayerIndexByUuid(uuid))) {
 
             JSONObject jsonResponseObject = new JSONObject();
             jsonResponseObject.put("ring", position.getRing());
@@ -104,7 +105,7 @@ public class GameCompController {
         }
         else {
             return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("-");
-        }}
+        }}*/
 
 
 

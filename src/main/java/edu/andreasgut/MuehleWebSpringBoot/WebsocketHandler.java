@@ -36,9 +36,6 @@ public class WebsocketHandler extends TextWebSocketHandler {
         String gameCode = jsonObject.getString("gameCode");
         String command = jsonObject.getString("command");
 
-
-
-
         if (GameManager.doesGameExist(gameCode)) {
             Game game = GameManager.getGame(gameCode);
             LinkedList<WebSocketSession> sessions = game.getSessionList();
@@ -46,11 +43,10 @@ public class WebsocketHandler extends TextWebSocketHandler {
             switch (command) {
                 case "start":
                     game.addToSessionList(session);
-                    JSONObject startJsonObject = new JSONObject();
+                    /*JSONObject startJsonObject = new JSONObject();
                     startJsonObject.put("command", "start");
                     startJsonObject.put("gameCode", gameCode);
-
-                    session.sendMessage(new TextMessage(startJsonObject.toString()));
+                    session.sendMessage(new TextMessage(startJsonObject.toString()));*/
                     break;
 
                 case "join":
@@ -72,12 +68,6 @@ public class WebsocketHandler extends TextWebSocketHandler {
                     }
                     break;
 
-                case "chat":
-                    for (WebSocketSession s : sessions){
-                        sendMessageWithExceptionHandling(game, s, jsonObject.toString());
-                    }
-                    break;
-
                 case "giveup":
                     for (WebSocketSession s : sessions){
                         sendMessageWithExceptionHandling(game, s, jsonObject.toString());
@@ -86,6 +76,10 @@ public class WebsocketHandler extends TextWebSocketHandler {
                     break;
 
                 case "roboterConnection":
+                    for (WebSocketSession s : sessions){
+                        sendMessageWithExceptionHandling(game, s, jsonObject.toString());
+                    }
+
                     if (jsonObject.getBoolean("connected")){
                         game.setRoboterConnected(true);
                         game.setRoboterWatching(jsonObject.getBoolean("watching"));
@@ -96,7 +90,9 @@ public class WebsocketHandler extends TextWebSocketHandler {
                         game.setRoboterWatching(false);
                         game.setRoboterPlaying(false);
                     }
+                    break;
 
+                case "chat":
                     for (WebSocketSession s : sessions){
                         sendMessageWithExceptionHandling(game, s, jsonObject.toString());
                     }
@@ -105,44 +101,108 @@ public class WebsocketHandler extends TextWebSocketHandler {
                 case "update":
 
                     String action = jsonObject.getString("action");
+                    String playerUuid = jsonObject.getString("playerUuid");
+                    int playerIndex = game.getPlayerIndexByUuid(playerUuid);
+                    int enemysIndex = 1-playerIndex;
+                    boolean callComputer = jsonObject.getBoolean("callComputer");
 
                     if (action.equals("put")){
 
                         game.setGameStarted(true);
 
-                        if (GameControllerWebsocket.checkPutAndPutIfPossible(jsonObject)){
+                        int putRing = jsonObject.getInt("ring");
+                        int putField = jsonObject.getInt("field");
+                        Position putPosition = new Position(putRing, putField);
+
+                        if (game.getBoard().checkPut(putPosition)){
+                            game.getBoard().putStone(putPosition, playerIndex);
+                            game.increaseRound();
                             for (WebSocketSession s : sessions){
                                 sendMessageWithExceptionHandling(game, s, jsonObject.toString());}
+
+                            if (!game.getBoard().canPlayerMove(enemysIndex) && game.getRound() == 18){
+                                GameControllerWebsocket.sendGameOverMessage(gameCode, enemysIndex, "Kein Zug mehr möglich");
+                                GameManager.removeGame(gameCode);
+                            }
+                            else {
+                                if (callComputer && game.getPlayerByIndex(enemysIndex) instanceof ComputerPlayer){
+                                    triggerNextComputerStep(gameCode, playerIndex, enemysIndex);
+                                }
+                            }
                         }
                         else {
                             sendExceptionMessageToSender(session, "Ungültiger Put");
                         }
+
+
                     }
 
                     if (action.equals("move")) {
 
-                        if (GameControllerWebsocket.checkMoveAndMoveAndMoveIfPossible(jsonObject)) {
-                            for (WebSocketSession s : sessions) {
+
+                        boolean allowedToJump = game.getBoard().countPlayersStones(playerIndex) == 3;
+
+                        Position from = new Position();
+                        from.setRing(jsonObject.getInt("moveFromRing"));
+                        from.setField(jsonObject.getInt("moveFromField"));
+
+                        Position to = new Position();
+                        to.setRing(jsonObject.getInt("moveToRing"));
+                        to.setField(jsonObject.getInt("moveToField"));
+
+                        Move move = new Move();
+                        move.setFrom(from);
+                        move.setTo(to);
+
+                        if (game.getBoard().checkMove(move, allowedToJump)){
+                            game.getBoard().move(move, playerIndex);
+                            game.increaseRound();
+                            for (WebSocketSession s : sessions){
                                 sendMessageWithExceptionHandling(game, s, jsonObject.toString());
                             }
-                            game.checkWinner();
+
+                            if (!game.getBoard().canPlayerMove(enemysIndex)){
+                                GameControllerWebsocket.sendGameOverMessage(gameCode, enemysIndex, "Kein Zug mehr möglich");
+                                GameManager.removeGame(gameCode);
+                            }
+                            else {
+                                if (callComputer && game.getPlayerByIndex(enemysIndex) instanceof ComputerPlayer){
+                                    triggerNextComputerStep(gameCode, playerIndex, enemysIndex);
+                                }
+                            }
                         }
                         else {
                             sendExceptionMessageToSender(session, "Ungültiger Move");
                         }
+
                     }
 
                     if (action.equals("kill")){
 
-                        if (GameControllerWebsocket.checkKillAndKillIfPossible(jsonObject)) {
+                        int killRing = jsonObject.getInt("ring");
+                        int killField = jsonObject.getInt("field");
+                        Position killPosition = new Position(killRing, killField);
+
+                        if (game.getBoard().canPlayerKill(playerIndex)){
+                            game.getBoard().clearStone(killPosition);
                             for (WebSocketSession s : sessions){
                                 sendMessageWithExceptionHandling(game, s, jsonObject.toString());
                             }
-                            game.checkWinner();
+                            if (game.getBoard().countPlayersStones(enemysIndex) < 3 && game.getRound() >= 18){
+                                GameControllerWebsocket.sendGameOverMessage(gameCode, enemysIndex, "Weniger als 3 Steine");
+                                GameManager.removeGame(gameCode);
+                            }
+                            else {
+                                if (callComputer && game.getPlayerByIndex(enemysIndex) instanceof ComputerPlayer){
+                                    triggerNextComputerStep(gameCode, playerIndex, enemysIndex);
+                                }
+                            }
                         }
                         else {
                             sendExceptionMessageToSender(session, "Ungültiger Kill");
                         }
+
+
 
                     }
 
@@ -151,13 +211,25 @@ public class WebsocketHandler extends TextWebSocketHandler {
                     if (enemyStoneNumber < 3 && game.getRound() > 18){
                         GameManager.removeGame(gameCode);
                     }*/
-
             }
         }
         else {
             sendExceptionMessageToSender(session, "Game mit Code " + gameCode + " existiert nicht.");
         }
 
+
+    }
+
+    private void triggerNextComputerStep(String gameCode, int playerIndex, int enemysIndex){
+
+        Game game = GameManager.getGame(gameCode);
+
+        if (game.getRound() <= 18){
+            GameControllerWebsocket.computerPuts(gameCode, game, playerIndex, enemysIndex);
+        }
+        else {
+            GameControllerWebsocket.computerMoves(gameCode, game, playerIndex, enemysIndex);
+        }
 
     }
 

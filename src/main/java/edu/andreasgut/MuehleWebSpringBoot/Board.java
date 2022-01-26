@@ -65,9 +65,10 @@ public class Board {
     }
 
 
-    public boolean checkKill(Position position, int otherPlayerIndex){
-        return array[position.getRing()][position.getField()] == otherPlayerIndex &&
-                (!checkMorris(position) || countPlayersStones(otherPlayerIndex)==3);
+    public boolean canPlayerKill(Position position, int playerIndex){
+        int enemysIndex = 1-playerIndex;
+        return array[position.getRing()][position.getField()] == enemysIndex &&
+                (!checkMorris(position) || countPlayersStones(enemysIndex)==3);
     }
 
 
@@ -115,7 +116,7 @@ public class Board {
     }
 
 
-    public boolean checkIfAbleToMove(int playerIndex){
+    public boolean canPlayerMove(int playerIndex){
         return checkMovePossibilityInRing(playerIndex) || checkMovePossibilityBetweenRings(playerIndex)
                 || countPlayersStones(playerIndex) == 3;
     }
@@ -155,7 +156,15 @@ public class Board {
     }
 
 
-    public boolean isThereStoneToKill(int otherPlayerIndex){
+    public boolean canPlayerKill(int playerIndex){
+
+
+        int otherPlayerIndex = 1-playerIndex;
+
+        if (countPlayersStones(otherPlayerIndex) == 3 && game.getRound() > 18){
+            return true;
+        }
+
         for (int ring = 0; ring < 3; ring++){
             for (int field = 0; field < 8; field++){
                 if (array[ring][field] == otherPlayerIndex && !checkMorris(new Position(ring,field))){
