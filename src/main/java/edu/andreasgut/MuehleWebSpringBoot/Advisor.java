@@ -7,12 +7,12 @@ import java.util.LinkedList;
 public class Advisor {
 
     static public int countMyStones(Board board, int playerIndex){
-        return board.countPlayersStones(playerIndex);
+        return board.numberOfStonesOf(playerIndex);
     }
 
     static public int countMyEnemysStones(Board board, int ownPlayerIndex){
         int enemysIndex = 1 - ownPlayerIndex;
-        return board.countPlayersStones(enemysIndex);
+        return board.numberOfStonesOf(enemysIndex);
     }
 
     static public LinkedList<Line> getLinesWithoutEnemysStones(Board board, int ownPlayerIndex){
@@ -426,7 +426,7 @@ public class Advisor {
             for (int field = 0; field < 8; field++) {
 
                 Position position = new Position(ring, field);
-                if (board.canPlayerKill(position, onwPlayerIndex)){
+                if (board.isKillPossibleAt(position, enemysIndex)){
                     killList.add(position);
                 }
 

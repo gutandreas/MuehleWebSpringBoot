@@ -114,7 +114,7 @@ public class WebsocketHandler extends TextWebSocketHandler {
                         int putField = jsonObject.getInt("field");
                         Position putPosition = new Position(putRing, putField);
 
-                        if (game.getBoard().checkPut(putPosition)){
+                        if (game.getBoard().isPutPossibleAt(putPosition)){
                             game.getBoard().putStone(putPosition, playerIndex);
                             game.increaseRound();
                             for (WebSocketSession s : sessions){
@@ -140,7 +140,7 @@ public class WebsocketHandler extends TextWebSocketHandler {
                     if (action.equals("move")) {
 
 
-                        boolean allowedToJump = game.getBoard().countPlayersStones(playerIndex) == 3;
+                        boolean allowedToJump = game.getBoard().numberOfStonesOf(playerIndex) == 3;
 
                         Position from = new Position();
                         from.setRing(jsonObject.getInt("moveFromRing"));
@@ -154,8 +154,8 @@ public class WebsocketHandler extends TextWebSocketHandler {
                         move.setFrom(from);
                         move.setTo(to);
 
-                        if (game.getBoard().checkMove(move, allowedToJump)){
-                            game.getBoard().move(move, playerIndex);
+                        if (game.getBoard().isMovePossibleAt(move, allowedToJump)){
+                            game.getBoard().moveStone(move, playerIndex);
                             game.increaseRound();
                             for (WebSocketSession s : sessions){
                                 sendMessageWithExceptionHandling(game, s, jsonObject.toString());
@@ -183,12 +183,12 @@ public class WebsocketHandler extends TextWebSocketHandler {
                         int killField = jsonObject.getInt("field");
                         Position killPosition = new Position(killRing, killField);
 
-                        if (game.getBoard().canPlayerKill(playerIndex)){
-                            game.getBoard().clearStone(killPosition);
+                        if (game.getBoard().canPlayerKill(playerIndex) && game.getBoard().isKillPossibleAt(killPosition, enemysIndex)){
+                            game.getBoard().removeStone(killPosition);
                             for (WebSocketSession s : sessions){
                                 sendMessageWithExceptionHandling(game, s, jsonObject.toString());
                             }
-                            if (game.getBoard().countPlayersStones(enemysIndex) < 3 && game.getRound() >= 18){
+                            if (game.getBoard().numberOfStonesOf(enemysIndex) < 3 && game.getRound() >= 18){
                                 GameControllerWebsocket.sendGameOverMessage(gameCode, enemysIndex, "Weniger als 3 Steine");
                                 GameManager.removeGame(gameCode);
                             }

@@ -77,6 +77,12 @@ function onMessage(evt){
     if (incommingMessage.command == "gameOver"){
         console.log(incommingMessage);
 
+        $("#messageLine").prop('disabled', true);
+        $("#messageButton").prop('disabled', true);
+        $("#complimentEnemyButton").prop('disabled', true);
+        $("#offendEnemyButton").prop('disabled', true);
+
+
         $("#putPhaseLabel").removeClass("putPhaseLabel");
         $("#movePhaseLabel").removeClass("movePhaseLabel");
         $("#killPhaseLabel").removeClass("killPhaseLabel");

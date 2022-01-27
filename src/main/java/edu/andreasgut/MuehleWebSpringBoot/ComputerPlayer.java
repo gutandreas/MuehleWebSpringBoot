@@ -1,8 +1,6 @@
 package edu.andreasgut.MuehleWebSpringBoot;
 
 
-import java.util.Stack;
-
 public class ComputerPlayer extends Player {
 
 
@@ -10,6 +8,7 @@ public class ComputerPlayer extends Player {
     ScorePoints movePoints;
     int levelLimit;
     Game game;
+
 
     public ComputerPlayer(String name, STONECOLOR stonecolor, String uuid, ScorePoints putPoints, ScorePoints movePoints, int levelLimit) {
         super(name, uuid, stonecolor);
@@ -87,7 +86,7 @@ public class ComputerPlayer extends Player {
 
 
 
-        if (gameTreeNode1.getBoard().checkMorris(gameTreeNode1.getPut())){
+        if (gameTreeNode1.getBoard().isPositionPartOfMorris(gameTreeNode1.getPut())){
             for (Position killPosition : Advisor.getAllPossibleKills(clonedBoard1,currentPlayerIndex)){
                 GameTreeNode gameTreeNode2 = new GameTreeNode();
                 gameTreeNode2.setPut(put);
@@ -95,7 +94,7 @@ public class ComputerPlayer extends Player {
                 gameTreeNode2.setKill(killPosition);
 
                 Board clonedBoard2 = (Board) clonedBoard1.clone();
-                clonedBoard2.clearStone(killPosition);
+                clonedBoard2.removeStone(killPosition);
 
                 gameTreeNode2.setBoard(clonedBoard2);
                 gameTreeNode2.setScore(Advisor.getScore(gameTreeNode2, scorePoints, scorePlayerIndex, false));
@@ -161,14 +160,14 @@ public class ComputerPlayer extends Player {
         gameTreeNode1.setLevel(level);
 
         Board clonedBoard1 = (Board) board.clone();
-        clonedBoard1.move(move, currentPlayerIndex);
+        clonedBoard1.moveStone(move, currentPlayerIndex);
 
         gameTreeNode1.setBoard(clonedBoard1);
         gameTreeNode1.setScore(Advisor.getScore(gameTreeNode1, scorePoints, scorePlayerIndex, false));
 
 
 
-        if (gameTreeNode1.getBoard().checkMorris(gameTreeNode1.getMove().getTo())){
+        if (gameTreeNode1.getBoard().isPositionPartOfMorris(gameTreeNode1.getMove().getTo())){
             for (Position killPosition : Advisor.getAllPossibleKills(clonedBoard1,currentPlayerIndex)){
                 GameTreeNode gameTreeNode2 = new GameTreeNode();
                 gameTreeNode2.setMove(move);
@@ -176,7 +175,7 @@ public class ComputerPlayer extends Player {
                 gameTreeNode2.setKill(killPosition);
 
                 Board clonedBoard2 = (Board) clonedBoard1.clone();
-                clonedBoard2.clearStone(killPosition);
+                clonedBoard2.removeStone(killPosition);
 
                 gameTreeNode2.setBoard(clonedBoard2);
                 gameTreeNode2.setScore(Advisor.getScore(gameTreeNode2, scorePoints, scorePlayerIndex, false));

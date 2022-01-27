@@ -20,7 +20,7 @@ public class GameControllerWebsocket {
             GameControllerWebsocket.sendGameOverMessage(gameCode, playerIndex, "Kein Zug mehr möglich");
         }
 
-        if (game.getBoard().checkMorris(putPositionComp) && game.getBoard().canPlayerKill(enemysIndex)){
+        if (game.getBoard().isPositionPartOfMorris(putPositionComp) && game.getBoard().canPlayerKill(enemysIndex)){
             computerKills(gameCode, game, playerIndex, enemysIndex);
         }
         game.increaseRound();
@@ -28,8 +28,8 @@ public class GameControllerWebsocket {
 
     public static void computerMoves(String gameCode, Game game, int playerIndex, int enemysIndex){
         System.out.println(LocalTime.now() + "GameControllerWebsocket: Move in Spiel " + gameCode);
-        Move moveComp = game.getPlayerByIndex(enemysIndex).move(game.getBoard(), enemysIndex, game.getBoard().countPlayersStones(enemysIndex) == 3);
-        game.getBoard().move(moveComp, enemysIndex);
+        Move moveComp = game.getPlayerByIndex(enemysIndex).move(game.getBoard(), enemysIndex, game.getBoard().numberOfStonesOf(enemysIndex) == 3);
+        game.getBoard().moveStone(moveComp, enemysIndex);
         System.out.println(game.getBoard());
         computerSendsMoveMessage(gameCode, game.getPlayerByIndex(enemysIndex), moveComp);
 
@@ -37,9 +37,9 @@ public class GameControllerWebsocket {
             GameControllerWebsocket.sendGameOverMessage(gameCode, playerIndex, "Kein Zug mehr möglich");
         }
 
-        if (game.getBoard().checkMorris(moveComp.getTo()) && game.getBoard().canPlayerKill(enemysIndex)){
+        if (game.getBoard().isPositionPartOfMorris(moveComp.getTo()) && game.getBoard().canPlayerKill(enemysIndex)){
             computerKills(gameCode, game, playerIndex, enemysIndex);
-            if (game.getBoard().countPlayersStones(playerIndex) < 3 && game.getRound() >18){
+            if (game.getBoard().numberOfStonesOf(playerIndex) < 3 && game.getRound() >18){
                 GameControllerWebsocket.sendGameOverMessage(gameCode, playerIndex, "Weniger als 3 Steine");
                 GameManager.removeGame(gameCode);
             }
@@ -49,8 +49,8 @@ public class GameControllerWebsocket {
 
     public static void computerKills(String gameCode, Game game, int playerIndex, int enemysIndex) {
         Position killPositionComp = game.getPlayerByIndex(enemysIndex).kill(game.getBoard(), playerIndex);
-        if (game.getBoard().canPlayerKill(killPositionComp, enemysIndex)){
-            game.getBoard().clearStone(killPositionComp);
+        if (game.getBoard().isKillPossibleAt(killPositionComp, playerIndex)){
+            game.getBoard().removeStone(killPositionComp);
             System.out.println(LocalTime.now() + " – " + "GameCotrollerWebsocket: Kill in Spiel " + gameCode);
             System.out.println(game.getBoard());
             computerSendsKillMessage(gameCode, game.getPlayerByIndex(enemysIndex), killPositionComp);
@@ -60,8 +60,8 @@ public class GameControllerWebsocket {
     static private void computerSendsPutMessage(String gameCode, Player computerPlayer, Position position){
         String uuid = computerPlayer.getUuid();
 
-        for (WebSocketSession session : GameManager.getGame(gameCode).getSessionList())
-        {
+        for (WebSocketSession session : GameManager.getGame(gameCode).getSessionList()) {
+
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("playerUuid", uuid);
             jsonObject.put("gameCode", gameCode);
@@ -86,8 +86,8 @@ public class GameControllerWebsocket {
         Position from = move.getFrom();
         Position to = move.getTo();
 
-        for (WebSocketSession session : GameManager.getGame(gameCode).getSessionList())
-        {
+        for (WebSocketSession session : GameManager.getGame(gameCode).getSessionList()) {
+
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("playerUuid", uuid);
             jsonObject.put("gameCode", gameCode);
@@ -112,8 +112,8 @@ public class GameControllerWebsocket {
     static private void computerSendsKillMessage(String gameCode, Player computerPlayer, Position position){
         String uuid = computerPlayer.getUuid();
 
-        for (WebSocketSession session : GameManager.getGame(gameCode).getSessionList())
-        {
+        for (WebSocketSession session : GameManager.getGame(gameCode).getSessionList()) {
+
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("playerUuid", uuid);
             jsonObject.put("gameCode", gameCode);
@@ -135,8 +135,8 @@ public class GameControllerWebsocket {
 
     public static void sendGameOverMessage(String gameCode, int loserIndex, String details){
 
-        for (WebSocketSession session : GameManager.getGame(gameCode).getSessionList())
-        {
+        for (WebSocketSession session : GameManager.getGame(gameCode).getSessionList()) {
+
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("gameCode", gameCode);
             jsonObject.put("command", "gameOver");
@@ -151,15 +151,4 @@ public class GameControllerWebsocket {
         }
     }
 
-    static private String transformBoardToString(Board board){
-        String boardAsString = "";
-
-        for (int i = 0; i < 3; i++){
-            for (int j = 0; j < 8; j++){
-                boardAsString += board.getArray()[i][j];
-            }
-        }
-
-        return boardAsString;
-    }
 }
