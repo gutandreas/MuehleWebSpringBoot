@@ -9,8 +9,4 @@ class Player{
     getUuid(){
         return this.uuid;
     }
-
-    getIndex(){
-        return this.index;
-    }
 }

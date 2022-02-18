@@ -44,28 +44,6 @@ function checkAndSendDataMenschVsMenschStart() {
             }
 
             sendDataMenschVsMenschStart();
-
-
-            /*fetch("/index/controller/ableToStart", {
-                method: 'POST',
-                body: JSON.stringify({
-                    "gamecode": gameCodeStart
-                })})
-                .then(resp => resp.json())
-                .then(responseData => {
-                    console.log(responseData)
-                    if (responseData.gamecodeOk){
-                        sendDataMenschVsMenschStart();
-
-                    }
-                    else {
-                        alert("Der Gamecode wird bereits verwendet. Bitte wählen Sie einen anderen Gamecode");
-                    }
-            })*/
-
-
-
-
 }
 
 function checkAndSendDataMenschVsMenschJoin() {
@@ -83,22 +61,6 @@ function checkAndSendDataMenschVsMenschJoin() {
     }
 
     sendDataMenschVsMenschJoin();
-
-    /*fetch("/index/controller/ableToJoin", {
-        method: 'POST',
-        body: JSON.stringify({
-            "gamecode": gameCodeJoin
-        })})
-        .then(resp => resp.json())
-        .then(responseData => {
-            console.log(responseData)
-            if (responseData.gamecodeOk){
-                sendDataMenschVsMenschJoin();
-            }
-            else {
-                alert("Der Gamecode wird noch nicht verwendet oder das Spiel ist bereits komplett. Bitte kontrollieren Sie die Eingabe oder starten Sie ein neues Spiel.");
-            }
-        })*/
 }
 
 function checkAndSendDataMenschVsComputer() {
@@ -110,7 +72,6 @@ function checkAndSendDataMenschVsComputer() {
         return}
 
     sendDataMenschVsComputer();
-
 }
 
 
@@ -123,23 +84,6 @@ async function checkAndSendDataGameWatch(){
     }
 
     sendDataGameWatch();
-
-    /*fetch("/index/controller/ableToWatch", {
-        method: 'POST',
-        body: JSON.stringify({
-            "gamecode": gameCodeJoin
-        })})
-        .then(resp =>
-            {if (resp.ok){
-                resp.json()}
-            else {
-                throw new Error("Der Gamecode wird noch nicht verwendet oder das Spiel wurde bereits begonnen. Bitte kontrollieren Sie die Eingabe.")
-            }})
-        .then(responseData => {
-            console.log(responseData)
-                })
-        .then(() => sendDataGameWatch())
-        .catch(e => alert(e.message))*/
 }
 
 
@@ -247,7 +191,6 @@ function sendDataMenschVsMenschJoin(){
                 $("head").html(head);
                 $("body").html(body);
 
-                //document.body.innerHTML = responseData.html;
                 console.log(responseData)
                 $('#modusH1').text("Mühle online – Spielmodus: Mensch vs. Mensch")
                 $('#gameCodeH2').text("Gamecode: " + gameCodeJoin)
@@ -274,8 +217,8 @@ function sendDataMenschVsMenschJoin(){
                 if (responseData.roboterConnected){
                     game.setRoboterConnected(true)
                     $("#roboterConnectedLabel").addClass("roboterConnectedLabel");
-                    if (responseData.roboterWaitingTime){
-                        game.setRoboterNeedsWaitingTime(true);
+                    if (responseData.roboterWatching){
+                        game.setRoboterWatching(true);
                         console.log("Wartezeit in Game gesetzt")
                     }
                 }
@@ -373,8 +316,6 @@ function sendDataMenschVsComputer(){
                 "command" : "start"
             }))
 
-
-
         })
         .catch(function(error) {
             console.log(error);
@@ -405,7 +346,6 @@ function sendDataGameWatch(){
             $("head").html(head);
             $("body").html(body);
 
-            //document.body.innerHTML = responseData.html;
             console.log(responseData);
             $('#modusH1').text("Mühle online – Spielmodus: Spiel beobachten")
             $('#player1NameGameText').text("Player 1: " + responseData.player1Name)
@@ -440,62 +380,6 @@ function sendDataGameWatch(){
         .catch(function(error) {
             console.log(error);
             alert("Der Gamecode existiert nicht oder das Game wurde bereits gestartet und kann deshalb nicht mehr beobachtet werden.")
-        });
-}
-
-
-
-function sendDataComputerVsComputer(){
-
-    let dropdown1 = document.getElementById("player1Dropdown");
-    let computerName1 = dropdown1.options[dropdown1.selectedIndex].text;
-    let computerCode1 = dropdown1.options[dropdown1.selectedIndex].value;
-
-    let player1Color;
-    if (document.getElementById("colorPlayer1").checked){
-        player1Color = "WHITE";}
-    else {player1Color = "BLACK";}
-
-    let dropdown2 = document.getElementById("player2Dropdown");
-    let computerName2 = dropdown2.options[dropdown2.selectedIndex].text;
-    let computerCode2 = dropdown2.options[dropdown2.selectedIndex].value;
-
-    fetch("/index/controller/computerVsComputer", {
-        method: 'POST',
-        body: JSON.stringify({
-                "modus": 'Modus Computer vs. Computer',
-                "computerName1" : computerName1,
-                "computerCode1" : computerCode1,
-                "computerName2" : computerName2,
-                "computerCode2" : computerCode2
-        }),
-        headers: {
-            "Content-type": "application/json"
-        }
-    })
-        .then(resp => resp.json())
-        .then(responseData => {
-            console.log(responseData);
-            $('#player1NameGameText').text("Player 1: " + computerName1);
-            $('#player2NameGameText').text("Player2: " + computerName2);
-            $('#modusH1').text("Mühle online – Spielmodus: Computer vs. Computer")
-            if (player1Color == "BLACK"){
-                $('#player1StoneImage').attr('src', 'images/StoneBlack.png')
-                $('#player2StoneImage').attr('src', 'images/StoneWhite.png')
-                color1Comp = "BLACK";
-                color2Comp = "WHITE";
-            }
-            else {
-                $('#player1StoneImage').attr('src', 'images/StoneWhite.png')
-                $('#player2StoneImage').attr('src', 'images/StoneBlack.png')
-                color1Comp = "WHITE";
-                color2Comp = "BLACK";
-            }
-            window.gameComp = new GameComp(new Player(computerName1, responseData.uuid1, 0),
-                new Player(computerName2, responseData.uuid2, 1), responseData.gameCode);
-        })
-        .catch(function(error) {
-            console.log(error);
         });
 }
 

@@ -1,6 +1,3 @@
-
-
-
 function giveUp(){
 
     if (!gameOver) {
@@ -36,7 +33,7 @@ function complimentEnemy(){
             "Du machst mir das Leben schwer!",
             "Gut gespielt!"];
 
-    let message = text[randomNumber(0, text.length-1)]
+    let message = text[getRandomNumber(0, text.length-1)]
 
     sendMessage(websocket, JSON.stringify({
         "gameCode": game.gamecode,
@@ -68,7 +65,7 @@ function offendEnemy(){
         "Du bist ein guter Egobooster für mich!",
         "Soll ich dir das Ziel des Spiels nochmals erklären?"];
 
-    let message = text[randomNumber(0, text.length-1)]
+    let message = text[getRandomNumber(0, text.length-1)]
 
     sendMessage(websocket, JSON.stringify({
         "gameCode": game.gamecode,
@@ -79,6 +76,12 @@ function offendEnemy(){
 
     putMessageToMessageBox(name, message)
 
+}
+
+function getRandomNumber(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
 function sendChatMessage(){
@@ -104,13 +107,6 @@ function sendChatMessage(){
 
 }
 
-
-
-function randomNumber(min, max) {
-    min = Math.ceil(min);
-    max = Math.floor(max);
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-}
 
 function putMessageToMessageBox(name, message){
     if (document.getElementById("messageBox").value.length != 0){

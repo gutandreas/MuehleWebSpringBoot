@@ -363,7 +363,7 @@ public class Advisor {
                 return true;
             }
 
-            // Innerrhalb von Ring
+            // Innerhalb von Ring
             if (board.isThisMyStone(new Position(position.getRing(), (position.getField()+7)%8), playerIndex)
                     && board.isFieldFree(new Position(position.getRing(), (position.getField()+1)%8))){
                 return true;
@@ -575,8 +575,4 @@ public class Advisor {
         return score;
 
     }
-
-
-
-
 }

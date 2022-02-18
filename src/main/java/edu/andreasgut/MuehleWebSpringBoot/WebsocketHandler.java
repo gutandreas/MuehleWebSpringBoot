@@ -150,9 +150,7 @@ public class WebsocketHandler extends TextWebSocketHandler {
                         to.setRing(jsonObject.getInt("moveToRing"));
                         to.setField(jsonObject.getInt("moveToField"));
 
-                        Move move = new Move();
-                        move.setFrom(from);
-                        move.setTo(to);
+                        Move move = new Move(from, to);
 
                         if (game.getBoard().isMovePossibleAt(move, allowedToJump)){
                             game.getBoard().moveStone(move, playerIndex);

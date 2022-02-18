@@ -26,7 +26,6 @@ public class IndexController {
         return modelAndView;}
 
 
-
     @PostMapping(
             path = "/index/controller/menschVsMensch/start",
             produces = MediaType.APPLICATION_JSON_VALUE )
@@ -161,39 +160,6 @@ public class IndexController {
         return ResponseEntity.status(HttpStatus.OK).body(jsonResponseObject.toString());
     }
 
-   /* @PostMapping(
-            path = "/index/controller/menschVsMensch/checkIfGameComplete",
-            produces = MediaType.APPLICATION_JSON_VALUE )
-    public ResponseEntity<String> checkIfSetComplete(@RequestBody String body){
-        colorPrint(body, PRINTCOLOR.YELLOW);
-        JSONObject jsonRequestObject = new JSONObject(body);
-        String gameCode = jsonRequestObject.getString("gameCode");
-
-        if(GameManager.getGame(gameCode).isGameComplete()){
-            String player2Name = GameManager.getGame(gameCode).getPlayer1().getName();
-            JSONObject jsonResponseObject = new JSONObject();
-            jsonResponseObject.put("gameCode", gameCode);
-            jsonResponseObject.put("player2Name", player2Name);
-
-
-            return ResponseEntity.status(HttpStatus.OK).body(jsonResponseObject.toString());
-        }
-        return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("-");
-    }*/
-
-
-    /*@PostMapping(
-            path = "/index/controller/checkIfGameComplete")
-    public ResponseEntity<String> checkIfGameComplete(@RequestBody String body){
-        colorPrint(body, PRINTCOLOR.YELLOW);
-        JSONObject jsonObject = new JSONObject(body);
-        String gamecode = jsonObject.getString("gamecode");
-
-        JSONObject jsonResponseObject = new JSONObject();
-        jsonResponseObject.put("gamecodeOk", GameManager.checkIfGameExists(gamecode) && GameManager.getGame(gamecode).getPlayer1() != null);
-
-        return ResponseEntity.status(HttpStatus.OK).body(jsonResponseObject.toString());
-    }*/
 
     @PostMapping(
             path = "/index/controller/gameWatch")
@@ -225,67 +191,6 @@ public class IndexController {
 
     }
 
-
-    /*@PostMapping(
-            path = "/index/controller/ableToStart")
-    public ResponseEntity<String> ableToStart(@RequestBody String body){
-        colorPrint(body, PRINTCOLOR.YELLOW);
-        JSONObject jsonObject = new JSONObject(body);
-        String gamecode = jsonObject.getString("gamecode");
-
-        JSONObject jsonResponseObject = new JSONObject();
-        jsonResponseObject.put("gamecodeOk", !GameManager.checkIfGameExists(gamecode));
-
-        return ResponseEntity.status(HttpStatus.OK).body(jsonResponseObject.toString());
-    }*/
-
-    /*@PostMapping(
-            path = "/index/controller/ableToJoin")
-    public ResponseEntity<String> ableToJoin(@RequestBody String body){
-        colorPrint(body, PRINTCOLOR.YELLOW);
-        JSONObject jsonObject = new JSONObject(body);
-        String gamecode = jsonObject.getString("gamecode");
-
-        JSONObject jsonResponseObject = new JSONObject();
-        jsonResponseObject.put("gamecodeOk", GameManager.checkIfGameExists(gamecode) && GameManager.getGame(gamecode).getPlayer0() != null
-            && GameManager.getGame(gamecode).getPlayer1() == null);
-
-        return ResponseEntity.status(HttpStatus.OK).body(jsonResponseObject.toString());
-    }*/
-
-    /*@PostMapping(
-            path = "/index/controller/ableToWatch")
-    public ResponseEntity<String> ableToWatch(@RequestBody String body){
-        colorPrint(body, PRINTCOLOR.YELLOW);
-        JSONObject jsonObject = new JSONObject(body);
-        String gamecode = jsonObject.getString("gamecode");
-
-
-        if (!GameManager.checkIfGameExists(gamecode)){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(jsonObject.toString());
-        }
-        if (GameManager.checkIfGameAlreadyStarted(gamecode)){
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(jsonObject.toString());
-        }
-
-        return ResponseEntity.status(HttpStatus.OK).body(jsonObject.toString());
-
-    }*/
-
-
-
-    /*@PostMapping(
-            path = "/index/controller/checkGamecode")
-    public ResponseEntity<String> checkGamecode(@RequestBody String body){
-        colorPrint(body, PRINTCOLOR.YELLOW);
-        JSONObject jsonObject = new JSONObject(body);
-        String gamecode = jsonObject.getString("gamecode");
-
-        JSONObject jsonResponseObject = new JSONObject();
-        jsonResponseObject.put("gamecodeOk", !GameManager.checkIfGameExists(gamecode));
-
-        return ResponseEntity.status(HttpStatus.OK).body(jsonResponseObject.toString());
-    }*/
 
     private void colorPrint(String text, PRINTCOLOR color){
         System.out.print(color);

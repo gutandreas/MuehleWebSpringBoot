@@ -20,14 +20,18 @@ class Board {
         this.array[position.getRing()][position.getField()] = playerIndex;
     }
 
-    move(move, playerIndex) {
+    moveStone(move, playerIndex) {
         this.putStone(move.toPosition, playerIndex);
-        this.clearStone(move.fromPosition);
+        this.removeStone(move.fromPosition);
     }
 
-    checkMove(move, allowedToJump){
+    removeStone(position) {
+        this.array[position.getRing()][position.getField()] = 9;
+    }
 
-    let destinationFree = this.isFieldFree(move.toPosition);
+    isMovePossibleAt(move, allowedToJump){
+
+    let destinationFree = this.isPositionFree(move.toPosition);
 
     let destinationInRing = (move.fromPosition.getRing()==move.toPosition.getRing() && Math.abs(move.fromPosition.getField()-move.toPosition.getField())==1)
         || (move.fromPosition.getRing()==move.toPosition.getRing() && Math.abs(move.fromPosition.getField()-move.toPosition.getField())==7);
@@ -38,15 +42,18 @@ class Board {
     return destinationFree && (destinationInRing || destinationBetweenRings || allowedToJump);
     }
 
-    checkKill(position,  otherPlayerIndex){
+    isKillPossibleAt(position, otherPlayerIndex){
     return this.array[position.getRing()][position.getField()] == otherPlayerIndex &&
-    (!this.checkMorris(position) || this.countPlayersStones(otherPlayerIndex)==3);
+    (!this.isInMorris(position) || this.numberOfStonesOf(otherPlayerIndex)==3);
     }
 
-    isThereStoneToKill(otherPlayerIndex){
+    canPlayerKill(playerIndex){
+
+        let otherPlayerIndex = 1-playerIndex
+
         for (let ring = 0; ring < 3; ring++){
             for (let field = 0; field < 8; field++){
-                if (this.array[ring][field] == otherPlayerIndex && !this.checkMorris(new Position(ring,field))){
+                if (this.array[ring][field] == otherPlayerIndex && !this.isInMorris(new Position(ring,field))){
                     console.log("Stone to Kill okay.")
                     return true;}
             }
@@ -54,11 +61,9 @@ class Board {
         return false;
     }
 
-    clearStone(position) {
-    this.array[position.getRing()][position.getField()] = 9;
-    }
 
-    countPlayersStones(playerIndex){
+
+    numberOfStonesOf(playerIndex){
         let counter = 0;
         for (let i = 0; i < 3; i++){
             for (let j = 0; j < 8; j++){
@@ -70,23 +75,23 @@ class Board {
     return counter;
     }
 
-    checkMorris(position){
+    isInMorris(position){
         let cornerField = position.getField()%2==0;
         let morris;
         let stone = this.array[position.getRing()][position.getField()];
 
         if(cornerField){
-            morris = this.checkMorrisInRingFromCorner(position, stone);
+            morris = this.isInMorrisInRingFromCorner(position, stone);
         }
         else {
-        morris = this.checkMorrisInRingFromCenter(position, stone) || this.checkMorrisBetweenRings(position, stone);
+        morris = this.isInMorrisInRingFromCenter(position, stone) || this.isInMorrisBetweenRings(position, stone);
         }
 
         return morris;
     }
 
 
-    checkMorrisInRingFromCorner(position, playerIndex){
+    isInMorrisInRingFromCorner(position, playerIndex){
 
         let morrisUpwards = playerIndex == this.array[position.getRing()][(position.getField()+1)%8]
             && playerIndex == this.array[position.getRing()][(position.getField()+2)%8];
@@ -97,18 +102,18 @@ class Board {
     }
 
 
-    checkMorrisInRingFromCenter( position, playerIndex){
+    isInMorrisInRingFromCenter(position, playerIndex){
         return playerIndex == this.array[position.getRing()][(position.getField()+1)%8]
             && playerIndex == this.array[position.getRing()][(position.getField()+7)%8];
     }
 
 
-    checkMorrisBetweenRings(position, playerIndex){
+    isInMorrisBetweenRings(position, playerIndex){
         return playerIndex == this.array[(position.getRing()+1)%3][position.getField()]
             && playerIndex == this.array[(position.getRing()+2)%3][position.getField()];
     }
 
-    isFieldFree(position) {
+    isPositionFree(position) {
     return this.array[position.getRing()][position.getField()] == 9;
     }
 
@@ -116,58 +121,10 @@ class Board {
     return this.array[position.getRing()][position.getField()] == ownPlayerIndex;
     }
 
-    getFieldContent(position){
+    getNumberAt(position){
         return this.array[position.getRing()][position.getField()];
     }
 
-
-    isThisMyEnemysStone( position,  ownPlayerIndex){
-    return this.isFieldOccupied(position) && !this.isThisMyStone(position, ownPlayerIndex);
-    }
-
-    isFieldOccupied( position){
-    return !this.isFieldFree(position);
-    }
-
-    updateBoardAndGetChanges(boardAsString){
-
-        let tempBoardAsString = boardAsString;
-        let enemysIndex = 1-this.game.getPlayer().getIndex();
-
-        this.changedPositions[0] = null;
-        this.changedPositions[1] = null;
-        this.changedPositions[2] = null;
-
-
-        for (let i = 0; i < 3; i++) {
-            for (let j = 0; j < 8; j++) {
-
-                //gegnerischer Stein auf vorher freiem Feld
-                if (this.array[i][j] == 9
-                    && enemysIndex == tempBoardAsString.charAt(0)){
-                    this.changedPositions[0] = new Position(i,j);
-                }
-
-                //freies Feld, auf dem vorher gegnerischer Stein war
-                if (this.array[i][j] == enemysIndex
-                    && tempBoardAsString.charAt(0) == 9){
-                    this.changedPositions[1] = new Position(i,j);
-                }
-
-                //geschlagener eigener Stein
-                if (this.array[i][j] == this.game.getPlayer().getIndex()
-                    && tempBoardAsString.charAt(0) == 9){
-                    this.changedPositions[2] = new Position(i,j);
-                }
-
-                this.array[i][j] = tempBoardAsString.charAt(0);
-                tempBoardAsString = tempBoardAsString.substr(1);
-            }
-        }
-
-        console.log(this.toString());
-        return this.changedPositions;
-    }
 
     toString(){
         let board = "";

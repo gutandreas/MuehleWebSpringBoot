@@ -1,3 +1,4 @@
+/*
 class GameComp {
 
     constructor(computer1, computer2, gameCode) {
@@ -27,4 +28,4 @@ class GameComp {
         }
     }
 
-}
+}*/

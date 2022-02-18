@@ -2,33 +2,9 @@ body{
     background-color: #383838;
     line-height: 200%;
     position: absolute;
+    height: 100%;
+    width: 100%;
 }
-
-
-
-input[type='button']{
-    background-color: #c2eafc;
-    border-radius: 7px;
-    box-shadow: 3px 3px 5px #555555;
-    margin: 0 1% 0 0;
-}
-
-input[type='text']{
-    background-color: white;
-    border-radius: 5px;
-    box-shadow: 3px 3px 5px #555555;
-    margin: 0 1% 0 0;
-    width: 20%;
-}
-
-input[type='submit']{
-    background-color: darkred;
-    -webkit-text-fill-color: white;
-    border-radius: 10px;
-    box-shadow: 3px 3px 10px #555555;
-    width: 30%;
-}
-
 
 h1{
     -webkit-text-fill-color: aliceblue;
@@ -62,6 +38,35 @@ label{
     font-optical-sizing: auto;
 }
 
+
+/*inputs*/
+
+input[type='button']{
+    background-color: #c2eafc;
+    border-radius: 7px;
+    box-shadow: 3px 3px 5px #555555;
+    margin: 0 1% 0 0;
+}
+
+input[type='text']{
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 3px 3px 5px #555555;
+    margin: 0 1% 0 0;
+    width: 20%;
+}
+
+input[type='submit']{
+    background-color: darkred;
+    -webkit-text-fill-color: white;
+    border-radius: 10px;
+    box-shadow: 3px 3px 10px #555555;
+    width: 30%;
+}
+
+
+
+
 .labelPut{
     -webkit-text-fill-color: #90ccee;
 }
@@ -72,15 +77,6 @@ label{
 
 .labelLost{
     -webkit-text-fill-color: #ee6060;
-}
-
-#spielverlaufLabel{
-
-    margin-top: 2%;
-    width: 100%;
-    white-space: nowrap;
-    font-size: 16px;
-    display: inline-table;
 }
 
 .phaseLabel{
@@ -112,7 +108,6 @@ label{
 
 @-webkit-keyframes blueblink {
 
-
     0% {
         background: #77ccff;
     }
@@ -120,7 +115,6 @@ label{
     40% {
         background: #55aadd;
     }
-
 }
 
 
@@ -134,7 +128,6 @@ label{
 
 @-webkit-keyframes greenblink {
 
-
     0% {
         background: #33cc66;
     }
@@ -142,7 +135,6 @@ label{
     40% {
         background: #22bb55;
     }
-
 }
 
 .killPhaseLabel{
@@ -155,7 +147,6 @@ label{
 
 @-webkit-keyframes redblink {
 
-
     0% {
         background: #ff5555;
     }
@@ -163,7 +154,6 @@ label{
     40% {
         background: #ee4444;
     }
-
 }
 
 .roboterConnectedLabel{
@@ -172,13 +162,19 @@ label{
     box-shadow: 0 0 12px #ffffff;
 }
 
-
-
 .chatButton{
     width: 60%;
 }
 
 
+#spielverlaufLabel{
+
+    margin-top: 2%;
+    width: 100%;
+    white-space: nowrap;
+    font-size: 16px;
+    display: inline-table;
+}
 
 #startImage1{
     float: left;
@@ -189,7 +185,7 @@ label{
 }
 
 
-#StartMainBox{
+#startMainBox{
     padding: 2%;
     width: 50%;
     height: 70%;
@@ -236,18 +232,13 @@ label{
 
 #OptionBox{
     position: relative;
-    top: 2%
-}
-
-
-
-
-#OptionBox{
+    top: 2%;
     padding: 2%;
     width: 50%;
     height: 70%;
     overflow: auto;
 }
+
 
 #musicButton{
     background-color: #aaffaa;
@@ -298,7 +289,7 @@ label{
         display: none;
     }
 
-    #StartMainBox {
+    #startMainBox {
         width: 70%;
         overflow: hidden;
     }
@@ -311,7 +302,7 @@ label{
         display: none;
     }
 
-    #StartMainBox {
+    #startMainBox {
         width: 70%;
         height: 100%;
         overflow: hidden;

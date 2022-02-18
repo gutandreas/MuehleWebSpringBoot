@@ -8,7 +8,6 @@ function doConnect(){
 }
 
 function onOpen(evt){
-    //alert("Websocket open")
 }
 
 function onClose(evt){
@@ -95,8 +94,6 @@ function onMessage(evt){
         if (incommingMessage.playerIndex == playerIndex){
             alert(enemyName + " hat das Spiel gewonnen!")
             $('#spielverlaufLabel').text(enemyName + " hat das Spiel gewonnen!")
-
-
         }
         else {
             alert(name + " hat das Spiel gewonnen!")
@@ -115,7 +112,7 @@ function onMessage(evt){
             game.board.putStone(position, incommingMessage.playerIndex);
             putStoneGraphic(incommingMessage.ring, incommingMessage.field, incommingMessage.playerIndex);
             increaseRound();
-            if (game.board.checkMorris(position) && game.board.isThereStoneToKill(playerIndex)){
+            if (game.board.isInMorris(position) && game.board.canPlayerKill(1-playerIndex)){
                 editMyTurn(false, true)
             }
             else {
@@ -129,10 +126,10 @@ function onMessage(evt){
             let move = new Move(from, to)
             let playerIndex = incommingMessage.playerIndex;
             console.log(move)
-            game.board.move(move, playerIndex);
+            game.board.moveStone(move, playerIndex);
             moveStoneGraphic(move, playerIndex);
             increaseRound();
-            if (game.board.checkMorris(to) && game.board.isThereStoneToKill(playerIndex)){
+            if (game.board.isInMorris(to) && game.board.canPlayerKill(1-playerIndex)){
                 editMyTurn(false, true)
             }
             else {
@@ -142,8 +139,8 @@ function onMessage(evt){
 
         if (incommingMessage.action == "kill"){
             let position = new Position(incommingMessage.ring, incommingMessage.field);
-            let index = 1-game.board.getFieldContent(position);
-            game.board.clearStone(position);
+            let index = 1-game.board.getNumberAt(position);
+            game.board.removeStone(position);
 
             clearStoneGraphic(incommingMessage.ring, incommingMessage.field, index);
 
@@ -156,9 +153,6 @@ function onMessage(evt){
         console.log(incommingMessage.details);
     }
 
-
-
-
 }
 
 function onError(evt){
@@ -167,7 +161,7 @@ function onError(evt){
 
 
 
-// https://dev.to/ndrbrt/wait-for-the-websocket-connection-to-be-open-before-sending-a-message-1h12
+// https://dev.to/ndrbrt/wait-for-the-websocket-connection-to-be-open-before-sending-a-message-1h12, 9. Septemberr 2021
 const waitForOpenConnection = (socket) => {
     return new Promise((resolve, reject) => {
         const maxNumberOfAttempts = 100
@@ -187,7 +181,7 @@ const waitForOpenConnection = (socket) => {
     })
 }
 
-// https://dev.to/ndrbrt/wait-for-the-websocket-connection-to-be-open-before-sending-a-message-1h12
+// https://dev.to/ndrbrt/wait-for-the-websocket-connection-to-be-open-before-sending-a-message-1h12, 9. Septemberr 2021
 const sendMessage = async (socket, msg) => {
     if (socket.readyState !== socket.OPEN) {
         try {
@@ -198,4 +192,3 @@ const sendMessage = async (socket, msg) => {
         socket.send(msg)
     }
 }
-

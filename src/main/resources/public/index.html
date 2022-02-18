@@ -6,20 +6,17 @@
     <title>Mühle – Onlinespiel</title>
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <link rel="stylesheet" type="text/css" href="css/internet/toggleSwitch.css">
-    <link rel="stylesheet" type="text/css" href="css/internet/playPauseButton.css">
-    <script src="scripts/indexScripts.js"></script>
     <script src="scripts/jQuery.js"></script>
+    <script src="scripts/indexScripts.js"></script>
+    <script src="scripts/indexMenuScripts.js"></script>
     <script src="scripts/websocketScripts.js"></script>
-    <script src="scripts/menuScripts.js"></script>
-
-
 </head>
 <body>
 
 
 <img id="startImage1" src="images/StartImage1.png" width="20%">
 <img id="startImage2" src="images/StartImage2.png" width="20%">
-<div id="StartMainBox">
+<div id="startMainBox">
     <h1 id="headline">Neues Spiel starten</h1>
         <form action="/index/controller/gameHTML" method="get">
         <h2>Spielangaben:</h2>
@@ -33,7 +30,7 @@
             <label> Mensch vs. Computer</label>
             <br>
             <input type="radio" class="radio" name="Spielerzahl" value="3" onclick="organizeMenu(3)">
-            <label> Spiel beobachten</label> <input id="gamecodeWatch" type="text" maxlength="10" autocomplete="off" style="display: none" onkeyup="{this.value = this.value.replace(/[^a-zA-Z0-9]/g, ''); this.value = this.value.toUpperCase() }"placeholder="Spielcode des laufenden Spiels">
+            <label> Spiel beobachten</label> <input id="gamecodeWatch" type="text" maxlength="10" autocomplete="off" style="display: none" onkeyup="{this.value = this.value.replace(/[^a-zA-Z0-9]/g, ''); this.value = this.value.toUpperCase() }"placeholder="Gamecode des laufenden Spiels">
         </div>
 
         <div id="gamecode">
@@ -54,12 +51,6 @@
         <div id="player1Settings">
             <h3 id="Spieler1H3"> Spieler 1: </h3>
             <input id="player1Textfield" type="text" name="namePlayer2" maxlength="15" autocomplete="off" placeholder="Name Spieler 1" onkeyup="{this.value = this.value.replace(/[^a-zA-Z0-9]/g, ''); this.value = this.value.toUpperCase() }">
-           <!-- <select id="player1Dropdown" style="display: none">
-                <div>
-                    <option value="5">Starker Computer</option>
-                    <option value="1">Schwacher Computer</option>
-                </div>
-            </select>-->
             <label>Schwarz</label>
             <label class="switch">
                 <input id="colorPlayer1" type="checkbox" onclick="changeSwitchToOpposite('colorPlayer2')">
@@ -90,14 +81,6 @@
         <br>
         </form>
 </div>
-
-<!--<div id="OptionBox" >
-    <input id="musicButton" type="button" value="Musik an">
-</div>-->
-
-<!--<audio autoplay="autoplay">
-    <source src="/sound/MENU_SOUND.mp3" type="audio/mpeg">
-</audio>-->
 
 </body>
 </html>

@@ -1,3 +1,4 @@
+/*
 var gameComp
 var currentIndexComp = 0;
 var color1Comp;
@@ -221,3 +222,4 @@ function moveStoneGraphicComp(move, index) {
 
 
 
+*/
