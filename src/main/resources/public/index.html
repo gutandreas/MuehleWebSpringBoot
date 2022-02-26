@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0'/>
     <meta charset="UTF-8">
@@ -11,76 +12,75 @@
     <script src="scripts/indexMenuScripts.js"></script>
     <script src="scripts/websocketScripts.js"></script>
 </head>
-<body>
 
+    <body>
 
-<img id="startImage1" src="images/StartImage1.png" width="20%">
-<img id="startImage2" src="images/StartImage2.png" width="20%">
-<div id="startMainBox">
-    <h1 id="headline">Neues Spiel starten</h1>
-        <form action="/index/controller/gameHTML" method="get">
-        <h2>Spielangaben:</h2>
+    <img id="startImage1" src="images/StartImage1.png" width="20%">
+    <img id="startImage2" src="images/StartImage2.png" width="20%">
 
-        <div id="gamemode">
-            <h3>Spielmodus:</h3>
-            <input class="radio" type="radio" name="Spielerzahl" value="1" onclick="organizeMenu(1)" required checked>
-            <label> Mensch vs. Mensch </label>
+    <div id="startMainBox">
+        <h1 id="headline">Neues Spiel starten</h1>
+            <form action="/index/controller/gameHTML" method="get">
+            <h2>Spielangaben:</h2>
+
+            <div id="gamemode">
+                <h3>Spielmodus:</h3>
+                <input class="radio" type="radio" name="Spielerzahl" value="1" onclick="organizeMenu(1)" required checked>
+                <label> Mensch vs. Mensch </label>
+                <br>
+                <input type="radio" class="radio" name="Spielerzahl" value="2" onclick="organizeMenu(2)">
+                <label> Mensch vs. Computer</label>
+                <br>
+                <input type="radio" class="radio" name="Spielerzahl" value="3" onclick="organizeMenu(3)">
+                <label> Spiel beobachten</label> <input id="gamecodeWatch" type="text" maxlength="10" autocomplete="off" style="display: none" onkeyup="{this.value = this.value.replace(/[^a-zA-Z0-9]/g, ''); this.value = this.value.toUpperCase() }"placeholder="Gamecode des laufenden Spiels">
+            </div>
+
+            <div id="gamecode">
+                <h3>Gamecode:</h3>
+                <input id="startGameRadio" class="radio" type="radio" name="Spielcode" value="1" onclick="organizeGameCodeSettings(1) " required checked>
+                <label>Ein neues Spiel starten</label>
+                <input id="gamecodeStart" type="text" maxlength="10" autocomplete="off" onkeyup="{this.value = this.value.replace(/[^a-zA-Z0-9]/g, ''); this.value = this.value.toUpperCase() }" placeholder="Neuen Gamecode wählen">
+                <br>
+                <input id="joinGameRadio"type="radio" class="radio" name="Spielcode" value="2" onclick="organizeGameCodeSettings(2)" >
+                <label>Einem Spiel beitreten</label>
+                <input id="gamecodeJoin" type="text" maxlength="10" autocomplete="off" placeholder="Erhaltener Gamecode" onkeyup="{this.value = this.value.replace(/[^a-zA-Z0-9]/g, ''); this.value = this.value.toUpperCase() }" style="display:none">
+                <br>
+            </div>
+
+            <h2 id="SpielerangabenH2">Spielerangaben:</h2>
+
+            <div id="player1Settings">
+                <h3 id="Spieler1H3"> Spieler 1: </h3>
+                <input id="player1Textfield" type="text" name="namePlayer2" maxlength="15" autocomplete="off" placeholder="Name Spieler 1" onkeyup="{this.value = this.value.replace(/[^a-zA-Z0-9]/g, ''); this.value = this.value.toUpperCase() }">
+                <label>Schwarz</label>
+                <label class="switch">
+                    <input id="colorPlayer1" type="checkbox" onclick="changeSwitchToOpposite('colorPlayer2')">
+                    <span class="slider round"></span>
+                </label>
+                <label>Weiss</label>
+            </div>
+
+            <div id="player2Settings" style="display: none">
+                <h3 id="Spieler2H3"> Spieler 2: </h3>
+                <input id="player2Textfield" type="text" name="namePlayer2" maxlength="15" autocomplete="off" placeholder="Name Spieler 2" onkeyup="{this.value = this.value.replace(/[^a-zA-Z0-9]/g, ''); this.value = this.value.toUpperCase() }">
+                <select id="player2Dropdown" style="display: none">
+                    <div>
+                        <option value="3">Starker Computer</option>
+                        <option value="2">Mittelstarker Computer</option>
+                        <option value="1">Schwacher Computer</option>
+                    </div>
+                </select>
+                        <label id="labelSchwarzPlayer2">Schwarz</label>
+                        <label id="colorPlayer2Switch" class="switch">
+                            <input id="colorPlayer2" type="checkbox" onclick="changeSwitchToOpposite('colorPlayer1')" checked>
+                            <span class="slider round"></span>
+                        </label>
+                        <label id="labelWeissPlayer2">Weiss</label>
+
+            </div>
+            <input type="button" value="Spiel starten" onclick="sendData()">
             <br>
-            <input type="radio" class="radio" name="Spielerzahl" value="2" onclick="organizeMenu(2)">
-            <label> Mensch vs. Computer</label>
-            <br>
-            <input type="radio" class="radio" name="Spielerzahl" value="3" onclick="organizeMenu(3)">
-            <label> Spiel beobachten</label> <input id="gamecodeWatch" type="text" maxlength="10" autocomplete="off" style="display: none" onkeyup="{this.value = this.value.replace(/[^a-zA-Z0-9]/g, ''); this.value = this.value.toUpperCase() }"placeholder="Gamecode des laufenden Spiels">
-        </div>
-
-        <div id="gamecode">
-            <h3>Gamecode:</h3>
-            <input id="startGameRadio" class="radio" type="radio" name="Spielcode" value="1" onclick="organizeGameCodeSettings(1) " required checked>
-            <label>Ein neues Spiel starten</label>
-            <input id="gamecodeStart" type="text" maxlength="10" autocomplete="off" onkeyup="{this.value = this.value.replace(/[^a-zA-Z0-9]/g, ''); this.value = this.value.toUpperCase() }" placeholder="Neuen Gamecode wählen">
-            <br>
-            <input id="joinGameRadio"type="radio" class="radio" name="Spielcode" value="2" onclick="organizeGameCodeSettings(2)" >
-            <label>Einem Spiel beitreten</label>
-            <input id="gamecodeJoin" type="text" maxlength="10" autocomplete="off" placeholder="Erhaltener Gamecode" onkeyup="{this.value = this.value.replace(/[^a-zA-Z0-9]/g, ''); this.value = this.value.toUpperCase() }" style="display:none">
-            <br>
-        </div>
-
-
-        <h2 id="SpielerangabenH2">Spielerangaben:</h2>
-
-        <div id="player1Settings">
-            <h3 id="Spieler1H3"> Spieler 1: </h3>
-            <input id="player1Textfield" type="text" name="namePlayer2" maxlength="15" autocomplete="off" placeholder="Name Spieler 1" onkeyup="{this.value = this.value.replace(/[^a-zA-Z0-9]/g, ''); this.value = this.value.toUpperCase() }">
-            <label>Schwarz</label>
-            <label class="switch">
-                <input id="colorPlayer1" type="checkbox" onclick="changeSwitchToOpposite('colorPlayer2')">
-                <span class="slider round"></span>
-            </label>
-            <label>Weiss</label>
-        </div>
-
-        <div id="player2Settings" style="display: none">
-            <h3 id="Spieler2H3"> Spieler 2: </h3>
-            <input id="player2Textfield" type="text" name="namePlayer2" maxlength="15" autocomplete="off" placeholder="Name Spieler 2" onkeyup="{this.value = this.value.replace(/[^a-zA-Z0-9]/g, ''); this.value = this.value.toUpperCase() }">
-            <select id="player2Dropdown" style="display: none">
-                <div>
-                    <option value="3">Starker Computer</option>
-                    <option value="2">Mittelstarker Computer</option>
-                    <option value="1">Schwacher Computer</option>
-                </div>
-            </select>
-                    <label id="labelSchwarzPlayer2">Schwarz</label>
-                    <label id="colorPlayer2Switch" class="switch">
-                        <input id="colorPlayer2" type="checkbox" onclick="changeSwitchToOpposite('colorPlayer1')" checked>
-                        <span class="slider round"></span>
-                    </label>
-                    <label id="labelWeissPlayer2">Weiss</label>
-
-        </div>
-        <input type="button" value="Spiel starten" onclick="sendData()">
-        <br>
-        </form>
-</div>
-
+            </form>
+    </div>
 </body>
 </html>
