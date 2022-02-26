@@ -1,7 +1,6 @@
 package edu.andreasgut.MuehleWebSpringBoot;
 
 import org.springframework.web.socket.WebSocketSession;
-
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -14,9 +13,7 @@ public class Game {
     private boolean gameStarted = false;
     private String gameCode;
     private int round;
-    private final int NUMBEROFSTONES = 9;
     private final Board board;
-    private int currentPlayerIndex;
     private boolean roboterConnected;
     private boolean roboterWatching;
     private boolean roboterPlaying;
@@ -24,17 +21,16 @@ public class Game {
 
     private ArrayList<Player> playerArrayList = new ArrayList<>();
 
-    public Game(Player player0, Player player1, int startPlayerIndex) {
+    public Game(Player player0, Player player1) {
         this.player0 = player0;
         this.player1 = player1;
         playerArrayList.add(0, player0);
         playerArrayList.add(1, player1);
         round = 0;
-        currentPlayerIndex = 0;
-        startPlayerIndex = startPlayerIndex;
         gameComplete = true;
         this.board = new Board(this);
-        System.out.println(LocalTime.now() + " – " + this.getClass().getSimpleName() + ": Game mit 2 Spielern ("+ player0.getName() + "/" + player1.getName() + ") wurde erstellt");
+        System.out.println(LocalTime.now() + " – " + this.getClass().getSimpleName() +
+                ": Game mit 2 Spielern ("+ player0.getName() + "/" + player1.getName() + ") wurde erstellt");
     }
 
     public Game(Player player0) {
@@ -42,18 +38,21 @@ public class Game {
         gameComplete = false;
         playerArrayList.add(0, player0);
         this.board = new Board(this);
-        System.out.println(LocalTime.now() + " – " + this.getClass().getSimpleName() + ": Game mit 1 Spieler ("+ player0.getName() +") wurde erstellt");
+        System.out.println(LocalTime.now() + " – " + this.getClass().getSimpleName() +
+                ": Game mit 1 Spieler ("+ player0.getName() +") wurde erstellt");
     }
 
     public void addToSessionList(WebSocketSession session){
         sessionList.add(session);
-        System.out.println(this.getClass().getSimpleName() + ": Session " + session + " wurde zur Sessionlist hinzugefügt");
+        System.out.println(this.getClass().getSimpleName() +
+                ": Session " + session + " wurde zur Sessionlist hinzugefügt");
     }
 
     public void removeFromSessionList(WebSocketSession session) {
         if (sessionList.contains(session)){
             sessionList.remove(session);
-            System.out.println(this.getClass().getSimpleName() + ": Session " + session + " wurde aus der Sessionlist entfernt");
+            System.out.println(this.getClass().getSimpleName() +
+                    ": Session " + session + " wurde aus der Sessionlist entfernt");
         }
     }
 
@@ -77,36 +76,12 @@ public class Game {
                 + player1.getName() + " bilden ein komplettes Game");
     }
 
-    public void increaseRound(){
-        round++;
-    }
-
-    public Board getBoard() {
-        return board;
-    }
-
-
-
-    public ArrayList<Player> getPlayerArrayList() {
-        return playerArrayList;
-    }
-
-    public int getNUMBEROFSTONES() {
-        return NUMBEROFSTONES;
-    }
-
-    public boolean isGameComplete() {
-        return gameComplete;
-    }
-
-
-
     public Player getPlayerByIndex(int playerIndex){
         return getPlayerArrayList().get(playerIndex);
     }
 
-    public int getRound() {
-        return round;
+    public ArrayList<Player> getPlayerArrayList() {
+        return playerArrayList;
     }
 
     public int getPlayerIndexByUuid(String uuid){
@@ -119,13 +94,25 @@ public class Game {
         }
     }
 
+    public void increaseRound(){
+        round++;
+    }
+
+    public Board getBoard() {
+        return board;
+    }
+
+    public int getRound() {
+        return round;
+    }
+
+    public boolean isGameComplete() {
+        return gameComplete;
+    }
+
     public boolean isGameStarted() {
         return gameStarted;
     }
-
-
-
-
 
     public void setGameStarted(boolean gameStarted) {
         this.gameStarted = gameStarted;
@@ -143,38 +130,12 @@ public class Game {
         this.roboterConnected = roboterConnected;
     }
 
-    public boolean isRoboterWatching() {
-        return roboterWatching;
-    }
-
     public void setRoboterWatching(boolean roboterWatching) {
         this.roboterWatching = roboterWatching;
     }
 
-    public boolean isRoboterPlaying() {
-        return roboterPlaying;
-    }
-
     public void setRoboterPlaying(boolean roboterPlaying) {
         this.roboterPlaying = roboterPlaying;
-    }
-
-    public Player getPlayerByUuid(String ownUuid){
-        if (getPlayerArrayList().get(0).getUuid().equals(ownUuid)){
-            return getPlayerArrayList().get(0);
-        }
-        else {
-            return getPlayerArrayList().get(1);
-        }
-    }
-
-    public Player getOtherPlayerByOwnUuid(String ownUuid){
-        if (getPlayerArrayList().get(0).getUuid().equals(ownUuid)){
-            return getPlayerArrayList().get(1);
-        }
-        else {
-            return getPlayerArrayList().get(0);
-        }
     }
 
 

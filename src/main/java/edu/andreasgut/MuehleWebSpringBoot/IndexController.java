@@ -1,4 +1,5 @@
 package edu.andreasgut.MuehleWebSpringBoot;
+
 import org.json.JSONObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -140,7 +141,7 @@ public class IndexController {
         int levelLimit = Integer.parseInt(jsonObject.getString("computerLevel"));
 
         ComputerPlayer computerPlayer = new ComputerPlayer(computerName, computerColor, generateRandomUUID(), putPoints, movePoints, levelLimit);
-        Game game = new Game(new HumanPlayer(player1Name, generateRandomUUID(), player1Color), computerPlayer, 0);
+        Game game = new Game(new HumanPlayer(player1Name, generateRandomUUID(), player1Color), computerPlayer);
         computerPlayer.setGame(game);
 
         String gameCode = GameManager.generateGameCode();

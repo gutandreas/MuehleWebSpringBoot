@@ -3,7 +3,6 @@ package edu.andreasgut.MuehleWebSpringBoot;
 import org.json.JSONObject;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
-
 import java.io.IOException;
 import java.util.TimerTask;
 
@@ -17,7 +16,6 @@ public class ClearTask extends TimerTask {
 
     @Override
     public void run() {
-        System.out.println("Cleartask");
         if (GameManager.doesGameExist(gameCode)){
             sendTimeOutMessage(gameCode);
             GameManager.removeGame(gameCode);

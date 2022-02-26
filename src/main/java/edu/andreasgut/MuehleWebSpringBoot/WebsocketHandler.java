@@ -43,10 +43,6 @@ public class WebsocketHandler extends TextWebSocketHandler {
             switch (command) {
                 case "start":
                     game.addToSessionList(session);
-                    /*JSONObject startJsonObject = new JSONObject();
-                    startJsonObject.put("command", "start");
-                    startJsonObject.put("gameCode", gameCode);
-                    session.sendMessage(new TextMessage(startJsonObject.toString()));*/
                     break;
 
                 case "join":
@@ -203,12 +199,6 @@ public class WebsocketHandler extends TextWebSocketHandler {
 
 
                     }
-
-                    /*// Falls Game over, wird Game aus dem Gamemanager entfernt. Gamecode wieder frei.
-                    int enemyStoneNumber = game.getBoard().countPlayersStones(1-game.getPlayerIndexByUuid(jsonObject.getString("playerUuid")));
-                    if (enemyStoneNumber < 3 && game.getRound() > 18){
-                        GameManager.removeGame(gameCode);
-                    }*/
             }
         }
         else {

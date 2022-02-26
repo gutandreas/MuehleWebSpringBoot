@@ -1,7 +1,6 @@
 package edu.andreasgut.MuehleWebSpringBoot;
 
 
-
 public class Position implements Comparable<Position> {
 
     private int ring, field;

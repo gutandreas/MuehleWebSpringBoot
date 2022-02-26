@@ -1,6 +1,6 @@
 package edu.andreasgut.MuehleWebSpringBoot;
 
-//https://stackoverflow.com/questions/5762491/how-to-print-color-in-console-using-system-out-println 23.4.21
+//https://stackoverflow.com/questions/5762491/how-to-print-color-in-console-using-system-out-println, 23. April 2021
 
 enum PRINTCOLOR {
     //PRINTCOLOR end string, color reset

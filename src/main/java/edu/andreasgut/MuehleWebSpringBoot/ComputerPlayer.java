@@ -3,7 +3,6 @@ package edu.andreasgut.MuehleWebSpringBoot;
 
 public class ComputerPlayer extends Player {
 
-
     ScorePoints putPoints;
     ScorePoints movePoints;
     int levelLimit;
@@ -29,8 +28,6 @@ public class ComputerPlayer extends Player {
         gameTree.initializeRoot(board);
 
         recursivePutBfs(gameTree.getRoot(), putPoints, movePoints, playerIndex, playerIndex, levelLimit);
-
-        //System.out.println(gameTree);
 
         return gameTree.getBestPut();
     }
@@ -115,8 +112,6 @@ public class ComputerPlayer extends Player {
 
         recursiveMoveBfs(gameTree.getRoot(), movePoints, playerIndex, playerIndex, levelLimit);
 
-        //System.out.println(gameTree);
-
         return gameTree.getBestMove();
 
     }
@@ -165,8 +160,6 @@ public class ComputerPlayer extends Player {
         gameTreeNode1.setBoard(clonedBoard1);
         gameTreeNode1.setScore(Advisor.getScore(gameTreeNode1, scorePoints, scorePlayerIndex, false));
 
-
-
         if (gameTreeNode1.getBoard().isPositionPartOfMorris(gameTreeNode1.getMove().getTo())){
             for (Position killPosition : Advisor.getAllPossibleKills(clonedBoard1,currentPlayerIndex)){
                 GameTreeNode gameTreeNode2 = new GameTreeNode();
@@ -194,10 +187,4 @@ public class ComputerPlayer extends Player {
         return gameTree.getBestKill();
 
     }
-
-
-
-
-
-
 }
