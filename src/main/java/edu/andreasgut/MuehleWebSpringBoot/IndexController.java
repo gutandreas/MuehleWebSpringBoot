@@ -45,9 +45,10 @@ public class IndexController {
         }
 
         if (GameManager.doesGameExist(gameCode)){
-
-            System.out.println(LocalTime.now() + " – " + "IndexController: Bereits vorhandener Gamecode. Dieser Gamecode wird bereits für ein anderes Spiel verwendet");
-            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("Dieser Gamecode wird bereits für ein anderes Spiel verwendet");
+            System.out.println(LocalTime.now() + " – " + "IndexController: Bereits vorhandener Gamecode. " +
+                    "Dieser Gamecode wird bereits für ein anderes Spiel verwendet.");
+            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("Dieser Gamecode wird bereits " +
+                    "für ein anderes Spiel verwendet.");
         }
         else {
             Game game = new Game(new HumanPlayer(player1Name, generateRandomUUID(), player1Color));
@@ -110,8 +111,10 @@ public class IndexController {
         }
         else {
             System.out.println(LocalTime.now() + " – " + this.getClass().getSimpleName()
-                    + ": GameCode falsch – Ein Spieler versuchte einem nicht existierenden oder schon kompletten Game beizutreten");
-            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("Gamecode existiert nicht oder Game ist bereits komplett");
+                    + ": GameCode falsch – Ein Spieler versuchte einem nicht existierenden " +
+                    "oder schon kompletten Game beizutreten");
+            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("Dieser Gamecode existiert nicht " +
+                    "oder das Game ist bereits komplett.");
         }
 
     }
@@ -140,7 +143,8 @@ public class IndexController {
         ScorePoints movePoints = new ScorePoints(2000, 300,250, 200, 300,3, -2000, -300, -250, -200, -300, -3);
         int levelLimit = Integer.parseInt(jsonObject.getString("computerLevel"));
 
-        ComputerPlayer computerPlayer = new ComputerPlayer(computerName, computerColor, generateRandomUUID(), putPoints, movePoints, levelLimit);
+        ComputerPlayer computerPlayer = new ComputerPlayer(computerName, computerColor, generateRandomUUID(),
+                putPoints, movePoints, levelLimit);
         Game game = new Game(new HumanPlayer(player1Name, generateRandomUUID(), player1Color), computerPlayer);
         computerPlayer.setGame(game);
 
@@ -171,8 +175,10 @@ public class IndexController {
 
         if (!GameManager.doesGameExist(gameCode) || GameManager.hasGameAlreadyStarted(gameCode)){
             System.out.println(LocalTime.now() + " – " + this.getClass().getSimpleName()
-                    + ": GameCode falsch – Ein Spieler versuchte ein nicht existierenden oder schon gestartetes Game zu beobachten");
-            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("Der Gamecode existiert nicht oder das Game wurde bereits gestartet und kann deshalb nicht mehr beobachtet werden.");
+                    + ": GameCode falsch – Ein Spieler versuchte ein nicht existierenden " +
+                    "oder schon gestartetes Game zu beobachten");
+            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("Dieser Gamecode existiert nicht " +
+                    "oder das Game wurde bereits gestartet und kann deshalb nicht mehr beobachtet werden.");
         }
 
         Game game = GameManager.getGame(gameCode);
