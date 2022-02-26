@@ -51,30 +51,30 @@
 
         <div id="boardImage">
             <img src="images/Spielfeld.png" style="width: 100%; z-index: -1; min-width: 600px">
-            <div id="r0f0" style="position: absolute; left: 0%; top: 0%; width: 14%; height: 14%; background-color: rgba(0, 0, 0, 0);" onclick="clickOnField(0, 0)"></div>
-            <div id="r0f1" style="position: absolute; left: 43%; top: 0%; width: 14%; height: 14%; background-color: rgba(0, 0, 0, 0);" onclick="clickOnField(0, 1)"></div>
-            <div id="r0f2" style="position: absolute; right: 0%; top: 0%; width: 14%; height: 14%; background-color: rgba(0, 0, 0, 0);" onclick="clickOnField(0, 2)"></div>
-            <div id="r0f3" style="position: absolute; right: 0%; top: 42%; width: 14%; height: 14%; background-color: rgba(0, 0, 0, 0);" onclick="clickOnField(0, 3)"></div>
-            <div id="r0f4" style="position: absolute; bottom: 2.2%; right: 0%; width: 14%; height: 14%; background-color: rgba(0, 0, 0, 0);" onclick="clickOnField(0, 4)"></div>
-            <div id="r0f5" style="position: absolute; bottom: 2.2%; left: 43%; width: 14%; height: 14%; background-color: rgba(0, 0, 0, 0);" onclick="clickOnField(0, 5)"></div>
-            <div id="r0f6" style="position: absolute; bottom: 2.2%; left: 0%; width: 14%; height: 14%; background-color: rgba(0, 0, 0, 0);" onclick="clickOnField(0, 6)"></div>
-            <div id="r0f7" style="position: absolute; top: 42%; left: 0%; width: 14%; height: 14%; background-color: rgba(0, 0, 0, 0);" onclick="clickOnField(0, 7)"></div>
-            <div id="r1f0" style="position: absolute; left: 15%; top: 14%; width: 14%; height: 14%; background-color: rgba(0, 0, 0, 0);" onclick="clickOnField(1, 0)"></div>
-            <div id="r1f1" style="position: absolute; left: 43%; top: 14%; width: 14%; height: 14%; background-color: rgba(0, 0, 0, 0);" onclick="clickOnField(1, 1)"></div>
-            <div id="r1f2" style="position: absolute; left: 71%; top: 14%; width: 14%; height: 14%; background-color: rgba(0, 0, 0, 0);" onclick="clickOnField(1, 2)"></div>
-            <div id="r1f3" style="position: absolute; left: 71%; top: 41.5%; width: 14%; height: 14%; background-color: rgba(0, 0, 0, 0);" onclick="clickOnField(1, 3)"></div>
-            <div id="r1f4" style="position: absolute; left: 71%; top: 70%; width: 14%; height: 14%; background-color: rgba(0, 0, 0, 0);" onclick="clickOnField(1, 4)"></div>
-            <div id="r1f5" style="position: absolute; left: 43%; top: 70%; width: 14%; height: 14%; background-color: rgba(0, 0, 0, 0);" onclick="clickOnField(1, 5)"></div>
-            <div id="r1f6" style="position: absolute; left: 15%; top: 70%; width: 14%; height: 14%; background-color: rgba(0, 0, 0, 0);" onclick="clickOnField(1, 6)"></div>
-            <div id="r1f7" style="position: absolute; left: 15%; top: 41.5%; width: 14%; height: 14%; background-color: rgba(0, 0, 0, 0);" onclick="clickOnField(1, 7)"></div>
-            <div id="r2f0" style="position: absolute; left: 29%; top: 28%; width: 14%; height: 14%; background-color: rgba(0, 0, 0, 0);" onclick="clickOnField(2, 0)"></div>
-            <div id="r2f1" style="position: absolute; left: 43%; top: 28%; width: 14%; height: 14%; background-color: rgba(0, 0, 0, 0);" onclick="clickOnField(2, 1)"></div>
-            <div id="r2f2" style="position: absolute; left: 57%; top: 28%; width: 14%; height: 14%; background-color: rgba(0, 0, 0, 0);" onclick="clickOnField(2, 2)"></div>
-            <div id="r2f3" style="position: absolute; left: 57%; top: 42%; width: 14%; height: 14%; background-color: rgba(0, 0, 0, 0);" onclick="clickOnField(2, 3)"></div>
-            <div id="r2f4" style="position: absolute; left: 57%; top: 56%; width: 14%; height: 14%; background-color: rgba(0, 0, 0, 0);" onclick="clickOnField(2, 4)"></div>
-            <div id="r2f5" style="position: absolute; left: 43%; top: 56%; width: 14%; height: 14%; background-color: rgba(0, 0, 0, 0);" onclick="clickOnField(2, 5)"></div>
-            <div id="r2f6" style="position: absolute; left: 29%; top: 56%; width: 14%; height: 14%; background-color: rgba(0, 0, 0, 0);" onclick="clickOnField(2, 6)"></div>
-            <div id="r2f7" style="position: absolute; left: 29%; top: 42%; width: 14%; height: 14%; background-color: rgba(0, 0, 0, 0);" onclick="clickOnField(2, 7)"></div>
+            <div id="r0f0" style="position: absolute; left: 0%; top: 0%; width: 14%; height: 14%; background-color: rgba(0, 0, 0, 0);" onclick="nextStep(0, 0)"></div>
+            <div id="r0f1" style="position: absolute; left: 43%; top: 0%; width: 14%; height: 14%; background-color: rgba(0, 0, 0, 0);" onclick="nextStep(0, 1)"></div>
+            <div id="r0f2" style="position: absolute; right: 0%; top: 0%; width: 14%; height: 14%; background-color: rgba(0, 0, 0, 0);" onclick="nextStep(0, 2)"></div>
+            <div id="r0f3" style="position: absolute; right: 0%; top: 42%; width: 14%; height: 14%; background-color: rgba(0, 0, 0, 0);" onclick="nextStep(0, 3)"></div>
+            <div id="r0f4" style="position: absolute; bottom: 2.2%; right: 0%; width: 14%; height: 14%; background-color: rgba(0, 0, 0, 0);" onclick="nextStep(0, 4)"></div>
+            <div id="r0f5" style="position: absolute; bottom: 2.2%; left: 43%; width: 14%; height: 14%; background-color: rgba(0, 0, 0, 0);" onclick="nextStep(0, 5)"></div>
+            <div id="r0f6" style="position: absolute; bottom: 2.2%; left: 0%; width: 14%; height: 14%; background-color: rgba(0, 0, 0, 0);" onclick="nextStep(0, 6)"></div>
+            <div id="r0f7" style="position: absolute; top: 42%; left: 0%; width: 14%; height: 14%; background-color: rgba(0, 0, 0, 0);" onclick="nextStep(0, 7)"></div>
+            <div id="r1f0" style="position: absolute; left: 15%; top: 14%; width: 14%; height: 14%; background-color: rgba(0, 0, 0, 0);" onclick="nextStep(1, 0)"></div>
+            <div id="r1f1" style="position: absolute; left: 43%; top: 14%; width: 14%; height: 14%; background-color: rgba(0, 0, 0, 0);" onclick="nextStep(1, 1)"></div>
+            <div id="r1f2" style="position: absolute; left: 71%; top: 14%; width: 14%; height: 14%; background-color: rgba(0, 0, 0, 0);" onclick="nextStep(1, 2)"></div>
+            <div id="r1f3" style="position: absolute; left: 71%; top: 41.5%; width: 14%; height: 14%; background-color: rgba(0, 0, 0, 0);" onclick="nextStep(1, 3)"></div>
+            <div id="r1f4" style="position: absolute; left: 71%; top: 70%; width: 14%; height: 14%; background-color: rgba(0, 0, 0, 0);" onclick="nextStep(1, 4)"></div>
+            <div id="r1f5" style="position: absolute; left: 43%; top: 70%; width: 14%; height: 14%; background-color: rgba(0, 0, 0, 0);" onclick="nextStep(1, 5)"></div>
+            <div id="r1f6" style="position: absolute; left: 15%; top: 70%; width: 14%; height: 14%; background-color: rgba(0, 0, 0, 0);" onclick="nextStep(1, 6)"></div>
+            <div id="r1f7" style="position: absolute; left: 15%; top: 41.5%; width: 14%; height: 14%; background-color: rgba(0, 0, 0, 0);" onclick="nextStep(1, 7)"></div>
+            <div id="r2f0" style="position: absolute; left: 29%; top: 28%; width: 14%; height: 14%; background-color: rgba(0, 0, 0, 0);" onclick="nextStep(2, 0)"></div>
+            <div id="r2f1" style="position: absolute; left: 43%; top: 28%; width: 14%; height: 14%; background-color: rgba(0, 0, 0, 0);" onclick="nextStep(2, 1)"></div>
+            <div id="r2f2" style="position: absolute; left: 57%; top: 28%; width: 14%; height: 14%; background-color: rgba(0, 0, 0, 0);" onclick="nextStep(2, 2)"></div>
+            <div id="r2f3" style="position: absolute; left: 57%; top: 42%; width: 14%; height: 14%; background-color: rgba(0, 0, 0, 0);" onclick="nextStep(2, 3)"></div>
+            <div id="r2f4" style="position: absolute; left: 57%; top: 56%; width: 14%; height: 14%; background-color: rgba(0, 0, 0, 0);" onclick="nextStep(2, 4)"></div>
+            <div id="r2f5" style="position: absolute; left: 43%; top: 56%; width: 14%; height: 14%; background-color: rgba(0, 0, 0, 0);" onclick="nextStep(2, 5)"></div>
+            <div id="r2f6" style="position: absolute; left: 29%; top: 56%; width: 14%; height: 14%; background-color: rgba(0, 0, 0, 0);" onclick="nextStep(2, 6)"></div>
+            <div id="r2f7" style="position: absolute; left: 29%; top: 42%; width: 14%; height: 14%; background-color: rgba(0, 0, 0, 0);" onclick="nextStep(2, 7)"></div>
         </div>
 
         <div id="log">

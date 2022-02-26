@@ -1,10 +1,9 @@
 class Game {
 
-    constructor(player, gameCode, start) {
+    constructor(player, gameCode) {
 
         this.player = player;
         this.board = new Board(this);
-        this.myTurn = start;
         this.gamecode = gameCode;
         this.round = 0;
         this.roboterConnected = false;
@@ -15,25 +14,8 @@ class Game {
         console.log(this.roboterPlaying);
     }
 
-
-
-
-    getMyTurn(){
-        return this.myTurn;
-    }
-
-
-    getPlayer(){
-        return this.player;
-    }
-
     setRoboterConnected(connected){
         this.roboterConnected = connected
-
-    }
-
-    isRoboterConnected(){
-        return this.roboterConnected;
     }
 
     setRoboterWatching(watching){
@@ -51,8 +33,4 @@ class Game {
     isRoboterPlaying(){
         return this.roboterPlaying
     }
-
-
-
-
 }

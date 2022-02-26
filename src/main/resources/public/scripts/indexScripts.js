@@ -141,7 +141,7 @@ function sendDataMenschVsMenschStart(){
                     window.color = "WHITE";
                 }
 
-                window.game = new Game(new Player(player1Name, responseData.player1Uuid, responseData.player1Index), gameCodeStart, true);
+                window.game = new Game(new Player(player1Name, responseData.player1Uuid, responseData.player1Index), gameCodeStart);
                 window.uuid = responseData.player1Uuid;
                 window.playerIndex = responseData.player1Index;
                 window.name = player1Name;
@@ -212,7 +212,7 @@ function sendDataMenschVsMenschJoin(){
                 }
 
 
-                window.game = new Game(new Player(player2Name, responseData.player2Uuid, responseData.player2Index), gameCodeJoin , false);
+                window.game = new Game(new Player(player2Name, responseData.player2Uuid, responseData.player2Index), gameCodeJoin);
 
                 if (responseData.roboterConnected){
                     game.setRoboterConnected(true)
@@ -303,7 +303,7 @@ function sendDataMenschVsComputer(){
                 window.color = "WHITE";
             }
 
-            window.game = new Game(new Player(player1Name, responseData.player1Uuid, responseData.playerIndex), responseData.gameCode, true);
+            window.game = new Game(new Player(player1Name, responseData.player1Uuid, responseData.playerIndex), responseData.gameCode);
             window.uuid = responseData.player1Uuid;
             window.playerIndex = responseData.playerIndex;
             window.name = player1Name;
@@ -365,7 +365,7 @@ function sendDataGameWatch(){
                 window.color = "WHITE";
             }
 
-            window.game = new Game(new Player(responseData.player1Name, 0, 0), responseData.gameCode, true);
+            window.game = new Game(new Player(responseData.player1Name, 0, 0), responseData.gameCode);
             window.playerIndex = responseData.player1Index;
 
             doConnect();

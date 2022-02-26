@@ -31,20 +31,20 @@ class Board {
 
     isMovePossibleAt(move, allowedToJump){
 
-    let destinationFree = this.isPositionFree(move.toPosition);
+        let destinationFree = this.isPositionFree(move.toPosition);
 
-    let destinationInRing = (move.fromPosition.getRing()==move.toPosition.getRing() && Math.abs(move.fromPosition.getField()-move.toPosition.getField())==1)
-        || (move.fromPosition.getRing()==move.toPosition.getRing() && Math.abs(move.fromPosition.getField()-move.toPosition.getField())==7);
+        let destinationInRing = (move.fromPosition.getRing()==move.toPosition.getRing() && Math.abs(move.fromPosition.getField()-move.toPosition.getField())==1)
+            || (move.fromPosition.getRing()==move.toPosition.getRing() && Math.abs(move.fromPosition.getField()-move.toPosition.getField())==7);
 
-    let destinationBetweenRings = move.fromPosition.getField()%2==1 && move.fromPosition.getField()==move.toPosition.getField()
-        && Math.abs(move.fromPosition.getRing()-move.toPosition.getRing())==1;
+        let destinationBetweenRings = move.fromPosition.getField()%2==1 && move.fromPosition.getField()==move.toPosition.getField()
+            && Math.abs(move.fromPosition.getRing()-move.toPosition.getRing())==1;
 
-    return destinationFree && (destinationInRing || destinationBetweenRings || allowedToJump);
+        return destinationFree && (destinationInRing || destinationBetweenRings || allowedToJump);
     }
 
     isKillPossibleAt(position, otherPlayerIndex){
-    return this.array[position.getRing()][position.getField()] == otherPlayerIndex &&
-    (!this.isInMorris(position) || this.numberOfStonesOf(otherPlayerIndex)==3);
+        return this.array[position.getRing()][position.getField()] == otherPlayerIndex &&
+        (!this.isInMorris(position) || this.numberOfStonesOf(otherPlayerIndex)==3);
     }
 
     canPlayerKill(playerIndex){
@@ -61,8 +61,6 @@ class Board {
         return false;
     }
 
-
-
     numberOfStonesOf(playerIndex){
         let counter = 0;
         for (let i = 0; i < 3; i++){
@@ -72,7 +70,7 @@ class Board {
                 }
             }
         }
-    return counter;
+        return counter;
     }
 
     isInMorris(position){
@@ -90,7 +88,6 @@ class Board {
         return morris;
     }
 
-
     isInMorrisInRingFromCorner(position, playerIndex){
 
         let morrisUpwards = playerIndex == this.array[position.getRing()][(position.getField()+1)%8]
@@ -101,12 +98,10 @@ class Board {
         return morrisUpwards || morrisDownwards;
     }
 
-
     isInMorrisInRingFromCenter(position, playerIndex){
         return playerIndex == this.array[position.getRing()][(position.getField()+1)%8]
             && playerIndex == this.array[position.getRing()][(position.getField()+7)%8];
     }
-
 
     isInMorrisBetweenRings(position, playerIndex){
         return playerIndex == this.array[(position.getRing()+1)%3][position.getField()]
@@ -114,11 +109,11 @@ class Board {
     }
 
     isPositionFree(position) {
-    return this.array[position.getRing()][position.getField()] == 9;
+        return this.array[position.getRing()][position.getField()] == 9;
     }
 
     isThisMyStone(position, ownPlayerIndex){
-    return this.array[position.getRing()][position.getField()] == ownPlayerIndex;
+        return this.array[position.getRing()][position.getField()] == ownPlayerIndex;
     }
 
     getNumberAt(position){
@@ -134,67 +129,66 @@ class Board {
     }
 
     printRow(row){
-    let rowString ="";
-    let space;
-    switch (row){
-    case 0:
-        space = "      ";
-        for (let i = 0; i < 3; i++){
-            rowString += this.array[row][i] + space;
+        let rowString ="";
+        let space;
+        switch (row){
+        case 0:
+            space = "      ";
+            for (let i = 0; i < 3; i++){
+                rowString += this.array[row][i] + space;
+            }
+            rowString += "\n";
+            break;
+        case 1:
+            space = "    ";
+            rowString += "  ";
+            for (let i = 0; i < 3; i++){
+                rowString += this.array[row][i] + space;
+            }
+            rowString += "\n";
+            break;
+        case 2:
+            space = " ";
+            rowString += "     ";
+            for (let i = 0; i < 3; i++){
+                rowString += this.array[row][i] + space;
+            }
+            rowString += "\n";
+            break;
+        case 3:
+            for (let i = 0; i < 3; i++){
+                rowString += this.array[i][7];
+            }
+            rowString += "     ";
+            for (let i = 2; i >= 0; i--){
+                rowString += this.array[i][3];
+            }
+            rowString += "\n";
+            break;
+        case 4:
+            space = " ";
+            rowString += "     ";
+            for (let i = 6; i > 3; i--){
+                rowString += this.array[2][i] + space;
+            }
+            rowString += "\n";
+            break;
+        case 5:
+            space = "    ";
+            rowString += "  ";
+            for (let i = 6; i > 3; i--){
+                rowString += this.array[1][i] + space;
+            }
+            rowString += "\n";
+            break;
+        case 6:
+            space = "      ";
+            for (let i = 6; i > 3; i--){
+                rowString += this.array[0][i] + space;
+            }
+            rowString += "\n";
+            break;
         }
-        rowString += "\n";
-        break;
-    case 1:
-        space = "    ";
-        rowString += "  ";
-        for (let i = 0; i < 3; i++){
-            rowString += this.array[row][i] + space;
-        }
-        rowString += "\n";
-        break;
-    case 2:
-        space = " ";
-        rowString += "     ";
-        for (let i = 0; i < 3; i++){
-            rowString += this.array[row][i] + space;
-        }
-        rowString += "\n";
-        break;
-    case 3:
-        for (let i = 0; i < 3; i++){
-            rowString += this.array[i][7];
-        }
-        rowString += "     ";
-        for (let i = 2; i >= 0; i--){
-            rowString += this.array[i][3];
-        }
-        rowString += "\n";
-        break;
-    case 4:
-        space = " ";
-        rowString += "     ";
-        for (let i = 6; i > 3; i--){
-            rowString += this.array[2][i] + space;
-        }
-        rowString += "\n";
-        break;
-    case 5:
-        space = "    ";
-        rowString += "  ";
-        for (let i = 6; i > 3; i--){
-            rowString += this.array[1][i] + space;
-        }
-        rowString += "\n";
-        break;
-    case 6:
-        space = "      ";
-        for (let i = 6; i > 3; i--){
-            rowString += this.array[0][i] + space;
-        }
-        rowString += "\n";
-        break;
-    }
 
-    return rowString;}
-
+        return rowString;}
 }

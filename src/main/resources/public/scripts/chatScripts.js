@@ -75,7 +75,6 @@ function offendEnemy(){
         "message" : message}))
 
     putMessageToMessageBox(name, message)
-
 }
 
 function getRandomNumber(min, max) {
@@ -104,7 +103,6 @@ function sendChatMessage(){
     else {
         alert("Sie können keine leeren Nachrichten senden!")
     }
-
 }
 
 
@@ -114,7 +112,6 @@ function putMessageToMessageBox(name, message){
     }
     $('#messageBox').append(name + ": " + message);
     $('#messageBox').scrollTop($('#messageBox')[0].scrollHeight);
-
 }
 
 

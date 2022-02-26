@@ -22,7 +22,7 @@ var player2KilledStones = 0;
 var player2LostStones = 0;
 
 
-function clickOnField(ring, field){
+function nextStep(ring, field){
 
     console.log("Feld " + ring + "/" + field + " angeklickt");
 
@@ -58,7 +58,6 @@ function clickOnField(ring, field){
 
                         }
                 }}
-
     }
     else {
         if (gameOver){
@@ -66,7 +65,7 @@ function clickOnField(ring, field){
             return;
         }
         if (!myTurn){
-            alert("Du bist nicht an der Reihe. Warte auf den Zug des Gegenspielers");
+            alert("Sie sind nicht an der Reihe. Warten Sie auf den Zug des Gegenspielers");
             return;
         }
         if (!enemyLoggedIn){
@@ -74,11 +73,12 @@ function clickOnField(ring, field){
             return;
         }
         if (watingForRoboter){
-            alert("Bitte warten Sie, der Roboter den Zug ausgeführt hat")
+            alert("Bitte warten Sie, bis der Roboter den Zug ausgeführt hat")
             return;
         }
     }
-    }
+}
+
 
 function editMyTurn(isMyTurn, isKill){
 
@@ -86,24 +86,22 @@ function editMyTurn(isMyTurn, isKill){
     kill = isKill;
 
     if (isMyTurn){
-
         if (game.isRoboterWatching() || (game.isRoboterPlaying() && isKill)){
             waitForRoboter();
         }
-
-
         if (isKill){
             $('#spielverlaufLabel').text(name + " darf einen Stein entfernen");
             removeAllPhaseLabelClasses();
             $("#killPhaseLabel").addClass("killPhaseLabel");
-
         }
         else {
+            //put-Phase
             if (game.round < 18){
                 $('#spielverlaufLabel').text(name + " darf einen Stein setzen");
                 removeAllPhaseLabelClasses();
                 $("#putPhaseLabel").addClass("putPhaseLabel");
             }
+            //move-Phase
             else {
                 $('#spielverlaufLabel').text(name + " darf einen Stein bewegen");
                 removeAllPhaseLabelClasses();
@@ -115,13 +113,14 @@ function editMyTurn(isMyTurn, isKill){
         if (isKill){
             $('#spielverlaufLabel').text(enemyName + " darf einen Stein entfernen");
             removeAllPhaseLabelClasses();
-
         }
         else {
+            //put-Phase
             if (game.round < 18){
                 $('#spielverlaufLabel').text(enemyName + " darf einen Stein setzen")
                 removeAllPhaseLabelClasses()
             }
+            //move-Phase
             else {
                 $('#spielverlaufLabel').text(enemyName + " darf einen Stein bewegen")
                 removeAllPhaseLabelClasses()
@@ -130,11 +129,13 @@ function editMyTurn(isMyTurn, isKill){
     }
 }
 
+
 function removeAllPhaseLabelClasses(){
     $("#putPhaseLabel").removeClass("putPhaseLabel");
     $("#movePhaseLabel").removeClass("movePhaseLabel");
     $("#killPhaseLabel").removeClass("killPhaseLabel");
 }
+
 
 function waitForRoboter(){
     setRoboterWaiting(true)
@@ -149,59 +150,36 @@ function waitForRoboter(){
 }
 
 
-
-
-
-
 function putStone(ring, field){
 
    if (game.board.isPositionFree(new Position(ring, field))){
-       console.log("Put an Server senden");
        game.board.putStone(new Position(ring, field), playerIndex)
-       console.log("Spielrunde: " + game.round);
        increaseRound();
-
        putStoneGraphic(ring, field, playerIndex);
-
            if (game.board.isInMorris(new Position(ring, field))
                && (game.board.canPlayerKill(playerIndex)
                    || (game.board.numberOfStonesOf(1-playerIndex) == 3 && game.round > 18))){
-
-               console.log("Mühle gebildet, Stein darf gekillt werden")
                editMyTurn(true, true);
-
            }
            else {
                editMyTurn(false, false)
-               //setBoardCursor(pathWaitingCursor);
                }
 
-       let delay;
-       if (window.modus == 1){
-           delay = 0;}
-       if (window.modus == 2){
-           delay = 300;}
-
-       setTimeout(function(){
-
-               sendMessage(websocket, JSON.stringify({
-                   "gameCode": game.gamecode,
-                   "playerUuid": game.player.getUuid(),
-                   "playerIndex": playerIndex,
-                   "command" : "update",
-                   "action": "put",
-                   "ring": ring,
-                   "field": field,
-                   "callComputer": !myTurn,
-                   "triggerAxidraw": true}))
-
+           sendMessage(websocket, JSON.stringify({
+               "gameCode": game.gamecode,
+               "playerUuid": game.player.getUuid(),
+               "playerIndex": playerIndex,
+               "command" : "update",
+               "action": "put",
+               "ring": ring,
+               "field": field,
+               "callComputer": !myTurn,
+               "triggerAxidraw": true}))
            }
-           , delay)}
    else {
        alert("Dieses Feld ist nicht frei");
    }
 }
-
 
 
 function moveStoneTakeStep(ring, field){
@@ -218,90 +196,60 @@ function moveStoneReleaseStep(ring, field){
     if (game.board.isPositionFree(position) || (moveTakePosition.ring == ring && moveTakePosition.field == field)){
         return position;}
     else {
-        alert("Dieses Feld ist nicht frei")}
+        alert("Dieses Feld ist nicht frei!")}
 }
 
 
 function moveStone(move){
-
-    if (game.board.isMovePossibleAt(move, game.board.numberOfStonesOf(playerIndex) == 3)){
-        console.log("Move an Server senden");
+    if (game.board.isMovePossibleAt(move, game.board.numberOfStonesOf(playerIndex) == 3)) {
         game.board.moveStone(move, playerIndex);
-        console.log("Spielrunde: " + game.round);
         increaseRound();
-
         moveStoneGraphic(move, playerIndex);
-
-
         if (game.board.isInMorris(move.toPosition)
             && (game.board.canPlayerKill(playerIndex)
-                || (game.board.numberOfStonesOf(1-playerIndex) == 3 /*&& game.round > 18*/))){
-
-            console.log("Mühle gebildet, Stein darf gekillt werden")
+                || (game.board.numberOfStonesOf(1 - playerIndex) == 3))) {
             editMyTurn(true, true)
+        } else {
+            editMyTurn(false, false)
         }
-        else {
-            editMyTurn(false, false)}
-
-        let delay;
-        if (window.modus == 1){
-            delay = 0;}
-        if (window.modus == 2){
-            delay = 300;}
-
-        setTimeout(function(){
-
-                sendMessage(websocket, JSON.stringify({
-                    "gameCode": game.gamecode,
-                    "playerUuid": game.player.getUuid(),
-                    "command" : "update",
-                    "action": "move",
-                    "moveFromRing": move.fromPosition.getRing(),
-                    "moveFromField": move.fromPosition.getField(),
-                    "moveToRing": move.toPosition.getRing(),
-                    "moveToField": move.toPosition.getField(),
-                    "playerIndex": playerIndex,
-                    "callComputer": !myTurn,
-                    "triggerAxidraw": true}))
-            }
-            , delay)}
+        sendMessage(websocket, JSON.stringify({
+            "gameCode": game.gamecode,
+            "playerUuid": game.player.getUuid(),
+            "command": "update",
+            "action": "move",
+            "moveFromRing": move.fromPosition.getRing(),
+            "moveFromField": move.fromPosition.getField(),
+            "moveToRing": move.toPosition.getRing(),
+            "moveToField": move.toPosition.getField(),
+            "playerIndex": playerIndex,
+            "callComputer": !myTurn,
+            "triggerAxidraw": true
+        }))
+    }
     else {
-        alert("Das ist kein gültiger Zug")
+        alert("Das ist kein gültiger Zug!")
         fadeStone(move.fromPosition.getRing(), move.fromPosition.getField(), 500, true)}
 }
 
+
 function killStone(ring, field){
     if (game.board.isKillPossibleAt(new Position(ring, field), 1-playerIndex)){
-        console.log("Kill an Server senden");
         game.board.removeStone(new Position(ring, field));
-
         clearStoneGraphic(ring, field, playerIndex);
-
         editMyTurn(false, false);
-
-        let delay;
-        if (window.modus == 1){
-            delay = 0;}
-        if (window.modus == 2){
-            delay = 300;}
-
-        setTimeout(function(){
-
-                sendMessage(websocket, JSON.stringify({
-                    "gameCode": game.gamecode,
-                    "playerUuid": game.player.getUuid(),
-                    "command" : "update",
-                    "action": "kill",
-                    "ring": ring,
-                    "field": field,
-                    "callComputer": true,
-                    "triggerAxidraw": true
-                }))
-            }
-            , delay)}
-
+        sendMessage(websocket, JSON.stringify({
+            "gameCode": game.gamecode,
+            "playerUuid": game.player.getUuid(),
+            "command" : "update",
+            "action": "kill",
+            "ring": ring,
+            "field": field,
+            "callComputer": true,
+            "triggerAxidraw": true
+        }))
+        }
     else {
-        alert("Auf diesem Feld kann kein Stein entfernt werden")}
+        alert("Auf diesem Feld kann kein Stein entfernt werden!")}
 }
 
 
@@ -310,51 +258,44 @@ function increaseRound(){
     $("#rundeText").text("Spielrunde: " + game.round)
 }
 
+
 function putStoneGraphic(ring, field, index){
-
-if (index == playerIndex){
-    if (color == "BLACK"){
-    $('#'.concat("r").concat(ring).concat("f").concat(field)).prepend('<img src="images/StoneBlack.png" height="100%" width="100%"/>');}
-    if (color == "WHITE"){
-        $('#'.concat("r").concat(ring).concat("f").concat(field)).prepend('<img src="images/StoneWhite.png" height="100%" width="100%"/>');}
-}
-else {
-    if (color == "WHITE"){
+    if (index == playerIndex){
+        if (color == "BLACK"){
         $('#'.concat("r").concat(ring).concat("f").concat(field)).prepend('<img src="images/StoneBlack.png" height="100%" width="100%"/>');}
-    if (color == "BLACK"){
-        $('#'.concat("r").concat(ring).concat("f").concat(field)).prepend('<img src="images/StoneWhite.png" height="100%" width="100%"/>');}
-}
+        if (color == "WHITE"){
+            $('#'.concat("r").concat(ring).concat("f").concat(field)).prepend('<img src="images/StoneWhite.png" height="100%" width="100%"/>');}
+    }
+    else {
+        if (color == "WHITE"){
+            $('#'.concat("r").concat(ring).concat("f").concat(field)).prepend('<img src="images/StoneBlack.png" height="100%" width="100%"/>');}
+        if (color == "BLACK"){
+            $('#'.concat("r").concat(ring).concat("f").concat(field)).prepend('<img src="images/StoneWhite.png" height="100%" width="100%"/>');}
+    }
 
-if (index == 0){
-    player1PutStones++;
-    $("#putLabel0").text("Steine gesetzt: " + player1PutStones)
+    if (index == 0){
+        player1PutStones++;
+        $("#putLabel0").text("Steine gesetzt: " + player1PutStones)
+    }
+    else {
+        player2PutStones++;
+        $("#putLabel1").text("Steine gesetzt: " + player2PutStones)
+    }
 }
-else {
-    player2PutStones++;
-    $("#putLabel1").text("Steine gesetzt: " + player2PutStones)
-}
-}
-
 
 
 function fadeStone(ring, field, speed, fadeIn) {
-
     if (fadeIn){
         $('#'.concat("r").concat(ring).concat("f").concat(field)).find("img").fadeTo(speed, 1);
     }
     else {
         $('#'.concat("r").concat(ring).concat("f").concat(field)).find("img").fadeTo(speed, 0.5);
     }
-
 }
 
 
-
 function moveStoneGraphic(move, index) {
-
     $('#'.concat("r").concat(move.fromPosition.getRing()).concat("f").concat(move.fromPosition.getField())).empty();
-
-
     let ring = move.toPosition.getRing();
     let field = move.toPosition.getField();
 
@@ -376,6 +317,7 @@ function moveStoneGraphic(move, index) {
     }
 }
 
+
 function clearStoneGraphic(ring, field, killingPlayerIndex){
 
     if (killingPlayerIndex == 0){
@@ -389,16 +331,15 @@ function clearStoneGraphic(ring, field, killingPlayerIndex){
         player1LostStones++;
         $("#killedLabel1").text("Steine gewonnen: " + player2KilledStones)
         $("#lostLabel0").text("Steine verloren: " + player1LostStones)
-
     }
-
     $('#'.concat("r").concat(ring).concat("f").concat(field)).empty();
-
 }
+
 
 function setRoboterWaiting(waiting){
     watingForRoboter = waiting;
 }
+
 
 function getIndexPage(){
     fetch('/index/loadIndex', {method: 'GET'})
