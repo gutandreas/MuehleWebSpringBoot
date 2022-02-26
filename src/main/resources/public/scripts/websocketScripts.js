@@ -7,17 +7,22 @@ function doConnect(){
     websocket.onerror = function(evt) { onError(evt) };
 }
 
+
 function onOpen(evt){
+    console.log("Websocketverbindung hergestellt.")
 }
+
 
 function onClose(evt){
     alert("Die Verbindung zum Server ist abgebrochen. Sie werden auf die Startseite zurückgeleitet.")
     getIndexPage();
 }
 
+
 function onMessage(evt){
 
     var incommingMessage = JSON.parse(evt.data);
+    console.log(incommingMessage);
 
     if (incommingMessage.command == "start"){
         console.log("Spiel " + incommingMessage.gameCode + " eröffnet")
@@ -40,24 +45,20 @@ function onMessage(evt){
     }
 
     if (incommingMessage.command == "chat" && incommingMessage.playerUuid != uuid){
-        console.log(incommingMessage);
         putMessageToMessageBox(incommingMessage.name, incommingMessage.message);
     }
 
     if (incommingMessage.command == "giveup" && incommingMessage.playerUuid != uuid){
-        console.log(incommingMessage);
         alert(incommingMessage.name + " hat aufgeben und verliert das Spiel. Sie werden zur Startseite zurückgeleitet...");
         getIndexPage();
     }
 
     if (incommingMessage.command == "timeout"){
-        console.log(incommingMessage);
         alert("Die Zeit maximale Zeit für dieses Spiel ist abgelaufen. Sie werden zur Startseite zurückgeleitet...");
         getIndexPage();
     }
 
     if (incommingMessage.command == "roboterConnection"){
-        console.log(incommingMessage);
         if (incommingMessage.connected){
             game.setRoboterConnected(true);
             game.setRoboterWatching(incommingMessage.watching);
@@ -70,27 +71,20 @@ function onMessage(evt){
             game.setRoboterPlaying(false);
             $("#roboterConnectedLabel").removeClass("roboterConnectedLabel");
         }
-
     }
 
     if (incommingMessage.command == "gameOver"){
-        console.log(incommingMessage);
-
         $("#messageLine").prop('disabled', true);
         $("#messageButton").prop('disabled', true);
         $("#complimentEnemyButton").prop('disabled', true);
         $("#offendEnemyButton").prop('disabled', true);
-
-
         $("#putPhaseLabel").removeClass("putPhaseLabel");
         $("#movePhaseLabel").removeClass("movePhaseLabel");
         $("#killPhaseLabel").removeClass("killPhaseLabel");
         $("#giveUpButton").prop("value", "ZUM MENÜ");
-        $("#giveUpButton").css("background","#33cc66");
+        $("#giveUpButton").css("background","#99dd99");
         $("#giveUpButton").css("-webkit-text-fill-color", "BLACK");
-
         gameOver = true;
-
         if (incommingMessage.playerIndex == playerIndex){
             alert(enemyName + " hat das Spiel gewonnen!")
             $('#spielverlaufLabel').text(enemyName + " hat das Spiel gewonnen!")
@@ -101,10 +95,7 @@ function onMessage(evt){
         }
     }
 
-
     if (incommingMessage.command == "update" && incommingMessage.playerUuid != uuid){
-
-        console.log(evt.data)
 
         if (incommingMessage.action == "put"){
 
@@ -181,7 +172,7 @@ const waitForOpenConnection = (socket) => {
     })
 }
 
-// https://dev.to/ndrbrt/wait-for-the-websocket-connection-to-be-open-before-sending-a-message-1h12, 9. Septemberr 2021
+// https://dev.to/ndrbrt/wait-for-the-websocket-connection-to-be-open-before-sending-a-message-1h12, 9. September 2021
 const sendMessage = async (socket, msg) => {
     if (socket.readyState !== socket.OPEN) {
         try {

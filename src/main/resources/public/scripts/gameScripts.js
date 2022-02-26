@@ -24,7 +24,7 @@ var player2LostStones = 0;
 
 function nextStep(ring, field){
 
-    console.log("Feld " + ring + "/" + field + " angeklickt");
+    console.log("Position " + ring + "/" + field + " angeklickt");
 
     if (myTurn && !gameOver && enemyLoggedIn && !watingForRoboter){
 
@@ -65,15 +65,15 @@ function nextStep(ring, field){
             return;
         }
         if (!myTurn){
-            alert("Sie sind nicht an der Reihe. Warten Sie auf den Zug des Gegenspielers");
+            alert("Sie sind nicht an der Reihe. Warten Sie auf den Zug des Gegenspielers.");
             return;
         }
         if (!enemyLoggedIn){
-            alert("Bitte warten Sie, bis Ihr Gegenspieler eingeloggt ist")
+            alert("Bitte warten Sie, bis Ihr Gegenspieler eingeloggt ist.")
             return;
         }
         if (watingForRoboter){
-            alert("Bitte warten Sie, bis der Roboter den Zug ausgeführt hat")
+            alert("Bitte warten Sie, bis der Roboter den Zug ausgeführt hat.")
             return;
         }
     }
@@ -139,12 +139,12 @@ function removeAllPhaseLabelClasses(){
 
 function waitForRoboter(){
     setRoboterWaiting(true)
-    console.log("Auf Roboter warten")
+    console.log("Auf Roboter warten...")
     $("#progressbar").addClass("progress");
 
     setTimeout(function() {
         setRoboterWaiting(false);
-        console.log("Fertig gewartet")
+        console.log("Fertig gewartet.")
         $("#progressbar").removeClass("progress");
     }, 10000)
 }

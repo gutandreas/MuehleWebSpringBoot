@@ -5,7 +5,6 @@ class Position {
         this.field = field;
     }
 
-
     getRing() {
         return this.ring;
     }
@@ -16,4 +15,5 @@ class Position {
 
     toString(){return "Position " + this.getRing() + "/" + this.getField();
     }
+
 }

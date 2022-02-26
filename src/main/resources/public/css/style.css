@@ -39,7 +39,7 @@ label{
 }
 
 
-/*inputs*/
+/*Inputs*/
 
 input[type='button']{
     background-color: #c2eafc;
@@ -64,8 +64,19 @@ input[type='submit']{
     width: 30%;
 }
 
+.chatButton{
+    width: 60%;
+}
+
+#giveUpButton{
+    background-color: firebrick;
+    -webkit-text-fill-color: whitesmoke;
+    margin-top: 12px
+
+}
 
 
+/*Labels*/
 
 .labelPut{
     -webkit-text-fill-color: #90ccee;
@@ -81,7 +92,6 @@ input[type='submit']{
 
 .phaseLabel{
     -webkit-text-fill-color: #505050;
-    /*background: #333333;*/
     box-shadow: 0 0 3px;
     letter-spacing: 2px;
     padding: 1px;
@@ -92,9 +102,7 @@ input[type='submit']{
     white-space: nowrap;
     border: 2px Black;
     border-radius: 9px;
-
 }
-
 
 .putPhaseLabel{
     -webkit-text-fill-color: Black;
@@ -104,7 +112,6 @@ input[type='submit']{
     -webkit-animation: blueblink 1.5s steps(100, start) infinite;
 
 }
-
 
 @-webkit-keyframes blueblink {
 
@@ -116,8 +123,6 @@ input[type='submit']{
         background: #55aadd;
     }
 }
-
-
 
 .movePhaseLabel{
     -webkit-text-fill-color: Black;
@@ -162,11 +167,6 @@ input[type='submit']{
     box-shadow: 0 0 12px #ffffff;
 }
 
-.chatButton{
-    width: 60%;
-}
-
-
 #spielverlaufLabel{
 
     margin-top: 2%;
@@ -175,6 +175,9 @@ input[type='submit']{
     font-size: 16px;
     display: inline-table;
 }
+
+
+/*Images*/
 
 #startImage1{
     float: left;
@@ -185,6 +188,8 @@ input[type='submit']{
 }
 
 
+/*Container*/
+
 #startMainBox{
     padding: 2%;
     width: 50%;
@@ -192,7 +197,6 @@ input[type='submit']{
     overflow: auto;
 }
 
-/*Container*/
 #header{
     position: relative;
     width: 100%;
@@ -240,13 +244,10 @@ input[type='submit']{
 }
 
 
-#musicButton{
-    background-color: #aaffaa;
-}
+/*Diverses*/
 
 #gridpane{
     position: relative;
-
 }
 
 #board{
@@ -259,27 +260,6 @@ input[type='submit']{
     width: 21%;
 
 }
-
-#computerCode1, #computerCode2{
-    display: none;
-    resize: none;
-
-}
-
-#computerCode1TextArea, #computerCode2TextArea{
-    overflow-y: scroll;
-    overflow-x: scroll;
-}
-
-#giveUpButton{
-    background-color: firebrick;
-    -webkit-text-fill-color: whitesmoke;
-    margin-top: 12px
-
-}
-
-
-
 
 
 /*schmales Computerfenster*/
@@ -307,6 +287,4 @@ input[type='submit']{
         height: 100%;
         overflow: hidden;
     }
-
-
 }

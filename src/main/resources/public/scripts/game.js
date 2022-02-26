@@ -11,7 +11,6 @@ class Game {
         this.roboterPlaying = false;
 
         $('#boardImage').attr('disabled', true)
-        console.log(this.roboterPlaying);
     }
 
     setRoboterConnected(connected){

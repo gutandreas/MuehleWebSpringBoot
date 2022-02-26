@@ -87,9 +87,7 @@ async function checkAndSendDataGameWatch(){
 }
 
 
-
 function sendDataMenschVsMenschStart(){
-
 
         let player1Name = $("#player1Textfield").val();
         let gameCodeStart = $("#gamecodeStart").val();
@@ -121,14 +119,12 @@ function sendDataMenschVsMenschStart(){
                 $("head").html(head);
                 $("body").html(body);
 
-                //document.body.innerHTML = responseData.html;
                 console.log(responseData);
                 $('#player1NameGameText').text("Player 1: " + player1Name)
                 $('#modusH1').text("Mühle online – Spielmodus: Mensch vs. Mensch")
                 $('#gameCodeH2').text("Gamecode: " + gameCodeStart)
                 $('#playerUuidH2').text("UUID: " + responseData.player1Uuid)
                 $('#playerIndexH2').text(responseData.playerIndex)
-
 
                 if (player1Color == "BLACK"){
                     $('#player1StoneImage').attr('src', 'images/StoneBlack.png')
@@ -141,7 +137,8 @@ function sendDataMenschVsMenschStart(){
                     window.color = "WHITE";
                 }
 
-                window.game = new Game(new Player(player1Name, responseData.player1Uuid, responseData.player1Index), gameCodeStart);
+                window.game = new Game(new Player(player1Name, responseData.player1Uuid, responseData.player1Index),
+                    gameCodeStart);
                 window.uuid = responseData.player1Uuid;
                 window.playerIndex = responseData.player1Index;
                 window.name = player1Name;
@@ -154,8 +151,6 @@ function sendDataMenschVsMenschStart(){
                     "gameCode" : gameCodeStart,
                     "command" : "start"
                 }))
-
-
 
             })
             .catch(function(error) {
@@ -211,8 +206,8 @@ function sendDataMenschVsMenschJoin(){
                     window.color = "WHITE";
                 }
 
-
-                window.game = new Game(new Player(player2Name, responseData.player2Uuid, responseData.player2Index), gameCodeJoin);
+                window.game = new Game(new Player(player2Name, responseData.player2Uuid, responseData.player2Index),
+                    gameCodeJoin);
 
                 if (responseData.roboterConnected){
                     game.setRoboterConnected(true)
@@ -242,9 +237,11 @@ function sendDataMenschVsMenschJoin(){
             .catch(
                 error => {
                     console.log(error)
-                    alert("Der Gamecode wird noch nicht verwendet oder das Spiel ist bereits komplett. Bitte kontrollieren Sie die Eingabe oder starten Sie ein neues Spiel.")}
+                    alert("Der Gamecode wird noch nicht verwendet oder das Spiel ist bereits komplett. " +
+                        "Bitte kontrollieren Sie die Eingabe oder starten Sie ein neues Spiel.")}
             );
 }
+
 
 function sendDataMenschVsComputer(){
 
@@ -280,7 +277,6 @@ function sendDataMenschVsComputer(){
             $("head").html(head);
             $("body").html(body);
 
-            //document.body.innerHTML = responseData.html;
             console.log(responseData);
             $('#player1NameGameText').text("Player 1: " + player1Name)
             $('#player2NameGameText').text("Player 2: " + computerName)
@@ -303,7 +299,8 @@ function sendDataMenschVsComputer(){
                 window.color = "WHITE";
             }
 
-            window.game = new Game(new Player(player1Name, responseData.player1Uuid, responseData.playerIndex), responseData.gameCode);
+            window.game = new Game(new Player(player1Name, responseData.player1Uuid, responseData.playerIndex),
+                responseData.gameCode);
             window.uuid = responseData.player1Uuid;
             window.playerIndex = responseData.playerIndex;
             window.name = player1Name;
@@ -322,10 +319,10 @@ function sendDataMenschVsComputer(){
         });
 }
 
+
 function sendDataGameWatch(){
 
     let gameCode = $('#gamecodeWatch').val();
-
 
     fetch("/index/controller/gameWatch", {
         method: 'POST',
@@ -373,9 +370,6 @@ function sendDataGameWatch(){
                 "gameCode" : gameCode,
                 "command" : "watch",
             }))
-
-
-
         })
         .catch(function(error) {
             console.log(error);
