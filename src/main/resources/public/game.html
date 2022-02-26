@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta name='viewport' content='width=device-width, initial-scale=0.58, maximum-scale=0.58, user-scalable=0'/>
     <meta charset="UTF-8">
@@ -15,111 +16,88 @@
     <script src="scripts/position.js"></script>
     <script src="scripts/move.js"></script>
 </head>
+
 <body>
+    <div id="header">
+        <h1 id="modusH1">Mühle online</h1>
+        <h2 id="gameCodeH2"> </h2>
+        <h2 id="playerUuidH2" style="display: none"> </h2>
+        <h2 id="playerIndexH2" style="display: none"> </h2>
+    </div>
 
-<div id="header">
-    <h1 id="modusH1">Mühle online</h1>
-    <h2 id="gameCodeH2"> </h2>
-    <h2 id="playerUuidH2" style="display: none"> </h2>
-    <h2 id="playerIndexH2" style="display: none"> </h2>
-</div>
-
-
-
-<div id="middle">
-    <div id="score" style="white-space: nowrap;">
-        <h2>Spielstand</h2>
-        <h3 id="rundeText">Spielrunde: 0 </h3>
-        <h3 id="player1NameGameText">Player 1: </h3>
-        <table><td style="width: 25%"><img id="player1StoneImage" style="width: 100%"> </td><td>
-            <h4 class="labelPut" id="putLabel0">Steine gesetzt: 0</h4>
-            <h4 class="labelKilled" id="killedLabel0">Steine gewonnen: 0</h4>
-            <h4 class="labelLost" id="lostLabel0"> Steine verloren: 0</h4></td>
-        </table>
-
-        <br>
-        <h3 id="player2NameGameText">Player 2: </h3>
-        <table><td style="width: 25%"><img id="player2StoneImage" style="width: 100%"> </td><td>
-            <h4 class="labelPut" id="putLabel1">Steine gesetzt: 0</h4>
-            <h4 class="labelKilled" id="killedLabel1">Steine gewonnen: 0</h4>
-            <h4 class="labelLost" id="lostLabel1"> Steine verloren: 0</h4></td>
-        </table>
-        <br>
-        <label class="phaseLabel" id="roboterConnectedLabel">ROBOTER VERBUNDEN</label><br>
-        <div id="progressbar">
-            <div class="color"></div>
+    <div id="middle">
+        <div id="score" style="white-space: nowrap;">
+            <h2>Spielstand</h2>
+            <h3 id="rundeText">Spielrunde: 0 </h3>
+            <h3 id="player1NameGameText">Player 1: </h3>
+            <table><td style="width: 25%"><img id="player1StoneImage" style="width: 100%"> </td><td>
+                <h4 class="labelPut" id="putLabel0">Steine gesetzt: 0</h4>
+                <h4 class="labelKilled" id="killedLabel0">Steine gewonnen: 0</h4>
+                <h4 class="labelLost" id="lostLabel0"> Steine verloren: 0</h4></td>
+            </table>
+            <br>
+            <h3 id="player2NameGameText">Player 2: </h3>
+            <table><td style="width: 25%"><img id="player2StoneImage" style="width: 100%"> </td><td>
+                <h4 class="labelPut" id="putLabel1">Steine gesetzt: 0</h4>
+                <h4 class="labelKilled" id="killedLabel1">Steine gewonnen: 0</h4>
+                <h4 class="labelLost" id="lostLabel1"> Steine verloren: 0</h4></td>
+            </table>
+            <br>
+            <label class="phaseLabel" id="roboterConnectedLabel">ROBOTER VERBUNDEN</label><br>
+            <div id="progressbar">
+                <div class="color"></div>
+            </div>
         </div>
 
-    </div>
-
-
-    <div id="boardImage">
-        <img src="images/Spielfeld.png" style="width: 100%; z-index: -1; min-width: 600px">
-        <div id="r0f0" style="position: absolute; left: 0%; top: 0%; width: 14%; height: 14%; background-color: rgba(0, 0, 0, 0);" onclick="clickOnField(0, 0)"></div>
-        <div id="r0f1" style="position: absolute; left: 43%; top: 0%; width: 14%; height: 14%; background-color: rgba(0, 0, 0, 0);" onclick="clickOnField(0, 1)"></div>
-        <div id="r0f2" style="position: absolute; right: 0%; top: 0%; width: 14%; height: 14%; background-color: rgba(0, 0, 0, 0);" onclick="clickOnField(0, 2)"></div>
-        <div id="r0f3" style="position: absolute; right: 0%; top: 42%; width: 14%; height: 14%; background-color: rgba(0, 0, 0, 0);" onclick="clickOnField(0, 3)"></div>
-        <div id="r0f4" style="position: absolute; bottom: 2.2%; right: 0%; width: 14%; height: 14%; background-color: rgba(0, 0, 0, 0);" onclick="clickOnField(0, 4)"></div>
-        <div id="r0f5" style="position: absolute; bottom: 2.2%; left: 43%; width: 14%; height: 14%; background-color: rgba(0, 0, 0, 0);" onclick="clickOnField(0, 5)"></div>
-        <div id="r0f6" style="position: absolute; bottom: 2.2%; left: 0%; width: 14%; height: 14%; background-color: rgba(0, 0, 0, 0);" onclick="clickOnField(0, 6)"></div>
-        <div id="r0f7" style="position: absolute; top: 42%; left: 0%; width: 14%; height: 14%; background-color: rgba(0, 0, 0, 0);" onclick="clickOnField(0, 7)"></div>
-
-        <div id="r1f0" style="position: absolute; left: 15%; top: 14%; width: 14%; height: 14%; background-color: rgba(0, 0, 0, 0);" onclick="clickOnField(1, 0)"></div>
-        <div id="r1f1" style="position: absolute; left: 43%; top: 14%; width: 14%; height: 14%; background-color: rgba(0, 0, 0, 0);" onclick="clickOnField(1, 1)"></div>
-        <div id="r1f2" style="position: absolute; left: 71%; top: 14%; width: 14%; height: 14%; background-color: rgba(0, 0, 0, 0);" onclick="clickOnField(1, 2)"></div>
-        <div id="r1f3" style="position: absolute; left: 71%; top: 41.5%; width: 14%; height: 14%; background-color: rgba(0, 0, 0, 0);" onclick="clickOnField(1, 3)"></div>
-        <div id="r1f4" style="position: absolute; left: 71%; top: 70%; width: 14%; height: 14%; background-color: rgba(0, 0, 0, 0);" onclick="clickOnField(1, 4)"></div>
-        <div id="r1f5" style="position: absolute; left: 43%; top: 70%; width: 14%; height: 14%; background-color: rgba(0, 0, 0, 0);" onclick="clickOnField(1, 5)"></div>
-        <div id="r1f6" style="position: absolute; left: 15%; top: 70%; width: 14%; height: 14%; background-color: rgba(0, 0, 0, 0);" onclick="clickOnField(1, 6)"></div>
-        <div id="r1f7" style="position: absolute; left: 15%; top: 41.5%; width: 14%; height: 14%; background-color: rgba(0, 0, 0, 0);" onclick="clickOnField(1, 7)"></div>
-
-        <div id="r2f0" style="position: absolute; left: 29%; top: 28%; width: 14%; height: 14%; background-color: rgba(0, 0, 0, 0);" onclick="clickOnField(2, 0)"></div>
-        <div id="r2f1" style="position: absolute; left: 43%; top: 28%; width: 14%; height: 14%; background-color: rgba(0, 0, 0, 0);" onclick="clickOnField(2, 1)"></div>
-        <div id="r2f2" style="position: absolute; left: 57%; top: 28%; width: 14%; height: 14%; background-color: rgba(0, 0, 0, 0);" onclick="clickOnField(2, 2)"></div>
-        <div id="r2f3" style="position: absolute; left: 57%; top: 42%; width: 14%; height: 14%; background-color: rgba(0, 0, 0, 0);" onclick="clickOnField(2, 3)"></div>
-        <div id="r2f4" style="position: absolute; left: 57%; top: 56%; width: 14%; height: 14%; background-color: rgba(0, 0, 0, 0);" onclick="clickOnField(2, 4)"></div>
-        <div id="r2f5" style="position: absolute; left: 43%; top: 56%; width: 14%; height: 14%; background-color: rgba(0, 0, 0, 0);" onclick="clickOnField(2, 5)"></div>
-        <div id="r2f6" style="position: absolute; left: 29%; top: 56%; width: 14%; height: 14%; background-color: rgba(0, 0, 0, 0);" onclick="clickOnField(2, 6)"></div>
-        <div id="r2f7" style="position: absolute; left: 29%; top: 42%; width: 14%; height: 14%; background-color: rgba(0, 0, 0, 0);" onclick="clickOnField(2, 7)"></div>
-
-    </div>
-
-    <div id="log">
-        <h2>Nächster Schritt</h2>
-
-
-        <label class="phaseLabel" id="putPhaseLabel">SETZEN</label><br>
-        <label class="phaseLabel" id="movePhaseLabel">VERSCHIEBEN</label><br>
-        <label class="phaseLabel" id="killPhaseLabel">ENTFERNEN</label><br>
-        <label id="spielverlaufLabel"></label>
-
-        <div>
-            <h2>Chat</h2>
-            <textarea id="messageBox" type="text" style="width: 100%; resize: none" readonly="true" rows="10"></textarea>
-            <br>
-            <input id="messageLine" type="text" style="width: 100%; resize: none" placeholder="Nachricht hier eingeben...">
-            <br>
-            <input class="chatButton" id="messageButton" type="button" value="Nachricht senden"  onclick="sendChatMessage()">
-            <br>
-            <input class="chatButton" id="complimentEnemyButton" type="button" value="Gegner loben" style="background: #ddffdd" onclick="complimentEnemy()">
-            <br>
-            <input class="chatButton" id="offendEnemyButton" type="button" value="Gegner beleidigen" style=" background: peachpuff" onclick="offendEnemy()">
-            <br>
-            <input class="chatButton" id="giveUpButton" type="button" value="💀 Spiel aufgeben 💀"  onclick="giveUp()">
+        <div id="boardImage">
+            <img src="images/Spielfeld.png" style="width: 100%; z-index: -1; min-width: 600px">
+            <div id="r0f0" style="position: absolute; left: 0%; top: 0%; width: 14%; height: 14%; background-color: rgba(0, 0, 0, 0);" onclick="clickOnField(0, 0)"></div>
+            <div id="r0f1" style="position: absolute; left: 43%; top: 0%; width: 14%; height: 14%; background-color: rgba(0, 0, 0, 0);" onclick="clickOnField(0, 1)"></div>
+            <div id="r0f2" style="position: absolute; right: 0%; top: 0%; width: 14%; height: 14%; background-color: rgba(0, 0, 0, 0);" onclick="clickOnField(0, 2)"></div>
+            <div id="r0f3" style="position: absolute; right: 0%; top: 42%; width: 14%; height: 14%; background-color: rgba(0, 0, 0, 0);" onclick="clickOnField(0, 3)"></div>
+            <div id="r0f4" style="position: absolute; bottom: 2.2%; right: 0%; width: 14%; height: 14%; background-color: rgba(0, 0, 0, 0);" onclick="clickOnField(0, 4)"></div>
+            <div id="r0f5" style="position: absolute; bottom: 2.2%; left: 43%; width: 14%; height: 14%; background-color: rgba(0, 0, 0, 0);" onclick="clickOnField(0, 5)"></div>
+            <div id="r0f6" style="position: absolute; bottom: 2.2%; left: 0%; width: 14%; height: 14%; background-color: rgba(0, 0, 0, 0);" onclick="clickOnField(0, 6)"></div>
+            <div id="r0f7" style="position: absolute; top: 42%; left: 0%; width: 14%; height: 14%; background-color: rgba(0, 0, 0, 0);" onclick="clickOnField(0, 7)"></div>
+            <div id="r1f0" style="position: absolute; left: 15%; top: 14%; width: 14%; height: 14%; background-color: rgba(0, 0, 0, 0);" onclick="clickOnField(1, 0)"></div>
+            <div id="r1f1" style="position: absolute; left: 43%; top: 14%; width: 14%; height: 14%; background-color: rgba(0, 0, 0, 0);" onclick="clickOnField(1, 1)"></div>
+            <div id="r1f2" style="position: absolute; left: 71%; top: 14%; width: 14%; height: 14%; background-color: rgba(0, 0, 0, 0);" onclick="clickOnField(1, 2)"></div>
+            <div id="r1f3" style="position: absolute; left: 71%; top: 41.5%; width: 14%; height: 14%; background-color: rgba(0, 0, 0, 0);" onclick="clickOnField(1, 3)"></div>
+            <div id="r1f4" style="position: absolute; left: 71%; top: 70%; width: 14%; height: 14%; background-color: rgba(0, 0, 0, 0);" onclick="clickOnField(1, 4)"></div>
+            <div id="r1f5" style="position: absolute; left: 43%; top: 70%; width: 14%; height: 14%; background-color: rgba(0, 0, 0, 0);" onclick="clickOnField(1, 5)"></div>
+            <div id="r1f6" style="position: absolute; left: 15%; top: 70%; width: 14%; height: 14%; background-color: rgba(0, 0, 0, 0);" onclick="clickOnField(1, 6)"></div>
+            <div id="r1f7" style="position: absolute; left: 15%; top: 41.5%; width: 14%; height: 14%; background-color: rgba(0, 0, 0, 0);" onclick="clickOnField(1, 7)"></div>
+            <div id="r2f0" style="position: absolute; left: 29%; top: 28%; width: 14%; height: 14%; background-color: rgba(0, 0, 0, 0);" onclick="clickOnField(2, 0)"></div>
+            <div id="r2f1" style="position: absolute; left: 43%; top: 28%; width: 14%; height: 14%; background-color: rgba(0, 0, 0, 0);" onclick="clickOnField(2, 1)"></div>
+            <div id="r2f2" style="position: absolute; left: 57%; top: 28%; width: 14%; height: 14%; background-color: rgba(0, 0, 0, 0);" onclick="clickOnField(2, 2)"></div>
+            <div id="r2f3" style="position: absolute; left: 57%; top: 42%; width: 14%; height: 14%; background-color: rgba(0, 0, 0, 0);" onclick="clickOnField(2, 3)"></div>
+            <div id="r2f4" style="position: absolute; left: 57%; top: 56%; width: 14%; height: 14%; background-color: rgba(0, 0, 0, 0);" onclick="clickOnField(2, 4)"></div>
+            <div id="r2f5" style="position: absolute; left: 43%; top: 56%; width: 14%; height: 14%; background-color: rgba(0, 0, 0, 0);" onclick="clickOnField(2, 5)"></div>
+            <div id="r2f6" style="position: absolute; left: 29%; top: 56%; width: 14%; height: 14%; background-color: rgba(0, 0, 0, 0);" onclick="clickOnField(2, 6)"></div>
+            <div id="r2f7" style="position: absolute; left: 29%; top: 42%; width: 14%; height: 14%; background-color: rgba(0, 0, 0, 0);" onclick="clickOnField(2, 7)"></div>
         </div>
 
-
-
+        <div id="log">
+            <h2>Nächster Schritt</h2>
+            <label class="phaseLabel" id="putPhaseLabel">SETZEN</label><br>
+            <label class="phaseLabel" id="movePhaseLabel">VERSCHIEBEN</label><br>
+            <label class="phaseLabel" id="killPhaseLabel">ENTFERNEN</label><br>
+            <label id="spielverlaufLabel"></label>
+            <div>
+                <h2>Chat</h2>
+                <textarea id="messageBox" type="text" style="width: 100%; resize: none" readonly="true" rows="10"></textarea>
+                <br>
+                <input id="messageLine" type="text" style="width: 100%; resize: none" placeholder="Nachricht hier eingeben...">
+                <br>
+                <input class="chatButton" id="messageButton" type="button" value="Nachricht senden"  onclick="sendChatMessage()">
+                <br>
+                <input class="chatButton" id="complimentEnemyButton" type="button" value="Gegner loben" style="background: #ddffdd" onclick="complimentEnemy()">
+                <br>
+                <input class="chatButton" id="offendEnemyButton" type="button" value="Gegner beleidigen" style=" background: peachpuff" onclick="offendEnemy()">
+                <br>
+                <input class="chatButton" id="giveUpButton" type="button" value="💀 Spiel aufgeben 💀"  onclick="giveUp()">
+            </div>
+        </div>
     </div>
-
-
-
-
-</div>
-
-
-<table>
-
-</table>
 </body>
 </html>
