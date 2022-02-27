@@ -7,15 +7,12 @@ function sendData() {
 
     switch (modus){
         case 1: {
-
             if (gamecodemodus == 1) {
                 checkAndSendDataMenschVsMenschStart();
             }
-
             if (gamecodemodus == 2) {
                 checkAndSendDataMenschVsMenschJoin();
             }
-
             break;
         }
         case 2: {
@@ -28,6 +25,7 @@ function sendData() {
         }
     }
 }
+
 
 function checkAndSendDataMenschVsMenschStart() {
 
@@ -46,6 +44,7 @@ function checkAndSendDataMenschVsMenschStart() {
             sendDataMenschVsMenschStart();
 }
 
+
 function checkAndSendDataMenschVsMenschJoin() {
 
     let gameCodeJoin = $("#gamecodeJoin").val();
@@ -62,6 +61,7 @@ function checkAndSendDataMenschVsMenschJoin() {
 
     sendDataMenschVsMenschJoin();
 }
+
 
 function checkAndSendDataMenschVsComputer() {
 
@@ -157,7 +157,7 @@ function sendDataMenschVsMenschStart(){
                 console.log(error)
                 alert("Dieser Gamecode wird bereits verwendet.")
             });
-    }
+}
 
 
 function sendDataMenschVsMenschJoin(){

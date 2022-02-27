@@ -4,6 +4,7 @@ import java.util.*;
 
 
 public class GameTree {
+
     public static final String ANSI_RESET = "\u001B[0m";
     public static final String ANSI_GREEN = "\u001B[32m";
     public static final String ANSI_YELLOW = "\u001B[33m";
@@ -11,7 +12,6 @@ public class GameTree {
     public static final String ANSI_PURPLE = "\u001B[35m";
 
     private GameTreeNode root;
-
 
     public GameTree() {
         root = new GameTreeNode();
@@ -22,7 +22,6 @@ public class GameTree {
         root.getChildren().clear();
         root.setVisited(false);
     }
-
 
     public LinkedList<GameTreeNode> getLeaves() {
 
@@ -37,11 +36,9 @@ public class GameTree {
                 return 0;
             }
             else return 1;
-
         });
 
         return leaves;
-
     }
 
     private void getLeavesRecursive(GameTreeNode currentNode, LinkedList<GameTreeNode> leaves){
@@ -115,7 +112,6 @@ public class GameTree {
         parent.setVisited(true);
         queue.add(parent);
         evaluateGameTreeRecursive(queue);
-
     }
 
     public Position getBestPut(){
@@ -135,8 +131,6 @@ public class GameTree {
         return bestList.get(random.nextInt(bestList.size())).getPut();
     }
 
-
-
     public Move getBestMove(){
 
         evaluateGameTree();
@@ -155,8 +149,6 @@ public class GameTree {
 
     public Position getBestKill(){
 
-        //evaluateGameTree();
-
         LinkedList<GameTreeNode> bestList = new LinkedList<>();
 
         for (GameTreeNode node : root.getChildren()){
@@ -170,9 +162,7 @@ public class GameTree {
     }
 
     public void keepOnlyWorstChildren(GameTreeNode parent, int numberOfChildren){
-        parent.getChildren().sort(new Comparator<GameTreeNode>() {
-            @Override
-            public int compare(GameTreeNode o1, GameTreeNode o2) {
+        parent.getChildren().sort((o1,o2) -> {
                 if (o1.getScore() > o2.getScore()){
                     return 1;
                 }
@@ -180,8 +170,7 @@ public class GameTree {
                     return 0;
                 }
                 else return -1;
-            }
-        });
+            });
 
         Iterator<GameTreeNode> iterator = parent.getChildren().iterator();
 
@@ -199,9 +188,7 @@ public class GameTree {
     }
 
     public void keepOnlyBestChildren(GameTreeNode parent, int numberOfChildren){
-        parent.getChildren().sort(new Comparator<GameTreeNode>() {
-            @Override
-            public int compare(GameTreeNode o1, GameTreeNode o2) {
+        parent.getChildren().sort((o1,o2) ->  {
                 if (o1.getScore() > o2.getScore()){
                     return -1;
                 }
@@ -209,8 +196,7 @@ public class GameTree {
                     return 0;
                 }
                 else return 1;
-            }
-        });
+            });
 
         Iterator<GameTreeNode> iterator = parent.getChildren().iterator();
 
@@ -227,8 +213,6 @@ public class GameTree {
 
     }
 
-
-
     public void addNode(GameTreeNode parent, GameTreeNode child){
         parent.getChildren().add(child);
         child.setParent(parent);
@@ -238,12 +222,9 @@ public class GameTree {
         return root;
     }
 
-
     @Override
     public String toString(){
         String string = "Gametree: \n \n";
-
-        //return toStringRecursive(root, string);
 
         int counter1 = 0;
 
@@ -335,17 +316,4 @@ public class GameTree {
         return string;
     }
 
-    private String toStringRecursive(GameTreeNode node, String string) {
-
-        for (GameTreeNode currentSet : node.getChildren()) {
-            string += "Level: " + currentSet.getLevel() + "\n";
-            string += currentSet.getBoard();
-            string += "Resultierender Score: " + currentSet.getScore() + "\n \n";
-            toStringRecursive(currentSet, string);
-        }
-
-        return string;
-
-
-    }
 }

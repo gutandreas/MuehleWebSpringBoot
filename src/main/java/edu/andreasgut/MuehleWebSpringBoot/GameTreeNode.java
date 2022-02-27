@@ -108,7 +108,6 @@ public class GameTreeNode {
     @Override
     public String toString() {
 
-
         if (put != null){
             if (kill == null){
                 return  "Level " + level + ", Put an " + put + ", Score: " + score + ", Inherited Score: " + inheritedScore + "\n" + board;
@@ -126,7 +125,6 @@ public class GameTreeNode {
                 return  "Level " + level + ", Move an " + move + " mit Kill an " + kill + ", Score: " + ", Inherited Score: " + inheritedScore + score + "\n" + board;
             }
         }
-
 
         return null;}
 }

@@ -14,5 +14,4 @@ public class WebsocketConfiguration implements WebSocketConfigurer {
         webSocketHandlerRegistry.addHandler(new WebsocketHandler(), "/board").setAllowedOrigins("*");
     }
 
-
 }

@@ -116,7 +116,6 @@ public class IndexController {
             return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("Dieser Gamecode existiert nicht " +
                     "oder das Game ist bereits komplett.");
         }
-
     }
 
     @PostMapping(
@@ -161,7 +160,6 @@ public class IndexController {
         jsonResponseObject.put("start", "true");
         jsonResponseObject.put("html", getHTMLContent("game"));
 
-
         return ResponseEntity.status(HttpStatus.OK).body(jsonResponseObject.toString());
     }
 
@@ -195,7 +193,6 @@ public class IndexController {
         jsonResponseObject.put("html", getHTMLContent("gameWatch"));
 
         return ResponseEntity.status(HttpStatus.OK).body(jsonResponseObject.toString());
-
     }
 
 
@@ -203,7 +200,6 @@ public class IndexController {
         System.out.print(color);
         System.out.println(text);
         System.out.print(PRINTCOLOR.RESET);
-
     }
 
     private String generateRandomUUID(){
@@ -212,16 +208,16 @@ public class IndexController {
     }
 
     private String getHTMLContent(String filename){
-        StringBuilder bldr = new StringBuilder();
-        String str;
+        StringBuilder stringBuilder = new StringBuilder();
+        String string;
 
         BufferedReader in;
         try {
             InputStream inputStream = getClass().getResourceAsStream("/public/" + filename + ".html");
             in = new BufferedReader(new InputStreamReader(inputStream));
 
-            while((str = in.readLine())!=null)
-                bldr.append(str);
+            while((string = in.readLine())!=null)
+                stringBuilder.append(string);
 
             in.close();
         } catch (FileNotFoundException e) {
@@ -230,10 +226,9 @@ public class IndexController {
             e.printStackTrace();
         }
 
-        String content = bldr.toString();
+        String content = stringBuilder.toString();
 
         return content;
     }
-
 
 }

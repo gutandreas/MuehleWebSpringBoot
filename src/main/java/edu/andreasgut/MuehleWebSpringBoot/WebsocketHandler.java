@@ -95,7 +95,6 @@ public class WebsocketHandler extends TextWebSocketHandler {
                     break;
 
                 case "update":
-
                     String action = jsonObject.getString("action");
                     String playerUuid = jsonObject.getString("playerUuid");
                     int playerIndex = game.getPlayerIndexByUuid(playerUuid);
@@ -135,7 +134,6 @@ public class WebsocketHandler extends TextWebSocketHandler {
 
                     if (action.equals("move")) {
 
-
                         boolean allowedToJump = game.getBoard().numberOfStonesOf(playerIndex) == 3;
 
                         Position from = new Position();
@@ -171,6 +169,7 @@ public class WebsocketHandler extends TextWebSocketHandler {
 
                     }
 
+
                     if (action.equals("kill")){
 
                         int killRing = jsonObject.getInt("ring");
@@ -195,17 +194,12 @@ public class WebsocketHandler extends TextWebSocketHandler {
                         else {
                             sendExceptionMessageToSender(session, "Ungültiger Kill");
                         }
-
-
-
                     }
             }
         }
         else {
             sendExceptionMessageToSender(session, "Game mit Code " + gameCode + " existiert nicht.");
         }
-
-
     }
 
     private void triggerNextComputerStep(String gameCode, int playerIndex, int enemysIndex){
@@ -218,7 +212,6 @@ public class WebsocketHandler extends TextWebSocketHandler {
         else {
             GameControllerWebsocket.computerMoves(gameCode, game, playerIndex, enemysIndex);
         }
-
     }
 
     private void sendMessageWithExceptionHandling(Game game, WebSocketSession session, String message){

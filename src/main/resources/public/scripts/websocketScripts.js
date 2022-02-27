@@ -146,10 +146,10 @@ function onMessage(evt){
 
 }
 
+
 function onError(evt){
     alert("Websocket Error")
 }
-
 
 
 // https://dev.to/ndrbrt/wait-for-the-websocket-connection-to-be-open-before-sending-a-message-1h12, 9. Septemberr 2021

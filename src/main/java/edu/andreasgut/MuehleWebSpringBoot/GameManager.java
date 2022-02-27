@@ -29,9 +29,9 @@ public class GameManager {
 
     public static synchronized boolean doesGameExist(String gameCode){
         return gameMap.containsKey(gameCode);
-   }
+    }
 
-   public static synchronized boolean hasGameAlreadyStarted(String gameCode) {
+    public static synchronized boolean hasGameAlreadyStarted(String gameCode) {
         return gameMap.get(gameCode).isGameStarted();
     }
 }

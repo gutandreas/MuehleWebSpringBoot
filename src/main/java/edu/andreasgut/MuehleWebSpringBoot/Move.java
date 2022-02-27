@@ -28,7 +28,6 @@ public class Move {
         this.to = to;
     }
 
-
     @Override
     public String toString(){
         return "Zug von Feld " + getFrom().getRing() + "/" + getFrom().getField()

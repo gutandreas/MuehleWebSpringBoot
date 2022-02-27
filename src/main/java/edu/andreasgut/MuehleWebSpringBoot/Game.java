@@ -17,7 +17,7 @@ public class Game {
     private boolean roboterConnected;
     private boolean roboterWatching;
     private boolean roboterPlaying;
-    private LinkedList<WebSocketSession> sessionList = new LinkedList<>(); // Maximal 100 Teilnehmer pro Game
+    private LinkedList<WebSocketSession> sessionList = new LinkedList<>();
 
     private ArrayList<Player> playerArrayList = new ArrayList<>();
 
@@ -56,6 +56,10 @@ public class Game {
         }
     }
 
+    public void increaseRound(){
+        round++;
+    }
+
     public LinkedList<WebSocketSession> getSessionList() {
         return sessionList;
     }
@@ -92,10 +96,6 @@ public class Game {
         else {
             return 1;
         }
-    }
-
-    public void increaseRound(){
-        round++;
     }
 
     public Board getBoard() {

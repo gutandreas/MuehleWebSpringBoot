@@ -23,6 +23,7 @@ public class GameControllerWebsocket {
         if (game.getBoard().isPositionPartOfMorris(putPositionComp) && game.getBoard().canPlayerKill(enemysIndex)){
             computerKills(gameCode, game, playerIndex, enemysIndex);
         }
+
         game.increaseRound();
     }
 
@@ -44,6 +45,7 @@ public class GameControllerWebsocket {
                 GameManager.removeGame(gameCode);
             }
         }
+
         game.increaseRound();
     }
 
@@ -109,6 +111,7 @@ public class GameControllerWebsocket {
         }
     }
 
+
     static private void computerSendsKillMessage(String gameCode, Player computerPlayer, Position position){
         String uuid = computerPlayer.getUuid();
 
@@ -132,6 +135,7 @@ public class GameControllerWebsocket {
             }
         }
     }
+
 
     public static void sendGameOverMessage(String gameCode, int loserIndex, String details){
 
