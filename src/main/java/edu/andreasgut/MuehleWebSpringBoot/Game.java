@@ -130,8 +130,16 @@ public class Game {
         this.roboterConnected = roboterConnected;
     }
 
+    public boolean isRoboterWatching() {
+        return roboterWatching;
+    }
+
     public void setRoboterWatching(boolean roboterWatching) {
         this.roboterWatching = roboterWatching;
+    }
+
+    public boolean isRoboterPlaying() {
+        return roboterPlaying;
     }
 
     public void setRoboterPlaying(boolean roboterPlaying) {

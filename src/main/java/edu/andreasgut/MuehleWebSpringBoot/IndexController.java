@@ -91,19 +91,14 @@ public class IndexController {
 
             game.setPlayer1(new HumanPlayer(player2Name, generateRandomUUID(), player2StoneColor));
 
-            boolean roboterWatching = false;
-            if (GameManager.getGame(gameCode).isRoboterConnected()){
-                roboterWatching = true;
-            }
-
             JSONObject jsonResponseObject = new JSONObject();
             jsonResponseObject.put("player1Name", GameManager.getGame(gameCode).getPlayer0().getName());
             jsonResponseObject.put("player2Color", player2StoneColor);
             jsonResponseObject.put("player2Uuid", game.getPlayer1().getUuid());
             jsonResponseObject.put("player2Index", 1);
             jsonResponseObject.put("roboterConnected", GameManager.getGame(gameCode).isRoboterConnected());
-            jsonResponseObject.put("roboterWatching", roboterWatching);
-            jsonResponseObject.put("roboterPlaying", false);
+            jsonResponseObject.put("roboterWatching", GameManager.getGame(gameCode).isRoboterWatching());
+            jsonResponseObject.put("roboterPlaying", GameManager.getGame(gameCode).isRoboterPlaying());
             jsonResponseObject.put("html", getHTMLContent("game"));
 
             return ResponseEntity.status(HttpStatus.OK).body(jsonResponseObject.toString());
