@@ -173,13 +173,13 @@ public class Advisor {
     }
 
 
-    static public int numberOfMyTwoStonesTogetherWithFreeFieldBeside(Board board, int ownPlayerIndex){
+    static public int numberOfMyTwoStonesTogetherWithFreePositionBeside(Board board, int ownPlayerIndex){
         int counter = 0;
 
         for (int ring = 0; ring < 3; ring++) {
             for (int field = 0; field < 8; field++) {
                 if (board.isThisMyStone(new Position(ring, field), ownPlayerIndex)
-                        && positionBuildsTwoStonesTogetherWithFreeFieldBeside(board, new Position(ring, field), ownPlayerIndex)){
+                        && positionBuildsTwoStonesTogetherWithFreePositionBeside(board, new Position(ring, field), ownPlayerIndex)){
                     counter++;
                 }
             }}
@@ -187,14 +187,14 @@ public class Advisor {
     }
 
 
-    static public int numberOfMyEnemysTwoStonesTogetherWithFreeFieldBeside(Board board, int ownPlayerIndex){
+    static public int numberOfMyEnemysTwoStonesTogetherWithFreePositionBeside(Board board, int ownPlayerIndex){
         int enemyIndex = 1-ownPlayerIndex;
         int counter = 0;
 
         for (int ring = 0; ring < 3; ring++) {
             for (int field = 0; field < 8; field++) {
                 if (board.isThisMyEnemysStone(new Position(ring, field), ownPlayerIndex)
-                        && positionBuildsTwoStonesTogetherWithFreeFieldBeside(board, new Position(ring, field), enemyIndex)){
+                        && positionBuildsTwoStonesTogetherWithFreePositionBeside(board, new Position(ring, field), enemyIndex)){
                     counter++;
                 }
             }}
@@ -202,7 +202,7 @@ public class Advisor {
     }
 
 
-    static public boolean positionBuildsTwoStonesTogetherWithFreeFieldBeside(Board board, Position position, int playerIndex){
+    static public boolean positionBuildsTwoStonesTogetherWithFreePositionBeside(Board board, Position position, int playerIndex){
         if (position.getField()%2==1){ // Ungerade Felder
 
             // Über Ringe hinweg
@@ -527,7 +527,7 @@ public class Advisor {
         int myOpenMorrises = getMyOpenMorrises(board, playerIndex).size();
         int myClosedMorrises = getMyClosedMorrises(board, playerIndex).size();
         int myNumberOfStones = numberOfOwnStones(board, playerIndex);
-        int myNumberOfTwoStonesTogether = numberOfMyTwoStonesTogetherWithFreeFieldBeside(board, playerIndex);
+        int myNumberOfTwoStonesTogether = numberOfMyTwoStonesTogetherWithFreePositionBeside(board, playerIndex);
         int myNumberOfTwoStonesWithGap = numberOfMyTwoStonesWithGap(board, playerIndex);
         int myPossibleMoves = getAllPossibleMoves(board, playerIndex).size();
 
@@ -541,7 +541,7 @@ public class Advisor {
         int myEnemysOpenMorrises = getMyEnemysOpenMorrises(board, playerIndex).size();
         int myEnemysClosedMorrises = getMyEnemysClosedMorrises(board, playerIndex).size();
         int myEnemysNumberOfStones = numberOfEnemysStones(board, playerIndex);
-        int myEnemysNumberOfTwoStonesTogether = numberOfMyEnemysTwoStonesTogetherWithFreeFieldBeside(board, playerIndex);
+        int myEnemysNumberOfTwoStonesTogether = numberOfMyEnemysTwoStonesTogetherWithFreePositionBeside(board, playerIndex);
         int myEnemysNumberOfTwoStonesWithGap = numberOfMyEnemysTwoStonesWithGap(board, playerIndex);
         int myEnemysPossiblesMoves = getAllPossibleMoves(board, playerIndex).size();
 
