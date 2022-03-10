@@ -1,10 +1,10 @@
 var animationspeed = 150;
 
-function organizeMenu(number){
+function organizeMenu(number) {
 
     setModus(number);
 
-    switch (number){
+    switch (number) {
         case 1:
             $('#gamecode').show(animationspeed)
             $('#gamecodeWatch').hide(animationspeed)
@@ -61,19 +61,19 @@ function organizeGameCodeSettings(number) {
 }
 
 
-function changeSwitchToOpposite(oppositeElement){
+function changeSwitchToOpposite(oppositeElement) {
 
-    if ($('#'.concat(oppositeElement)).prop('checked')){
-        $('#'.concat(oppositeElement)).prop('checked', false)}
-    else {
+    if ($('#'.concat(oppositeElement)).prop('checked')) {
+        $('#'.concat(oppositeElement)).prop('checked', false)
+    } else {
         $('#'.concat(oppositeElement)).prop('checked', true)
     }
 }
 
-function setModus(modus){
+function setModus(modus) {
     window.modus = modus;
 }
 
-function setGamecodeModus(gamecodeModus){
+function setGamecodeModus(gamecodeModus) {
     window.gamecodemodus = gamecodeModus;
 }

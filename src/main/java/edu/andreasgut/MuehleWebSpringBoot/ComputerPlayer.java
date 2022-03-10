@@ -32,36 +32,34 @@ public class ComputerPlayer extends Player {
         return gameTree.getBestPut();
     }
 
-    private void recursivePutBfs(GameTreeNode set, ScorePoints putPoints, ScorePoints movePoints, int scorePlayerIndex, int currentPlayerIndex, int levelLimit){
+    private void recursivePutBfs(GameTreeNode set, ScorePoints putPoints, ScorePoints movePoints, int scorePlayerIndex, int currentPlayerIndex, int levelLimit) {
 
-        if (set.getLevel()==levelLimit){
+        if (set.getLevel() == levelLimit) {
             return;
         }
 
         int tempCurrentPlayerIndex;
 
-        if (set.getLevel()%2 == 0){
+        if (set.getLevel() % 2 == 0) {
             tempCurrentPlayerIndex = scorePlayerIndex;
-        }
-        else {
+        } else {
             tempCurrentPlayerIndex = 1 - scorePlayerIndex;
         }
 
-        for (Position freeField : Advisor.getFreePostitions(set.getBoard())){
-            pretendPut(set.getBoard(), freeField, putPoints, set, scorePlayerIndex, tempCurrentPlayerIndex, set.getLevel()+1);
+        for (Position freeField : Advisor.getFreePostitions(set.getBoard())) {
+            pretendPut(set.getBoard(), freeField, putPoints, set, scorePlayerIndex, tempCurrentPlayerIndex, set.getLevel() + 1);
         }
 
-        if (set.getLevel()%2 == 0){
-            gameTree.keepOnlyBestChildren(set, 9);}
-        else {
+        if (set.getLevel() % 2 == 0) {
+            gameTree.keepOnlyBestChildren(set, 9);
+        } else {
             gameTree.keepOnlyWorstChildren(set, 9);
         }
 
-        for (GameTreeNode child : set.getChildren()){
-            if (game.getRound() + child.getLevel() < 18){
+        for (GameTreeNode child : set.getChildren()) {
+            if (game.getRound() + child.getLevel() < 18) {
                 recursivePutBfs(child, putPoints, movePoints, scorePlayerIndex, tempCurrentPlayerIndex, levelLimit);
-            }
-            else {
+            } else {
                 recursiveMoveBfs(child, movePoints, scorePlayerIndex, tempCurrentPlayerIndex, levelLimit);
             }
 
@@ -69,7 +67,7 @@ public class ComputerPlayer extends Player {
     }
 
 
-    private void pretendPut(Board board, Position put, ScorePoints scorePoints, GameTreeNode parent, int scorePlayerIndex, int currentPlayerIndex, int level){
+    private void pretendPut(Board board, Position put, ScorePoints scorePoints, GameTreeNode parent, int scorePlayerIndex, int currentPlayerIndex, int level) {
 
         GameTreeNode gameTreeNode1 = new GameTreeNode();
         gameTreeNode1.setPut(put);
@@ -82,9 +80,8 @@ public class ComputerPlayer extends Player {
         gameTreeNode1.setScore(Advisor.getScore(gameTreeNode1, scorePoints, scorePlayerIndex));
 
 
-
-        if (gameTreeNode1.getBoard().isPositionPartOfMorris(gameTreeNode1.getPut())){
-            for (Position killPosition : Advisor.getAllPossibleKills(clonedBoard1,currentPlayerIndex)){
+        if (gameTreeNode1.getBoard().isPositionPartOfMorris(gameTreeNode1.getPut())) {
+            for (Position killPosition : Advisor.getAllPossibleKills(clonedBoard1, currentPlayerIndex)) {
                 GameTreeNode gameTreeNode2 = new GameTreeNode();
                 gameTreeNode2.setPut(put);
                 gameTreeNode2.setLevel(level);
@@ -97,8 +94,7 @@ public class ComputerPlayer extends Player {
                 gameTreeNode2.setScore(Advisor.getScore(gameTreeNode2, scorePoints, scorePlayerIndex));
                 gameTree.addNode(parent, gameTreeNode2);
             }
-        }
-        else {
+        } else {
             gameTree.addNode(parent, gameTreeNode1);
         }
 
@@ -118,39 +114,38 @@ public class ComputerPlayer extends Player {
     }
 
 
-    private void recursiveMoveBfs(GameTreeNode set, ScorePoints scorePoints, int scorePlayerIndex, int currentPlayerIndex, int levelLimit){
+    private void recursiveMoveBfs(GameTreeNode set, ScorePoints scorePoints, int scorePlayerIndex, int currentPlayerIndex, int levelLimit) {
 
-        if (set.getLevel()==levelLimit){
+        if (set.getLevel() == levelLimit) {
             return;
         }
 
         int tempCurrentPlayerIndex;
 
-        if (set.getLevel()%2 == 0){
+        if (set.getLevel() % 2 == 0) {
             tempCurrentPlayerIndex = scorePlayerIndex;
-        }
-        else {
+        } else {
             tempCurrentPlayerIndex = 1 - scorePlayerIndex;
         }
 
-        for (Move move : Advisor.getAllPossibleMoves(set.getBoard(), tempCurrentPlayerIndex)){
-            pretendMove(set.getBoard(), move, scorePoints, set, scorePlayerIndex, tempCurrentPlayerIndex, set.getLevel()+1);
+        for (Move move : Advisor.getAllPossibleMoves(set.getBoard(), tempCurrentPlayerIndex)) {
+            pretendMove(set.getBoard(), move, scorePoints, set, scorePlayerIndex, tempCurrentPlayerIndex, set.getLevel() + 1);
         }
 
-        if (set.getLevel()%2 == 0){
-            gameTree.keepOnlyBestChildren(set, 9);}
-        else {
+        if (set.getLevel() % 2 == 0) {
+            gameTree.keepOnlyBestChildren(set, 9);
+        } else {
             gameTree.keepOnlyWorstChildren(set, 9);
         }
 
 
-        for (GameTreeNode child : set.getChildren()){
+        for (GameTreeNode child : set.getChildren()) {
             recursiveMoveBfs(child, scorePoints, scorePlayerIndex, tempCurrentPlayerIndex, levelLimit);
         }
     }
 
 
-    private void pretendMove(Board board, Move move, ScorePoints scorePoints, GameTreeNode parent, int scorePlayerIndex, int currentPlayerIndex, int level){
+    private void pretendMove(Board board, Move move, ScorePoints scorePoints, GameTreeNode parent, int scorePlayerIndex, int currentPlayerIndex, int level) {
 
         GameTreeNode gameTreeNode1 = new GameTreeNode();
         gameTreeNode1.setMove(move);
@@ -162,8 +157,8 @@ public class ComputerPlayer extends Player {
         gameTreeNode1.setBoard(clonedBoard1);
         gameTreeNode1.setScore(Advisor.getScore(gameTreeNode1, scorePoints, scorePlayerIndex));
 
-        if (gameTreeNode1.getBoard().isPositionPartOfMorris(gameTreeNode1.getMove().getTo())){
-            for (Position killPosition : Advisor.getAllPossibleKills(clonedBoard1,currentPlayerIndex)){
+        if (gameTreeNode1.getBoard().isPositionPartOfMorris(gameTreeNode1.getMove().getTo())) {
+            for (Position killPosition : Advisor.getAllPossibleKills(clonedBoard1, currentPlayerIndex)) {
                 GameTreeNode gameTreeNode2 = new GameTreeNode();
                 gameTreeNode2.setMove(move);
                 gameTreeNode2.setLevel(level);
@@ -176,15 +171,14 @@ public class ComputerPlayer extends Player {
                 gameTreeNode2.setScore(Advisor.getScore(gameTreeNode2, scorePoints, scorePlayerIndex));
                 gameTree.addNode(parent, gameTreeNode2);
             }
-        }
-        else {
+        } else {
             gameTree.addNode(parent, gameTreeNode1);
         }
     }
 
 
     @Override
-    Position kill(Board board,  int otherPlayerIndex) {
+    Position kill(Board board, int otherPlayerIndex) {
 
         return gameTree.getBestKill();
 

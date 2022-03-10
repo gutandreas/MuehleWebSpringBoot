@@ -22,81 +22,79 @@ var player2KilledStones = 0;
 var player2LostStones = 0;
 
 
-function nextStep(ring, field){
+function nextStep(ring, field) {
 
     console.log("Position " + ring + "/" + field + " angeklickt");
 
-    if (myTurn && !gameOver && enemyLoggedIn && !watingForRoboter){
+    if (myTurn && !gameOver && enemyLoggedIn && !watingForRoboter) {
 
-        if (kill){
+        if (kill) {
             killStone(ring, field);
-        }
-        else {  // put-Phase
-                if (game.round < 18 && !kill){
-                    putStone(ring, field);
-                    return;
-                    }
+        } else {  // put-Phase
+            if (game.round < 18 && !kill) {
+                putStone(ring, field);
+                return;
+            }
 
-                // move-Phase
-                if (game.round >= 18 && !kill){
-                    if (moveTakePosition == null){
-                        moveTakePosition = moveStoneTakeStep(ring,field);
+            // move-Phase
+            if (game.round >= 18 && !kill) {
+                if (moveTakePosition == null) {
+                    moveTakePosition = moveStoneTakeStep(ring, field);
 
+                } else {
+                    moveReleasePosition = moveStoneReleaseStep(ring, field);
+                    console.log(moveReleasePosition)
+                    //Stein an gleiche Position zurücklegen
+                    if (moveTakePosition.ring === moveReleasePosition.ring && moveTakePosition.field === moveReleasePosition.field) {
+                        moveTakePosition = null;
+                        fadeStone(ring, field, 500, true)
                     }
+                    //Stein an neue Position setzen
                     else {
-                        moveReleasePosition = moveStoneReleaseStep(ring, field);
-                        console.log(moveReleasePosition)
-                        //Stein an gleiche Position zurücklegen
-                        if (moveTakePosition.ring === moveReleasePosition.ring && moveTakePosition.field === moveReleasePosition.field){
-                            moveTakePosition = null;
-                            fadeStone(ring, field, 500, true)}
-                        //Stein an neue Position setzen
-                        else {
-                            moveStone(new Move(moveTakePosition, moveReleasePosition))
-                            moveTakePosition = null;
-                            }
+                        moveStone(new Move(moveTakePosition, moveReleasePosition))
+                        moveTakePosition = null;
+                    }
 
-                        }
-                }}
-    }
-    else {
-        if (gameOver){
+                }
+            }
+        }
+    } else {
+        if (gameOver) {
             alert("Das Spiel ist bereits zu Ende...");
             return;
         }
-        if (!myTurn){
+        if (!myTurn) {
             alert("Sie sind nicht an der Reihe. Warten Sie auf den Zug des Gegenspielers.");
             return;
         }
-        if (!enemyLoggedIn){
+        if (!enemyLoggedIn) {
             alert("Bitte warten Sie, bis Ihr Gegenspieler eingeloggt ist.")
             return;
         }
-        if (watingForRoboter){
+        if (watingForRoboter) {
             alert("Bitte warten Sie, bis der Roboter den Zug ausgeführt hat.")
-            return;
+
         }
     }
 }
 
 
-function editMyTurn(isMyTurn, isKill){
+function editMyTurn(isMyTurn, isKill) {
 
     myTurn = isMyTurn;
     kill = isKill;
 
-    if (isMyTurn){
-        if (game.isRoboterWatching() || (game.isRoboterPlaying() && isKill)){
+    if (isMyTurn) {
+        if (game.isRoboterWatching() || (game.isRoboterPlaying() && isKill)) {
             waitForRoboter();
         }
-        if (isKill){
+        if (isKill) {
             $('#spielverlaufLabel').text(name + " darf einen Stein entfernen");
             removeAllPhaseLabelClasses();
             $("#killPhaseLabel").addClass("killPhaseLabel");
-        }
-        else {
+        } else {
             //put-Phase
-            if (game.round < 18){
+            if (game.round < 18) {
                 $('#spielverlaufLabel').text(name + " darf einen Stein setzen");
                 removeAllPhaseLabelClasses();
                 $("#putPhaseLabel").addClass("putPhaseLabel");
@@ -108,15 +106,13 @@ function editMyTurn(isMyTurn, isKill){
                 $("#movePhaseLabel").addClass("movePhaseLabel");
             }
         }
-    }
-    else {
-        if (isKill){
+    } else {
+        if (isKill) {
             $('#spielverlaufLabel').text(enemyName + " darf einen Stein entfernen");
             removeAllPhaseLabelClasses();
-        }
-        else {
+        } else {
             //put-Phase
-            if (game.round < 18){
+            if (game.round < 18) {
                 $('#spielverlaufLabel').text(enemyName + " darf einen Stein setzen")
                 removeAllPhaseLabelClasses()
             }
@@ -130,19 +126,19 @@ function editMyTurn(isMyTurn, isKill){
 }
 
 
-function removeAllPhaseLabelClasses(){
+function removeAllPhaseLabelClasses() {
     $("#putPhaseLabel").removeClass("putPhaseLabel");
     $("#movePhaseLabel").removeClass("movePhaseLabel");
     $("#killPhaseLabel").removeClass("killPhaseLabel");
 }
 
 
-function waitForRoboter(){
+function waitForRoboter() {
     setRoboterWaiting(true)
     console.log("Auf Roboter warten...")
     $("#progressbar").addClass("progress");
 
-    setTimeout(function() {
+    setTimeout(function () {
         setRoboterWaiting(false);
         console.log("Fertig gewartet.")
         $("#progressbar").removeClass("progress");
@@ -150,57 +146,58 @@ function waitForRoboter(){
 }
 
 
-function putStone(ring, field){
+function putStone(ring, field) {
 
-   if (game.board.isPositionFree(new Position(ring, field))){
-       game.board.putStone(new Position(ring, field), playerIndex)
-       increaseRound();
-       putStoneGraphic(ring, field, playerIndex);
-           if (game.board.isInMorris(new Position(ring, field))
-               && (game.board.canPlayerKill(playerIndex)
-                   || (game.board.numberOfStonesOf(1-playerIndex) == 3 && game.round > 18))){
-               editMyTurn(true, true);
-           }
-           else {
-               editMyTurn(false, false)
-               }
+    if (game.board.isPositionFree(new Position(ring, field))) {
+        game.board.putStone(new Position(ring, field), playerIndex)
+        increaseRound();
+        putStoneGraphic(ring, field, playerIndex);
+        if (game.board.isInMorris(new Position(ring, field))
+            && (game.board.canPlayerKill(playerIndex)
+                || (game.board.numberOfStonesOf(1 - playerIndex) == 3 && game.round > 18))) {
+            editMyTurn(true, true);
+        } else {
+            editMyTurn(false, false)
+        }
 
-           sendMessage(websocket, JSON.stringify({
-               "gameCode": game.gamecode,
-               "playerUuid": game.player.getUuid(),
-               "playerIndex": playerIndex,
-               "command" : "update",
-               "action": "put",
-               "ring": ring,
-               "field": field,
-               "callComputer": !myTurn,
-               "triggerAxidraw": true}))
-           }
-   else {
-       alert("Dieses Feld ist nicht frei");
-   }
+        sendMessage(websocket, JSON.stringify({
+            "gameCode": game.gamecode,
+            "playerUuid": game.player.getUuid(),
+            "playerIndex": playerIndex,
+            "command": "update",
+            "action": "put",
+            "ring": ring,
+            "field": field,
+            "callComputer": !myTurn,
+            "triggerAxidraw": true
+        }))
+    } else {
+        alert("Dieses Feld ist nicht frei");
+    }
 }
 
 
-function moveStoneTakeStep(ring, field){
-    if (game.board.isThisMyStone(new Position(ring, field), playerIndex)){
+function moveStoneTakeStep(ring, field) {
+    if (game.board.isThisMyStone(new Position(ring, field), playerIndex)) {
         fadeStone(ring, field, 500, false);
-        return new Position(ring, field);}
-    else {
-        alert("Auf diesem Feld befindet sich keiner deiner Steine")}
+        return new Position(ring, field);
+    } else {
+        alert("Auf diesem Feld befindet sich keiner deiner Steine")
+    }
 }
 
 
-function moveStoneReleaseStep(ring, field){
+function moveStoneReleaseStep(ring, field) {
     var position = new Position(ring, field);
-    if (game.board.isPositionFree(position) || (moveTakePosition.ring == ring && moveTakePosition.field == field)){
-        return position;}
-    else {
-        alert("Dieses Feld ist nicht frei!")}
+    if (game.board.isPositionFree(position) || (moveTakePosition.ring == ring && moveTakePosition.field == field)) {
+        return position;
+    } else {
+        alert("Dieses Feld ist nicht frei!")
+    }
 }
 
 
-function moveStone(move){
+function moveStone(move) {
     if (game.board.isMovePossibleAt(move, game.board.numberOfStonesOf(playerIndex) == 3)) {
         game.board.moveStone(move, playerIndex);
         increaseRound();
@@ -225,59 +222,61 @@ function moveStone(move){
             "callComputer": !myTurn,
             "triggerAxidraw": true
         }))
-    }
-    else {
+    } else {
         alert("Das ist kein gültiger Zug!")
-        fadeStone(move.fromPosition.getRing(), move.fromPosition.getField(), 500, true)}
+        fadeStone(move.fromPosition.getRing(), move.fromPosition.getField(), 500, true)
+    }
 }
 
 
-function killStone(ring, field){
-    if (game.board.isKillPossibleAt(new Position(ring, field), 1-playerIndex)){
+function killStone(ring, field) {
+    if (game.board.isKillPossibleAt(new Position(ring, field), 1 - playerIndex)) {
         game.board.removeStone(new Position(ring, field));
         clearStoneGraphic(ring, field, playerIndex);
         editMyTurn(false, false);
         sendMessage(websocket, JSON.stringify({
             "gameCode": game.gamecode,
             "playerUuid": game.player.getUuid(),
-            "command" : "update",
+            "command": "update",
             "action": "kill",
             "ring": ring,
             "field": field,
             "callComputer": true,
             "triggerAxidraw": true
         }))
-        }
-    else {
-        alert("Auf diesem Feld kann kein Stein entfernt werden!")}
+    } else {
+        alert("Auf diesem Feld kann kein Stein entfernt werden!")
+    }
 }
 
 
-function increaseRound(){
+function increaseRound() {
     game.round++;
     $("#rundeText").text("Spielrunde: " + game.round)
 }
 
 
-function putStoneGraphic(ring, field, index){
-    if (index == playerIndex){
-        if (color == "BLACK"){
-        $('#'.concat("r").concat(ring).concat("f").concat(field)).prepend('<img src="images/StoneBlack.png" height="100%" width="100%"/>');}
-        if (color == "WHITE"){
-            $('#'.concat("r").concat(ring).concat("f").concat(field)).prepend('<img src="images/StoneWhite.png" height="100%" width="100%"/>');}
-    }
-    else {
-        if (color == "WHITE"){
-            $('#'.concat("r").concat(ring).concat("f").concat(field)).prepend('<img src="images/StoneBlack.png" height="100%" width="100%"/>');}
-        if (color == "BLACK"){
-            $('#'.concat("r").concat(ring).concat("f").concat(field)).prepend('<img src="images/StoneWhite.png" height="100%" width="100%"/>');}
+function putStoneGraphic(ring, field, index) {
+    if (index == playerIndex) {
+        if (color == "BLACK") {
+            $('#'.concat("r").concat(ring).concat("f").concat(field)).prepend('<img src="images/StoneBlack.png" height="100%" width="100%"/>');
+        }
+        if (color == "WHITE") {
+            $('#'.concat("r").concat(ring).concat("f").concat(field)).prepend('<img src="images/StoneWhite.png" height="100%" width="100%"/>');
+        }
+    } else {
+        if (color == "WHITE") {
+            $('#'.concat("r").concat(ring).concat("f").concat(field)).prepend('<img src="images/StoneBlack.png" height="100%" width="100%"/>');
+        }
+        if (color == "BLACK") {
+            $('#'.concat("r").concat(ring).concat("f").concat(field)).prepend('<img src="images/StoneWhite.png" height="100%" width="100%"/>');
+        }
     }
 
-    if (index == 0){
+    if (index == 0) {
         player1PutStones++;
         $("#putLabel0").text("Steine gesetzt: " + player1PutStones)
-    }
-    else {
+    } else {
         player2PutStones++;
         $("#putLabel1").text("Steine gesetzt: " + player2PutStones)
     }
@@ -285,10 +284,9 @@ function putStoneGraphic(ring, field, index){
 
 
 function fadeStone(ring, field, speed, fadeIn) {
-    if (fadeIn){
+    if (fadeIn) {
         $('#'.concat("r").concat(ring).concat("f").concat(field)).find("img").fadeTo(speed, 1);
-    }
-    else {
+    } else {
         $('#'.concat("r").concat(ring).concat("f").concat(field)).find("img").fadeTo(speed, 0.5);
     }
 }
@@ -318,15 +316,14 @@ function moveStoneGraphic(move, index) {
 }
 
 
-function clearStoneGraphic(ring, field, killingPlayerIndex){
+function clearStoneGraphic(ring, field, killingPlayerIndex) {
 
-    if (killingPlayerIndex == 0){
+    if (killingPlayerIndex == 0) {
         player1KilledStones++;
         player2LostStones++;
         $("#killedLabel0").text("Steine gewonnen: " + player1KilledStones)
         $("#lostLabel1").text("Steine verloren: " + player2LostStones)
-    }
-    else {
+    } else {
         player2KilledStones++;
         player1LostStones++;
         $("#killedLabel1").text("Steine gewonnen: " + player2KilledStones)
@@ -336,12 +333,12 @@ function clearStoneGraphic(ring, field, killingPlayerIndex){
 }
 
 
-function setRoboterWaiting(waiting){
+function setRoboterWaiting(waiting) {
     watingForRoboter = waiting;
 }
 
 
-function getIndexPage(){
+function getIndexPage() {
     fetch('/index/loadIndex', {method: 'GET'})
         .then((response) => {
             return response.text();

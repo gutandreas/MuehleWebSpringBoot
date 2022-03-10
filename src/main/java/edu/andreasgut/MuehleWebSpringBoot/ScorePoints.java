@@ -67,61 +67,86 @@ public class ScorePoints {
         return enemyPossibleMovesPoints;
     }
 
-    public int getValueByIndex(int index){
-        switch (index){
-            case 0: return ownNumberOfStonesPoints;
-            case 1: return ownClosedMorrisPoints;
-            case 2: return ownOpenMorrisPoints;
-            case 3: return ownTwoStonesTogetherPoints;
-            case 4: return ownTwoStonesWithGapPoints;
-            case 5: return ownPossibleMovesPoints;
-            case 6: return enemyNumberOfStonesPoints;
-            case 7: return enemyClosedMorrisPoints;
-            case 8: return enemyOpenMorrisPoints;
-            case 9: return enemyTwoStonesTogetherPoints;
-            case 10: return enemyTwoStonesWithGapPoints;
-            case 11: return enemyPossibleMovesPoints;
-            default: return 0;
+    public int getValueByIndex(int index) {
+        switch (index) {
+            case 0:
+                return ownNumberOfStonesPoints;
+            case 1:
+                return ownClosedMorrisPoints;
+            case 2:
+                return ownOpenMorrisPoints;
+            case 3:
+                return ownTwoStonesTogetherPoints;
+            case 4:
+                return ownTwoStonesWithGapPoints;
+            case 5:
+                return ownPossibleMovesPoints;
+            case 6:
+                return enemyNumberOfStonesPoints;
+            case 7:
+                return enemyClosedMorrisPoints;
+            case 8:
+                return enemyOpenMorrisPoints;
+            case 9:
+                return enemyTwoStonesTogetherPoints;
+            case 10:
+                return enemyTwoStonesWithGapPoints;
+            case 11:
+                return enemyPossibleMovesPoints;
+            default:
+                return 0;
         }
     }
 
-    public void setValueByIndex(int index, int value){
-        switch (index){
-            case 0: ownNumberOfStonesPoints = value;
+    public void setValueByIndex(int index, int value) {
+        switch (index) {
+            case 0:
+                ownNumberOfStonesPoints = value;
                 break;
-            case 1: ownClosedMorrisPoints = value;
+            case 1:
+                ownClosedMorrisPoints = value;
                 break;
-            case 2: ownOpenMorrisPoints = value;
+            case 2:
+                ownOpenMorrisPoints = value;
                 break;
-            case 3: ownTwoStonesTogetherPoints = value;
+            case 3:
+                ownTwoStonesTogetherPoints = value;
                 break;
-            case 4: ownTwoStonesWithGapPoints = value;
+            case 4:
+                ownTwoStonesWithGapPoints = value;
                 break;
-            case 5: ownPossibleMovesPoints = value;
+            case 5:
+                ownPossibleMovesPoints = value;
                 break;
-            case 6: enemyNumberOfStonesPoints = value;
+            case 6:
+                enemyNumberOfStonesPoints = value;
                 break;
-            case 7: enemyClosedMorrisPoints = value;
+            case 7:
+                enemyClosedMorrisPoints = value;
                 break;
-            case 8: enemyOpenMorrisPoints = value;
+            case 8:
+                enemyOpenMorrisPoints = value;
                 break;
-            case 9: enemyTwoStonesTogetherPoints = value;
+            case 9:
+                enemyTwoStonesTogetherPoints = value;
                 break;
-            case 10: enemyTwoStonesWithGapPoints = value;
+            case 10:
+                enemyTwoStonesWithGapPoints = value;
                 break;
-            case 11: enemyPossibleMovesPoints = value;
+            case 11:
+                enemyPossibleMovesPoints = value;
                 break;
 
         }
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         String stringRepresentation = "Punkte: ";
-        for (int i = 0; i < 12; i++){
+        for (int i = 0; i < 12; i++) {
             stringRepresentation += getValueByIndex(i) + " / ";
         }
-        stringRepresentation = stringRepresentation.substring(0, stringRepresentation.length()-2);
+        stringRepresentation = stringRepresentation.substring(0, stringRepresentation.length() - 2);
         return stringRepresentation;
     }
 }

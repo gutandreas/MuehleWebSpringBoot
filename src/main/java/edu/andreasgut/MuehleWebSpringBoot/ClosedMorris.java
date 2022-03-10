@@ -2,15 +2,17 @@ package edu.andreasgut.MuehleWebSpringBoot;
 
 public class ClosedMorris {
 
-    private Position firstPosition, secondPosition, thirdPosition;
+    private final Position firstPosition;
+    private final Position secondPosition;
+    private final Position thirdPosition;
 
     public ClosedMorris(Board board, Position firstPosition, Position secondPosition, Position thirdPosition) {
-        if (firstPosition.compareTo(secondPosition) > 0 || firstPosition.compareTo(thirdPosition) >0
-            || secondPosition.compareTo(thirdPosition) > 0){
+        if (firstPosition.compareTo(secondPosition) > 0 || firstPosition.compareTo(thirdPosition) > 0
+                || secondPosition.compareTo(thirdPosition) > 0) {
             throw new IllegalArgumentException();
         }
 
-        if (!(board.isPositionPartOfMorris(firstPosition) && board.isPositionPartOfMorris(secondPosition) && board.isPositionPartOfMorris(thirdPosition))){
+        if (!(board.isPositionPartOfMorris(firstPosition) && board.isPositionPartOfMorris(secondPosition) && board.isPositionPartOfMorris(thirdPosition))) {
             throw new IllegalArgumentException();
         }
 
@@ -32,7 +34,7 @@ public class ClosedMorris {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return "Geschlossene Mühle mit den Positionen " + firstPosition.getRing() + "/" + firstPosition.getField() +
                 ", " + secondPosition.getRing() + "/" + secondPosition.getField() +
                 ", " + thirdPosition.getRing() + "/" + thirdPosition.getField();

@@ -13,23 +13,23 @@ class Game {
         $('#boardImage').attr('disabled', true)
     }
 
-    setRoboterConnected(connected){
+    setRoboterConnected(connected) {
         this.roboterConnected = connected
     }
 
-    setRoboterWatching(watching){
+    setRoboterWatching(watching) {
         this.roboterWatching = watching
     }
 
-    isRoboterWatching(){
+    isRoboterWatching() {
         return this.roboterWatching
     }
 
-    setRoboterPlaying(playing){
+    setRoboterPlaying(playing) {
         this.roboterPlaying = playing;
     }
 
-    isRoboterPlaying(){
+    isRoboterPlaying() {
         return this.roboterPlaying
     }
 }

@@ -4,7 +4,10 @@ import org.json.JSONObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.io.*;
@@ -16,7 +19,7 @@ import java.util.UUID;
 @RestController
 public class IndexController {
 
-    private final int TIMELIMIT = 12*60*60*1000;
+    private final int TIMELIMIT = 12 * 60 * 60 * 1000;
 
 
     @GetMapping(
@@ -24,13 +27,14 @@ public class IndexController {
     public ModelAndView loadIndex() {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("/index.html");
-        return modelAndView;}
+        return modelAndView;
+    }
 
 
     @PostMapping(
             path = "/index/controller/menschVsMensch/start",
-            produces = MediaType.APPLICATION_JSON_VALUE )
-    public ResponseEntity<String> loadMenschVsMenschStart(@RequestBody String body){
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<String> loadMenschVsMenschStart(@RequestBody String body) {
 
 
         colorPrint(body, PRINTCOLOR.YELLOW);
@@ -38,19 +42,18 @@ public class IndexController {
         String player1Name = jsonObject.getString("player1Name");
         String gameCode = jsonObject.getString("gameCode");
         STONECOLOR player1Color;
-        if(jsonObject.getString("player1Color").equals("BLACK")){
-            player1Color = STONECOLOR.BLACK;}
-        else {
+        if (jsonObject.getString("player1Color").equals("BLACK")) {
+            player1Color = STONECOLOR.BLACK;
+        } else {
             player1Color = STONECOLOR.WHITE;
         }
 
-        if (GameManager.doesGameExist(gameCode)){
+        if (GameManager.doesGameExist(gameCode)) {
             System.out.println(LocalTime.now() + " – " + "IndexController: Bereits vorhandener Gamecode. " +
                     "Dieser Gamecode wird bereits für ein anderes Spiel verwendet.");
             return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body("Dieser Gamecode wird bereits " +
                     "für ein anderes Spiel verwendet.");
-        }
-        else {
+        } else {
             Game game = new Game(new HumanPlayer(player1Name, generateRandomUUID(), player1Color));
             game.setGameCode(gameCode);
             GameManager.addGame(gameCode, game);
@@ -70,20 +73,19 @@ public class IndexController {
 
     @PostMapping(
             path = "/index/controller/menschVsMensch/join")
-    public ResponseEntity<String> loadMenschVsMenschJoin(@RequestBody String body){
+    public ResponseEntity<String> loadMenschVsMenschJoin(@RequestBody String body) {
         colorPrint(body, PRINTCOLOR.YELLOW);
         JSONObject jsonObject = new JSONObject(body);
         String player2Name = jsonObject.getString("player2Name");
         String gameCode = jsonObject.getString("gameCode");
 
-        if (GameManager.doesGameExist(gameCode) && !GameManager.getGame(gameCode).isGameComplete()){
+        if (GameManager.doesGameExist(gameCode) && !GameManager.getGame(gameCode).isGameComplete()) {
             STONECOLOR player1StoneColor = GameManager.getGame(gameCode).getPlayer0().getStonecolor();
 
             STONECOLOR player2StoneColor;
-            if (player1StoneColor==STONECOLOR.BLACK){
+            if (player1StoneColor == STONECOLOR.BLACK) {
                 player2StoneColor = STONECOLOR.WHITE;
-            }
-            else {
+            } else {
                 player2StoneColor = STONECOLOR.BLACK;
             }
 
@@ -103,8 +105,7 @@ public class IndexController {
 
             return ResponseEntity.status(HttpStatus.OK).body(jsonResponseObject.toString());
 
-        }
-        else {
+        } else {
             System.out.println(LocalTime.now() + " – " + this.getClass().getSimpleName()
                     + ": GameCode falsch – Ein Spieler versuchte einem nicht existierenden " +
                     "oder schon kompletten Game beizutreten");
@@ -116,7 +117,7 @@ public class IndexController {
     @PostMapping(
             path = "/index/controller/menschVsComputer",
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> loadMenschVsComputer(@RequestBody String body){
+    public ResponseEntity<String> loadMenschVsComputer(@RequestBody String body) {
         colorPrint(body, PRINTCOLOR.YELLOW);
         JSONObject jsonObject = new JSONObject(body);
         String modus = jsonObject.getString("modus");
@@ -126,15 +127,14 @@ public class IndexController {
 
         String computerName = jsonObject.getString("computerName");
         STONECOLOR computerColor;
-        if (player1Color.equals(STONECOLOR.BLACK)){
+        if (player1Color.equals(STONECOLOR.BLACK)) {
             computerColor = STONECOLOR.WHITE;
-        }
-        else {
+        } else {
             computerColor = STONECOLOR.BLACK;
         }
 
-        ScorePoints putPoints = new ScorePoints(2000, 1000,30, 200, 300,3, -2000, -1000, -30, -200, -300, -3);
-        ScorePoints movePoints = new ScorePoints(2000, 300,250, 200, 300,3, -2000, -300, -250, -200, -300, -3);
+        ScorePoints putPoints = new ScorePoints(2000, 1000, 30, 200, 300, 3, -2000, -1000, -30, -200, -300, -3);
+        ScorePoints movePoints = new ScorePoints(2000, 300, 250, 200, 300, 3, -2000, -300, -250, -200, -300, -3);
         int levelLimit = Integer.parseInt(jsonObject.getString("computerLevel"));
 
         ComputerPlayer computerPlayer = new ComputerPlayer(computerName, computerColor, generateRandomUUID(),
@@ -161,12 +161,12 @@ public class IndexController {
 
     @PostMapping(
             path = "/index/controller/gameWatch")
-    public ResponseEntity<String> loadGameWatch(@RequestBody String body){
+    public ResponseEntity<String> loadGameWatch(@RequestBody String body) {
         colorPrint(body, PRINTCOLOR.YELLOW);
         JSONObject jsonObject = new JSONObject(body);
         String gameCode = jsonObject.getString("gameCode");
 
-        if (!GameManager.doesGameExist(gameCode) || GameManager.hasGameAlreadyStarted(gameCode)){
+        if (!GameManager.doesGameExist(gameCode) || GameManager.hasGameAlreadyStarted(gameCode)) {
             System.out.println(LocalTime.now() + " – " + this.getClass().getSimpleName()
                     + ": GameCode falsch – Ein Spieler versuchte ein nicht existierenden " +
                     "oder schon gestartetes Game zu beobachten");
@@ -177,9 +177,9 @@ public class IndexController {
         Game game = GameManager.getGame(gameCode);
         JSONObject jsonResponseObject = new JSONObject();
         jsonResponseObject.put("player1Name", game.getPlayer0().getName());
-        if (game.getPlayer1() != null){
-            jsonResponseObject.put("player2Name", game.getPlayer1().getName());}
-        else {
+        if (game.getPlayer1() != null) {
+            jsonResponseObject.put("player2Name", game.getPlayer1().getName());
+        } else {
             jsonResponseObject.put("player2Name", "");
         }
         jsonResponseObject.put("player1Color", game.getPlayer0().getStonecolor());
@@ -191,18 +191,18 @@ public class IndexController {
     }
 
 
-    private void colorPrint(String text, PRINTCOLOR color){
+    private void colorPrint(String text, PRINTCOLOR color) {
         System.out.print(color);
         System.out.println(text);
         System.out.print(PRINTCOLOR.RESET);
     }
 
-    private String generateRandomUUID(){
+    private String generateRandomUUID() {
         UUID uuid = UUID.randomUUID();
         return uuid.toString();
     }
 
-    private String getHTMLContent(String filename){
+    private String getHTMLContent(String filename) {
         StringBuilder stringBuilder = new StringBuilder();
         String string;
 
@@ -211,7 +211,7 @@ public class IndexController {
             InputStream inputStream = getClass().getResourceAsStream("/public/" + filename + ".html");
             in = new BufferedReader(new InputStreamReader(inputStream));
 
-            while((string = in.readLine())!=null)
+            while ((string = in.readLine()) != null)
                 stringBuilder.append(string);
 
             in.close();

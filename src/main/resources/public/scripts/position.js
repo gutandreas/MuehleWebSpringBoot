@@ -13,7 +13,8 @@ class Position {
         return this.field;
     }
 
-    toString(){return "Position " + this.getRing() + "/" + this.getField();
+    toString() {
+        return "Position " + this.getRing() + "/" + this.getField();
     }
 
 }

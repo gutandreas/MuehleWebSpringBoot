@@ -2,7 +2,9 @@ package edu.andreasgut.MuehleWebSpringBoot;
 
 public class Line {
 
-    private Position firstPosition, secondPosition, thirdPosition;
+    private final Position firstPosition;
+    private final Position secondPosition;
+    private final Position thirdPosition;
 
     public Line(Position firstPosition, Position secondPosition, Position thirdPosition) {
         if (firstPosition.compareTo(secondPosition) > 0 || firstPosition.compareTo(thirdPosition) > 0
@@ -28,7 +30,7 @@ public class Line {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return "Linie mit den Positionen " + firstPosition.getRing() + "/" + firstPosition.getField() +
                 ", " + secondPosition.getRing() + "/" + secondPosition.getField() +
                 ", " + thirdPosition.getRing() + "/" + thirdPosition.getField();

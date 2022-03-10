@@ -1,13 +1,14 @@
 package edu.andreasgut.MuehleWebSpringBoot;
 
 import org.springframework.web.socket.WebSocketSession;
+
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class Game {
 
-    private Player player0;
+    private final Player player0;
     private Player player1;
     private boolean gameComplete;
     private boolean gameStarted = false;
@@ -17,9 +18,9 @@ public class Game {
     private boolean roboterConnected;
     private boolean roboterWatching;
     private boolean roboterPlaying;
-    private LinkedList<WebSocketSession> sessionList = new LinkedList<>();
+    private final LinkedList<WebSocketSession> sessionList = new LinkedList<>();
 
-    private ArrayList<Player> playerArrayList = new ArrayList<>();
+    private final ArrayList<Player> playerArrayList = new ArrayList<>();
 
     public Game(Player player0, Player player1) {
         this.player0 = player0;
@@ -30,7 +31,7 @@ public class Game {
         gameComplete = true;
         this.board = new Board(this);
         System.out.println(LocalTime.now() + " – " + this.getClass().getSimpleName() +
-                ": Game mit 2 Spielern ("+ player0.getName() + "/" + player1.getName() + ") wurde erstellt");
+                ": Game mit 2 Spielern (" + player0.getName() + "/" + player1.getName() + ") wurde erstellt");
     }
 
     public Game(Player player0) {
@@ -39,24 +40,24 @@ public class Game {
         playerArrayList.add(0, player0);
         this.board = new Board(this);
         System.out.println(LocalTime.now() + " – " + this.getClass().getSimpleName() +
-                ": Game mit 1 Spieler ("+ player0.getName() +") wurde erstellt");
+                ": Game mit 1 Spieler (" + player0.getName() + ") wurde erstellt");
     }
 
-    public void addToSessionList(WebSocketSession session){
+    public void addToSessionList(WebSocketSession session) {
         sessionList.add(session);
         System.out.println(this.getClass().getSimpleName() +
                 ": Session " + session + " wurde zur Sessionlist hinzugefügt");
     }
 
     public void removeFromSessionList(WebSocketSession session) {
-        if (sessionList.contains(session)){
+        if (sessionList.contains(session)) {
             sessionList.remove(session);
             System.out.println(this.getClass().getSimpleName() +
                     ": Session " + session + " wurde aus der Sessionlist entfernt");
         }
     }
 
-    public void increaseRound(){
+    public void increaseRound() {
         round++;
     }
 
@@ -80,7 +81,7 @@ public class Game {
                 + player1.getName() + " bilden ein komplettes Game");
     }
 
-    public Player getPlayerByIndex(int playerIndex){
+    public Player getPlayerByIndex(int playerIndex) {
         return getPlayerArrayList().get(playerIndex);
     }
 
@@ -88,12 +89,11 @@ public class Game {
         return playerArrayList;
     }
 
-    public int getPlayerIndexByUuid(String uuid){
+    public int getPlayerIndexByUuid(String uuid) {
 
-        if (getPlayerArrayList().get(0).getUuid().equals(uuid)){
+        if (getPlayerArrayList().get(0).getUuid().equals(uuid)) {
             return 0;
-        }
-        else {
+        } else {
             return 1;
         }
     }

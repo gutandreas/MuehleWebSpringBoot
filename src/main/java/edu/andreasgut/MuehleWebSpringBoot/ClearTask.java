@@ -3,6 +3,7 @@ package edu.andreasgut.MuehleWebSpringBoot;
 import org.json.JSONObject;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
+
 import java.io.IOException;
 import java.util.TimerTask;
 
@@ -16,16 +17,15 @@ public class ClearTask extends TimerTask {
 
     @Override
     public void run() {
-        if (GameManager.doesGameExist(gameCode)){
+        if (GameManager.doesGameExist(gameCode)) {
             sendTimeOutMessage(gameCode);
             GameManager.removeGame(gameCode);
         }
     }
 
-    static private void sendTimeOutMessage(String gameCode){
+    static private void sendTimeOutMessage(String gameCode) {
 
-        for (WebSocketSession session : GameManager.getGame(gameCode).getSessionList())
-        {
+        for (WebSocketSession session : GameManager.getGame(gameCode).getSessionList()) {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("command", "timeout");
 

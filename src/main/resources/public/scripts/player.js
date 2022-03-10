@@ -1,4 +1,4 @@
-class Player{
+class Player {
 
     constructor(name, uuid, index) {
         this.name = name;
@@ -6,7 +6,7 @@ class Player{
         this.index = index;
     }
 
-    getUuid(){
+    getUuid() {
         return this.uuid;
     }
 }

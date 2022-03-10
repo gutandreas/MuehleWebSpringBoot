@@ -5,7 +5,7 @@ var websocket;
 
 function sendData() {
 
-    switch (modus){
+    switch (modus) {
         case 1: {
             if (gamecodemodus == 1) {
                 checkAndSendDataMenschVsMenschStart();
@@ -29,19 +29,19 @@ function sendData() {
 
 function checkAndSendDataMenschVsMenschStart() {
 
-            let gameCodeStart = $("#gamecodeStart").val();
-            let player1Name = $("#player1Textfield").val();
+    let gameCodeStart = $("#gamecodeStart").val();
+    let player1Name = $("#player1Textfield").val();
 
-            if (gameCodeStart.length == 0){
-                alert("Bitte geben Sie einen Gamecode ein")
-                return
-            }
-            if (player1Name.length == 0){
-                alert("Bitte geben Sie einen Namen ein")
-                return
-            }
+    if (gameCodeStart.length == 0) {
+        alert("Bitte geben Sie einen Gamecode ein")
+        return
+    }
+    if (player1Name.length == 0) {
+        alert("Bitte geben Sie einen Namen ein")
+        return
+    }
 
-            sendDataMenschVsMenschStart();
+    sendDataMenschVsMenschStart();
 }
 
 
@@ -50,11 +50,11 @@ function checkAndSendDataMenschVsMenschJoin() {
     let gameCodeJoin = $("#gamecodeJoin").val();
     let player2Name = $("#player2Textfield").val();
 
-    if (gameCodeJoin.length == 0){
+    if (gameCodeJoin.length == 0) {
         alert("Bitte geben Sie einen Gamecode ein")
         return
     }
-    if (player2Name.length == 0){
+    if (player2Name.length == 0) {
         alert("Bitte geben Sie einen Namen ein")
         return
     }
@@ -69,16 +69,17 @@ function checkAndSendDataMenschVsComputer() {
 
     if (player1Name.length == 0) {
         alert("Bitte geben Sie einen Namen ein")
-        return}
+        return
+    }
 
     sendDataMenschVsComputer();
 }
 
 
-async function checkAndSendDataGameWatch(){
+async function checkAndSendDataGameWatch() {
     let gameCodeJoin = $("#gamecodeWatch").val();
 
-    if (gameCodeJoin.length == 0){
+    if (gameCodeJoin.length == 0) {
         alert("Bitte geben Sie einen Gamecode ein")
         return
     }
@@ -87,169 +88,172 @@ async function checkAndSendDataGameWatch(){
 }
 
 
-function sendDataMenschVsMenschStart(){
+function sendDataMenschVsMenschStart() {
 
-        let player1Name = $("#player1Textfield").val();
-        let gameCodeStart = $("#gamecodeStart").val();
-        let player1Color;
-        if ($("#colorPlayer1").prop('checked')){
-        player1Color = "WHITE";}
-        else {player1Color = "BLACK";}
+    let player1Name = $("#player1Textfield").val();
+    let gameCodeStart = $("#gamecodeStart").val();
+    let player1Color;
+    if ($("#colorPlayer1").prop('checked')) {
+        player1Color = "WHITE";
+    } else {
+        player1Color = "BLACK";
+    }
 
-        fetch("/index/controller/menschVsMensch/start", {
-            method: 'POST',
-            body: JSON.stringify({
-                    "modus": 'Mensch vs. Mensch',
-                    "startGame" : true,
-                    "player1Name" : player1Name,
-                    "gameCode" : gameCodeStart,
-                    "player1Color" : player1Color
-            }),
-            headers: {
-                "Content-type": "application/json"
+    fetch("/index/controller/menschVsMensch/start", {
+        method: 'POST',
+        body: JSON.stringify({
+            "modus": 'Mensch vs. Mensch',
+            "startGame": true,
+            "player1Name": player1Name,
+            "gameCode": gameCodeStart,
+            "player1Color": player1Color
+        }),
+        headers: {
+            "Content-type": "application/json"
+        }
+    })
+        .then(resp => resp.json())
+        .then(responseData => {
+            console.log("MENSCHVSMENSCH")
+
+            let head = responseData.html.match(/<head[^>]*>[\s\S]*<\/head>/gi);
+            let body = responseData.html.match(/<body[^>]*>[\s\S]*<\/body>/gi);
+
+            $("head").html(head);
+            $("body").html(body);
+
+            console.log(responseData);
+            $('#player1NameGameText').text("Player 1: " + player1Name)
+            $('#modusH1').text("Mühle online – Spielmodus: Mensch vs. Mensch")
+            $('#gameCodeH2').text("Gamecode: " + gameCodeStart)
+            $('#playerUuidH2').text("UUID: " + responseData.player1Uuid)
+            $('#playerIndexH2').text(responseData.playerIndex)
+
+            if (player1Color == "BLACK") {
+                $('#player1StoneImage').attr('src', 'images/StoneBlack.png')
+                $('#player2StoneImage').attr('src', 'images/StoneWhite.png')
+                window.color = "BLACK";
+            } else {
+                $('#player1StoneImage').attr('src', 'images/StoneWhite.png')
+                $('#player2StoneImage').attr('src', 'images/StoneBlack.png')
+                window.color = "WHITE";
             }
+
+            window.game = new Game(new Player(player1Name, responseData.player1Uuid, responseData.player1Index),
+                gameCodeStart);
+            window.uuid = responseData.player1Uuid;
+            window.playerIndex = responseData.player1Index;
+            window.name = player1Name;
+            window.myTurn = true;
+            window.enemyLoggedIn = false;
+            $("#spielverlaufLabel").text(player1Name + " startet das Spiel.")
+
+            doConnect();
+            sendMessage(websocket, JSON.stringify({
+                "gameCode": gameCodeStart,
+                "command": "start"
+            }))
+
         })
-            .then(resp => resp.json())
-            .then(responseData => {
-                console.log("MENSCHVSMENSCH")
+        .catch(function (error) {
+            console.log(error)
+            alert("Dieser Gamecode wird bereits verwendet.")
+        });
+}
 
-                let head = responseData.html.match(/<head[^>]*>[\s\S]*<\/head>/gi);
-                let body = responseData.html.match(/<body[^>]*>[\s\S]*<\/body>/gi);
 
-                $("head").html(head);
-                $("body").html(body);
+function sendDataMenschVsMenschJoin() {
 
-                console.log(responseData);
-                $('#player1NameGameText').text("Player 1: " + player1Name)
-                $('#modusH1').text("Mühle online – Spielmodus: Mensch vs. Mensch")
-                $('#gameCodeH2').text("Gamecode: " + gameCodeStart)
-                $('#playerUuidH2').text("UUID: " + responseData.player1Uuid)
-                $('#playerIndexH2').text(responseData.playerIndex)
+    let player2Name = $("#player2Textfield").val();
+    let gameCodeJoin = $("#gamecodeJoin").val();
 
-                if (player1Color == "BLACK"){
-                    $('#player1StoneImage').attr('src', 'images/StoneBlack.png')
-                    $('#player2StoneImage').attr('src', 'images/StoneWhite.png')
-                    window.color = "BLACK";
+    fetch("/index/controller/menschVsMensch/join", {
+        method: 'POST',
+        body: JSON.stringify({
+            "modus": 'Mensch vs. Mensch',
+            "startGame": false,
+            "player2Name": player2Name,
+            "gameCode": gameCodeJoin
+        }),
+        headers: {
+            "Content-type": "application/json"
+        }
+    })
+        .then(res => res.json())
+        .then(responseData => {
+
+            let head = responseData.html.match(/<head[^>]*>[\s\S]*<\/head>/gi);
+            let body = responseData.html.match(/<body[^>]*>[\s\S]*<\/body>/gi);
+
+            $("head").html(head);
+            $("body").html(body);
+
+            console.log(responseData)
+            $('#modusH1').text("Mühle online – Spielmodus: Mensch vs. Mensch")
+            $('#gameCodeH2').text("Gamecode: " + gameCodeJoin)
+            $('#playerUuidH2').text("UUID: " + responseData.player2Uuid)
+            $("#player1NameGameText").text("Player 1: " + responseData.player1Name);
+            $('#player2NameGameText').text("Player 2: " + player2Name);
+
+            let player2Color = responseData.player2Color;
+
+            if (player2Color == "BLACK") {
+                $('#player2StoneImage').attr('src', 'images/StoneBlack.png')
+                $('#player1StoneImage').attr('src', 'images/StoneWhite.png')
+                window.color = "BLACK";
+            } else {
+                $('#player2StoneImage').attr('src', 'images/StoneWhite.png')
+                $('#player1StoneImage').attr('src', 'images/StoneBlack.png')
+                window.color = "WHITE";
+            }
+
+            window.game = new Game(new Player(player2Name, responseData.player2Uuid, responseData.player2Index),
+                gameCodeJoin);
+
+            if (responseData.roboterConnected) {
+                game.setRoboterConnected(true)
+                $("#roboterConnectedLabel").addClass("roboterConnectedLabel");
+                if (responseData.roboterWatching) {
+                    game.setRoboterWatching(true);
+                    console.log("Wartezeit in Game gesetzt")
                 }
-                else {
-                    $('#player1StoneImage').attr('src', 'images/StoneWhite.png')
-                    $('#player2StoneImage').attr('src', 'images/StoneBlack.png')
-                    window.color = "WHITE";
-                }
+            }
 
-                window.game = new Game(new Player(player1Name, responseData.player1Uuid, responseData.player1Index),
-                    gameCodeStart);
-                window.uuid = responseData.player1Uuid;
-                window.playerIndex = responseData.player1Index;
-                window.name = player1Name;
-                window.myTurn = true;
-                window.enemyLoggedIn = false;
-                $("#spielverlaufLabel").text(player1Name + " startet das Spiel.")
+            window.uuid = responseData.player2Uuid;
+            window.playerIndex = responseData.player2Index;
+            window.name = player2Name;
+            window.enemyName = responseData.player1Name;
+            window.myTurn = false;
+            $("#spielverlaufLabel").text(enemyName + " darf einen Stein setzen.")
 
-                doConnect();
-                sendMessage(websocket, JSON.stringify({
-                    "gameCode" : gameCodeStart,
-                    "command" : "start"
-                }))
+            doConnect();
+            sendMessage(websocket, JSON.stringify({
+                "gameCode": gameCodeJoin,
+                "command": "join",
+                "player2Name": player2Name,
+                "playerUuid": uuid
+            }))
 
-            })
-            .catch(function(error) {
+        })
+        .catch(
+            error => {
                 console.log(error)
-                alert("Dieser Gamecode wird bereits verwendet.")
-            });
-}
-
-
-function sendDataMenschVsMenschJoin(){
-
-        let player2Name = $("#player2Textfield").val();
-        let gameCodeJoin = $("#gamecodeJoin").val();
-
-        fetch("/index/controller/menschVsMensch/join", {
-            method: 'POST',
-            body: JSON.stringify({
-                    "modus": 'Mensch vs. Mensch',
-                    "startGame" : false,
-                    "player2Name" : player2Name,
-                    "gameCode" : gameCodeJoin
-            }),
-            headers: {
-                "Content-type": "application/json"
+                alert("Der Gamecode wird noch nicht verwendet oder das Spiel ist bereits komplett. " +
+                    "Bitte kontrollieren Sie die Eingabe oder starten Sie ein neues Spiel.")
             }
-        })
-            .then(res => res.json())
-            .then(responseData => {
-
-                let head = responseData.html.match(/<head[^>]*>[\s\S]*<\/head>/gi);
-                let body = responseData.html.match(/<body[^>]*>[\s\S]*<\/body>/gi);
-
-                $("head").html(head);
-                $("body").html(body);
-
-                console.log(responseData)
-                $('#modusH1').text("Mühle online – Spielmodus: Mensch vs. Mensch")
-                $('#gameCodeH2').text("Gamecode: " + gameCodeJoin)
-                $('#playerUuidH2').text("UUID: " + responseData.player2Uuid)
-                $("#player1NameGameText").text("Player 1: " + responseData.player1Name);
-                $('#player2NameGameText').text("Player 2: " + player2Name);
-
-                let player2Color = responseData.player2Color;
-
-                if (player2Color == "BLACK"){
-                    $('#player2StoneImage').attr('src', 'images/StoneBlack.png')
-                    $('#player1StoneImage').attr('src', 'images/StoneWhite.png')
-                    window.color = "BLACK";
-                }
-                else {
-                    $('#player2StoneImage').attr('src', 'images/StoneWhite.png')
-                    $('#player1StoneImage').attr('src', 'images/StoneBlack.png')
-                    window.color = "WHITE";
-                }
-
-                window.game = new Game(new Player(player2Name, responseData.player2Uuid, responseData.player2Index),
-                    gameCodeJoin);
-
-                if (responseData.roboterConnected){
-                    game.setRoboterConnected(true)
-                    $("#roboterConnectedLabel").addClass("roboterConnectedLabel");
-                    if (responseData.roboterWatching){
-                        game.setRoboterWatching(true);
-                        console.log("Wartezeit in Game gesetzt")
-                    }
-                }
-
-                window.uuid = responseData.player2Uuid;
-                window.playerIndex = responseData.player2Index;
-                window.name = player2Name;
-                window.enemyName = responseData.player1Name;
-                window.myTurn = false;
-                $("#spielverlaufLabel").text(enemyName + " darf einen Stein setzen.")
-
-                doConnect();
-                sendMessage(websocket, JSON.stringify({
-                    "gameCode" : gameCodeJoin,
-                    "command" : "join",
-                    "player2Name" : player2Name,
-                    "playerUuid" : uuid
-                }))
-
-            })
-            .catch(
-                error => {
-                    console.log(error)
-                    alert("Der Gamecode wird noch nicht verwendet oder das Spiel ist bereits komplett. " +
-                        "Bitte kontrollieren Sie die Eingabe oder starten Sie ein neues Spiel.")}
-            );
+        );
 }
 
 
-function sendDataMenschVsComputer(){
+function sendDataMenschVsComputer() {
 
     let player1Name = $('#player1Textfield').val();
     let player1Color;
-    if ($("#colorPlayer1").prop('checked')){
-        player1Color = "WHITE";}
-    else {player1Color = "BLACK";}
+    if ($("#colorPlayer1").prop('checked')) {
+        player1Color = "WHITE";
+    } else {
+        player1Color = "BLACK";
+    }
 
     let computerName = $("#player2Dropdown option:selected").text();
     let computerLevel = $("#player2Dropdown option:selected").val();
@@ -258,11 +262,11 @@ function sendDataMenschVsComputer(){
     fetch("/index/controller/menschVsComputer", {
         method: 'POST',
         body: JSON.stringify({
-                "modus": 'Mensch vs. Computer',
-                "player1Name" : player1Name,
-                "player1Color" : player1Color,
-                "computerName" : computerName,
-                "computerLevel" : computerLevel
+            "modus": 'Mensch vs. Computer',
+            "player1Name": player1Name,
+            "player1Color": player1Color,
+            "computerName": computerName,
+            "computerLevel": computerLevel
         }),
         headers: {
             "Content-type": "application/json"
@@ -288,12 +292,11 @@ function sendDataMenschVsComputer(){
             $('#spielverlaufLabel').text(player1Name + " darf einen Stein setzen")
             $("#putPhaseLabel").addClass("putPhaseLabel");
 
-            if (player1Color == "BLACK"){
+            if (player1Color == "BLACK") {
                 $('#player1StoneImage').attr('src', 'images/StoneBlack.png')
                 $('#player2StoneImage').attr('src', 'images/StoneWhite.png')
                 window.color = "BLACK";
-            }
-            else {
+            } else {
                 $('#player1StoneImage').attr('src', 'images/StoneWhite.png')
                 $('#player2StoneImage').attr('src', 'images/StoneBlack.png')
                 window.color = "WHITE";
@@ -309,18 +312,18 @@ function sendDataMenschVsComputer(){
 
             doConnect();
             sendMessage(websocket, JSON.stringify({
-                "gameCode" : responseData.gameCode,
-                "command" : "start"
+                "gameCode": responseData.gameCode,
+                "command": "start"
             }))
 
         })
-        .catch(function(error) {
+        .catch(function (error) {
             console.log(error);
         });
 }
 
 
-function sendDataGameWatch(){
+function sendDataGameWatch() {
 
     let gameCode = $('#gamecodeWatch').val();
 
@@ -328,7 +331,7 @@ function sendDataGameWatch(){
         method: 'POST',
         body: JSON.stringify({
             "modus": 'Game Watch',
-            "gameCode" : gameCode
+            "gameCode": gameCode
         }),
         headers: {
             "Content-type": "application/json"
@@ -351,12 +354,11 @@ function sendDataGameWatch(){
 
             $('#spielverlaufLabel').text(responseData.player1Name + " darf einen Stein setzen")
 
-            if (responseData.player1Color == "BLACK"){
+            if (responseData.player1Color == "BLACK") {
                 $('#player1StoneImage').attr('src', 'images/StoneBlack.png')
                 $('#player2StoneImage').attr('src', 'images/StoneWhite.png')
                 window.color = "BLACK";
-            }
-            else {
+            } else {
                 $('#player1StoneImage').attr('src', 'images/StoneWhite.png')
                 $('#player2StoneImage').attr('src', 'images/StoneBlack.png')
                 window.color = "WHITE";
@@ -367,11 +369,11 @@ function sendDataGameWatch(){
 
             doConnect();
             sendMessage(websocket, JSON.stringify({
-                "gameCode" : gameCode,
-                "command" : "watch",
+                "gameCode": gameCode,
+                "command": "watch",
             }))
         })
-        .catch(function(error) {
+        .catch(function (error) {
             console.log(error);
             alert("Der Gamecode existiert nicht oder das Game wurde bereits gestartet und kann deshalb nicht mehr beobachtet werden.")
         });

@@ -6,12 +6,12 @@ import java.util.LinkedList;
 
 public class Advisor {
 
-    static public int numberOfOwnStones(Board board, int playerIndex){
+    static public int numberOfOwnStones(Board board, int playerIndex) {
         return board.numberOfStonesOf(playerIndex);
     }
 
 
-    static public int numberOfEnemysStones(Board board, int ownPlayerIndex){
+    static public int numberOfEnemysStones(Board board, int ownPlayerIndex) {
         int enemysIndex = 1 - ownPlayerIndex;
         return board.numberOfStonesOf(enemysIndex);
     }
@@ -22,7 +22,6 @@ public class Advisor {
         LinkedList<ClosedMorris> closedMorrisLinkedList = new LinkedList<>();
 
         for (int quarter = 0; quarter < 4; quarter++) {
-
 
             for (int startRing = 0; startRing < 2; startRing++) {
                 Position position1 = new Position(startRing, quarter * 2);
@@ -36,7 +35,7 @@ public class Advisor {
             Position position2 = new Position(1, quarter * 2 + 1);
             Position position3 = new Position(2, quarter * 2 + 1);
 
-            addConstellationToListIfClosedMorris(board,ownPlayerIndex, closedMorrisLinkedList, position1, position2, position3);
+            addConstellationToListIfClosedMorris(board, ownPlayerIndex, closedMorrisLinkedList, position1, position2, position3);
         }
 
         return closedMorrisLinkedList;
@@ -44,17 +43,17 @@ public class Advisor {
 
 
     static public LinkedList<ClosedMorris> getMyEnemysClosedMorrises(Board board, int ownPlayerIndex) {
-        int enemysIndex = 1-ownPlayerIndex;
+        int enemysIndex = 1 - ownPlayerIndex;
         return getMyClosedMorrises(board, enemysIndex);
     }
 
 
     static private void addConstellationToListIfClosedMorris(Board board, int playerIndex, LinkedList<ClosedMorris> closedMorrisLinkedList,
-                                                             Position position1, Position position2, Position position3){
+                                                             Position position1, Position position2, Position position3) {
 
         if (board.isThisMyStone(position1, playerIndex)
                 && board.isThisMyStone(position2, playerIndex)
-                && board.isThisMyStone(position3, playerIndex)){
+                && board.isThisMyStone(position3, playerIndex)) {
 
             ArrayList<Position> positions = new ArrayList<>();
             positions.add(position1);
@@ -124,7 +123,7 @@ public class Advisor {
                 Position position1 = new Position(startRing, (quarter * 2 + 2) % 8);
                 Position position2 = new Position((startRing + 1) % 3, quarter * 2 + 1);
                 Position position3 = new Position((startRing + 2) % 3, quarter * 2 + 1);
-                Position gapPosition = new Position(startRing , quarter * 2 + 1);
+                Position gapPosition = new Position(startRing, quarter * 2 + 1);
 
                 addConstellationToListIfOpenMorris(board, ownPlayerIndex, openMorrisLinkedList, position1, position2, position3, gapPosition, "Grün");
             }
@@ -147,14 +146,14 @@ public class Advisor {
 
 
     static public LinkedList<OpenMorris> getMyEnemysOpenMorrises(Board board, int ownPlayerIndex) {
-        int enemysIndex = 1-ownPlayerIndex;
+        int enemysIndex = 1 - ownPlayerIndex;
         return getMyOpenMorrises(board, enemysIndex);
     }
 
 
     static private void addConstellationToListIfOpenMorris(Board board, int playerIndex, LinkedList<OpenMorris> openMorrisLinkedList,
                                                            Position position1, Position position2, Position position3,
-                                                           Position gapPosition, String morrisColor){
+                                                           Position gapPosition, String morrisColor) {
 
         if (board.isThisMyStone(position1, playerIndex)
                 && board.isThisMyStone(position2, playerIndex)
@@ -173,147 +172,145 @@ public class Advisor {
     }
 
 
-    static public int numberOfMyTwoStonesTogetherWithFreePositionBeside(Board board, int ownPlayerIndex){
+    static public int numberOfMyTwoStonesTogetherWithFreePositionBeside(Board board, int ownPlayerIndex) {
         int counter = 0;
 
         for (int ring = 0; ring < 3; ring++) {
             for (int field = 0; field < 8; field++) {
                 if (board.isThisMyStone(new Position(ring, field), ownPlayerIndex)
-                        && positionBuildsTwoStonesTogetherWithFreePositionBeside(board, new Position(ring, field), ownPlayerIndex)){
+                        && positionBuildsTwoStonesTogetherWithFreePositionBeside(board, new Position(ring, field), ownPlayerIndex)) {
                     counter++;
                 }
-            }}
-        return counter/2; // jedes 2er-Pack wird doppelt gezählt
+            }
+        }
+        return counter / 2; // jedes 2er-Pack wird doppelt gezählt
     }
 
 
-    static public int numberOfMyEnemysTwoStonesTogetherWithFreePositionBeside(Board board, int ownPlayerIndex){
-        int enemyIndex = 1-ownPlayerIndex;
+    static public int numberOfMyEnemysTwoStonesTogetherWithFreePositionBeside(Board board, int ownPlayerIndex) {
+        int enemyIndex = 1 - ownPlayerIndex;
         int counter = 0;
 
         for (int ring = 0; ring < 3; ring++) {
             for (int field = 0; field < 8; field++) {
                 if (board.isThisMyEnemysStone(new Position(ring, field), ownPlayerIndex)
-                        && positionBuildsTwoStonesTogetherWithFreePositionBeside(board, new Position(ring, field), enemyIndex)){
+                        && positionBuildsTwoStonesTogetherWithFreePositionBeside(board, new Position(ring, field), enemyIndex)) {
                     counter++;
                 }
-            }}
-        return counter/2; // jedes 2er-Pack wird doppelt gezählt
+            }
+        }
+        return counter / 2; // jedes 2er-Pack wird doppelt gezählt
     }
 
 
-    static public boolean positionBuildsTwoStonesTogetherWithFreePositionBeside(Board board, Position position, int playerIndex){
-        if (position.getField()%2==1){ // Ungerade Felder
+    static public boolean positionBuildsTwoStonesTogetherWithFreePositionBeside(Board board, Position position, int playerIndex) {
+        if (position.getField() % 2 == 1) { // Ungerade Felder
 
             // Über Ringe hinweg
-            if (position.getRing() == 0){
-                if (board.isThisMyStone(new Position((position.getRing()+1), position.getField()), playerIndex)
-                        && board.isFieldFree(new Position((position.getRing()+2), position.getField()))){
-                    return true;
-                }}
-
-            if (position.getRing() == 1){
-                if (board.isThisMyStone(new Position((position.getRing()-1), position.getField()), playerIndex)
-                        && board.isFieldFree(new Position((position.getRing()+1), position.getField()))){
-                    return true;
-                }
-
-                if (board.isThisMyStone(new Position((position.getRing()+1), position.getField()), playerIndex)
-                        && board.isFieldFree(new Position((position.getRing()-1), position.getField()))){
+            if (position.getRing() == 0) {
+                if (board.isThisMyStone(new Position((position.getRing() + 1), position.getField()), playerIndex)
+                        && board.isFieldFree(new Position((position.getRing() + 2), position.getField()))) {
                     return true;
                 }
             }
 
-            if (position.getRing() == 2){
-                if (board.isThisMyStone(new Position((position.getRing()-1), position.getField()), playerIndex)
-                        && board.isFieldFree(new Position((position.getRing()-2), position.getField()))){
+            if (position.getRing() == 1) {
+                if (board.isThisMyStone(new Position((position.getRing() - 1), position.getField()), playerIndex)
+                        && board.isFieldFree(new Position((position.getRing() + 1), position.getField()))) {
                     return true;
-                }}
+                }
 
-            if (board.isThisMyStone(new Position((position.getRing()+2)%3, position.getField()), playerIndex)
-                    && board.isFieldFree(new Position((position.getRing()+1)%3, position.getField()))){
+                if (board.isThisMyStone(new Position((position.getRing() + 1), position.getField()), playerIndex)
+                        && board.isFieldFree(new Position((position.getRing() - 1), position.getField()))) {
+                    return true;
+                }
+            }
+
+            if (position.getRing() == 2) {
+                if (board.isThisMyStone(new Position((position.getRing() - 1), position.getField()), playerIndex)
+                        && board.isFieldFree(new Position((position.getRing() - 2), position.getField()))) {
+                    return true;
+                }
+            }
+
+            if (board.isThisMyStone(new Position((position.getRing() + 2) % 3, position.getField()), playerIndex)
+                    && board.isFieldFree(new Position((position.getRing() + 1) % 3, position.getField()))) {
                 return true;
             }
 
             // Innerhalb von Ring
-            if (board.isThisMyStone(new Position(position.getRing(), (position.getField()+7)%8), playerIndex)
-                    && board.isFieldFree(new Position(position.getRing(), (position.getField()+1)%8))){
+            if (board.isThisMyStone(new Position(position.getRing(), (position.getField() + 7) % 8), playerIndex)
+                    && board.isFieldFree(new Position(position.getRing(), (position.getField() + 1) % 8))) {
                 return true;
             }
-            if (board.isThisMyStone(new Position(position.getRing(), (position.getField()+1)%8), playerIndex)
-                    && board.isFieldFree(new Position(position.getRing(), (position.getField()+7)%8))){
-                return true;
-            }}
+            return board.isThisMyStone(new Position(position.getRing(), (position.getField() + 1) % 8), playerIndex)
+                    && board.isFieldFree(new Position(position.getRing(), (position.getField() + 7) % 8));
+        } else { // Gerade Felder (innerhalb von Ring)
 
-        else { // Gerade Felder (innerhalb von Ring)
-
-            if (board.isThisMyStone(new Position(position.getRing(), (position.getField()+1)%8), playerIndex)
-                    && board.isFieldFree(new Position(position.getRing(), (position.getField()+2)%8))){
+            if (board.isThisMyStone(new Position(position.getRing(), (position.getField() + 1) % 8), playerIndex)
+                    && board.isFieldFree(new Position(position.getRing(), (position.getField() + 2) % 8))) {
                 return true;
             }
-            if (board.isThisMyStone(new Position(position.getRing(), (position.getField()+7)%8), playerIndex)
-                    && board.isFieldFree(new Position(position.getRing(), (position.getField()+6)%8))){
-                return true;
-            }}
-
-        return false;
+            return board.isThisMyStone(new Position(position.getRing(), (position.getField() + 7) % 8), playerIndex)
+                    && board.isFieldFree(new Position(position.getRing(), (position.getField() + 6) % 8));
+        }
     }
 
 
-    static public int numberOfMyTwoStonesWithGap(Board board, int ownPlayerIndex){
+    static public int numberOfMyTwoStonesWithGap(Board board, int ownPlayerIndex) {
         int counter = 0;
 
         for (int ring = 0; ring < 3; ring++) {
             for (int field = 0; field < 8; field++) {
                 if (board.isThisMyStone(new Position(ring, field), ownPlayerIndex)
-                        && positionBuildsTwoStonesWithGap(board, new Position(ring, field), ownPlayerIndex)){
+                        && positionBuildsTwoStonesWithGap(board, new Position(ring, field), ownPlayerIndex)) {
                     counter++;
                 }
-            }}
-        return counter/2; // jedes 2er-Pack wird doppelt gezählt
+            }
+        }
+        return counter / 2; // jedes 2er-Pack wird doppelt gezählt
     }
 
 
-    static public int numberOfMyEnemysTwoStonesWithGap(Board board, int ownPlayerIndex){
-        int enemyIndex = 1-ownPlayerIndex;
+    static public int numberOfMyEnemysTwoStonesWithGap(Board board, int ownPlayerIndex) {
+        int enemyIndex = 1 - ownPlayerIndex;
         int counter = 0;
 
         for (int ring = 0; ring < 3; ring++) {
             for (int field = 0; field < 8; field++) {
                 if (board.isThisMyEnemysStone(new Position(ring, field), ownPlayerIndex)
-                        && positionBuildsTwoStonesWithGap(board, new Position(ring, field), enemyIndex)){
+                        && positionBuildsTwoStonesWithGap(board, new Position(ring, field), enemyIndex)) {
                     counter++;
                 }
-            }}
-        return counter/2; // jedes 2er-Pack wird doppelt gezählt
+            }
+        }
+        return counter / 2; // jedes 2er-Pack wird doppelt gezählt
     }
 
 
-    static public boolean positionBuildsTwoStonesWithGap(Board board, Position position, int playerIndex){
-        if (position.getField()%2==1 && position.getRing()==0){
-            if (board.isFieldFree(new Position(position.getRing()+1, position.getField()))
-                    && board.isThisMyStone(new Position(position.getRing()+2, position.getField()), playerIndex)){
+    static public boolean positionBuildsTwoStonesWithGap(Board board, Position position, int playerIndex) {
+        if (position.getField() % 2 == 1 && position.getRing() == 0) {
+            if (board.isFieldFree(new Position(position.getRing() + 1, position.getField()))
+                    && board.isThisMyStone(new Position(position.getRing() + 2, position.getField()), playerIndex)) {
                 return true;
             }
         }
 
-        if (position.getField()%2==1 && position.getRing()==2){
-            if (board.isFieldFree(new Position(position.getRing()-1, position.getField()))
-                    && board.isThisMyStone(new Position(position.getRing()-2, position.getField()), playerIndex)){
+        if (position.getField() % 2 == 1 && position.getRing() == 2) {
+            if (board.isFieldFree(new Position(position.getRing() - 1, position.getField()))
+                    && board.isThisMyStone(new Position(position.getRing() - 2, position.getField()), playerIndex)) {
                 return true;
             }
         }
 
-        if (position.getField()%2==0){
-            if (board.isThisMyStone(new Position(position.getRing(), (position.getField()+2)%8), playerIndex)
-                    && board.isFieldFree(new Position(position.getRing(), (position.getField()+1)%8))){
+        if (position.getField() % 2 == 0) {
+            if (board.isThisMyStone(new Position(position.getRing(), (position.getField() + 2) % 8), playerIndex)
+                    && board.isFieldFree(new Position(position.getRing(), (position.getField() + 1) % 8))) {
                 return true;
             }
 
-            if (board.isThisMyStone(new Position(position.getRing(), (position.getField()+6)%8), playerIndex)
-                    && board.isFieldFree(new Position(position.getRing(), (position.getField()+7)%8))){
-                return true;
-            }
+            return board.isThisMyStone(new Position(position.getRing(), (position.getField() + 6) % 8), playerIndex)
+                    && board.isFieldFree(new Position(position.getRing(), (position.getField() + 7) % 8));
         }
 
         return false;
@@ -334,7 +331,7 @@ public class Advisor {
                         for (int row2 = 0; row2 < 3; row2++) {
                             for (int field2 = 0; field2 < 8; field2++) {
                                 Position to = new Position(row2, field2);
-                                if (board.isFieldFree(to)){
+                                if (board.isFieldFree(to)) {
                                     moveList.add(new Move(from, to));
                                 }
 
@@ -387,8 +384,8 @@ public class Advisor {
     }
 
 
-    static public LinkedList<Position> getAllPossibleKills(Board board, int onwPlayerIndex){
-        int enemysIndex = 1-onwPlayerIndex;
+    static public LinkedList<Position> getAllPossibleKills(Board board, int onwPlayerIndex) {
+        int enemysIndex = 1 - onwPlayerIndex;
         LinkedList<Position> killList = new LinkedList<>();
 
         for (int ring = 0; ring < 3; ring++) {
@@ -405,23 +402,25 @@ public class Advisor {
     }
 
 
-    static public LinkedList<Line> getFreeLines(Board board){
+    static public LinkedList<Line> getFreeLines(Board board) {
         LinkedList<Line> lines = new LinkedList<>();
 
         for (int ring = 0; ring < 3; ring++) {
-            for (int field = 0; field < 6; field+=2) {
+            for (int field = 0; field < 6; field += 2) {
 
                 Position position1 = new Position(ring, field);
-                Position position2 = new Position(ring, field+1);
-                Position position3 = new Position(ring, field+2);
+                Position position2 = new Position(ring, field + 1);
+                Position position3 = new Position(ring, field + 2);
 
                 if (board.isFieldFree(position1)
                         && board.isFieldFree(position2)
-                        && board.isFieldFree(position3)){
+                        && board.isFieldFree(position3)) {
                     lines.add(new Line(position1, position2, position3));
-                }}}
+                }
+            }
+        }
 
-        for (int field = 1; field < 6; field+=2) {
+        for (int field = 1; field < 6; field += 2) {
 
             Position position1 = new Position(0, field);
             Position position2 = new Position(1, field);
@@ -429,31 +428,34 @@ public class Advisor {
 
             if (board.isFieldFree(position1)
                     && board.isFieldFree(position2)
-                    && board.isFieldFree(position3)){
+                    && board.isFieldFree(position3)) {
                 lines.add(new Line(position1, position2, position3));
-            }}
+            }
+        }
 
         return lines;
     }
 
 
-    static public LinkedList<Line> getLinesWithoutEnemysStones(Board board, int ownPlayerIndex){
+    static public LinkedList<Line> getLinesWithoutEnemysStones(Board board, int ownPlayerIndex) {
         LinkedList<Line> lines = new LinkedList<>();
 
         for (int ring = 0; ring < 3; ring++) {
-            for (int field = 0; field < 6; field+=2) {
+            for (int field = 0; field < 6; field += 2) {
 
                 Position position1 = new Position(ring, field);
-                Position position2 = new Position(ring, field+1);
-                Position position3 = new Position(ring, field+2);
+                Position position2 = new Position(ring, field + 1);
+                Position position3 = new Position(ring, field + 2);
 
                 if (!board.isThisMyEnemysStone(position1, ownPlayerIndex)
                         && !board.isThisMyEnemysStone(position2, ownPlayerIndex)
-                        && !board.isThisMyEnemysStone(position3, ownPlayerIndex)){
+                        && !board.isThisMyEnemysStone(position3, ownPlayerIndex)) {
                     lines.add(new Line(position1, position2, position3));
-                }}}
+                }
+            }
+        }
 
-        for (int field = 1; field < 6; field+=2) {
+        for (int field = 1; field < 6; field += 2) {
 
             Position position1 = new Position(0, field);
             Position position2 = new Position(1, field);
@@ -461,21 +463,22 @@ public class Advisor {
 
             if (!board.isThisMyEnemysStone(position1, ownPlayerIndex)
                     && !board.isThisMyEnemysStone(position2, ownPlayerIndex)
-                    && !board.isThisMyEnemysStone(position3, ownPlayerIndex)){
+                    && !board.isThisMyEnemysStone(position3, ownPlayerIndex)) {
                 lines.add(new Line(position1, position2, position3));
-            }}
+            }
+        }
 
         return lines;
     }
 
 
-    static public LinkedList<Position> getFreePostitions(Board board){
+    static public LinkedList<Position> getFreePostitions(Board board) {
         LinkedList<Position> freePositions = new LinkedList<>();
 
         for (int ring = 0; ring < 3; ring++) {
             for (int field = 0; field < 8; field++) {
 
-                if (board.isFieldFree(new Position(ring, field))){
+                if (board.isFieldFree(new Position(ring, field))) {
                     freePositions.add(new Position(ring, field));
                 }
             }
@@ -484,34 +487,12 @@ public class Advisor {
     }
 
 
-    static public boolean isPositionTheGapOfMyOpenMorris(Board board, Position position, int playerIndex){
+    static public boolean isPositionTheGapOfMyOpenMorris(Board board, Position position, int playerIndex) {
 
         LinkedList<OpenMorris> openMorrisLinkedList = getMyOpenMorrises(board, playerIndex);
 
-        for (OpenMorris openMorris : openMorrisLinkedList){
-            if (openMorris.getGapPosition().equals(position)){
-                return true;
-            }}
-
-        return false;
-    }
-
-
-    static public boolean isPositionPartOfMyEnemysOpenMorris(Board board, Position position, int ownPlayerIndex){
-        int enemysIndex = 1-ownPlayerIndex;
-        return isPositionPartOfMyOpenMorris(board, position, enemysIndex);
-    }
-
-
-
-    static public boolean isPositionPartOfMyOpenMorris(Board board, Position position, int playerIndex){
-
-        LinkedList<OpenMorris> openMorrisLinkedList = getMyOpenMorrises(board, playerIndex);
-
-        for (OpenMorris openMorris : openMorrisLinkedList){
-            if (openMorris.getFirstPosition().equals(position)
-                || openMorris.getSecondPosition().equals(position)
-                || openMorris.getThirdPosition().equals(position)){
+        for (OpenMorris openMorris : openMorrisLinkedList) {
+            if (openMorris.getGapPosition().equals(position)) {
                 return true;
             }
         }
@@ -520,7 +501,29 @@ public class Advisor {
     }
 
 
-    static public int getScore(GameTreeNode node, ScorePoints scorePoints, int playerIndex){
+    static public boolean isPositionPartOfMyEnemysOpenMorris(Board board, Position position, int ownPlayerIndex) {
+        int enemysIndex = 1 - ownPlayerIndex;
+        return isPositionPartOfMyOpenMorris(board, position, enemysIndex);
+    }
+
+
+    static public boolean isPositionPartOfMyOpenMorris(Board board, Position position, int playerIndex) {
+
+        LinkedList<OpenMorris> openMorrisLinkedList = getMyOpenMorrises(board, playerIndex);
+
+        for (OpenMorris openMorris : openMorrisLinkedList) {
+            if (openMorris.getFirstPosition().equals(position)
+                    || openMorris.getSecondPosition().equals(position)
+                    || openMorris.getThirdPosition().equals(position)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+
+    static public int getScore(GameTreeNode node, ScorePoints scorePoints, int playerIndex) {
 
         Board board = node.getBoard();
 
@@ -548,8 +551,8 @@ public class Advisor {
         int myEnemysOpenMorrisesPoints = myEnemysOpenMorrises * scorePoints.getEnemyOpenMorrisPoints();
         int myEnemysClosedMorrisesPoints = myEnemysClosedMorrises * scorePoints.getEnemyClosedMorrisPoints();
         int myEnemysNumberOfStonesPoints = myEnemysNumberOfStones * scorePoints.getEnemyNumberOfStonesPoints();
-        int myEnemysNumberOfTwoStonesTogetherPoints =  myEnemysNumberOfTwoStonesTogether * scorePoints.getEnemyTwoStonesTogetherPoints();
-        int myEnemysNumberOfTwoStonesWithGapPoints =  myEnemysNumberOfTwoStonesWithGap * scorePoints.getEnemyTwoStonesWithGapPoints();
+        int myEnemysNumberOfTwoStonesTogetherPoints = myEnemysNumberOfTwoStonesTogether * scorePoints.getEnemyTwoStonesTogetherPoints();
+        int myEnemysNumberOfTwoStonesWithGapPoints = myEnemysNumberOfTwoStonesWithGap * scorePoints.getEnemyTwoStonesWithGapPoints();
         int myEnemysPossiblesMovesPoints = myEnemysPossiblesMoves * scorePoints.getEnemyPossibleMovesPoints();
 
         int score = myOpenMorrisesPoints
@@ -568,19 +571,19 @@ public class Advisor {
 
 
         node.setScoreDetails(
-        "Eigene offene Mühlen: " + myOpenMorrises + " (" + myOpenMorrisesPoints + ")" + " \n" +
-        "Eigene geschlossene Mühlen: " + myClosedMorrises + " (" + myClosedMorrisesPoints + ")" + " \n" +
-        "Anzahl eigene Steine: " + myNumberOfStones + " (" + myNumberOfStonesPoints + ")" + " \n" +
-        "Anzahl zweier eigener Steine nebeneinander mit freiem Feld daneben: " + myNumberOfTwoStonesTogether + " (" + myNumberOfTwoStonesTogetherPoints + ")" + " \n" +
-        "Anzahl zweier eigener Steine mit freier Lücke dazwischen: " + myNumberOfTwoStonesWithGap + " (" + myNumberOfTwoStonesWithGapPoints + ")" + " \n" +
-        "Eigene Zugmöglichkeiten: " + myPossibleMoves + " (" + myPossibleMovesPoints + ")" + " \n" +
-        "Fremde offene Mühlen: " + myEnemysOpenMorrises + " (" + myEnemysOpenMorrisesPoints + ")" + " \n" +
-        "Fremde geschlossene Mühlen: " + myEnemysClosedMorrises + " (" + myEnemysClosedMorrisesPoints + ")" + " \n" +
-        "Anzahl fremde Steine: " + myEnemysNumberOfStones + " (" + myEnemysNumberOfStonesPoints + ")" + " \n" +
-        "Anzahl zweier fremder Steine nebeneinander mit freiem Feld daneben " + myEnemysNumberOfTwoStonesTogether + " (" + myEnemysNumberOfTwoStonesTogetherPoints + ")" + " \n" +
-        "Anzahl zweier fremder Steine mit freier Lücke dazwischen: " + myEnemysNumberOfTwoStonesWithGap + " (" + myEnemysNumberOfTwoStonesWithGapPoints + ")" + " \n" +
-        "Gegnerische Zugmöglichkeiten: " + myEnemysPossiblesMoves + " (" + myEnemysPossiblesMovesPoints + ")" + " \n" +
-        "Score: " + score);
+                "Eigene offene Mühlen: " + myOpenMorrises + " (" + myOpenMorrisesPoints + ")" + " \n" +
+                        "Eigene geschlossene Mühlen: " + myClosedMorrises + " (" + myClosedMorrisesPoints + ")" + " \n" +
+                        "Anzahl eigene Steine: " + myNumberOfStones + " (" + myNumberOfStonesPoints + ")" + " \n" +
+                        "Anzahl zweier eigener Steine nebeneinander mit freiem Feld daneben: " + myNumberOfTwoStonesTogether + " (" + myNumberOfTwoStonesTogetherPoints + ")" + " \n" +
+                        "Anzahl zweier eigener Steine mit freier Lücke dazwischen: " + myNumberOfTwoStonesWithGap + " (" + myNumberOfTwoStonesWithGapPoints + ")" + " \n" +
+                        "Eigene Zugmöglichkeiten: " + myPossibleMoves + " (" + myPossibleMovesPoints + ")" + " \n" +
+                        "Fremde offene Mühlen: " + myEnemysOpenMorrises + " (" + myEnemysOpenMorrisesPoints + ")" + " \n" +
+                        "Fremde geschlossene Mühlen: " + myEnemysClosedMorrises + " (" + myEnemysClosedMorrisesPoints + ")" + " \n" +
+                        "Anzahl fremde Steine: " + myEnemysNumberOfStones + " (" + myEnemysNumberOfStonesPoints + ")" + " \n" +
+                        "Anzahl zweier fremder Steine nebeneinander mit freiem Feld daneben " + myEnemysNumberOfTwoStonesTogether + " (" + myEnemysNumberOfTwoStonesTogetherPoints + ")" + " \n" +
+                        "Anzahl zweier fremder Steine mit freier Lücke dazwischen: " + myEnemysNumberOfTwoStonesWithGap + " (" + myEnemysNumberOfTwoStonesWithGapPoints + ")" + " \n" +
+                        "Gegnerische Zugmöglichkeiten: " + myEnemysPossiblesMoves + " (" + myEnemysPossiblesMovesPoints + ")" + " \n" +
+                        "Score: " + score);
 
         return score;
     }
